@@ -5,3 +5,5 @@ Habitaciones
 -En los datos existe "Tipo_Habitacion_Codigo", ya que cada tipo de habitacion tiene un codigo, lo cual nos da a suponer que quieren que los tipos de ha bitacion sean una entidad. Y no queda otra opcion, ya que no se pueden eliminar datos
 
 -El Id es numero de habitacion + Id_Hotel, ya que en los datos existen varias habitacion con el mismo id, pero que pertenecen a distintos hoteles
+
+Nacho puto
