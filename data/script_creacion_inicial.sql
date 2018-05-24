@@ -41,3 +41,66 @@ IdRol int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Rol(IdRol),
 CONSTRAINT IdRolPorUsuario PRIMARY KEY(Username,IdRol)
 );
 
+CREATE TABLE TRAEME_LA_COPA_MESSI.Item_Factura(
+Fac_Numero int,
+IdFac int,
+-- Reserva --Agregar despues de crear Reserva
+-- Consumible 
+Cantidad int,
+Monto int,
+PRIMARY KEY (Fac_Numero , IdFac)
+);
+
+
+CREATE TABLE TRAEME_LA_COPA_MESSI.Factura(
+Fact_Nro int,
+Fact_Fecha DateTime,
+Fact_Total int,
+PRIMARY KEY (Fact_Nro)
+);
+
+CREATE TABLE TRAEME_LA_COPA_MESSI.Factura_Inconsistente(
+Fact_Nro int,
+Fact_Fecha DateTime,
+Fact_Total int,
+PRIMARY KEY (Fact_Nro)
+);
+
+CREATE TABLE TRAEME_LA_COPA_MESSI.Cliente(
+Email nvarchar(255) UNIQUE,
+Direccion nvarchar(255)NOT NULL,
+Nombre nvarchar(255) NOT NULL,
+Apellido nvarchar(255) NOT NULL,
+TipoDoc nvarchar(255) NOT NULL,
+NumDoc int NOT NULL,
+Telefono int,
+PaisOrigen nvarchar(255) NOT NULL,
+Nacionalidad nvarchar(255) NOT NULL,
+FechaNacimiento Datetime NOT NULL,
+);
+
+CREATE TABLE TRAEME_LA_COPA_MESSI.Cliente_Inconsistente(
+Email nvarchar(255) UNIQUE,
+Direccion nvarchar(255)NOT NULL,
+Nombre nvarchar(255) NOT NULL,
+Apellido nvarchar(255) NOT NULL,
+TipoDoc nvarchar(255) NOT NULL,
+NumDoc int NOT NULL,
+Telefono int,
+PaisOrigen nvarchar(255) NOT NULL,
+Nacionalidad nvarchar(255) NOT NULL,
+FechaNacimiento Datetime NOT NULL,
+);
+
+
+CREATE TABLE TRAEME_LA_COPA_MESSI.Funcionalidad(
+IdFunc int PRIMARY KEY,
+Descripcion nvarchar(255),
+Estado nvarchar(255),
+);
+
+CREATE TABLE TRAEME_LA_COPA_MESSI.FuncionalidadPorRol(
+IdFunc int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Funcionalidad(IdFunc),
+IdRol int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Rol(IdRol),
+CONSTRAINT FuncionalidadPorRol PRIMARY KEY(IdFunc,IdRol)
+);
