@@ -89,4 +89,21 @@ FechaFin datetime NULL,
 Descripcion nvarchar(255) NOT NULL
 );
 
+CREATE TABLE TRAEME_LA_COPA_MESSI.TipoHabitacion(
+Codigo int IDENTITY(1,1) PRIMARY KEY,
+Descripcion nvarchar(255) NOT NULL,
+Porcentual int NOT NULL
+);
+
+CREATE TABLE TRAEME_LA_COPA_MESSI.Habitacion(
+IdHotel int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Hotel(IdHotel),
+Numero int,
+Piso int NOT NULL,
+Ubicacion nvarchar(255) NOT NULL,
+CodigoTipo int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.TipoHabitacion(Codigo),
+Estado int NOT NULL --esto no deberia ser int, luego lo veo
+);
+
+
+
 
