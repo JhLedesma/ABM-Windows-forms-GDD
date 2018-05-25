@@ -167,6 +167,7 @@ Piso int NOT NULL,
 Ubicacion nvarchar(255) NOT NULL,
 CodigoTipo int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.TipoHabitacion(Codigo),
 Estado int NOT NULL --esto no deberia ser int, luego lo veo
+CONSTRAINT Habitacion PRIMARY KEY(IdHotel,Numero)
 );
 
 
@@ -197,6 +198,22 @@ FechaFin datetime,
 ReservaId numeric(18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Reserva(IdReserva)
 );
 
+create table traeme_la_copa_messi.Consumible(
+IdConsumible numeric(18,0) IDENTITY(1,1) PRIMARY KEY not null,
+Descripcion nvarchar(255) not null,
+Precio numeric(18,2) not null,
+);
 
+create table traeme_la_copa_messi.ConsumiblePorReserva(
+ConsumibleId numeric(18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Consumible(IdConsumible),
+ReservaID numeric(18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Reserva(IdReserva),
+CONSTRAINT ConsumiblePorReserva PRIMARY KEY(ConsumibleId,ReservaID)
+);
+
+create table traeme_la_copa_messi.HabitacionPorReserva(
+IdReserva numeric(18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Reserva(IdReserva),
+IdHabitacion int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Habitacion(IdHotel),
+CONSTRAINT ConsumiblePorReserva PRIMARY KEY(IdReserva,IdHabitacion),
+);
 
 
