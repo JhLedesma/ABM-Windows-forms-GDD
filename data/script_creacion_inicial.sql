@@ -127,7 +127,7 @@ CREATE TABLE TRAEME_LA_COPA_MESSI.RegimenEstadia(
 IdRegimenEstadia int IDENTITY(1,1) PRIMARY KEY,
 Descripcion nvarchar(255) NOT NULL,
 PrecioBase int NOT NULL,
-Estado int NOT NULL --No seberia ser int, luego lo cambio
+EstadoRegimenEstadia BIT DEFAULT 0 not null,
 );
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.Hotel(
@@ -169,6 +169,33 @@ CodigoTipo int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.TipoHabitacion(Codigo
 Estado int NOT NULL --esto no deberia ser int, luego lo veo
 );
 
+
+create table traeme_la_copa_messi.EstadoReserva(
+IdEstadoReserva int IDENTITY(1,1) PRIMARY KEY not null,
+DescripEstadoReserva nvarchar not null,
+);
+
+create table traeme_la_copa_messi.Reserva(
+IdReserva numeric(18,0) IDENTITY(1,1) PRIMARY KEY not null,
+ClienteMail nvarchar(255) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente(Email) not null,
+--ClienteInconsistenteMail nvarchar(255) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente_Inconsistente(Email) not null,
+Fecha datetime NOT NULL,
+FechaDesde datetime NOT NULL,
+FechaHasta datetime NOT NULL,
+CantidadNoches int not null,
+EstadoReserva int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.EstadoReserva(IdEstadoReserva) not null,
+RegimenEstadiaId int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.RegimenEstadia(IdRegimenEstadia) not null
+);
+
+create table traeme_la_copa_messi.LogEstadia(
+IdLogEstadia int IDENTITY(1,1) PRIMARY KEY not null,
+Tipo nvarchar not null,
+Autor nvarchar not null,
+FechaInicio datetime not null,
+CantidadNocheUsadas int,
+FechaFin datetime,
+ReservaId numeric(18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Reserva(IdReserva)
+);
 
 
 
