@@ -2,6 +2,79 @@ USE GD1C2018
 
 GO
 
+IF OBJECT_ID ('traeme_la_copa_messi.HabitacionPorReserva','U') IS NOT NULL
+    DROP TABLE traeme_la_copa_messi.HabitacionPorReserva;
+
+IF OBJECT_ID ('traeme_la_copa_messi.ConsumiblePorReserva','U') IS NOT NULL
+    DROP TABLE traeme_la_copa_messi.ConsumiblePorReserva;
+
+IF OBJECT_ID ('traeme_la_copa_messi.Consumible','U') IS NOT NULL
+    DROP TABLE traeme_la_copa_messi.Consumible;
+
+IF OBJECT_ID ('traeme_la_copa_messi.LogEstadia','U') IS NOT NULL
+    DROP TABLE traeme_la_copa_messi.LogEstadia;
+
+IF OBJECT_ID ('traeme_la_copa_messi.Reserva','U') IS NOT NULL
+    DROP TABLE traeme_la_copa_messi.Reserva;
+
+IF OBJECT_ID ('traeme_la_copa_messi.EstadoReserva','U') IS NOT NULL
+    DROP TABLE traeme_la_copa_messi.EstadoReserva;
+
+IF OBJECT_ID ('TRAEME_LA_COPA_MESSI.Habitacion','U') IS NOT NULL
+    DROP TABLE TRAEME_LA_COPA_MESSI.Habitacion;
+
+IF OBJECT_ID ('TRAEME_LA_COPA_MESSI.TipoHabitacion','U') IS NOT NULL
+    DROP TABLE TRAEME_LA_COPA_MESSI.TipoHabitacion;
+
+IF OBJECT_ID ('TRAEME_LA_COPA_MESSI.InhabilitacionesHotel','U') IS NOT NULL
+    DROP TABLE TRAEME_LA_COPA_MESSI.InhabilitacionesHotel;
+
+IF OBJECT_ID ('TRAEME_LA_COPA_MESSI.RegimenPorHotel','U') IS NOT NULL
+    DROP TABLE TRAEME_LA_COPA_MESSI.RegimenPorHotel;
+
+IF OBJECT_ID ('TRAEME_LA_COPA_MESSI.Hotel','U') IS NOT NULL
+    DROP TABLE TRAEME_LA_COPA_MESSI.Hotel;
+
+IF OBJECT_ID ('TRAEME_LA_COPA_MESSI.RegimenEstadia','U') IS NOT NULL
+    DROP TABLE TRAEME_LA_COPA_MESSI.RegimenEstadia;
+
+IF OBJECT_ID ('TRAEME_LA_COPA_MESSI.FuncionalidadPorRol','U') IS NOT NULL
+    DROP TABLE TRAEME_LA_COPA_MESSI.FuncionalidadPorRol;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Funcionalidad','U') IS NOT NULL    
+	DROP TABLE TRAEME_LA_COPA_MESSI.Funcionalidad;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Cliente_Inconsistente','U') IS NOT NULL    
+	DROP TABLE TRAEME_LA_COPA_MESSI.Cliente_Inconsistente;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Cliente','U') IS NOT NULL    
+	DROP TABLE TRAEME_LA_COPA_MESSI.Cliente;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Factura_Inconsistente','U') IS NOT NULL    
+	DROP TABLE TRAEME_LA_COPA_MESSI.Factura_Inconsistente;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Factura','U') IS NOT NULL    
+	DROP TABLE TRAEME_LA_COPA_MESSI.Factura;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Item_Factura','U') IS NOT NULL    
+	DROP TABLE TRAEME_LA_COPA_MESSI.Item_Factura;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.RolPorUsuario','U') IS NOT NULL    
+	DROP TABLE TRAEME_LA_COPA_MESSI.RolPorUsuario;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Rol','U') IS NOT NULL    
+	DROP TABLE TRAEME_LA_COPA_MESSI.Rol;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Usuario','U') IS NOT NULL    
+	DROP TABLE TRAEME_LA_COPA_MESSI.Usuario;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.TipoDoc','U') IS NOT NULL    
+	DROP TABLE TRAEME_LA_COPA_MESSI.TipoDoc;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Direccion','U') IS NOT NULL    
+	DROP TABLE TRAEME_LA_COPA_MESSI.Direccion;
+
+
 /* Se dropea schema si existe*/
 
 IF EXISTS (SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'TRAEME_LA_COPA_MESSI')
@@ -120,7 +193,7 @@ Estado nvarchar(255),
 CREATE TABLE TRAEME_LA_COPA_MESSI.FuncionalidadPorRol(
 IdFunc int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Funcionalidad(IdFunc),
 IdRol int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Rol(IdRol),
-CONSTRAINT FuncionalidadPorRol PRIMARY KEY(IdFunc,IdRol)
+CONSTRAINT IdFuncionalidadPorRol PRIMARY KEY(IdFunc,IdRol)
 );
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.RegimenEstadia(
@@ -167,7 +240,7 @@ Piso int NOT NULL,
 Ubicacion nvarchar(255) NOT NULL,
 CodigoTipo int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.TipoHabitacion(Codigo),
 Estado int NOT NULL --esto no deberia ser int, luego lo veo
-CONSTRAINT Habitacion PRIMARY KEY(IdHotel,Numero)
+CONSTRAINT IdHabitacion PRIMARY KEY(IdHotel,Numero)
 );
 
 
@@ -207,13 +280,15 @@ Precio numeric(18,2) not null,
 create table traeme_la_copa_messi.ConsumiblePorReserva(
 ConsumibleId numeric(18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Consumible(IdConsumible),
 ReservaID numeric(18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Reserva(IdReserva),
-CONSTRAINT ConsumiblePorReserva PRIMARY KEY(ConsumibleId,ReservaID)
+CONSTRAINT IdConsumiblePorReserva PRIMARY KEY(ConsumibleId,ReservaID)
 );
 
-create table traeme_la_copa_messi.HabitacionPorReserva(
-IdReserva numeric(18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Reserva(IdReserva),
-IdHabitacion int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Habitacion(IdHotel),
-CONSTRAINT ConsumiblePorReserva PRIMARY KEY(IdReserva,IdHabitacion),
-);
+--create table traeme_la_copa_messi.HabitacionPorReserva(
+--IdReserva numeric(18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Reserva(IdReserva),
+--IdHotelHab int,
+--IdNumeroHab int,
+--CONSTRAINT IdConsumiblePorReserva PRIMARY KEY(IdReserva,IdHotelHab,IdNumeroHab),
+--FOREIGN KEY (IdHotelHab, IdNumeroHab) REFERENCES TRAEME_LA_COPA_MESSI.Habitacion(IdHotel,Numero)
+--);
 
 
