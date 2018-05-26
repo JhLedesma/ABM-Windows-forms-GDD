@@ -89,15 +89,16 @@ CREATE SCHEMA TRAEME_LA_COPA_MESSI AUTHORIZATION gdHotel2018
 
 GO
 
+
 CREATE TABLE TRAEME_LA_COPA_MESSI.Direccion(
 IdDir int IDENTITY(1,1) PRIMARY KEY,
-Ciudad nvarchar(255) NOT NULL,
+Ciudad nvarchar(255) NULL,
 Calle nvarchar(255) NOT NULL,
 NroCalle int NOT NULL,
 Piso int NULL,
 Departamento nvarchar(255) NULL,
-Localidad nvarchar(255) NOT NULL,
-Pais nvarchar(255) NOT NULL
+Localidad nvarchar(255) NULL,
+Pais nvarchar(255) NULL
 );
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.TipoDoc(
@@ -106,17 +107,17 @@ Descripcion nvarchar(255) NOT NULL
 );
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.Usuario( --Falta direccion
-Username int IDENTITY(1,1) PRIMARY KEY,
+Username nvarchar(255) PRIMARY KEY,
 Pass nvarchar(255)  NOT NULL,
-Direccion int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Direccion(IdDir),
-Nombre nvarchar(255) NOT NULL,
-Apellido nvarchar(255) NOT NULL,
+Direccion int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Direccion(IdDir) NULL,
+Nombre nvarchar(255) NULL,
+Apellido nvarchar(255) NULL,
 TipoDoc int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.TipoDoc(IdTipo),
-NroDocumento int NOT NULL,
-Email nvarchar(255) UNIQUE NOT NULL,
+NroDocumento int NULL,
+Email nvarchar(255) UNIQUE NULL,
 Telefono int NULL,
 FechaNacimiento datetime NULL,
-LogsFallidos int NOT NULL
+LogsFallidos int NOT NULL DEFAULT 0
 );
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.Rol(
@@ -126,7 +127,7 @@ Estado int NOT NULL --No deberia ser int, luego lo cambio
 );
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.RolPorUsuario(
-Username int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Usuario(Username),
+Username nvarchar(255) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Usuario(Username),
 IdRol int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Rol(IdRol),
 CONSTRAINT IdRolPorUsuario PRIMARY KEY(Username,IdRol)
 );
@@ -144,9 +145,9 @@ PRIMARY KEY (Fac_Numero , IdFac)
 
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.Factura(
-Fact_Nro int,
-Fact_Fecha DateTime,
-Fact_Total int,
+Fact_Nro int NOT NULL,
+Fact_Fecha DateTime NOT NULL,
+Fact_Total int NOT NULL,
 PRIMARY KEY (Fact_Nro)
 );
 
@@ -283,12 +284,50 @@ ReservaID numeric(18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Reserva(IdRe
 CONSTRAINT IdConsumiblePorReserva PRIMARY KEY(ConsumibleId,ReservaID)
 );
 
---create table traeme_la_copa_messi.HabitacionPorReserva(
---IdReserva numeric(18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Reserva(IdReserva),
---IdHotelHab int,
---IdNumeroHab int,
---CONSTRAINT IdConsumiblePorReserva PRIMARY KEY(IdReserva,IdHotelHab,IdNumeroHab),
---FOREIGN KEY (IdHotelHab, IdNumeroHab) REFERENCES TRAEME_LA_COPA_MESSI.Habitacion(IdHotel,Numero)
---);
+/*create table traeme_la_copa_messi.HabitacionPorReserva(
+IdReserva numeric(18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Reserva(IdReserva),
+IdHotelHab int,
+IdNumeroHab int,
+CONSTRAINT IdConsumiblePorReserva PRIMARY KEY(IdReserva,IdHotelHab,IdNumeroHab),
+FOREIGN KEY (IdHotelHab, IdNumeroHab) REFERENCES TRAEME_LA_COPA_MESSI.Habitacion(IdHotel,Numero)
+); */
 
 
+/* Migracion de datos */ 
+
+-- Tipos de regimenes --
+
+INSERT INTO TRAEME_LA_COPA_MESSI.RegimenEstadia(Descripcion,PrecioBase)
+	SELECT DISTINCT Regimen_Descripcion , Regimen_Precio 
+	FROM gd_esquema.Maestra 
+
+-- Direcciones --
+
+INSERT INTO TRAEME_LA_COPA_MESSI.Direccion(Ciudad,Calle,NroCalle) --Dejamos pais como null, aunque se podria determinar por la ciudad
+	SELECT DISTINCT Hotel_Ciudad, Hotel_Calle, Hotel_Nro_Calle
+	FROM gd_esquema.Maestra
+
+INSERT INTO TRAEME_LA_COPA_MESSI.Direccion(Calle,NroCalle,Piso,Departamento)
+	SELECT DISTINCT Cliente_Dom_Calle, Cliente_Nro_Calle, Cliente_Piso, Cliente_Depto
+	FROM gd_esquema.Maestra
+
+-- Tipo de documentos --
+
+INSERT INTO TRAEME_LA_COPA_MESSI.TipoDoc(Descripcion) VALUES ('Pasaporte');
+
+-- Usuarios --
+
+INSERT INTO TRAEME_LA_COPA_MESSI.Usuario(Username,Pass) VALUES ('admin','w23e'); --Falta agregar su rol con funcionalidades
+
+-- Roles --
+
+-- Facturas inconsistentes --
+
+INSERT INTO TRAEME_LA_COPA_MESSI.Factura_Inconsistente
+	SELECT DISTINCT Factura_Nro,Factura_Fecha,Factura_Total FROM gd_esquema.Maestra
+	WHERE Factura_Nro IS NOT NULL
+
+
+
+
+   
