@@ -36,8 +36,9 @@ namespace FrbaHotel.Login
 
            {
                 this.Hide();
-                Repositorios.Repo_usuario.getInstancia().getUsuario(textBoxUsuario.Text);
-                new SeleccionRol.SeleccionRol().ShowDialog();
+                //Repositorios.Repo_usuario.getInstancia().getUsuario(textBoxUsuario.Text);
+                //new SeleccionRol.SeleccionRol().ShowDialog();
+                Console.WriteLine("Piola");
                 this.Close();
            }
 
@@ -47,10 +48,10 @@ namespace FrbaHotel.Login
 
               Repositorios.Repo_usuario.getInstancia().getUsuario(textBoxUsuario.Text);
 
-              Console.WriteLine(Repositorios.Repo_usuario.getInstancia().getUsuarioIngresado().getCantidadLogsFallidos());
-              Console.WriteLine(Repositorios.Repo_usuario.getInstancia().getCantidadDeLogsFallidosUsuario());
+              //Console.WriteLine(Repositorios.Repo_usuario.getInstancia().getUsuarioIngresado().getCantidadLogsFallidos());
+              //Console.WriteLine(Repositorios.Repo_usuario.getInstancia().getCantidadDeLogsFallidosUsuario());
 
-              controlarCantidadLogsFallidos();
+              //controlarCantidadLogsFallidos();
 
            }
                 else {
@@ -96,7 +97,7 @@ namespace FrbaHotel.Login
             }
 
 
-        public void controlarCantidadLogsFallidos() {
+      /* public void controlarCantidadLogsFallidos() {
         
         if (Repositorios.Repo_usuario.getInstancia().getCantidadDeLogsFallidosUsuario() <= MAXLOGSFALLIDOS){
 
@@ -115,7 +116,7 @@ namespace FrbaHotel.Login
         
         }
 
-        }
+        }*/
 
     }
 }

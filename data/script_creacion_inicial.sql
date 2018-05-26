@@ -159,27 +159,28 @@ PRIMARY KEY (Fact_Nro)
 );
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.Cliente(
-Email nvarchar(255) UNIQUE,
-Direccion nvarchar(255)NOT NULL,
+Email nvarchar(255) PRIMARY KEY,
+Direccion nvarchar(255) NULL,
 Nombre nvarchar(255) NOT NULL,
 Apellido nvarchar(255) NOT NULL,
-TipoDoc nvarchar(255) NOT NULL,
+TipoDoc nvarchar(255) NULL,
 NumDoc int NOT NULL,
-Telefono int,
-PaisOrigen nvarchar(255) NOT NULL,
+Telefono int NULL,
+PaisOrigen nvarchar(255) NULL,
 Nacionalidad nvarchar(255) NOT NULL,
 FechaNacimiento Datetime NOT NULL,
 );
 
-CREATE TABLE TRAEME_LA_COPA_MESSI.Cliente_Inconsistente(
-Email nvarchar(255) UNIQUE,
-Direccion nvarchar(255)NOT NULL,
+CREATE TABLE TRAEME_LA_COPA_MESSI.Cliente_Inconsistente( --Agrego id porque en esta tabla el email se repite
+IdClienteInconsistente int IDENTITY(1,1) PRIMARY KEY,
+Email nvarchar(255),
+Direccion nvarchar(255) NULL, --FALTA EN LA MIGRACION ASOCIAR CON LAS DIRECCIONES CORRESPONDIENTES
 Nombre nvarchar(255) NOT NULL,
 Apellido nvarchar(255) NOT NULL,
-TipoDoc nvarchar(255) NOT NULL,
+TipoDoc nvarchar(255) NULL,
 NumDoc int NOT NULL,
 Telefono int,
-PaisOrigen nvarchar(255) NOT NULL,
+PaisOrigen nvarchar(255)  NULL,
 Nacionalidad nvarchar(255) NOT NULL,
 FechaNacimiento Datetime NOT NULL,
 );
@@ -317,7 +318,7 @@ INSERT INTO TRAEME_LA_COPA_MESSI.TipoDoc(Descripcion) VALUES ('Pasaporte');
 
 -- Usuarios --
 
-INSERT INTO TRAEME_LA_COPA_MESSI.Usuario(Username,Pass) VALUES ('admin','w23e'); --Falta agregar su rol con funcionalidades
+INSERT INTO TRAEME_LA_COPA_MESSI.Usuario(Username,Pass) VALUES ('admin','8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918'); --Falta agregar su rol con funcionalidades
 
 -- Roles --
 
@@ -327,6 +328,30 @@ INSERT INTO TRAEME_LA_COPA_MESSI.Factura_Inconsistente
 	SELECT DISTINCT Factura_Nro,Factura_Fecha,Factura_Total FROM gd_esquema.Maestra
 	WHERE Factura_Nro IS NOT NULL
 
+-- Clientes inconsistentes --
+
+--FALTA EN LA MIGRACION ASOCIAR CON LAS DIRECCIONES CORRESPONDIENTES
+
+INSERT INTO TRAEME_LA_COPA_MESSI.Cliente_Inconsistente(Email,Nombre,Apellido,NumDoc, Nacionalidad, FechaNacimiento)
+	SELECT DISTINCT m1.Cliente_Mail, m1.Cliente_Nombre, m1.Cliente_Apellido, m1.Cliente_Pasaporte_Nro, m1.Cliente_Nacionalidad, m1.Cliente_Fecha_Nac
+	FROM gd_esquema.Maestra m1, gd_esquema.Maestra m2
+	WHERE m1.Cliente_Mail = m2.Cliente_Mail AND m1.Cliente_Pasaporte_Nro != m2.Cliente_Pasaporte_Nro
+
+UPDATE TRAEME_LA_COPA_MESSI.Cliente_Inconsistente SET TipoDoc = 1; --NO DEBERIA HACER UN UPDATE, TARDO MUCHO MAS
+																   --AVERIGUAR COMO METER ESTE VALOR EN EL INSERT DE ARRIBA
+
+-- Clientes --
+
+--FALTA EN LA MIGRACION ASOCIAR CON LAS DIRECCIONES CORRESPONDIENTES
+
+INSERT INTO TRAEME_LA_COPA_MESSI.Cliente(Email,Nombre,Apellido,NumDoc, Nacionalidad, FechaNacimiento)
+	SELECT DISTINCT m1.Cliente_Mail, m1.Cliente_Nombre, m1.Cliente_Apellido, m1.Cliente_Pasaporte_Nro, m1.Cliente_Nacionalidad, m1.Cliente_Fecha_Nac
+	FROM gd_esquema.Maestra m1, gd_esquema.Maestra m2
+	WHERE m1.Cliente_Mail != m2.Cliente_Mail
+
+UPDATE TRAEME_LA_COPA_MESSI.Cliente_Inconsistente SET TipoDoc = 1; --NO DEBERIA HACER UN UPDATE, TARDO MUCHO MAS
+																   --AVERIGUAR COMO METER ESTE VALOR EN EL INSERT DE ARRIBA
+	
 
 
 
