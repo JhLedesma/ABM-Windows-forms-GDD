@@ -19,6 +19,7 @@ namespace FrbaHotel.Model
         public DateTime fechaDeNacimiento {get;set;}
         public Int32 logsFallidos {get;set;}
         public List<Rol> listaDeRoles = new List<Rol>();
+        public Rol rolActivo {get;set;}
 
         public List<Rol> getListaDeRoles()
         {

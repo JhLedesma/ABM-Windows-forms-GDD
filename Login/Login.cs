@@ -63,7 +63,8 @@ namespace FrbaHotel.Login
            {
                 this.Hide();
                 Repositorios.Repo_usuario.getInstancia().getUsuario(textBoxUsuario.Text);
-                //new SeleccionRol.SeleccionRol().ShowDialog();
+                //ESTE DIALOG SE DEBERIA MOSTRAR SOLO SI EL USUARIO TIENE MAS DE UN ROL
+                new SeleccionDeRol().ShowDialog();
                 Console.WriteLine("LOGIN ACEPTADO");
                 this.Close();
            }

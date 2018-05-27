@@ -87,6 +87,12 @@
     <Compile Include="ListadoEstadistico\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Login\SeleccionDeRol.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login\SeleccionDeRol.Designer.cs">
+      <DependentUpon>SeleccionDeRol.cs</DependentUpon>
+    </Compile>
     <Compile Include="Login\Login.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -112,6 +118,9 @@
     </Compile>
     <Compile Include="Repositorios\Repo_usuario.cs" />
     <Compile Include="Utils\DBhelper.cs" />
+    <EmbeddedResource Include="Login\SeleccionDeRol.resx">
+      <DependentUpon>SeleccionDeRol.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Login\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>

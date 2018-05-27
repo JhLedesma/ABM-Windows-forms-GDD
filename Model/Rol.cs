@@ -23,5 +23,25 @@ namespace FrbaHotel.Model
 
         public Rol() { }
 
+        public string Nombre //Este metodo es el que usa el selector para mostrar los nombres del objeto,
+        
+        {
+
+            get
+            {
+                return nombreRol;
+            }
+        }
+
+
+        public Rol Objeto
+        {
+
+            get
+            {
+                return this;
+            }
+        }
+
     }
 }
