@@ -45,6 +45,7 @@
             this.aceptarLogin.TabIndex = 9;
             this.aceptarLogin.Text = "Ingresar";
             this.aceptarLogin.UseVisualStyleBackColor = false;
+            this.aceptarLogin.Click += new System.EventHandler(this.aceptarLogin_Click);
             // 
             // label2
             // 
@@ -64,6 +65,7 @@
             this.textBoxPassword.PasswordChar = '*';
             this.textBoxPassword.Size = new System.Drawing.Size(76, 20);
             this.textBoxPassword.TabIndex = 7;
+            this.textBoxPassword.TextChanged += new System.EventHandler(this.textBoxPassword_TextChanged);
             // 
             // textBoxUsuario
             // 
@@ -72,6 +74,7 @@
             this.textBoxUsuario.Name = "textBoxUsuario";
             this.textBoxUsuario.Size = new System.Drawing.Size(76, 20);
             this.textBoxUsuario.TabIndex = 6;
+            this.textBoxUsuario.TextChanged += new System.EventHandler(this.textBoxUsuario_TextChanged);
             // 
             // label1
             // 

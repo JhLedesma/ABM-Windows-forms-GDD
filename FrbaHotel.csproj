@@ -33,6 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -94,7 +95,7 @@
     </Compile>
     <Compile Include="Model\Encriptador.cs" />
     <Compile Include="Model\Usuario.cs" />
-    <Compile Include="Model\Main.cs" />
+    <Compile Include="Model\main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegistrarConsumible\Form1.cs">
       <SubType>Form</SubType>

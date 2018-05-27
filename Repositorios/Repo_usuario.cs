@@ -33,7 +33,7 @@ namespace FrbaHotel.Repositorios
             
             DBhelper.crearConexion();
 
-            SqlCommand cmd = DBhelper.crearCommand("QEPD.validarUsuario");
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.validarUsuario");
             cmd.Parameters.Add("@usuarioNombre", SqlDbType.NVarChar).Value = usuario;
             cmd.Parameters.Add("@pass", SqlDbType.NVarChar).Value = Model.Encriptador.getInstancia().encriptar(contraseña);
 
@@ -55,7 +55,7 @@ namespace FrbaHotel.Repositorios
 
             DBhelper.crearConexion();
 
-            SqlCommand cmd = DBhelper.crearCommand("QEPD.bloquearUsuario");
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.bloquearUsuario");
             cmd.Parameters.Add("@usuarioId", SqlDbType.NVarChar).Value = usuarioIngresado.username;
 
             DBhelper.abrirConexion();
@@ -74,7 +74,7 @@ namespace FrbaHotel.Repositorios
 
             DBhelper.crearConexion();
 
-            SqlCommand cmd = DBhelper.crearCommand("QEPD.getUsuario");
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getUsuario");
             cmd.Parameters.Add("@usuarioNombre", SqlDbType.NVarChar).Value = nombre;
 
             DBhelper.abrirConexion();
@@ -83,10 +83,10 @@ namespace FrbaHotel.Repositorios
 
             foreach (DataRow row in tablaUsuario.Rows) {
 
-                usuarioIngresado.username = ((String)row["IdUsuario"]);
-                usuarioIngresado.nombre = ((String)row["Nombre_Usuario"]);
+                usuarioIngresado.username = ((String)row["Username"]);
+                //usuarioIngresado.nombre = ((String)row["Nombre_Usuario"]);
                 //usuarioIngresado.setEstado(Convert.ToInt16(row["Estado_Usuario"]));
-                usuarioIngresado.logsFallidos = ((Int32)row["Logs_Fallidos"]); 
+                usuarioIngresado.logsFallidos = ((Int32)row["LogsFallidos"]); 
             
             }
 
@@ -102,11 +102,11 @@ namespace FrbaHotel.Repositorios
 
         }
 
-       /* public Int32 getCantidadDeLogsFallidosUsuario() {
+        public Int32 getCantidadDeLogsFallidosUsuario() {
 
-            return usuarioIngresado.getCantidadLogsFallidos();
+            return usuarioIngresado.logsFallidos;
         
-        }*/
+        }
 
 
 }

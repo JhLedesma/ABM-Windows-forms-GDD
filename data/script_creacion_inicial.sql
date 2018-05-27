@@ -2,6 +2,9 @@ USE GD1C2018
 
 GO
 
+
+/* Dropeo de tablas si estas ya existen */
+
 IF OBJECT_ID ('traeme_la_copa_messi.HabitacionPorReserva','U') IS NOT NULL
     DROP TABLE traeme_la_copa_messi.HabitacionPorReserva;
 
@@ -74,6 +77,17 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.TipoDoc','U') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Direccion','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.Direccion;
 
+/* Dropeo de procedures si ya existen */
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarUsuario','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.validarUsuario;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getUsuario','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getUsuario;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.bloquearUsuario','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.bloquearUsuario;
+
 
 /* Se dropea schema si existe*/
 
@@ -117,7 +131,8 @@ NroDocumento int NULL,
 Email nvarchar(255) UNIQUE NULL,
 Telefono int NULL,
 FechaNacimiento datetime NULL,
-LogsFallidos int NOT NULL DEFAULT 0
+LogsFallidos int NOT NULL DEFAULT 0,
+Estado bit DEFAULT 0
 );
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.Rol(
@@ -318,7 +333,7 @@ INSERT INTO TRAEME_LA_COPA_MESSI.TipoDoc(Descripcion) VALUES ('Pasaporte');
 
 -- Usuarios --
 
-INSERT INTO TRAEME_LA_COPA_MESSI.Usuario(Username,Pass) VALUES ('admin','8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918'); --Falta agregar su rol con funcionalidades
+INSERT INTO TRAEME_LA_COPA_MESSI.Usuario(Username,Pass) VALUES ('admin','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7'); --Falta agregar su rol con funcionalidades
 
 -- Roles --
 
@@ -329,7 +344,7 @@ INSERT INTO TRAEME_LA_COPA_MESSI.Factura_Inconsistente
 	WHERE Factura_Nro IS NOT NULL
 
 -- Clientes inconsistentes --
-
+/*
 --FALTA EN LA MIGRACION ASOCIAR CON LAS DIRECCIONES CORRESPONDIENTES
 
 INSERT INTO TRAEME_LA_COPA_MESSI.Cliente_Inconsistente(Email,Nombre,Apellido,NumDoc, Nacionalidad, FechaNacimiento)
@@ -351,6 +366,51 @@ INSERT INTO TRAEME_LA_COPA_MESSI.Cliente(Email,Nombre,Apellido,NumDoc, Nacionali
 
 UPDATE TRAEME_LA_COPA_MESSI.Cliente_Inconsistente SET TipoDoc = 1; --NO DEBERIA HACER UN UPDATE, TARDO MUCHO MAS
 																   --AVERIGUAR COMO METER ESTE VALOR EN EL INSERT DE ARRIBA
+*/
+
+
+
+-- Creacion de procedures --
+
+/* Repositorio Usuarios */
+
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.validarUsuario
+@usuarioNombre nvarchar(255),
+@pass nvarchar(255)
+AS
+BEGIN
+IF EXISTS (SELECT s.Username, s.Pass, s.Estado FROM TRAEME_LA_COPA_MESSI.Usuario s WHERE s.Username = @usuarioNombre AND s.Pass = @pass AND s.Estado = 0)
+	BEGIN
+		UPDATE TRAEME_LA_COPA_MESSI.Usuario SET LogsFallidos = 0 WHERE Username = @usuarioNombre
+		RETURN 1
+	END
+ELSE
+	IF EXISTS (SELECT s.Username, s.Estado FROM TRAEME_LA_COPA_MESSI.Usuario s WHERE s.Username = @usuarioNombre AND s.Estado = 0)
+		BEGIN
+			UPDATE TRAEME_LA_COPA_MESSI.Usuario SET LogsFallidos = LogsFallidos + 1 WHERE Username = @usuarioNombre 
+			RETURN 0
+		END
+	ELSE
+		RETURN -1
+END
+
+
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.getUsuario
+
+@usuarioNombre nvarchar(255)
+AS
+
+SELECT * FROM TRAEME_LA_COPA_MESSI.Usuario s WHERE s.Username = @usuarioNombre
+
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.bloquearUsuario
+
+@usuarioId nvarchar(255)
+AS
+
+UPDATE TRAEME_LA_COPA_MESSI.Usuario SET Estado = 1 WHERE Username =  @usuarioId
 	
 
 

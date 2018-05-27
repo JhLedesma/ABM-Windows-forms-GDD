@@ -16,7 +16,6 @@ namespace FrbaHotel.Login
         String contraseñaIngresada;
         String usuarioIngresado;
         int valorValidacion = 0;
-        //public Model.Repo_usuario repo_usuarios = Model.Repo_usuario.getInstancia();
         public const Int16 CONTRASEÑAINCORRECTA = 0;
         public const Int16 CORRECTO = 1;
         public const Int16 BLOQUEADO_INEXISTENTE = -1;
@@ -27,9 +26,36 @@ namespace FrbaHotel.Login
             InitializeComponent();
         }
 
-          private void aceptarLogin_Click(object sender, EventArgs e)
 
+        private void textBoxPassword_TextChanged(object sender, EventArgs e)
         {
+            TextBox textBoxContraseña = (TextBox)sender;
+            this.contraseñaIngresada = textBoxContraseña.Text;
+        }
+
+        private void textBoxUsuario_TextChanged(object sender, EventArgs e)
+        {
+            TextBox textBoxUsuario = (TextBox)sender;
+            this.usuarioIngresado = textBoxUsuario.Text;
+        }
+       
+        private void Login_Load(object sender, EventArgs e)
+        {
+
+        }
+
+
+        public int validarUsuario() {
+
+            int valorValidacion = Repositorios.Repo_usuario.getInstancia().validarUsuario(textBoxUsuario.Text, textBoxPassword.Text);
+
+            return valorValidacion;
+        
+            }
+
+        private void aceptarLogin_Click(object sender, EventArgs e)
+        {
+                   
             valorValidacion = validarUsuario();
 
             if ( valorValidacion == CORRECTO)
@@ -38,20 +64,19 @@ namespace FrbaHotel.Login
                 this.Hide();
                 //Repositorios.Repo_usuario.getInstancia().getUsuario(textBoxUsuario.Text);
                 //new SeleccionRol.SeleccionRol().ShowDialog();
-                Console.WriteLine("Piola");
+                Console.WriteLine("LOGIN ACEPTADO");
                 this.Close();
            }
 
            else {
-
+               
                 if (valorValidacion == CONTRASEÑAINCORRECTA){
+
+              Console.WriteLine("LOGIN FALLIDO");
 
               Repositorios.Repo_usuario.getInstancia().getUsuario(textBoxUsuario.Text);
 
-              //Console.WriteLine(Repositorios.Repo_usuario.getInstancia().getUsuarioIngresado().getCantidadLogsFallidos());
-              //Console.WriteLine(Repositorios.Repo_usuario.getInstancia().getCantidadDeLogsFallidosUsuario());
-
-              //controlarCantidadLogsFallidos();
+              controlarCantidadLogsFallidos();
 
            }
                 else {
@@ -70,34 +95,8 @@ namespace FrbaHotel.Login
             
         }
 
-        private void textBoxPassword_TextChanged(object sender, EventArgs e)
-        {
-            TextBox textBoxContraseña = (TextBox)sender;
-            this.contraseñaIngresada = textBoxContraseña.Text;
-        }
 
-        private void textBoxUsuario_TextChanged(object sender, EventArgs e)
-        {
-            TextBox textBoxUsuario = (TextBox)sender;
-            this.usuarioIngresado = textBoxUsuario.Text;
-        }
-
-        private void Login_Load(object sender, EventArgs e)
-        {
-
-        }
-
-
-        public int validarUsuario() {
-
-            int valorValidacion = Repositorios.Repo_usuario.getInstancia().validarUsuario(textBoxUsuario.Text, textBoxPassword.Text);
-
-            return valorValidacion;
-        
-            }
-
-
-      /* public void controlarCantidadLogsFallidos() {
+       public void controlarCantidadLogsFallidos() {
         
         if (Repositorios.Repo_usuario.getInstancia().getCantidadDeLogsFallidosUsuario() <= MAXLOGSFALLIDOS){
 
@@ -116,7 +115,7 @@ namespace FrbaHotel.Login
         
         }
 
-        }*/
+        }
 
     }
 }

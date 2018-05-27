@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace FrbaHotel.Model
 {
-    static class Main
+    static class main
     {
 
         [STAThread]
