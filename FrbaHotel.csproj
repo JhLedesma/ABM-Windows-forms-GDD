@@ -94,6 +94,7 @@
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\Encriptador.cs" />
+    <Compile Include="Model\Rol.cs" />
     <Compile Include="Model\Usuario.cs" />
     <Compile Include="Model\main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

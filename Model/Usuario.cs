@@ -18,6 +18,21 @@ namespace FrbaHotel.Model
         public Int32 telefono {get;set;}
         public DateTime fechaDeNacimiento {get;set;}
         public Int32 logsFallidos {get;set;}
+        public List<Rol> listaDeRoles = new List<Rol>();
+
+        public List<Rol> getListaDeRoles()
+        {
+
+            return this.listaDeRoles;
+
+        }
+
+        public void setListaDeRoles(List<Rol> listaDeRoles)
+        {
+
+            this.listaDeRoles = listaDeRoles;
+
+        }
 
     }
 }

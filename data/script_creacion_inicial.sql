@@ -138,7 +138,7 @@ Estado bit DEFAULT 0
 CREATE TABLE TRAEME_LA_COPA_MESSI.Rol(
 IdRol int IDENTITY(1,1) PRIMARY KEY,
 Nombre nvarchar(255) NOT NULL,
-Estado int NOT NULL --No deberia ser int, luego lo cambio
+Estado BIT DEFAULT 0 --No deberia ser int, luego lo cambio
 );
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.RolPorUsuario(
@@ -337,6 +337,16 @@ INSERT INTO TRAEME_LA_COPA_MESSI.Usuario(Username,Pass) VALUES ('admin','e6b8705
 
 -- Roles --
 
+INSERT INTO TRAEME_LA_COPA_MESSI.Rol(Nombre)
+	VALUES ('Administrador'), ('Recepcionista'), ('Guest')
+
+-- Rol por usuario --
+
+INSERT INTO TRAEME_LA_COPA_MESSI.RolPorUsuario(Username,IdRol)
+	VALUES ('admin',1)
+				
+
+
 -- Facturas inconsistentes --
 
 INSERT INTO TRAEME_LA_COPA_MESSI.Factura_Inconsistente
@@ -411,6 +421,27 @@ CREATE PROCEDURE TRAEME_LA_COPA_MESSI.bloquearUsuario
 AS
 
 UPDATE TRAEME_LA_COPA_MESSI.Usuario SET Estado = 1 WHERE Username =  @usuarioId
+
+
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.getRolesUsuario
+
+@IdUsuario nvarchar(255)
+
+AS
+BEGIN
+
+	SELECT r.IdRol, r.Nombre, r.Estado
+
+	FROM TRAEME_LA_COPA_MESSI.Usuario u 
+		JOIN TRAEME_LA_COPA_MESSI.RolPorUsuario ru
+			ON ru.Username = u.Username
+		JOIN TRAEME_LA_COPA_MESSI.Rol r
+			ON ru.IdRol = r.IdRol
+
+	WHERE u.Username= @IdUsuario
+
+END
 	
 
 

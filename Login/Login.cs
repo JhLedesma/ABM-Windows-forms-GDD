@@ -62,7 +62,7 @@ namespace FrbaHotel.Login
 
            {
                 this.Hide();
-                //Repositorios.Repo_usuario.getInstancia().getUsuario(textBoxUsuario.Text);
+                Repositorios.Repo_usuario.getInstancia().getUsuario(textBoxUsuario.Text);
                 //new SeleccionRol.SeleccionRol().ShowDialog();
                 Console.WriteLine("LOGIN ACEPTADO");
                 this.Close();

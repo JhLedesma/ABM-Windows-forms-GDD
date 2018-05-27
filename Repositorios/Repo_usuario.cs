@@ -90,7 +90,7 @@ namespace FrbaHotel.Repositorios
             
             }
 
-            //usuarioIngresado.setListaDeRoles(getRolesUsuario(usuarioIngresado.getId()));
+            usuarioIngresado.setListaDeRoles(getRolesUsuario(usuarioIngresado.username));
 
             return usuarioIngresado;
 
@@ -106,6 +106,37 @@ namespace FrbaHotel.Repositorios
 
             return usuarioIngresado.logsFallidos;
         
+        }
+
+        public List<Model.Rol> getRolesUsuario(String username)
+        {
+
+            DataTable tablaRoles;
+            List<Model.Rol> listaDeRoles = new List<Model.Rol>();
+
+            DBhelper.crearConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getRolesUsuario");
+            cmd.Parameters.Add("@IdUsuario", SqlDbType.NVarChar).Value = usuarioIngresado.username;
+
+            DBhelper.abrirConexion();
+
+            tablaRoles = DBhelper.obtenerTabla(cmd);
+
+            foreach (DataRow row in tablaRoles.Rows)
+            {
+
+                Model.Rol rol = new Model.Rol();
+
+                rol.nombreRol = ((String)row["Nombre"]);
+                rol.idRol = ((Int32)row["IdRol"]);
+                rol.estado = (Convert.ToInt16(row["Estado"]));
+
+                listaDeRoles.Add(rol);
+            }
+
+            return listaDeRoles;
+
         }
 
 
