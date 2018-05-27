@@ -15,6 +15,7 @@ namespace FrbaHotel.Repositorios
         public static Repo_usuario instancia;
         public Model.Usuario usuarioIngresado = new Model.Usuario();
         public Utils.DBhelper DBhelper = Utils.DBhelper.getInstancia();
+        
 
         public static Repo_usuario getInstancia() {
 

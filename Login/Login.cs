@@ -13,13 +13,15 @@ namespace FrbaHotel.Login
     public partial class Login : Form
     {
 
-        String contraseñaIngresada;
-        String usuarioIngresado;
-        int valorValidacion = 0;
+        public String contraseñaIngresada;
+        public String usuarioIngresado;
+        public int valorValidacion = 0;
+        public int cantidadRolesDelUsuario;
         public const Int16 CONTRASEÑAINCORRECTA = 0;
         public const Int16 CORRECTO = 1;
         public const Int16 BLOQUEADO_INEXISTENTE = -1;
         public const Int32 MAXLOGSFALLIDOS = 3;
+        Repositorios.Repo_usuario repo_usuario = Repositorios.Repo_usuario.getInstancia();
 
         public Login()
         {
@@ -47,7 +49,7 @@ namespace FrbaHotel.Login
 
         public int validarUsuario() {
 
-            int valorValidacion = Repositorios.Repo_usuario.getInstancia().validarUsuario(textBoxUsuario.Text, textBoxPassword.Text);
+            int valorValidacion = repo_usuario.validarUsuario(textBoxUsuario.Text, textBoxPassword.Text);
 
             return valorValidacion;
         
@@ -61,12 +63,26 @@ namespace FrbaHotel.Login
             if ( valorValidacion == CORRECTO)
 
            {
-                this.Hide();
-                Repositorios.Repo_usuario.getInstancia().getUsuario(textBoxUsuario.Text);
-                //ESTE DIALOG SE DEBERIA MOSTRAR SOLO SI EL USUARIO TIENE MAS DE UN ROL
-                new SeleccionDeRol().ShowDialog();
                 Console.WriteLine("LOGIN ACEPTADO");
+                this.Hide();
+                repo_usuario.getUsuario(textBoxUsuario.Text);
+                cantidadRolesDelUsuario = repo_usuario.usuarioIngresado.listaDeRoles.Count();
+
+                if(cantidadRolesDelUsuario > 1)
+                {
+                
+                new SeleccionDeRol().ShowDialog();
                 this.Close();
+
+                }
+
+                else {
+
+                    Console.WriteLine("TIENE 1 SOLO ROL");
+                    repo_usuario.usuarioIngresado.rolActivo = repo_usuario.usuarioIngresado.listaDeRoles.First();
+                    Console.WriteLine(repo_usuario.usuarioIngresado.rolActivo.nombreRol);
+                
+                } 
            }
 
            else {
@@ -75,7 +91,7 @@ namespace FrbaHotel.Login
 
               Console.WriteLine("LOGIN FALLIDO");
 
-              Repositorios.Repo_usuario.getInstancia().getUsuario(textBoxUsuario.Text);
+              repo_usuario.getUsuario(textBoxUsuario.Text);
 
               controlarCantidadLogsFallidos();
 
@@ -99,7 +115,7 @@ namespace FrbaHotel.Login
 
        public void controlarCantidadLogsFallidos() {
         
-        if (Repositorios.Repo_usuario.getInstancia().getCantidadDeLogsFallidosUsuario() <= MAXLOGSFALLIDOS){
+        if (repo_usuario.getCantidadDeLogsFallidosUsuario() <= MAXLOGSFALLIDOS){
 
             this.Hide();
             MessageBox.Show("Contraseña o usuario incorrectos", "Error de credenciales", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -110,7 +126,7 @@ namespace FrbaHotel.Login
         else {
 
             this.Hide();
-            Repositorios.Repo_usuario.getInstancia().bloquearUsuario();
+            repo_usuario.bloquearUsuario();
             MessageBox.Show("Usuario bloqueado por exceder el límite de logs fallidos, consulte un administrador", "Usuario bloqueado", MessageBoxButtons.OK, MessageBoxIcon.Error);
             new Login().ShowDialog();
         
