@@ -23,7 +23,9 @@ namespace FrbaHotel.Login
 
         private void linkLabelFuncAdmin_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-
+            this.Hide();
+            new SeleccionarFuncionalidad_admin().ShowDialog();
+            this.Close();
         }
 
         public void determinarHabilitacionFuncionesAdmin() {
