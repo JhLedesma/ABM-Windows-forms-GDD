@@ -77,6 +77,9 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.TipoDoc','U') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Direccion','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.Direccion;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Direcciones_Hoteles','U') IS NOT NULL    
+	DROP TABLE TRAEME_LA_COPA_MESSI.Direcciones_hoteles;
+
 /* Dropeo de procedures si ya existen */
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarUsuario','P') IS NOT NULL  
@@ -87,6 +90,12 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getUsuario','P') IS NOT NULL
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.bloquearUsuario','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.bloquearUsuario;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getRolesUsuario','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getRolesUsuario;
+
+/* Dropeo las views si ya existen */
+
 
 
 /* Se dropea schema si existe*/
@@ -222,13 +231,13 @@ EstadoRegimenEstadia BIT DEFAULT 0 not null,
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.Hotel(
 IdHotel int IDENTITY(1,1) PRIMARY KEY,
-Nombre nvarchar(255) NOT NULL,
-Mail nvarchar(255) UNIQUE NOT NULL,
-Telefono int NOT NULL,
+Nombre nvarchar(255) NULL,
+Mail nvarchar(255) NULL,
+Telefono int NULL,
 Direccion int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Direccion(IdDir),
-CantEstrellas int NOT NULL,
-PorcentajeEstrellas numeric(18,0) NOT NULL,
-FechaCreacion datetime NOT NULL
+CantEstrellas int  NULL,
+PorcentajeEstrellas numeric(18,0) NULL,
+FechaCreacion datetime NULL
 );
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.RegimenPorHotel(
@@ -245,7 +254,7 @@ Descripcion nvarchar(255) NOT NULL
 );
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.TipoHabitacion(
-Codigo int IDENTITY(1,1) PRIMARY KEY,
+Codigo int PRIMARY KEY,
 Descripcion nvarchar(255) NOT NULL,
 Porcentual int NOT NULL
 );
@@ -300,6 +309,18 @@ ReservaID numeric(18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Reserva(IdRe
 CONSTRAINT IdConsumiblePorReserva PRIMARY KEY(ConsumibleId,ReservaID)
 );
 
+CREATE TABLE TRAEME_LA_COPA_MESSI.Direcciones_Hoteles(
+IdDir_Hotel int IDENTITY(1,1) PRIMARY KEY,
+Ciudad nvarchar(255) NULL,
+Calle nvarchar(255) NOT NULL,
+NroCalle int NOT NULL,
+Piso int NULL,
+Departamento nvarchar(255) NULL,
+Localidad nvarchar(255) NULL,
+Pais nvarchar(255) NULL
+);
+
+
 /*create table traeme_la_copa_messi.HabitacionPorReserva(
 IdReserva numeric(18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Reserva(IdReserva),
 IdHotelHab int,
@@ -319,9 +340,14 @@ INSERT INTO TRAEME_LA_COPA_MESSI.RegimenEstadia(Descripcion,PrecioBase)
 
 -- Direcciones --
 
-INSERT INTO TRAEME_LA_COPA_MESSI.Direccion(Ciudad,Calle,NroCalle) --Dejamos pais como null, aunque se podria determinar por la ciudad
+INSERT INTO TRAEME_LA_COPA_MESSI.Direcciones_Hoteles(Ciudad,Calle,NroCalle)
 	SELECT DISTINCT Hotel_Ciudad, Hotel_Calle, Hotel_Nro_Calle
 	FROM gd_esquema.Maestra
+
+INSERT INTO TRAEME_LA_COPA_MESSI.Direccion(Ciudad,Calle,NroCalle) --Dejamos pais como null, aunque se podria determinar por la ciudad
+	SELECT  Ciudad, Calle, NroCalle
+	FROM TRAEME_LA_COPA_MESSI.Direcciones_Hoteles
+
 
 INSERT INTO TRAEME_LA_COPA_MESSI.Direccion(Calle,NroCalle,Piso,Departamento)
 	SELECT DISTINCT Cliente_Dom_Calle, Cliente_Nro_Calle, Cliente_Piso, Cliente_Depto
@@ -346,7 +372,6 @@ INSERT INTO TRAEME_LA_COPA_MESSI.RolPorUsuario(Username,IdRol)
 	VALUES ('admin',1)
 				
 
-
 -- Facturas inconsistentes --
 
 INSERT INTO TRAEME_LA_COPA_MESSI.Factura_Inconsistente
@@ -354,30 +379,61 @@ INSERT INTO TRAEME_LA_COPA_MESSI.Factura_Inconsistente
 	WHERE Factura_Nro IS NOT NULL
 
 -- Clientes inconsistentes --
-/*
+
 --FALTA EN LA MIGRACION ASOCIAR CON LAS DIRECCIONES CORRESPONDIENTES
 
-INSERT INTO TRAEME_LA_COPA_MESSI.Cliente_Inconsistente(Email,Nombre,Apellido,NumDoc, Nacionalidad, FechaNacimiento)
+/*INSERT INTO TRAEME_LA_COPA_MESSI.Cliente_Inconsistente(Email,Nombre,Apellido,NumDoc, Nacionalidad, FechaNacimiento)
 	SELECT DISTINCT m1.Cliente_Mail, m1.Cliente_Nombre, m1.Cliente_Apellido, m1.Cliente_Pasaporte_Nro, m1.Cliente_Nacionalidad, m1.Cliente_Fecha_Nac
 	FROM gd_esquema.Maestra m1, gd_esquema.Maestra m2
 	WHERE m1.Cliente_Mail = m2.Cliente_Mail AND m1.Cliente_Pasaporte_Nro != m2.Cliente_Pasaporte_Nro
 
 UPDATE TRAEME_LA_COPA_MESSI.Cliente_Inconsistente SET TipoDoc = 1; --NO DEBERIA HACER UN UPDATE, TARDO MUCHO MAS
 																   --AVERIGUAR COMO METER ESTE VALOR EN EL INSERT DE ARRIBA
+*/
 
 -- Clientes --
 
 --FALTA EN LA MIGRACION ASOCIAR CON LAS DIRECCIONES CORRESPONDIENTES
-
 INSERT INTO TRAEME_LA_COPA_MESSI.Cliente(Email,Nombre,Apellido,NumDoc, Nacionalidad, FechaNacimiento)
-	SELECT DISTINCT m1.Cliente_Mail, m1.Cliente_Nombre, m1.Cliente_Apellido, m1.Cliente_Pasaporte_Nro, m1.Cliente_Nacionalidad, m1.Cliente_Fecha_Nac
-	FROM gd_esquema.Maestra m1, gd_esquema.Maestra m2
-	WHERE m1.Cliente_Mail != m2.Cliente_Mail
+	SELECT DISTINCT Cliente_Mail, Cliente_Nombre, Cliente_Apellido, Cliente_Pasaporte_Nro, Cliente_Nacionalidad, Cliente_Fecha_Nac
+    FROM gd_esquema.Maestra 
+    WHERE Cliente_Mail not in
+	 (select t1.Cliente_Mail 
+		from gd_esquema.Maestra t1, gd_esquema.Maestra t2
+		where t1.Cliente_Mail = t2.Cliente_Mail and t1.Cliente_Pasaporte_Nro != t2.Cliente_Pasaporte_Nro
+		group by t1.Cliente_Mail,t1.Cliente_Pasaporte_Nro, t2.Cliente_Pasaporte_Nro)
 
-UPDATE TRAEME_LA_COPA_MESSI.Cliente_Inconsistente SET TipoDoc = 1; --NO DEBERIA HACER UN UPDATE, TARDO MUCHO MAS
-																   --AVERIGUAR COMO METER ESTE VALOR EN EL INSERT DE ARRIBA
-*/
+UPDATE TRAEME_LA_COPA_MESSI.Cliente SET TipoDoc = 1; --NO DEBERIA HACER UN UPDATE, TARDO MUCHO MAS
+													 --AVERIGUAR COMO METER ESTE VALOR EN EL INSERT DE ARRIBA
 
+
+-- Hoteles --
+
+INSERT INTO TRAEME_LA_COPA_MESSI.Hotel(Direccion) 
+	SELECT IdDir_Hotel FROM TRAEME_LA_COPA_MESSI.Direcciones_Hoteles
+
+UPDATE TRAEME_LA_COPA_MESSI.Hotel SET CantEstrellas =
+(SELECT DISTINCT Hotel_CantEstrella FROM gd_esquema.Maestra m
+ WHERE m.Hotel_Calle =
+ (SELECT Calle FROM TRAEME_LA_COPA_MESSI.Direcciones_Hoteles WHERE IdDir_Hotel = Hotel.Direccion)
+ AND
+ m.Hotel_Nro_Calle = (SELECT NroCalle FROM TRAEME_LA_COPA_MESSI.Direcciones_Hoteles WHERE IdDir_Hotel = Hotel.Direccion)
+ )
+
+UPDATE TRAEME_LA_COPA_MESSI.Hotel SET PorcentajeEstrellas =
+(SELECT DISTINCT Hotel_Recarga_Estrella FROM gd_esquema.Maestra m
+ WHERE m.Hotel_Calle =
+ (SELECT Calle FROM TRAEME_LA_COPA_MESSI.Direcciones_Hoteles WHERE IdDir_Hotel = Hotel.Direccion)
+ AND
+ m.Hotel_Nro_Calle = (SELECT NroCalle FROM TRAEME_LA_COPA_MESSI.Direcciones_Hoteles WHERE IdDir_Hotel = Hotel.Direccion)
+ )
+
+
+-- Tipo Habitacion --
+
+INSERT INTO TRAEME_LA_COPA_MESSI.TipoHabitacion
+	SELECT DISTINCT Habitacion_Tipo_Codigo, Habitacion_Tipo_Descripcion, Habitacion_Tipo_Porcentual
+	FROM gd_esquema.Maestra
 
 
 -- Creacion de procedures --
@@ -441,9 +497,4 @@ BEGIN
 
 	WHERE u.Username= @IdUsuario
 
-END
-	
-
-
-
-   
+END 
