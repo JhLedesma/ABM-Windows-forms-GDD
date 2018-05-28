@@ -1,6 +1,6 @@
 ﻿namespace FrbaHotel.AbmCliente
 {
-    partial class Crear_Cliente
+    partial class Modificar_Cliente
     {
         /// <summary>
         /// Required designer variable.
@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.btnGuardar = new System.Windows.Forms.Button();
+            this.btnLimpiar = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tbPais = new System.Windows.Forms.TextBox();
             this.lblPais = new System.Windows.Forms.Label();
@@ -57,14 +59,30 @@
             this.lblApellido = new System.Windows.Forms.Label();
             this.tbNombre = new System.Windows.Forms.TextBox();
             this.lblNombre = new System.Windows.Forms.Label();
-            this.btnLimpiar = new System.Windows.Forms.Button();
-            this.btnCrear = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericPiso)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericDto)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericNumero)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericNumeroIdentificacion)).BeginInit();
             this.SuspendLayout();
+            // 
+            // btnGuardar
+            // 
+            this.btnGuardar.Location = new System.Drawing.Point(281, 437);
+            this.btnGuardar.Name = "btnGuardar";
+            this.btnGuardar.Size = new System.Drawing.Size(75, 23);
+            this.btnGuardar.TabIndex = 21;
+            this.btnGuardar.Text = "Guardar";
+            this.btnGuardar.UseVisualStyleBackColor = true;
+            // 
+            // btnLimpiar
+            // 
+            this.btnLimpiar.Location = new System.Drawing.Point(52, 437);
+            this.btnLimpiar.Name = "btnLimpiar";
+            this.btnLimpiar.Size = new System.Drawing.Size(75, 23);
+            this.btnLimpiar.TabIndex = 20;
+            this.btnLimpiar.Text = "Limpiar";
+            this.btnLimpiar.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
@@ -96,12 +114,12 @@
             this.groupBox1.Controls.Add(this.lblApellido);
             this.groupBox1.Controls.Add(this.tbNombre);
             this.groupBox1.Controls.Add(this.lblNombre);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(10, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(386, 413);
-            this.groupBox1.TabIndex = 0;
+            this.groupBox1.TabIndex = 19;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Ingrese los datos del nuevo cliente (todos los datos son obligatorios):";
+            this.groupBox1.Text = "Ingrese los datos que desea modificar del cliente:";
             // 
             // tbPais
             // 
@@ -348,34 +366,16 @@
             this.lblNombre.TabIndex = 2;
             this.lblNombre.Text = "Nombre:";
             // 
-            // btnLimpiar
-            // 
-            this.btnLimpiar.Location = new System.Drawing.Point(54, 437);
-            this.btnLimpiar.Name = "btnLimpiar";
-            this.btnLimpiar.Size = new System.Drawing.Size(75, 23);
-            this.btnLimpiar.TabIndex = 17;
-            this.btnLimpiar.Text = "Limpiar";
-            this.btnLimpiar.UseVisualStyleBackColor = true;
-            // 
-            // btnCrear
-            // 
-            this.btnCrear.Location = new System.Drawing.Point(283, 437);
-            this.btnCrear.Name = "btnCrear";
-            this.btnCrear.Size = new System.Drawing.Size(75, 23);
-            this.btnCrear.TabIndex = 18;
-            this.btnCrear.Text = "Crear";
-            this.btnCrear.UseVisualStyleBackColor = true;
-            // 
-            // Crear_Cliente
+            // Modificar_Cliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(408, 472);
-            this.Controls.Add(this.btnCrear);
+            this.ClientSize = new System.Drawing.Size(406, 472);
+            this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.groupBox1);
-            this.Name = "Crear_Cliente";
-            this.Text = "Crear_Cliente";
+            this.Name = "Modificar_Cliente";
+            this.Text = "Modificar_Cliente";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericPiso)).EndInit();
@@ -388,36 +388,36 @@
 
         #endregion
 
+        private System.Windows.Forms.Button btnGuardar;
+        private System.Windows.Forms.Button btnLimpiar;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label lblNombre;
-        private System.Windows.Forms.TextBox tbNombre;
-        private System.Windows.Forms.Label lblApellido;
-        private System.Windows.Forms.TextBox tbApellido;
-        private System.Windows.Forms.Label lblMail;
-        private System.Windows.Forms.TextBox tbTelefono;
-        private System.Windows.Forms.Label lblTelefono;
-        private System.Windows.Forms.TextBox tbMail;
-        private System.Windows.Forms.Label lblNumeroIdentificacion;
-        private System.Windows.Forms.NumericUpDown numericNumeroIdentificacion;
-        private System.Windows.Forms.Label lblTipoIndentificacion;
-        private System.Windows.Forms.ComboBox listadoTipoIdentificacion;
-        private System.Windows.Forms.Label lblFechaNacimiento;
-        private System.Windows.Forms.TextBox tbNacionalidad;
-        private System.Windows.Forms.Label lblNacionalidad;
-        private System.Windows.Forms.Label lblNumero;
-        private System.Windows.Forms.TextBox tbCalle;
-        private System.Windows.Forms.Label lblCalle;
-        private System.Windows.Forms.DateTimePicker dtFechaNacimiento;
+        private System.Windows.Forms.TextBox tbPais;
+        private System.Windows.Forms.Label lblPais;
+        private System.Windows.Forms.TextBox tbLocalidad;
+        private System.Windows.Forms.Label lblLocalidad;
         private System.Windows.Forms.NumericUpDown numericPiso;
         private System.Windows.Forms.NumericUpDown numericDto;
         private System.Windows.Forms.Label lblPiso;
         private System.Windows.Forms.Label lblDepartamento;
         private System.Windows.Forms.NumericUpDown numericNumero;
-        private System.Windows.Forms.TextBox tbPais;
-        private System.Windows.Forms.Label lblPais;
-        private System.Windows.Forms.TextBox tbLocalidad;
-        private System.Windows.Forms.Label lblLocalidad;
-        private System.Windows.Forms.Button btnLimpiar;
-        private System.Windows.Forms.Button btnCrear;
+        private System.Windows.Forms.Label lblNumero;
+        private System.Windows.Forms.TextBox tbCalle;
+        private System.Windows.Forms.Label lblCalle;
+        private System.Windows.Forms.DateTimePicker dtFechaNacimiento;
+        private System.Windows.Forms.Label lblFechaNacimiento;
+        private System.Windows.Forms.TextBox tbNacionalidad;
+        private System.Windows.Forms.Label lblNacionalidad;
+        private System.Windows.Forms.ComboBox listadoTipoIdentificacion;
+        private System.Windows.Forms.Label lblTipoIndentificacion;
+        private System.Windows.Forms.NumericUpDown numericNumeroIdentificacion;
+        private System.Windows.Forms.Label lblNumeroIdentificacion;
+        private System.Windows.Forms.TextBox tbTelefono;
+        private System.Windows.Forms.Label lblTelefono;
+        private System.Windows.Forms.TextBox tbMail;
+        private System.Windows.Forms.Label lblMail;
+        private System.Windows.Forms.TextBox tbApellido;
+        private System.Windows.Forms.Label lblApellido;
+        private System.Windows.Forms.TextBox tbNombre;
+        private System.Windows.Forms.Label lblNombre;
     }
 }

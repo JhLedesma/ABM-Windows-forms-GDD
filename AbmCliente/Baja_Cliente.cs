@@ -10,13 +10,11 @@ using System.Windows.Forms;
 
 namespace FrbaHotel.AbmCliente
 {
-    public partial class Crear_Cliente : Form
+    public partial class Baja_Cliente : Form
     {
-        public Crear_Cliente()
+        public Baja_Cliente()
         {
             InitializeComponent();
         }
-
- 
     }
 }
