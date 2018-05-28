@@ -30,7 +30,7 @@
         {
             this.btnVolver = new System.Windows.Forms.Button();
             this.btnModificar = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dataGridModificar = new System.Windows.Forms.DataGridView();
             this.lblFiltrar = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.gBoxBusquedaCliente = new System.Windows.Forms.GroupBox();
@@ -46,7 +46,7 @@
             this.lblApellido = new System.Windows.Forms.Label();
             this.lblNombre = new System.Windows.Forms.Label();
             this.filtroNombre = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridModificar)).BeginInit();
             this.gBoxBusquedaCliente.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.filtroNumeroIdentificacion)).BeginInit();
             this.SuspendLayout();
@@ -69,13 +69,13 @@
             this.btnModificar.Text = "Modificar";
             this.btnModificar.UseVisualStyleBackColor = true;
             // 
-            // dataGridView1
+            // dataGridModificar
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 246);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(531, 188);
-            this.dataGridView1.TabIndex = 21;
+            this.dataGridModificar.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridModificar.Location = new System.Drawing.Point(12, 246);
+            this.dataGridModificar.Name = "dataGridModificar";
+            this.dataGridModificar.Size = new System.Drawing.Size(531, 188);
+            this.dataGridModificar.TabIndex = 21;
             // 
             // lblFiltrar
             // 
@@ -85,6 +85,7 @@
             this.lblFiltrar.TabIndex = 20;
             this.lblFiltrar.Text = "Filtrar";
             this.lblFiltrar.UseVisualStyleBackColor = true;
+            this.lblFiltrar.Click += new System.EventHandler(this.lblFiltrar_Click);
             // 
             // label1
             // 
@@ -226,13 +227,13 @@
             this.ClientSize = new System.Drawing.Size(554, 508);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.btnModificar);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dataGridModificar);
             this.Controls.Add(this.lblFiltrar);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.gBoxBusquedaCliente);
             this.Name = "List_Select_Cliente_Modificar";
             this.Text = "List_Select_Cliente_Modificar";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridModificar)).EndInit();
             this.gBoxBusquedaCliente.ResumeLayout(false);
             this.gBoxBusquedaCliente.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.filtroNumeroIdentificacion)).EndInit();
@@ -245,7 +246,7 @@
 
         private System.Windows.Forms.Button btnVolver;
         private System.Windows.Forms.Button btnModificar;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dataGridModificar;
         private System.Windows.Forms.Button lblFiltrar;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox gBoxBusquedaCliente;

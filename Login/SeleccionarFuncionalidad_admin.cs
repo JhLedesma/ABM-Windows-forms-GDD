@@ -16,5 +16,12 @@ namespace FrbaHotel.Login
         {
             InitializeComponent();
         }
+
+        private void boton_abm_hotel_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            //new AbmHotel.Abm_hotel().ShowDialog();
+            this.Close();
+        }
     }
 }
