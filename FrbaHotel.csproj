@@ -51,6 +51,12 @@
     <Compile Include="AbmCliente\Abm_Cliente.Designer.cs">
       <DependentUpon>Abm_Cliente.cs</DependentUpon>
     </Compile>
+    <Compile Include="AbmCliente\Baja_Cliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmCliente\Baja_Cliente.Designer.cs">
+      <DependentUpon>Baja_Cliente.cs</DependentUpon>
+    </Compile>
     <Compile Include="AbmCliente\Crear_Cliente.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -62,6 +68,12 @@
     </Compile>
     <Compile Include="AbmCliente\Listado_Seleccion_Cliente.Designer.cs">
       <DependentUpon>Listado_Seleccion_Cliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmCliente\Modificar_Cliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmCliente\Modificar_Cliente.Designer.cs">
+      <DependentUpon>Modificar_Cliente.cs</DependentUpon>
     </Compile>
     <Compile Include="AbmHabitacion\Form1.cs">
       <SubType>Form</SubType>
@@ -133,11 +145,17 @@
     <EmbeddedResource Include="AbmCliente\Abm_Cliente.resx">
       <DependentUpon>Abm_Cliente.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AbmCliente\Baja_Cliente.resx">
+      <DependentUpon>Baja_Cliente.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AbmCliente\Crear_Cliente.resx">
       <DependentUpon>Crear_Cliente.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AbmCliente\Listado_Seleccion_Cliente.resx">
       <DependentUpon>Listado_Seleccion_Cliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmCliente\Modificar_Cliente.resx">
+      <DependentUpon>Modificar_Cliente.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login\SeleccionDeRol.resx">
       <DependentUpon>SeleccionDeRol.cs</DependentUpon>

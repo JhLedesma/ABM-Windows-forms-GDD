@@ -29,23 +29,24 @@
         private void InitializeComponent()
         {
             this.gBoxBusquedaCliente = new System.Windows.Forms.GroupBox();
-            this.filtroNombre = new System.Windows.Forms.TextBox();
-            this.lblNombre = new System.Windows.Forms.Label();
-            this.lblApellido = new System.Windows.Forms.Label();
-            this.filtroApellido = new System.Windows.Forms.TextBox();
-            this.filtroMail = new System.Windows.Forms.TextBox();
-            this.lblMail = new System.Windows.Forms.Label();
-            this.listadoTipoIdentificacion = new System.Windows.Forms.ComboBox();
-            this.lblTipoIndentificacion = new System.Windows.Forms.Label();
-            this.filtroNumeroIdentificacion = new System.Windows.Forms.NumericUpDown();
-            this.lblNumeroIdentificacion = new System.Windows.Forms.Label();
-            this.lblIdClienteSeleccionado = new System.Windows.Forms.Label();
             this.tbIdClienteSeleccionado = new System.Windows.Forms.TextBox();
+            this.lblIdClienteSeleccionado = new System.Windows.Forms.Label();
+            this.lblNumeroIdentificacion = new System.Windows.Forms.Label();
+            this.filtroNumeroIdentificacion = new System.Windows.Forms.NumericUpDown();
+            this.lblTipoIndentificacion = new System.Windows.Forms.Label();
+            this.listadoTipoIdentificacion = new System.Windows.Forms.ComboBox();
+            this.lblMail = new System.Windows.Forms.Label();
+            this.filtroMail = new System.Windows.Forms.TextBox();
+            this.filtroApellido = new System.Windows.Forms.TextBox();
+            this.lblApellido = new System.Windows.Forms.Label();
+            this.lblNombre = new System.Windows.Forms.Label();
+            this.filtroNombre = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.lblFiltrar = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.btnModificar = new System.Windows.Forms.Button();
             this.btnVolver = new System.Windows.Forms.Button();
+            this.btnEliminar = new System.Windows.Forms.Button();
+            this.btnModificar = new System.Windows.Forms.Button();
             this.gBoxBusquedaCliente.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.filtroNumeroIdentificacion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -72,70 +73,31 @@
             this.gBoxBusquedaCliente.TabStop = false;
             this.gBoxBusquedaCliente.Text = "Busqueda de Cliente";
             // 
-            // filtroNombre
+            // tbIdClienteSeleccionado
             // 
-            this.filtroNombre.Location = new System.Drawing.Point(60, 34);
-            this.filtroNombre.Name = "filtroNombre";
-            this.filtroNombre.Size = new System.Drawing.Size(100, 20);
-            this.filtroNombre.TabIndex = 0;
+            this.tbIdClienteSeleccionado.Enabled = false;
+            this.tbIdClienteSeleccionado.Location = new System.Drawing.Point(393, 99);
+            this.tbIdClienteSeleccionado.Name = "tbIdClienteSeleccionado";
+            this.tbIdClienteSeleccionado.Size = new System.Drawing.Size(120, 20);
+            this.tbIdClienteSeleccionado.TabIndex = 11;
             // 
-            // lblNombre
+            // lblIdClienteSeleccionado
             // 
-            this.lblNombre.AutoSize = true;
-            this.lblNombre.Location = new System.Drawing.Point(6, 37);
-            this.lblNombre.Name = "lblNombre";
-            this.lblNombre.Size = new System.Drawing.Size(44, 13);
-            this.lblNombre.TabIndex = 1;
-            this.lblNombre.Text = "Nombre";
+            this.lblIdClienteSeleccionado.AutoSize = true;
+            this.lblIdClienteSeleccionado.Location = new System.Drawing.Point(262, 102);
+            this.lblIdClienteSeleccionado.Name = "lblIdClienteSeleccionado";
+            this.lblIdClienteSeleccionado.Size = new System.Drawing.Size(121, 13);
+            this.lblIdClienteSeleccionado.TabIndex = 10;
+            this.lblIdClienteSeleccionado.Text = "ID Cliente Seleccionado";
             // 
-            // lblApellido
+            // lblNumeroIdentificacion
             // 
-            this.lblApellido.AutoSize = true;
-            this.lblApellido.Location = new System.Drawing.Point(6, 69);
-            this.lblApellido.Name = "lblApellido";
-            this.lblApellido.Size = new System.Drawing.Size(44, 13);
-            this.lblApellido.TabIndex = 2;
-            this.lblApellido.Text = "Apellido";
-            // 
-            // filtroApellido
-            // 
-            this.filtroApellido.Location = new System.Drawing.Point(60, 66);
-            this.filtroApellido.Name = "filtroApellido";
-            this.filtroApellido.Size = new System.Drawing.Size(100, 20);
-            this.filtroApellido.TabIndex = 3;
-            // 
-            // filtroMail
-            // 
-            this.filtroMail.Location = new System.Drawing.Point(60, 101);
-            this.filtroMail.Name = "filtroMail";
-            this.filtroMail.Size = new System.Drawing.Size(100, 20);
-            this.filtroMail.TabIndex = 4;
-            // 
-            // lblMail
-            // 
-            this.lblMail.AutoSize = true;
-            this.lblMail.Location = new System.Drawing.Point(6, 104);
-            this.lblMail.Name = "lblMail";
-            this.lblMail.Size = new System.Drawing.Size(26, 13);
-            this.lblMail.TabIndex = 5;
-            this.lblMail.Text = "Mail";
-            // 
-            // listadoTipoIdentificacion
-            // 
-            this.listadoTipoIdentificacion.FormattingEnabled = true;
-            this.listadoTipoIdentificacion.Location = new System.Drawing.Point(393, 35);
-            this.listadoTipoIdentificacion.Name = "listadoTipoIdentificacion";
-            this.listadoTipoIdentificacion.Size = new System.Drawing.Size(121, 21);
-            this.listadoTipoIdentificacion.TabIndex = 6;
-            // 
-            // lblTipoIndentificacion
-            // 
-            this.lblTipoIndentificacion.AutoSize = true;
-            this.lblTipoIndentificacion.Location = new System.Drawing.Point(262, 38);
-            this.lblTipoIndentificacion.Name = "lblTipoIndentificacion";
-            this.lblTipoIndentificacion.Size = new System.Drawing.Size(109, 13);
-            this.lblTipoIndentificacion.TabIndex = 7;
-            this.lblTipoIndentificacion.Text = "Tipo de Identificacion";
+            this.lblNumeroIdentificacion.AutoSize = true;
+            this.lblNumeroIdentificacion.Location = new System.Drawing.Point(262, 70);
+            this.lblNumeroIdentificacion.Name = "lblNumeroIdentificacion";
+            this.lblNumeroIdentificacion.Size = new System.Drawing.Size(125, 13);
+            this.lblNumeroIdentificacion.TabIndex = 9;
+            this.lblNumeroIdentificacion.Text = "Numero de Identificacion";
             // 
             // filtroNumeroIdentificacion
             // 
@@ -149,31 +111,70 @@
             this.filtroNumeroIdentificacion.Size = new System.Drawing.Size(120, 20);
             this.filtroNumeroIdentificacion.TabIndex = 8;
             // 
-            // lblNumeroIdentificacion
+            // lblTipoIndentificacion
             // 
-            this.lblNumeroIdentificacion.AutoSize = true;
-            this.lblNumeroIdentificacion.Location = new System.Drawing.Point(262, 70);
-            this.lblNumeroIdentificacion.Name = "lblNumeroIdentificacion";
-            this.lblNumeroIdentificacion.Size = new System.Drawing.Size(125, 13);
-            this.lblNumeroIdentificacion.TabIndex = 9;
-            this.lblNumeroIdentificacion.Text = "Numero de Identificacion";
+            this.lblTipoIndentificacion.AutoSize = true;
+            this.lblTipoIndentificacion.Location = new System.Drawing.Point(262, 38);
+            this.lblTipoIndentificacion.Name = "lblTipoIndentificacion";
+            this.lblTipoIndentificacion.Size = new System.Drawing.Size(109, 13);
+            this.lblTipoIndentificacion.TabIndex = 7;
+            this.lblTipoIndentificacion.Text = "Tipo de Identificacion";
             // 
-            // lblIdClienteSeleccionado
+            // listadoTipoIdentificacion
             // 
-            this.lblIdClienteSeleccionado.AutoSize = true;
-            this.lblIdClienteSeleccionado.Location = new System.Drawing.Point(262, 102);
-            this.lblIdClienteSeleccionado.Name = "lblIdClienteSeleccionado";
-            this.lblIdClienteSeleccionado.Size = new System.Drawing.Size(121, 13);
-            this.lblIdClienteSeleccionado.TabIndex = 10;
-            this.lblIdClienteSeleccionado.Text = "ID Cliente Seleccionado";
+            this.listadoTipoIdentificacion.FormattingEnabled = true;
+            this.listadoTipoIdentificacion.Location = new System.Drawing.Point(393, 35);
+            this.listadoTipoIdentificacion.Name = "listadoTipoIdentificacion";
+            this.listadoTipoIdentificacion.Size = new System.Drawing.Size(121, 21);
+            this.listadoTipoIdentificacion.TabIndex = 6;
             // 
-            // tbIdClienteSeleccionado
+            // lblMail
             // 
-            this.tbIdClienteSeleccionado.Enabled = false;
-            this.tbIdClienteSeleccionado.Location = new System.Drawing.Point(393, 99);
-            this.tbIdClienteSeleccionado.Name = "tbIdClienteSeleccionado";
-            this.tbIdClienteSeleccionado.Size = new System.Drawing.Size(120, 20);
-            this.tbIdClienteSeleccionado.TabIndex = 11;
+            this.lblMail.AutoSize = true;
+            this.lblMail.Location = new System.Drawing.Point(6, 104);
+            this.lblMail.Name = "lblMail";
+            this.lblMail.Size = new System.Drawing.Size(26, 13);
+            this.lblMail.TabIndex = 5;
+            this.lblMail.Text = "Mail";
+            // 
+            // filtroMail
+            // 
+            this.filtroMail.Location = new System.Drawing.Point(60, 101);
+            this.filtroMail.Name = "filtroMail";
+            this.filtroMail.Size = new System.Drawing.Size(100, 20);
+            this.filtroMail.TabIndex = 4;
+            // 
+            // filtroApellido
+            // 
+            this.filtroApellido.Location = new System.Drawing.Point(60, 66);
+            this.filtroApellido.Name = "filtroApellido";
+            this.filtroApellido.Size = new System.Drawing.Size(100, 20);
+            this.filtroApellido.TabIndex = 3;
+            // 
+            // lblApellido
+            // 
+            this.lblApellido.AutoSize = true;
+            this.lblApellido.Location = new System.Drawing.Point(6, 69);
+            this.lblApellido.Name = "lblApellido";
+            this.lblApellido.Size = new System.Drawing.Size(44, 13);
+            this.lblApellido.TabIndex = 2;
+            this.lblApellido.Text = "Apellido";
+            // 
+            // lblNombre
+            // 
+            this.lblNombre.AutoSize = true;
+            this.lblNombre.Location = new System.Drawing.Point(6, 37);
+            this.lblNombre.Name = "lblNombre";
+            this.lblNombre.Size = new System.Drawing.Size(44, 13);
+            this.lblNombre.TabIndex = 1;
+            this.lblNombre.Text = "Nombre";
+            // 
+            // filtroNombre
+            // 
+            this.filtroNombre.Location = new System.Drawing.Point(60, 34);
+            this.filtroNombre.Name = "filtroNombre";
+            this.filtroNombre.Size = new System.Drawing.Size(100, 20);
+            this.filtroNombre.TabIndex = 0;
             // 
             // label1
             // 
@@ -201,29 +202,39 @@
             this.dataGridView1.Size = new System.Drawing.Size(531, 188);
             this.dataGridView1.TabIndex = 14;
             // 
-            // btnModificar
-            // 
-            this.btnModificar.Location = new System.Drawing.Point(378, 470);
-            this.btnModificar.Name = "btnModificar";
-            this.btnModificar.Size = new System.Drawing.Size(75, 23);
-            this.btnModificar.TabIndex = 15;
-            this.btnModificar.Text = "Modificar";
-            this.btnModificar.UseVisualStyleBackColor = true;
-            // 
             // btnVolver
             // 
-            this.btnVolver.Location = new System.Drawing.Point(113, 470);
+            this.btnVolver.Location = new System.Drawing.Point(72, 470);
             this.btnVolver.Name = "btnVolver";
             this.btnVolver.Size = new System.Drawing.Size(75, 23);
             this.btnVolver.TabIndex = 16;
             this.btnVolver.Text = "Volver";
             this.btnVolver.UseVisualStyleBackColor = true;
             // 
+            // btnEliminar
+            // 
+            this.btnEliminar.Location = new System.Drawing.Point(451, 470);
+            this.btnEliminar.Name = "btnEliminar";
+            this.btnEliminar.Size = new System.Drawing.Size(75, 23);
+            this.btnEliminar.TabIndex = 17;
+            this.btnEliminar.Text = "Eliminar";
+            this.btnEliminar.UseVisualStyleBackColor = true;
+            // 
+            // btnModificar
+            // 
+            this.btnModificar.Location = new System.Drawing.Point(363, 470);
+            this.btnModificar.Name = "btnModificar";
+            this.btnModificar.Size = new System.Drawing.Size(75, 23);
+            this.btnModificar.TabIndex = 15;
+            this.btnModificar.Text = "Modificar";
+            this.btnModificar.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(556, 519);
+            this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.btnModificar);
             this.Controls.Add(this.dataGridView1);
@@ -259,7 +270,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button lblFiltrar;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Button btnModificar;
         private System.Windows.Forms.Button btnVolver;
+        private System.Windows.Forms.Button btnEliminar;
+        private System.Windows.Forms.Button btnModificar;
     }
 }
