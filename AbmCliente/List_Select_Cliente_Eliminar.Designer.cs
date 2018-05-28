@@ -1,6 +1,6 @@
 ﻿namespace FrbaHotel.AbmCliente
 {
-    partial class Form1
+    partial class List_Select_Cliente_Eliminar
     {
         /// <summary>
         /// Required designer variable.

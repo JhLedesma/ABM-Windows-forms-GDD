@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace FrbaHotel.AbmCliente
 {
-    public partial class Form1 : Form
+    public partial class List_Select_Cliente_Eliminar : Form
     {
-        public Form1()
+        public List_Select_Cliente_Eliminar()
         {
             InitializeComponent();
         }

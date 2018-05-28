@@ -16,5 +16,31 @@ namespace FrbaHotel.AbmCliente
         {
             InitializeComponent();
         }
+
+        private void btnCrear_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            new Crear_Cliente();
+            this.Close();
+        }
+
+        private void btnModificar_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            new List_Select_Cliente_Modificar();
+            this.Close();
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            new List_Select_Cliente_Eliminar();
+            this.Close();
+        }
+
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
