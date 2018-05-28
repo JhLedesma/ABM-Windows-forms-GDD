@@ -82,11 +82,29 @@
     <Compile Include="AbmCliente\Modificar_Cliente.Designer.cs">
       <DependentUpon>Modificar_Cliente.cs</DependentUpon>
     </Compile>
-    <Compile Include="AbmHabitacion\Form1.cs">
+    <Compile Include="AbmHabitacion\Abm_Habitacion.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AbmHabitacion\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="AbmHabitacion\Abm_Habitacion.Designer.cs">
+      <DependentUpon>Abm_Habitacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmHabitacion\Crear_Habitacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmHabitacion\Crear_Habitacion.Designer.cs">
+      <DependentUpon>Crear_Habitacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmHabitacion\Modificar_Habitacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmHabitacion\Modificar_Habitacion.Designer.cs">
+      <DependentUpon>Modificar_Habitacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmHabitacion\Baja_Habitacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmHabitacion\Baja_Habitacion.Designer.cs">
+      <DependentUpon>Baja_Habitacion.cs</DependentUpon>
     </Compile>
     <Compile Include="AbmHotel\Abm_hotel.cs">
       <SubType>Form</SubType>
@@ -196,6 +214,7 @@
     <EmbeddedResource Include="AbmCliente\Modificar_Cliente.resx">
       <DependentUpon>Modificar_Cliente.cs</DependentUpon>
     </EmbeddedResource>
+<<<<<<< HEAD
     <EmbeddedResource Include="AbmHotel\Abm_hotel.resx">
       <DependentUpon>Abm_hotel.cs</DependentUpon>
     </EmbeddedResource>
@@ -207,6 +226,19 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Login\SeleccionarFuncionalidad_admin.resx">
       <DependentUpon>SeleccionarFuncionalidad_admin.cs</DependentUpon>
+=======
+    <EmbeddedResource Include="AbmHabitacion\Abm_Habitacion.resx">
+      <DependentUpon>Abm_Habitacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmHabitacion\Baja_Habitacion.resx">
+      <DependentUpon>Baja_Habitacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmHabitacion\Crear_Habitacion.resx">
+      <DependentUpon>Crear_Habitacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmHabitacion\Modificar_Habitacion.resx">
+      <DependentUpon>Modificar_Habitacion.cs</DependentUpon>
+>>>>>>> 602982a4c1557c0195f60239517f1833fb95a53d
     </EmbeddedResource>
     <EmbeddedResource Include="Login\SeleccionDeRol.resx">
       <DependentUpon>SeleccionDeRol.cs</DependentUpon>
