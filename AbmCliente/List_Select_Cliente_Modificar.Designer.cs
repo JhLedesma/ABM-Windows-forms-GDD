@@ -1,6 +1,6 @@
 ﻿namespace FrbaHotel.AbmCliente
 {
-    partial class Form1
+    partial class List_Select_Cliente_Modificar
     {
         /// <summary>
         /// Required designer variable.
@@ -28,6 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.btnVolver = new System.Windows.Forms.Button();
+            this.btnModificar = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.lblFiltrar = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.gBoxBusquedaCliente = new System.Windows.Forms.GroupBox();
             this.tbIdClienteSeleccionado = new System.Windows.Forms.TextBox();
             this.lblIdClienteSeleccionado = new System.Windows.Forms.Label();
@@ -41,16 +46,54 @@
             this.lblApellido = new System.Windows.Forms.Label();
             this.lblNombre = new System.Windows.Forms.Label();
             this.filtroNombre = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.lblFiltrar = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.btnVolver = new System.Windows.Forms.Button();
-            this.btnEliminar = new System.Windows.Forms.Button();
-            this.btnModificar = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.gBoxBusquedaCliente.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.filtroNumeroIdentificacion)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
+            // 
+            // btnVolver
+            // 
+            this.btnVolver.Location = new System.Drawing.Point(72, 465);
+            this.btnVolver.Name = "btnVolver";
+            this.btnVolver.Size = new System.Drawing.Size(75, 23);
+            this.btnVolver.TabIndex = 23;
+            this.btnVolver.Text = "Volver";
+            this.btnVolver.UseVisualStyleBackColor = true;
+            // 
+            // btnModificar
+            // 
+            this.btnModificar.Location = new System.Drawing.Point(405, 465);
+            this.btnModificar.Name = "btnModificar";
+            this.btnModificar.Size = new System.Drawing.Size(75, 23);
+            this.btnModificar.TabIndex = 22;
+            this.btnModificar.Text = "Modificar";
+            this.btnModificar.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(12, 246);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(531, 188);
+            this.dataGridView1.TabIndex = 21;
+            // 
+            // lblFiltrar
+            // 
+            this.lblFiltrar.Location = new System.Drawing.Point(405, 178);
+            this.lblFiltrar.Name = "lblFiltrar";
+            this.lblFiltrar.Size = new System.Drawing.Size(120, 23);
+            this.lblFiltrar.TabIndex = 20;
+            this.lblFiltrar.Text = "Filtrar";
+            this.lblFiltrar.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(30, 220);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(239, 13);
+            this.label1.TabIndex = 19;
+            this.label1.Text = "Seleccione la fila del cliente que desee modificar:";
             // 
             // gBoxBusquedaCliente
             // 
@@ -66,10 +109,10 @@
             this.gBoxBusquedaCliente.Controls.Add(this.lblApellido);
             this.gBoxBusquedaCliente.Controls.Add(this.lblNombre);
             this.gBoxBusquedaCliente.Controls.Add(this.filtroNombre);
-            this.gBoxBusquedaCliente.Location = new System.Drawing.Point(12, 25);
+            this.gBoxBusquedaCliente.Location = new System.Drawing.Point(12, 20);
             this.gBoxBusquedaCliente.Name = "gBoxBusquedaCliente";
             this.gBoxBusquedaCliente.Size = new System.Drawing.Size(531, 136);
-            this.gBoxBusquedaCliente.TabIndex = 0;
+            this.gBoxBusquedaCliente.TabIndex = 18;
             this.gBoxBusquedaCliente.TabStop = false;
             this.gBoxBusquedaCliente.Text = "Busqueda de Cliente";
             // 
@@ -176,77 +219,23 @@
             this.filtroNombre.Size = new System.Drawing.Size(100, 20);
             this.filtroNombre.TabIndex = 0;
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(30, 225);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(353, 13);
-            this.label1.TabIndex = 12;
-            this.label1.Text = "Seleccione la fila de la empresa que desee confirmar, modificar o eliminar:";
-            // 
-            // lblFiltrar
-            // 
-            this.lblFiltrar.Location = new System.Drawing.Point(405, 183);
-            this.lblFiltrar.Name = "lblFiltrar";
-            this.lblFiltrar.Size = new System.Drawing.Size(120, 23);
-            this.lblFiltrar.TabIndex = 13;
-            this.lblFiltrar.Text = "Filtrar";
-            this.lblFiltrar.UseVisualStyleBackColor = true;
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 251);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(531, 188);
-            this.dataGridView1.TabIndex = 14;
-            // 
-            // btnVolver
-            // 
-            this.btnVolver.Location = new System.Drawing.Point(72, 470);
-            this.btnVolver.Name = "btnVolver";
-            this.btnVolver.Size = new System.Drawing.Size(75, 23);
-            this.btnVolver.TabIndex = 16;
-            this.btnVolver.Text = "Volver";
-            this.btnVolver.UseVisualStyleBackColor = true;
-            // 
-            // btnEliminar
-            // 
-            this.btnEliminar.Location = new System.Drawing.Point(451, 470);
-            this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(75, 23);
-            this.btnEliminar.TabIndex = 17;
-            this.btnEliminar.Text = "Eliminar";
-            this.btnEliminar.UseVisualStyleBackColor = true;
-            // 
-            // btnModificar
-            // 
-            this.btnModificar.Location = new System.Drawing.Point(363, 470);
-            this.btnModificar.Name = "btnModificar";
-            this.btnModificar.Size = new System.Drawing.Size(75, 23);
-            this.btnModificar.TabIndex = 15;
-            this.btnModificar.Text = "Modificar";
-            this.btnModificar.UseVisualStyleBackColor = true;
-            // 
-            // Form1
+            // List_Select_Cliente_Modificar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(556, 519);
-            this.Controls.Add(this.btnEliminar);
+            this.ClientSize = new System.Drawing.Size(554, 508);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.btnModificar);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.lblFiltrar);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.gBoxBusquedaCliente);
-            this.Name = "Form1";
-            this.Text = "Listado Seleccion Cliente";
+            this.Name = "List_Select_Cliente_Modificar";
+            this.Text = "List_Select_Cliente_Modificar";
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.gBoxBusquedaCliente.ResumeLayout(false);
             this.gBoxBusquedaCliente.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.filtroNumeroIdentificacion)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -254,6 +243,11 @@
 
         #endregion
 
+        private System.Windows.Forms.Button btnVolver;
+        private System.Windows.Forms.Button btnModificar;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Button lblFiltrar;
+        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox gBoxBusquedaCliente;
         private System.Windows.Forms.TextBox tbIdClienteSeleccionado;
         private System.Windows.Forms.Label lblIdClienteSeleccionado;
@@ -267,11 +261,5 @@
         private System.Windows.Forms.Label lblApellido;
         private System.Windows.Forms.Label lblNombre;
         private System.Windows.Forms.TextBox filtroNombre;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button lblFiltrar;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Button btnVolver;
-        private System.Windows.Forms.Button btnEliminar;
-        private System.Windows.Forms.Button btnModificar;
     }
 }
