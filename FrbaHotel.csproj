@@ -214,7 +214,6 @@
     <EmbeddedResource Include="AbmCliente\Modificar_Cliente.resx">
       <DependentUpon>Modificar_Cliente.cs</DependentUpon>
     </EmbeddedResource>
-<<<<<<< HEAD
     <EmbeddedResource Include="AbmHotel\Abm_hotel.resx">
       <DependentUpon>Abm_hotel.cs</DependentUpon>
     </EmbeddedResource>
@@ -226,7 +225,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Login\SeleccionarFuncionalidad_admin.resx">
       <DependentUpon>SeleccionarFuncionalidad_admin.cs</DependentUpon>
-=======
+    </EmbeddedResource>
     <EmbeddedResource Include="AbmHabitacion\Abm_Habitacion.resx">
       <DependentUpon>Abm_Habitacion.cs</DependentUpon>
     </EmbeddedResource>
@@ -238,7 +237,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AbmHabitacion\Modificar_Habitacion.resx">
       <DependentUpon>Modificar_Habitacion.cs</DependentUpon>
->>>>>>> 602982a4c1557c0195f60239517f1833fb95a53d
     </EmbeddedResource>
     <EmbeddedResource Include="Login\SeleccionDeRol.resx">
       <DependentUpon>SeleccionDeRol.cs</DependentUpon>
