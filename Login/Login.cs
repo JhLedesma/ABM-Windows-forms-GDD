@@ -57,7 +57,7 @@ namespace FrbaHotel.Login
 
         private void aceptarLogin_Click(object sender, EventArgs e)
         {
-                   
+                  
             valorValidacion = validarUsuario();
 
             if ( valorValidacion == CORRECTO)
@@ -80,6 +80,9 @@ namespace FrbaHotel.Login
 
                     Console.WriteLine("TIENE 1 SOLO ROL");
                     repo_usuario.usuarioIngresado.rolActivo = repo_usuario.usuarioIngresado.listaDeRoles.First();
+                    this.Hide();
+                    new SeleccionarFuncionalidad().ShowDialog();
+                    this.Close();
                     Console.WriteLine(repo_usuario.usuarioIngresado.rolActivo.nombreRol);
                 
                 } 

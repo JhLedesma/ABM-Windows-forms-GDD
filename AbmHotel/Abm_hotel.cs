@@ -8,19 +8,24 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FrbaHotel.Login
+namespace FrbaHotel.AbmHotel
 {
-    public partial class SeleccionarFuncionalidad_admin : Form
+    public partial class Abm_hotel : Form
     {
-        public SeleccionarFuncionalidad_admin()
+        public Abm_hotel()
         {
             InitializeComponent();
         }
 
-        private void boton_abm_hotel_Click(object sender, EventArgs e)
+        private void button_volver_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void boton_crear_hotel_Click(object sender, EventArgs e)
         {
             this.Hide();
-            new AbmHotel.Abm_hotel().ShowDialog();
+            new CrearHotel().ShowDialog();
             this.Close();
         }
     }

@@ -35,6 +35,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Messaging" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -105,6 +106,18 @@
     <Compile Include="AbmHabitacion\Baja_Habitacion.Designer.cs">
       <DependentUpon>Baja_Habitacion.cs</DependentUpon>
     </Compile>
+    <Compile Include="AbmHotel\Abm_hotel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmHotel\Abm_hotel.Designer.cs">
+      <DependentUpon>Abm_hotel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmHotel\CrearHotel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmHotel\CrearHotel.Designer.cs">
+      <DependentUpon>CrearHotel.cs</DependentUpon>
+    </Compile>
     <Compile Include="AbmRegimen\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -141,6 +154,18 @@
     <Compile Include="ListadoEstadistico\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Login\SeleccionarFuncionalidad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login\SeleccionarFuncionalidad.Designer.cs">
+      <DependentUpon>SeleccionarFuncionalidad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Login\SeleccionarFuncionalidad_admin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login\SeleccionarFuncionalidad_admin.Designer.cs">
+      <DependentUpon>SeleccionarFuncionalidad_admin.cs</DependentUpon>
+    </Compile>
     <Compile Include="Login\SeleccionDeRol.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -154,6 +179,10 @@
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\Encriptador.cs" />
+    <Compile Include="Model\NumericTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Model\Regimen.cs" />
     <Compile Include="Model\Rol.cs" />
     <Compile Include="Model\Usuario.cs" />
     <Compile Include="Model\main.cs" />
@@ -170,6 +199,7 @@
     <Compile Include="RegistrarEstadia\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Repositorios\Repo_regimen.cs" />
     <Compile Include="Repositorios\Repo_usuario.cs" />
     <Compile Include="Utils\DBhelper.cs" />
     <EmbeddedResource Include="AbmCliente\Abm_Cliente.resx">
@@ -189,6 +219,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AbmCliente\Modificar_Cliente.resx">
       <DependentUpon>Modificar_Cliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmHotel\Abm_hotel.resx">
+      <DependentUpon>Abm_hotel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmHotel\CrearHotel.resx">
+      <DependentUpon>CrearHotel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login\SeleccionarFuncionalidad.resx">
+      <DependentUpon>SeleccionarFuncionalidad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login\SeleccionarFuncionalidad_admin.resx">
+      <DependentUpon>SeleccionarFuncionalidad_admin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AbmHabitacion\Abm_Habitacion.resx">
       <DependentUpon>Abm_Habitacion.cs</DependentUpon>
