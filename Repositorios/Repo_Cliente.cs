@@ -27,7 +27,7 @@ namespace FrbaHotel.Repositorios
             }
         }
 
-        public DataTable getTablaClientesFiltrados(String nombre, String apellido, String mail, String tipoIdentificacion, decimal dni)
+        public DataTable getTablaClientesFiltrados(String nombre, String apellido, String mail, String tipoIdentificacion, decimal NumeroIdentificacion)
         {
 
             DataTable tablaClientesFiltrados;
@@ -37,11 +37,11 @@ namespace FrbaHotel.Repositorios
             DBhelper.abrirConexion();
 
             SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getClientesFiltrados");
-            cmd.Parameters.Add("@Nombre_Cliente", SqlDbType.NVarChar).Value = nombre;
+            cmd.Parameters.Add("@Nombre", SqlDbType.NVarChar).Value = nombre;
             cmd.Parameters.Add("@Apellido", SqlDbType.NVarChar).Value = apellido;
             cmd.Parameters.Add("@Mail", SqlDbType.NVarChar).Value = mail;
             cmd.Parameters.Add("@Tipo_Identificacion", SqlDbType.NVarChar).Value = tipoIdentificacion;
-            cmd.Parameters.Add("@Dni_Cliente", SqlDbType.Decimal).Value = dni;
+            cmd.Parameters.Add("@Numero_Identificacion", SqlDbType.Decimal).Value = NumeroIdentificacion;
 
             tablaClientesFiltrados = DBhelper.obtenerTabla(cmd);
 

@@ -94,6 +94,10 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.bloquearUsuario','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getRolesUsuario','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getRolesUsuario;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getRegimenes','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getRegimenes;
+
+
 /* Dropeo las views si ya existen */
 
 
@@ -211,9 +215,9 @@ FechaNacimiento Datetime NOT NULL,
 
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.Funcionalidad(
-IdFunc int PRIMARY KEY,
+IdFunc int IDENTITY (1,1) PRIMARY KEY,
 Descripcion nvarchar(255),
-Estado nvarchar(255),
+Estado BIT DEFAULT 0,
 );
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.FuncionalidadPorRol(
@@ -226,7 +230,7 @@ CREATE TABLE TRAEME_LA_COPA_MESSI.RegimenEstadia(
 IdRegimenEstadia int IDENTITY(1,1) PRIMARY KEY,
 Descripcion nvarchar(255) NOT NULL,
 PrecioBase int NOT NULL,
-EstadoRegimenEstadia BIT DEFAULT 0 not null,
+EstadoRegimenEstadia BIT DEFAULT 0,
 );
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.Hotel(
@@ -371,6 +375,15 @@ INSERT INTO TRAEME_LA_COPA_MESSI.Rol(Nombre)
 INSERT INTO TRAEME_LA_COPA_MESSI.RolPorUsuario(Username,IdRol)
 	VALUES ('admin',1)
 				
+-- Funcionalidades --
+
+INSERT INTO TRAEME_LA_COPA_MESSI.Funcionalidad(Descripcion)
+	VALUES ('ABM Hotel')
+
+-- Funcionalidad por rol --
+
+INSERT INTO TRAEME_LA_COPA_MESSI.FuncionalidadPorRol
+	VALUES (1,1)
 
 -- Facturas inconsistentes --
 
@@ -496,5 +509,20 @@ BEGIN
 			ON ru.IdRol = r.IdRol
 
 	WHERE u.Username= @IdUsuario
+
+END 
+
+
+/* Repositorio Regimenes */
+
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.getRegimenes
+
+AS
+BEGIN
+
+	SELECT IdRegimenEstadia, Descripcion, PrecioBase
+
+	FROM TRAEME_LA_COPA_MESSI.RegimenEstadia WHERE EstadoRegimenEstadia = 0
 
 END 
