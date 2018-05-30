@@ -97,6 +97,9 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getRolesUsuario','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getRegimenes','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getRegimenes;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getClientesFiltrados','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getClientesFiltrados;
+
 
 /* Dropeo las views si ya existen */
 
@@ -522,4 +525,28 @@ BEGIN
 
 	FROM TRAEME_LA_COPA_MESSI.RegimenEstadia WHERE EstadoRegimenEstadia = 0
 
-END 
+END
+
+
+/* Repositorio Clientes */
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.getClientesFiltrados
+@Nombre nvarchar(255),
+@Apellido nvarchar(255),
+@Mail nvarchar(255),
+@Tipo_Identificacion nvarchar(255),
+@Numero_Identificacion numeric(18,0)
+
+as
+begin
+	
+	SELECT * FROM TRAEME_LA_COPA_MESSI.Cliente c, TRAEME_LA_COPA_MESSI.Cliente_Inconsistente ci
+	WHERE 
+	c.Nombre LIKE '%' + @Nombre + '%' AND c.Apellido LIKE '%' + @Apellido + '%' AND c.Email LIKE '%' + @Mail + '%' AND c.TipoDoc LIKE '%' + @Tipo_Identificacion + '%' AND c.NumDoc LIKE '%' + @Numero_Identificacion
+	or
+	ci.Nombre LIKE '%' + @Nombre + '%' AND ci.Apellido LIKE '%' + @Apellido + '%' AND ci.Email LIKE '%' + @Mail + '%' AND ci.TipoDoc LIKE '%' + @Tipo_Identificacion + '%' AND ci.NumDoc LIKE '%' + @Numero_Identificacion
+
+end
+
