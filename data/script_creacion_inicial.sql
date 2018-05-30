@@ -113,6 +113,9 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.crearHotel','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getClientesFiltrados','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getClientesFiltrados;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getHotelesFiltrados','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getHotelesFiltrados;
+
 
 
 
@@ -638,3 +641,20 @@ begin
 	
 end
 
+GO
+create procedure TRAEME_LA_COPA_MESSI.getHotelesFiltrados
+@Nombre nvarchar(255),
+@Ciudad nvarchar(255),
+@Estrellas int,
+@Pais nvarchar(255)
+
+as
+begin
+	
+	SELECT h.IdHotel, h.Nombre, h.Mail, h.Telefono, h.CantEstrellas, h.PorcentajeEstrellas, h.FechaCreacion, dh.Ciudad, dh.Pais, dh.Calle, dh.NroCalle FROM (TRAEME_LA_COPA_MESSI.Hotel h JOIN TRAEME_LA_COPA_MESSI.Direccion dh ON h.Direccion = dh.IdDir)
+	WHERE 
+	(h.Nombre LIKE '%' + @Nombre + '%' AND dh.Ciudad LIKE '%' + @Ciudad + '%' AND dh.Pais LIKE '%' + @Pais + '%' AND CAST(h.CantEstrellas AS NVARCHAR) LIKE '%' + CAST(@Estrellas AS NVARCHAR) + '%')
+	OR
+	(h.Nombre IS NULL)
+	
+end

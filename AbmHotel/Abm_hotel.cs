@@ -28,5 +28,12 @@ namespace FrbaHotel.AbmHotel
             new CrearHotel().ShowDialog();
             this.Close();
         }
+
+        private void boton_eliminar_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            new List_Select_Hotel_Eliminar().ShowDialog();
+            this.Close();
+        }
     }
 }

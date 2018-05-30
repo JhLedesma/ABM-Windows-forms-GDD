@@ -55,5 +55,29 @@ namespace FrbaHotel.Repositorios
         }
 
 
+        public DataTable getTablaHotelesFiltrados(String nombre, String ciudad, String pais, Int32 estrellas)
+        {
+
+            DataTable tablaClientesFiltrados;
+
+            DBhelper.crearConexion();
+
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getHotelesFiltrados");
+            cmd.Parameters.Add("@Nombre", SqlDbType.NVarChar).Value = nombre;
+            cmd.Parameters.Add("@Ciudad", SqlDbType.NVarChar).Value = ciudad;
+            cmd.Parameters.Add("@Pais", SqlDbType.NVarChar).Value = pais;
+            cmd.Parameters.Add("@Estrellas", SqlDbType.Int).Value = estrellas;
+
+            tablaClientesFiltrados = DBhelper.obtenerTabla(cmd);
+
+            DBhelper.cerrarConexion();
+
+            return tablaClientesFiltrados;
+
+        }
+
+
     }
 }

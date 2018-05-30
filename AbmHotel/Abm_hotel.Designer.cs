@@ -33,7 +33,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.boton_crear_hotel = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.boton_eliminar = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
@@ -86,14 +86,15 @@
             this.label1.TabIndex = 9;
             this.label1.Text = "Seleccione un hotel a modificar:";
             // 
-            // button1
+            // boton_eliminar
             // 
-            this.button1.Location = new System.Drawing.Point(92, 229);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 15;
-            this.button1.Text = "Eliminar";
-            this.button1.UseVisualStyleBackColor = true;
+            this.boton_eliminar.Location = new System.Drawing.Point(92, 229);
+            this.boton_eliminar.Name = "boton_eliminar";
+            this.boton_eliminar.Size = new System.Drawing.Size(75, 23);
+            this.boton_eliminar.TabIndex = 15;
+            this.boton_eliminar.Text = "Eliminar";
+            this.boton_eliminar.UseVisualStyleBackColor = true;
+            this.boton_eliminar.Click += new System.EventHandler(this.boton_eliminar_Click);
             // 
             // label2
             // 
@@ -129,7 +130,7 @@
             this.ClientSize = new System.Drawing.Size(284, 429);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.boton_eliminar);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.button_volver);
             this.Controls.Add(this.button_Listado_seleccion_sucursales);
@@ -150,7 +151,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button boton_crear_hotel;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button boton_eliminar;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label4;
