@@ -30,14 +30,13 @@
         {
             this.btnVolver = new System.Windows.Forms.Button();
             this.btnModificar = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dataGridModificar = new System.Windows.Forms.DataGridView();
             this.lblFiltrar = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.gBoxBusquedaCliente = new System.Windows.Forms.GroupBox();
             this.tbIdClienteSeleccionado = new System.Windows.Forms.TextBox();
             this.lblIdClienteSeleccionado = new System.Windows.Forms.Label();
             this.lblNumeroIdentificacion = new System.Windows.Forms.Label();
-            this.filtroNumeroIdentificacion = new System.Windows.Forms.NumericUpDown();
             this.lblTipoIndentificacion = new System.Windows.Forms.Label();
             this.listadoTipoIdentificacion = new System.Windows.Forms.ComboBox();
             this.lblMail = new System.Windows.Forms.Label();
@@ -46,9 +45,10 @@
             this.lblApellido = new System.Windows.Forms.Label();
             this.lblNombre = new System.Windows.Forms.Label();
             this.filtroNombre = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridModificar)).BeginInit();
             this.gBoxBusquedaCliente.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.filtroNumeroIdentificacion)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnVolver
@@ -69,13 +69,13 @@
             this.btnModificar.Text = "Modificar";
             this.btnModificar.UseVisualStyleBackColor = true;
             // 
-            // dataGridView1
+            // dataGridModificar
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 246);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(531, 188);
-            this.dataGridView1.TabIndex = 21;
+            this.dataGridModificar.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridModificar.Location = new System.Drawing.Point(12, 246);
+            this.dataGridModificar.Name = "dataGridModificar";
+            this.dataGridModificar.Size = new System.Drawing.Size(531, 188);
+            this.dataGridModificar.TabIndex = 21;
             // 
             // lblFiltrar
             // 
@@ -85,6 +85,7 @@
             this.lblFiltrar.TabIndex = 20;
             this.lblFiltrar.Text = "Filtrar";
             this.lblFiltrar.UseVisualStyleBackColor = true;
+            this.lblFiltrar.Click += new System.EventHandler(this.lblFiltrar_Click);
             // 
             // label1
             // 
@@ -97,10 +98,10 @@
             // 
             // gBoxBusquedaCliente
             // 
+            this.gBoxBusquedaCliente.Controls.Add(this.numericUpDown1);
             this.gBoxBusquedaCliente.Controls.Add(this.tbIdClienteSeleccionado);
             this.gBoxBusquedaCliente.Controls.Add(this.lblIdClienteSeleccionado);
             this.gBoxBusquedaCliente.Controls.Add(this.lblNumeroIdentificacion);
-            this.gBoxBusquedaCliente.Controls.Add(this.filtroNumeroIdentificacion);
             this.gBoxBusquedaCliente.Controls.Add(this.lblTipoIndentificacion);
             this.gBoxBusquedaCliente.Controls.Add(this.listadoTipoIdentificacion);
             this.gBoxBusquedaCliente.Controls.Add(this.lblMail);
@@ -141,18 +142,6 @@
             this.lblNumeroIdentificacion.Size = new System.Drawing.Size(125, 13);
             this.lblNumeroIdentificacion.TabIndex = 9;
             this.lblNumeroIdentificacion.Text = "Numero de Identificacion";
-            // 
-            // filtroNumeroIdentificacion
-            // 
-            this.filtroNumeroIdentificacion.Location = new System.Drawing.Point(393, 67);
-            this.filtroNumeroIdentificacion.Maximum = new decimal(new int[] {
-            1569325056,
-            23283064,
-            0,
-            0});
-            this.filtroNumeroIdentificacion.Name = "filtroNumeroIdentificacion";
-            this.filtroNumeroIdentificacion.Size = new System.Drawing.Size(120, 20);
-            this.filtroNumeroIdentificacion.TabIndex = 8;
             // 
             // lblTipoIndentificacion
             // 
@@ -219,6 +208,13 @@
             this.filtroNombre.Size = new System.Drawing.Size(100, 20);
             this.filtroNombre.TabIndex = 0;
             // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(393, 67);
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDown1.TabIndex = 12;
+            // 
             // List_Select_Cliente_Modificar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -226,16 +222,16 @@
             this.ClientSize = new System.Drawing.Size(554, 508);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.btnModificar);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dataGridModificar);
             this.Controls.Add(this.lblFiltrar);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.gBoxBusquedaCliente);
             this.Name = "List_Select_Cliente_Modificar";
             this.Text = "List_Select_Cliente_Modificar";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridModificar)).EndInit();
             this.gBoxBusquedaCliente.ResumeLayout(false);
             this.gBoxBusquedaCliente.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.filtroNumeroIdentificacion)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -245,14 +241,13 @@
 
         private System.Windows.Forms.Button btnVolver;
         private System.Windows.Forms.Button btnModificar;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dataGridModificar;
         private System.Windows.Forms.Button lblFiltrar;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox gBoxBusquedaCliente;
         private System.Windows.Forms.TextBox tbIdClienteSeleccionado;
         private System.Windows.Forms.Label lblIdClienteSeleccionado;
         private System.Windows.Forms.Label lblNumeroIdentificacion;
-        private System.Windows.Forms.NumericUpDown filtroNumeroIdentificacion;
         private System.Windows.Forms.Label lblTipoIndentificacion;
         private System.Windows.Forms.ComboBox listadoTipoIdentificacion;
         private System.Windows.Forms.Label lblMail;
@@ -261,5 +256,6 @@
         private System.Windows.Forms.Label lblApellido;
         private System.Windows.Forms.Label lblNombre;
         private System.Windows.Forms.TextBox filtroNombre;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
     }
 }

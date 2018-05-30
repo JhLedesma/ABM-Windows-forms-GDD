@@ -12,12 +12,13 @@ namespace FrbaHotel.Repositorios
     public class Repo_usuario
     {
     
-        public static Repo_usuario instancia;
+        private static Repo_usuario instancia;
         public Model.Usuario usuarioIngresado = new Model.Usuario();
         public Utils.DBhelper DBhelper = Utils.DBhelper.getInstancia();
         
 
-        public static Repo_usuario getInstancia() {
+        public static Repo_usuario getInstancia() 
+        {
 
             if (instancia != null)
             {
@@ -29,7 +30,8 @@ namespace FrbaHotel.Repositorios
             }
         }
 
-        public int validarUsuario(String usuario, String contraseña) {
+        public int validarUsuario(String usuario, String contraseña) 
+        {
 
             
             DBhelper.crearConexion();
@@ -52,7 +54,8 @@ namespace FrbaHotel.Repositorios
         }
 
 
-        public void bloquearUsuario() {
+        public void bloquearUsuario() 
+        {
 
             DBhelper.crearConexion();
 
@@ -69,7 +72,8 @@ namespace FrbaHotel.Repositorios
         }
 
 
-        public Model.Usuario getUsuario(String nombre) {
+        public Model.Usuario getUsuario(String nombre) 
+        {
 
             DataTable tablaUsuario;
 
@@ -97,13 +101,15 @@ namespace FrbaHotel.Repositorios
 
         }
 
-        public Model.Usuario getUsuarioIngresado() {
+        public Model.Usuario getUsuarioIngresado() 
+        {
 
             return usuarioIngresado;
 
         }
 
-        public Int32 getCantidadDeLogsFallidosUsuario() {
+        public Int32 getCantidadDeLogsFallidosUsuario() 
+        {
 
             return usuarioIngresado.logsFallidos;
         
@@ -141,6 +147,6 @@ namespace FrbaHotel.Repositorios
         }
 
 
-}
+    }
 
 }

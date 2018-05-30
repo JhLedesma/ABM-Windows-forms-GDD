@@ -107,6 +107,15 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.actualizarFuncionalidadesPorRol','P') IS NOT 
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.actualizarFuncionalidadesPorRol;
 	
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.crearHotel','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.crearHotel;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getClientesFiltrados','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getClientesFiltrados;
+
+
+
+
 /* Dropeo las views si ya existen */
 
 
@@ -201,7 +210,7 @@ Direccion nvarchar(255) NULL,
 Nombre nvarchar(255) NOT NULL,
 Apellido nvarchar(255) NOT NULL,
 TipoDoc nvarchar(255) NULL,
-NumDoc int NOT NULL,
+NumDoc numeric(18,0) NOT NULL,
 Telefono int NULL,
 PaisOrigen nvarchar(255) NULL,
 Nacionalidad nvarchar(255) NOT NULL,
@@ -416,17 +425,14 @@ UPDATE TRAEME_LA_COPA_MESSI.Cliente_Inconsistente SET TipoDoc = 1; --NO DEBERIA 
 -- Clientes --
 
 --FALTA EN LA MIGRACION ASOCIAR CON LAS DIRECCIONES CORRESPONDIENTES
-INSERT INTO TRAEME_LA_COPA_MESSI.Cliente(Email,Nombre,Apellido,NumDoc, Nacionalidad, FechaNacimiento)
-	SELECT DISTINCT Cliente_Mail, Cliente_Nombre, Cliente_Apellido, Cliente_Pasaporte_Nro, Cliente_Nacionalidad, Cliente_Fecha_Nac
+INSERT INTO TRAEME_LA_COPA_MESSI.Cliente(Email,Nombre,Apellido,NumDoc, Nacionalidad, FechaNacimiento, TipoDoc)
+	SELECT DISTINCT Cliente_Mail, Cliente_Nombre, Cliente_Apellido, Cliente_Pasaporte_Nro, Cliente_Nacionalidad, Cliente_Fecha_Nac, 1
     FROM gd_esquema.Maestra 
     WHERE Cliente_Mail not in
 	 (select t1.Cliente_Mail 
 		from gd_esquema.Maestra t1, gd_esquema.Maestra t2
 		where t1.Cliente_Mail = t2.Cliente_Mail and t1.Cliente_Pasaporte_Nro != t2.Cliente_Pasaporte_Nro
 		group by t1.Cliente_Mail,t1.Cliente_Pasaporte_Nro, t2.Cliente_Pasaporte_Nro)
-
-UPDATE TRAEME_LA_COPA_MESSI.Cliente SET TipoDoc = 1; --NO DEBERIA HACER UN UPDATE, TARDO MUCHO MAS
-													 --AVERIGUAR COMO METER ESTE VALOR EN EL INSERT DE ARRIBA
 
 
 -- Hoteles --
@@ -534,6 +540,7 @@ BEGIN
 
 	FROM TRAEME_LA_COPA_MESSI.RegimenEstadia WHERE EstadoRegimenEstadia = 0
 
+
 END 
 
 
@@ -567,3 +574,67 @@ begin
 insert into TRAEME_LA_COPA_MESSI.FuncionalidadPorRol (IdRol,IdFunc)
 values ((select IdRol from TRAEME_LA_COPA_MESSI.Rol where Nombre = @rol), (select IdFunc from TRAEME_LA_COPA_MESSI.Funcionalidad))
 end
+
+/* Repositorio Hoteles */
+
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.crearHotel
+@nombre nvarchar(255),
+@mail nvarchar(255),
+@telefono int,
+@estrellas int,
+@porcEstrellas numeric(18,0),
+@regimen nvarchar(255),
+@calle nvarchar(255),
+@nroCalle int,
+@ciudad nvarchar(255),
+@pais nvarchar(255)
+
+AS
+BEGIN
+
+	DECLARE @direccion_id int
+	DECLARE @hotel_id int
+	DECLARE @regimen_id int
+
+	INSERT INTO TRAEME_LA_COPA_MESSI.Direccion(Calle,NroCalle,Ciudad,Pais) VALUES (@calle,@nroCalle,@ciudad,@pais)
+
+	SET @direccion_id = (SELECT d.IdDir FROM TRAEME_LA_COPA_MESSI.Direccion d WHERE d.Calle = @calle AND d.NroCalle = @nroCalle AND d.Ciudad = @ciudad AND d.Pais = @pais)
+
+	INSERT INTO TRAEME_LA_COPA_MESSI.Hotel (Nombre, Mail,Telefono,CantEstrellas,PorcentajeEstrellas,Direccion,FechaCreacion)
+	VALUES (@nombre, @mail, @telefono, @estrellas, @porcEstrellas,@direccion_id,GETDATE())
+
+	SET @hotel_id = (SELECT h.IdHotel FROM TRAEME_LA_COPA_MESSI.Hotel h WHERE h.Nombre = @nombre AND h.Mail = @mail AND h.Telefono = @telefono)
+	SET @regimen_id = (SELECT r.IdRegimenEstadia FROM TRAEME_LA_COPA_MESSI.RegimenEstadia r WHERE r.Descripcion = @regimen)
+
+	INSERT INTO TRAEME_LA_COPA_MESSI.RegimenPorHotel(IdHotel,IdRegimenEstadia)
+	VALUES (@hotel_id, @regimen_id)
+
+END 
+
+/* Repositorio Clientes */
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.getClientesFiltrados
+@Nombre nvarchar(255),
+@Apellido nvarchar(255),
+@Mail nvarchar(255),
+@Tipo_Identificacion nvarchar(255),
+@Numero_Identificacion numeric(18,0)
+
+as
+begin
+	
+	SELECT * FROM TRAEME_LA_COPA_MESSI.Cliente c
+	WHERE 
+	c.Nombre LIKE '%' + @Nombre + '%' AND c.Apellido LIKE '%' + @Apellido + '%' AND c.Email LIKE '%' + @Mail + '%' AND c.TipoDoc LIKE '%' + @Tipo_Identificacion + '%' AND CAST(c.NumDoc AS NVARCHAR) LIKE '%' + CAST(@Numero_Identificacion AS NVARCHAR) + '%'
+	
+	UNION
+
+	SELECT ci.Email, ci.Direccion, ci.Nombre, ci.Apellido, ci.TipoDoc, ci.NumDoc, ci.Telefono, ci.PaisOrigen, ci.Nacionalidad, ci.FechaNacimiento  FROM TRAEME_LA_COPA_MESSI.Cliente_Inconsistente ci
+	WHERE
+	ci.Nombre LIKE '%' + @Nombre + '%' AND ci.Apellido LIKE '%' + @Apellido + '%' AND ci.Email LIKE '%' + @Mail + '%' AND ci.TipoDoc LIKE '%' + @Tipo_Identificacion + '%' AND CAST(ci.NumDoc AS nvarchar) LIKE '%' + CAST(@Numero_Identificacion AS NVARCHAR) + '%'
+	
+end
+

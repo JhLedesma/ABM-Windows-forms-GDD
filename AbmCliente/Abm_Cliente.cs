@@ -20,21 +20,21 @@ namespace FrbaHotel.AbmCliente
         private void btnCrear_Click(object sender, EventArgs e)
         {
             this.Hide();
-            new Crear_Cliente();
+            new Crear_Cliente().ShowDialog();
             this.Close();
         }
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
             this.Hide();
-            new List_Select_Cliente_Modificar();
+            new List_Select_Cliente_Modificar().ShowDialog();
             this.Close();
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
             this.Hide();
-            new List_Select_Cliente_Eliminar();
+            new List_Select_Cliente_Eliminar().ShowDialog();
             this.Close();
         }
 

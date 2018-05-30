@@ -14,8 +14,10 @@ namespace FrbaHotel.Model
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
            // Application.Run(new Login.Login());
-            Application.Run(new AbmRol.AbmRol());
+            Application.Run(new AbmCliente.Abm_Cliente());
+
         }
     }
 }
