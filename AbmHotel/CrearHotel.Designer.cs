@@ -41,16 +41,18 @@
             this.numericTextBox_estrellas = new FrbaHotel.Model.NumericTextBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.textBox_calle = new System.Windows.Forms.TextBox();
-            this.numericTextBox_nroCalle = new FrbaHotel.Model.NumericTextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.textBox_ciudad = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
             this.textBox_pais = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.textBox_ciudad = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.numericTextBox_nroCalle = new FrbaHotel.Model.NumericTextBox();
+            this.textBox_calle = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.boton_crearHotel = new System.Windows.Forms.Button();
             this.boton_volver = new System.Windows.Forms.Button();
+            this.label11 = new System.Windows.Forms.Label();
+            this.numericTextBox_porc_est = new FrbaHotel.Model.NumericTextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -117,7 +119,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 194);
+            this.label6.Location = new System.Drawing.Point(12, 229);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(52, 13);
             this.label6.TabIndex = 14;
@@ -126,7 +128,7 @@
             // comboBox_regimen
             // 
             this.comboBox_regimen.FormattingEnabled = true;
-            this.comboBox_regimen.Location = new System.Drawing.Point(93, 191);
+            this.comboBox_regimen.Location = new System.Drawing.Point(93, 228);
             this.comboBox_regimen.Name = "comboBox_regimen";
             this.comboBox_regimen.Size = new System.Drawing.Size(129, 21);
             this.comboBox_regimen.TabIndex = 15;
@@ -158,61 +160,19 @@
             this.groupBox1.Controls.Add(this.textBox_calle);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Location = new System.Drawing.Point(15, 237);
+            this.groupBox1.Location = new System.Drawing.Point(15, 280);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(330, 199);
             this.groupBox1.TabIndex = 16;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Dirección";
             // 
-            // label7
+            // textBox_pais
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 38);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(33, 13);
-            this.label7.TabIndex = 7;
-            this.label7.Text = "Calle:";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 77);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(53, 13);
-            this.label8.TabIndex = 8;
-            this.label8.Text = "Nro Calle:";
-            // 
-            // textBox_calle
-            // 
-            this.textBox_calle.Location = new System.Drawing.Point(78, 35);
-            this.textBox_calle.Name = "textBox_calle";
-            this.textBox_calle.Size = new System.Drawing.Size(129, 20);
-            this.textBox_calle.TabIndex = 9;
-            // 
-            // numericTextBox_nroCalle
-            // 
-            this.numericTextBox_nroCalle.AllowSpace = false;
-            this.numericTextBox_nroCalle.Location = new System.Drawing.Point(78, 74);
-            this.numericTextBox_nroCalle.Name = "numericTextBox_nroCalle";
-            this.numericTextBox_nroCalle.Size = new System.Drawing.Size(129, 20);
-            this.numericTextBox_nroCalle.TabIndex = 10;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 116);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(43, 13);
-            this.label9.TabIndex = 11;
-            this.label9.Text = "Ciudad:";
-            // 
-            // textBox_ciudad
-            // 
-            this.textBox_ciudad.Location = new System.Drawing.Point(78, 113);
-            this.textBox_ciudad.Name = "textBox_ciudad";
-            this.textBox_ciudad.Size = new System.Drawing.Size(129, 20);
-            this.textBox_ciudad.TabIndex = 12;
+            this.textBox_pais.Location = new System.Drawing.Point(78, 152);
+            this.textBox_pais.Name = "textBox_pais";
+            this.textBox_pais.Size = new System.Drawing.Size(129, 20);
+            this.textBox_pais.TabIndex = 14;
             // 
             // label10
             // 
@@ -223,16 +183,58 @@
             this.label10.TabIndex = 13;
             this.label10.Text = "País:";
             // 
-            // textBox_pais
+            // textBox_ciudad
             // 
-            this.textBox_pais.Location = new System.Drawing.Point(78, 152);
-            this.textBox_pais.Name = "textBox_pais";
-            this.textBox_pais.Size = new System.Drawing.Size(129, 20);
-            this.textBox_pais.TabIndex = 14;
+            this.textBox_ciudad.Location = new System.Drawing.Point(78, 113);
+            this.textBox_ciudad.Name = "textBox_ciudad";
+            this.textBox_ciudad.Size = new System.Drawing.Size(129, 20);
+            this.textBox_ciudad.TabIndex = 12;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 116);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(43, 13);
+            this.label9.TabIndex = 11;
+            this.label9.Text = "Ciudad:";
+            // 
+            // numericTextBox_nroCalle
+            // 
+            this.numericTextBox_nroCalle.AllowSpace = false;
+            this.numericTextBox_nroCalle.Location = new System.Drawing.Point(78, 74);
+            this.numericTextBox_nroCalle.Name = "numericTextBox_nroCalle";
+            this.numericTextBox_nroCalle.Size = new System.Drawing.Size(129, 20);
+            this.numericTextBox_nroCalle.TabIndex = 10;
+            // 
+            // textBox_calle
+            // 
+            this.textBox_calle.Location = new System.Drawing.Point(78, 35);
+            this.textBox_calle.Name = "textBox_calle";
+            this.textBox_calle.Size = new System.Drawing.Size(129, 20);
+            this.textBox_calle.TabIndex = 9;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 77);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(53, 13);
+            this.label8.TabIndex = 8;
+            this.label8.Text = "Nro Calle:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 38);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(33, 13);
+            this.label7.TabIndex = 7;
+            this.label7.Text = "Calle:";
             // 
             // boton_crearHotel
             // 
-            this.boton_crearHotel.Location = new System.Drawing.Point(255, 458);
+            this.boton_crearHotel.Location = new System.Drawing.Point(255, 496);
             this.boton_crearHotel.Name = "boton_crearHotel";
             this.boton_crearHotel.Size = new System.Drawing.Size(75, 23);
             this.boton_crearHotel.TabIndex = 17;
@@ -242,18 +244,37 @@
             // 
             // boton_volver
             // 
-            this.boton_volver.Location = new System.Drawing.Point(25, 458);
+            this.boton_volver.Location = new System.Drawing.Point(25, 496);
             this.boton_volver.Name = "boton_volver";
             this.boton_volver.Size = new System.Drawing.Size(75, 23);
             this.boton_volver.TabIndex = 18;
             this.boton_volver.Text = "Volver";
             this.boton_volver.UseVisualStyleBackColor = true;
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(12, 191);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(68, 13);
+            this.label11.TabIndex = 19;
+            this.label11.Text = "Recarga est:";
+            // 
+            // numericTextBox_porc_est
+            // 
+            this.numericTextBox_porc_est.AllowSpace = false;
+            this.numericTextBox_porc_est.Location = new System.Drawing.Point(93, 191);
+            this.numericTextBox_porc_est.Name = "numericTextBox_porc_est";
+            this.numericTextBox_porc_est.Size = new System.Drawing.Size(129, 20);
+            this.numericTextBox_porc_est.TabIndex = 20;
+            // 
             // CrearHotel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(367, 500);
+            this.ClientSize = new System.Drawing.Size(367, 536);
+            this.Controls.Add(this.numericTextBox_porc_est);
+            this.Controls.Add(this.label11);
             this.Controls.Add(this.boton_volver);
             this.Controls.Add(this.boton_crearHotel);
             this.Controls.Add(this.groupBox1);
@@ -302,5 +323,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button boton_crearHotel;
         private System.Windows.Forms.Button boton_volver;
+        private System.Windows.Forms.Label label11;
+        private Model.NumericTextBox numericTextBox_porc_est;
     }
 }

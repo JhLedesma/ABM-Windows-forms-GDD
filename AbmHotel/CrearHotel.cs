@@ -14,6 +14,8 @@ namespace FrbaHotel.AbmHotel
     {
 
         public List<Model.Regimen> listaDeRegimenes = Repositorios.Repo_regimen.getInstancia().getRegimenes();
+        public Repositorios.Repo_hotel repo_hotel = Repositorios.Repo_hotel.getInstancia();
+
 
         public CrearHotel()
         {
@@ -72,19 +74,26 @@ namespace FrbaHotel.AbmHotel
 
             else{
 
-                MessageBox.Show("Cliente creado correctamente");
+                repo_hotel.crearHotel(textBox_nombre.Text, textBox_mail.Text, numericTextBox_telefono.IntValue, numericTextBox_estrellas.IntValue, numericTextBox_porc_est.IntValue, comboBox_regimen.Text, textBox_calle.Text, numericTextBox_nroCalle.IntValue, textBox_ciudad.Text, textBox_pais.Text);
 
-                textBox_nombre.Text = string.Empty;
-                textBox_mail.Text = string.Empty;
-                numericTextBox_telefono.Text = string.Empty;
-                numericTextBox_estrellas.Text = string.Empty;
-                numericTextBox_nroCalle.Text = string.Empty;
-                comboBox_regimen.Text = string.Empty;
-                textBox_calle.Text = string.Empty;
-                textBox_ciudad.Text = string.Empty;
-                textBox_pais.Text = string.Empty;
+                MessageBox.Show("Hotel creado correctamente");
+
+                limpiar_inputs();
 
             }
+        }
+
+        private void limpiar_inputs()
+        {
+            textBox_nombre.Text = string.Empty;
+            textBox_mail.Text = string.Empty;
+            numericTextBox_telefono.Text = string.Empty;
+            numericTextBox_estrellas.Text = string.Empty;
+            numericTextBox_nroCalle.Text = string.Empty;
+            comboBox_regimen.Text = string.Empty;
+            textBox_calle.Text = string.Empty;
+            textBox_ciudad.Text = string.Empty;
+            textBox_pais.Text = string.Empty;
         }
         
 
