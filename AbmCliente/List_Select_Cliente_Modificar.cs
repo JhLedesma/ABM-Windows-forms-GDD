@@ -23,7 +23,7 @@ namespace FrbaHotel.AbmCliente
 
         private void lblFiltrar_Click(object sender, EventArgs e)
         {
-            dataGridModificar.DataSource = Repositorios.Repo_Cliente.getInstancia().getTablaClientesFiltrados(filtroNombre.Text, filtroApellido.Text, filtroMail.Text, "", filtroNumeroIdentificacion.Value);
+            dataGridModificar.DataSource = Repositorios.Repo_Cliente.getInstancia().getTablaClientesFiltrados(filtroNombre.Text, filtroApellido.Text, filtroMail.Text, "", numericUpDown1.Value);
         }
     }
 }

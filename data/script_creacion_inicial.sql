@@ -97,13 +97,12 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getRolesUsuario','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getRegimenes','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getRegimenes;
 
-<<<<<<< HEAD
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.crearHotel','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.crearHotel;
-=======
+
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getClientesFiltrados','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getClientesFiltrados;
->>>>>>> 61b2a0e6002c2f4fb08f0321652abd52a3f77d82
+
 
 
 /* Dropeo las views si ya existen */
@@ -585,12 +584,14 @@ create procedure TRAEME_LA_COPA_MESSI.getClientesFiltrados
 as
 begin
 	
-	SELECT * FROM TRAEME_LA_COPA_MESSI.Cliente c, TRAEME_LA_COPA_MESSI.Cliente_Inconsistente ci
+	SELECT * FROM TRAEME_LA_COPA_MESSI.Cliente c
 	WHERE 
-	c.Nombre LIKE '%' + @Nombre + '%' AND c.Apellido LIKE '%' + @Apellido + '%' AND c.Email LIKE '%' + @Mail + '%' AND c.TipoDoc LIKE '%' + @Tipo_Identificacion + '%' AND c.NumDoc LIKE '%' + @Numero_Identificacion
-	or
-	ci.Nombre LIKE '%' + @Nombre + '%' AND ci.Apellido LIKE '%' + @Apellido + '%' AND ci.Email LIKE '%' + @Mail + '%' AND ci.TipoDoc LIKE '%' + @Tipo_Identificacion + '%' AND ci.NumDoc LIKE '%' + @Numero_Identificacion
+	c.Nombre LIKE '%' + @Nombre + '%' AND c.Apellido LIKE '%' + @Apellido + '%' AND c.Email LIKE '%' + @Mail + '%' AND c.TipoDoc LIKE '%' + @Tipo_Identificacion + '%' AND CAST(c.NumDoc AS NVARCHAR) LIKE '%' + CAST(@Numero_Identificacion AS NVARCHAR) + '%'
+	
+	UNION
 
+	SELECT ci.Email, ci.Direccion, ci.Nombre, ci.Apellido, ci.TipoDoc, ci.NumDoc, ci.Telefono, ci.PaisOrigen, ci.Nacionalidad, ci.FechaNacimiento  FROM TRAEME_LA_COPA_MESSI.Cliente_Inconsistente ci
+	WHERE
+	ci.Nombre LIKE '%' + @Nombre + '%' AND ci.Apellido LIKE '%' + @Apellido + '%' AND ci.Email LIKE '%' + @Mail + '%' AND ci.TipoDoc LIKE '%' + @Tipo_Identificacion + '%' AND CAST(ci.NumDoc AS nvarchar) LIKE '%' + CAST(@Numero_Identificacion AS NVARCHAR) + '%'
+	
 end
-
-
