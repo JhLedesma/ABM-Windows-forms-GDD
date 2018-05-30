@@ -97,6 +97,9 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getRolesUsuario','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getRegimenes','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getRegimenes;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.crearHotel','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.crearHotel;
+
 
 /* Dropeo las views si ya existen */
 
@@ -525,4 +528,43 @@ BEGIN
 
 	FROM TRAEME_LA_COPA_MESSI.RegimenEstadia WHERE EstadoRegimenEstadia = 0
 
+END
+
+
+/* Repositorio Hoteles */
+
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.crearHotel
+@nombre nvarchar(255),
+@mail nvarchar(255),
+@telefono int,
+@estrellas int,
+@porcEstrellas numeric(18,0),
+@regimen nvarchar(255),
+@calle nvarchar(255),
+@nroCalle int,
+@ciudad nvarchar(255),
+@pais nvarchar(255)
+
+AS
+BEGIN
+
+	DECLARE @direccion_id int
+	DECLARE @hotel_id int
+	DECLARE @regimen_id int
+
+	INSERT INTO TRAEME_LA_COPA_MESSI.Direccion(Calle,NroCalle,Ciudad,Pais) VALUES (@calle,@nroCalle,@ciudad,@pais)
+
+	SET @direccion_id = (SELECT d.IdDir FROM TRAEME_LA_COPA_MESSI.Direccion d WHERE d.Calle = @calle AND d.NroCalle = @nroCalle AND d.Ciudad = @ciudad AND d.Pais = @pais)
+
+	INSERT INTO TRAEME_LA_COPA_MESSI.Hotel (Nombre, Mail,Telefono,CantEstrellas,PorcentajeEstrellas,Direccion,FechaCreacion)
+	VALUES (@nombre, @mail, @telefono, @estrellas, @porcEstrellas,@direccion_id,GETDATE())
+
+	SET @hotel_id = (SELECT h.IdHotel FROM TRAEME_LA_COPA_MESSI.Hotel h WHERE h.Nombre = @nombre AND h.Mail = @mail AND h.Telefono = @telefono)
+	SET @regimen_id = (SELECT r.IdRegimenEstadia FROM TRAEME_LA_COPA_MESSI.RegimenEstadia r WHERE r.Descripcion = @regimen)
+
+	INSERT INTO TRAEME_LA_COPA_MESSI.RegimenPorHotel(IdHotel,IdRegimenEstadia)
+	VALUES (@hotel_id, @regimen_id)
+
 END 
+

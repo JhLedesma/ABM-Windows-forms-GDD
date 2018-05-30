@@ -64,7 +64,6 @@
             this.label1.Size = new System.Drawing.Size(333, 13);
             this.label1.TabIndex = 1;
             this.label1.Text = "Ingrese los datos del nuevo hotel (todos los campos son obligatorios):";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // textBox_nombre
             // 
@@ -148,7 +147,6 @@
             this.numericTextBox_estrellas.Name = "numericTextBox_estrellas";
             this.numericTextBox_estrellas.Size = new System.Drawing.Size(129, 20);
             this.numericTextBox_estrellas.TabIndex = 12;
-            this.numericTextBox_estrellas.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.controlarNumeroEstrellas);
             // 
             // groupBox1
             // 
