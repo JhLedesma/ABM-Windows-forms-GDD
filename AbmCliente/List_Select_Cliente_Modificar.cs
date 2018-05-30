@@ -25,5 +25,13 @@ namespace FrbaHotel.AbmCliente
         {
             dataGridModificar.DataSource = Repositorios.Repo_Cliente.getInstancia().getTablaClientesFiltrados(filtroNombre.Text, filtroApellido.Text, filtroMail.Text, "", numericUpDown1.Value);
         }
+
+        private void dataGridModificar_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            String nombrePrueba;
+            nombrePrueba = dataGridModificar.Rows[e.RowIndex].Cells["Nombre"].Value.ToString();
+
+            MessageBox.Show(nombrePrueba);
+        }
     }
 }

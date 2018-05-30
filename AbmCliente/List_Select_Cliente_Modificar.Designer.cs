@@ -34,6 +34,7 @@
             this.lblFiltrar = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.gBoxBusquedaCliente = new System.Windows.Forms.GroupBox();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.tbIdClienteSeleccionado = new System.Windows.Forms.TextBox();
             this.lblIdClienteSeleccionado = new System.Windows.Forms.Label();
             this.lblNumeroIdentificacion = new System.Windows.Forms.Label();
@@ -45,7 +46,6 @@
             this.lblApellido = new System.Windows.Forms.Label();
             this.lblNombre = new System.Windows.Forms.Label();
             this.filtroNombre = new System.Windows.Forms.TextBox();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridModificar)).BeginInit();
             this.gBoxBusquedaCliente.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -76,6 +76,7 @@
             this.dataGridModificar.Name = "dataGridModificar";
             this.dataGridModificar.Size = new System.Drawing.Size(531, 188);
             this.dataGridModificar.TabIndex = 21;
+            this.dataGridModificar.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridModificar_CellClick);
             // 
             // lblFiltrar
             // 
@@ -116,6 +117,13 @@
             this.gBoxBusquedaCliente.TabIndex = 18;
             this.gBoxBusquedaCliente.TabStop = false;
             this.gBoxBusquedaCliente.Text = "Busqueda de Cliente";
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(393, 67);
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDown1.TabIndex = 12;
             // 
             // tbIdClienteSeleccionado
             // 
@@ -207,13 +215,6 @@
             this.filtroNombre.Name = "filtroNombre";
             this.filtroNombre.Size = new System.Drawing.Size(100, 20);
             this.filtroNombre.TabIndex = 0;
-            // 
-            // numericUpDown1
-            // 
-            this.numericUpDown1.Location = new System.Drawing.Point(393, 67);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(120, 20);
-            this.numericUpDown1.TabIndex = 12;
             // 
             // List_Select_Cliente_Modificar
             // 
