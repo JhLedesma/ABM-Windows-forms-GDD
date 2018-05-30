@@ -12,6 +12,10 @@ namespace FrbaHotel.AbmCliente
 {
     public partial class List_Select_Cliente_Modificar : Form
     {
+
+        
+        
+
         public List_Select_Cliente_Modificar()
         {
             InitializeComponent();

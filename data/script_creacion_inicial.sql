@@ -97,8 +97,13 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getRolesUsuario','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getRegimenes','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getRegimenes;
 
+<<<<<<< HEAD
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.crearHotel','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.crearHotel;
+=======
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getClientesFiltrados','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getClientesFiltrados;
+>>>>>>> 61b2a0e6002c2f4fb08f0321652abd52a3f77d82
 
 
 /* Dropeo las views si ya existen */
@@ -195,7 +200,7 @@ Direccion nvarchar(255) NULL,
 Nombre nvarchar(255) NOT NULL,
 Apellido nvarchar(255) NOT NULL,
 TipoDoc nvarchar(255) NULL,
-NumDoc int NOT NULL,
+NumDoc numeric(18,0) NOT NULL,
 Telefono int NULL,
 PaisOrigen nvarchar(255) NULL,
 Nacionalidad nvarchar(255) NOT NULL,
@@ -410,17 +415,14 @@ UPDATE TRAEME_LA_COPA_MESSI.Cliente_Inconsistente SET TipoDoc = 1; --NO DEBERIA 
 -- Clientes --
 
 --FALTA EN LA MIGRACION ASOCIAR CON LAS DIRECCIONES CORRESPONDIENTES
-INSERT INTO TRAEME_LA_COPA_MESSI.Cliente(Email,Nombre,Apellido,NumDoc, Nacionalidad, FechaNacimiento)
-	SELECT DISTINCT Cliente_Mail, Cliente_Nombre, Cliente_Apellido, Cliente_Pasaporte_Nro, Cliente_Nacionalidad, Cliente_Fecha_Nac
+INSERT INTO TRAEME_LA_COPA_MESSI.Cliente(Email,Nombre,Apellido,NumDoc, Nacionalidad, FechaNacimiento, TipoDoc)
+	SELECT DISTINCT Cliente_Mail, Cliente_Nombre, Cliente_Apellido, Cliente_Pasaporte_Nro, Cliente_Nacionalidad, Cliente_Fecha_Nac, 1
     FROM gd_esquema.Maestra 
     WHERE Cliente_Mail not in
 	 (select t1.Cliente_Mail 
 		from gd_esquema.Maestra t1, gd_esquema.Maestra t2
 		where t1.Cliente_Mail = t2.Cliente_Mail and t1.Cliente_Pasaporte_Nro != t2.Cliente_Pasaporte_Nro
 		group by t1.Cliente_Mail,t1.Cliente_Pasaporte_Nro, t2.Cliente_Pasaporte_Nro)
-
-UPDATE TRAEME_LA_COPA_MESSI.Cliente SET TipoDoc = 1; --NO DEBERIA HACER UN UPDATE, TARDO MUCHO MAS
-													 --AVERIGUAR COMO METER ESTE VALOR EN EL INSERT DE ARRIBA
 
 
 -- Hoteles --
@@ -531,6 +533,7 @@ BEGIN
 END
 
 
+
 /* Repositorio Hoteles */
 
 GO
@@ -567,4 +570,27 @@ BEGIN
 	VALUES (@hotel_id, @regimen_id)
 
 END 
+
+/* Repositorio Clientes */
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.getClientesFiltrados
+@Nombre nvarchar(255),
+@Apellido nvarchar(255),
+@Mail nvarchar(255),
+@Tipo_Identificacion nvarchar(255),
+@Numero_Identificacion numeric(18,0)
+
+as
+begin
+	
+	SELECT * FROM TRAEME_LA_COPA_MESSI.Cliente c, TRAEME_LA_COPA_MESSI.Cliente_Inconsistente ci
+	WHERE 
+	c.Nombre LIKE '%' + @Nombre + '%' AND c.Apellido LIKE '%' + @Apellido + '%' AND c.Email LIKE '%' + @Mail + '%' AND c.TipoDoc LIKE '%' + @Tipo_Identificacion + '%' AND c.NumDoc LIKE '%' + @Numero_Identificacion
+	or
+	ci.Nombre LIKE '%' + @Nombre + '%' AND ci.Apellido LIKE '%' + @Apellido + '%' AND ci.Email LIKE '%' + @Mail + '%' AND ci.TipoDoc LIKE '%' + @Tipo_Identificacion + '%' AND ci.NumDoc LIKE '%' + @Numero_Identificacion
+
+end
+
 
