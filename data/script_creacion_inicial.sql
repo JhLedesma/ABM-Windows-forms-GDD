@@ -97,6 +97,15 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getRolesUsuario','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getRegimenes','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getRegimenes;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getFuncionalidades','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getFuncionalidades;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.persistirRol','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.persistirRol;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.actualizarFuncionalidadesPorRol','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.actualizarFuncionalidadesPorRol;
+	
 
 /* Dropeo las views si ya existen */
 
@@ -526,3 +535,35 @@ BEGIN
 	FROM TRAEME_LA_COPA_MESSI.RegimenEstadia WHERE EstadoRegimenEstadia = 0
 
 END 
+
+
+GO --obtener funcionalidades para abmRol
+Create Procedure TRAEME_LA_COPA_MESSI.getFuncionalidades
+as
+begin
+
+select *
+from TRAEME_LA_COPA_MESSI.Funcionalidad
+end
+
+
+go
+create procedure TRAEME_LA_COPA_MESSI.persistirRol
+@nombreRol nvarchar(255), 
+@funcionalidad nvarchar(255),
+@estado int
+as
+begin
+insert into TRAEME_LA_COPA_MESSI.Rol(Nombre,Estado)
+values (@nombreRol,@estado)
+end
+
+go
+create procedure TRAEME_LA_COPA_MESSI.actualizarFuncionalidadesPorRol
+@funcionalidad nvarchar(255),
+@rol nvarchar(255)
+as
+begin
+insert into TRAEME_LA_COPA_MESSI.FuncionalidadPorRol (IdRol,IdFunc)
+values ((select IdRol from TRAEME_LA_COPA_MESSI.Rol where Nombre = @rol), (select IdFunc from TRAEME_LA_COPA_MESSI.Funcionalidad))
+end

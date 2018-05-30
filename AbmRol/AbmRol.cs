@@ -10,11 +10,20 @@ using System.Windows.Forms;
 
 namespace FrbaHotel.AbmRol
 {
-    public partial class Form1 : Form
+    public partial class AbmRol : Form
     {
-        public Form1()
+        public AbmRol()
         {
             InitializeComponent();
         }
+
+        private void Crear_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            new CrearRol().ShowDialog();
+            this.Close();
+        }
+
+        
     }
 }

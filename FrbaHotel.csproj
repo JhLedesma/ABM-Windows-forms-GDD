@@ -124,11 +124,17 @@
     <Compile Include="AbmRegimen\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="AbmRol\Form1.cs">
+    <Compile Include="AbmRol\AbmRol.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AbmRol\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="AbmRol\AbmRol.Designer.cs">
+      <DependentUpon>AbmRol.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmRol\CrearRol.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmRol\CrearRol.Designer.cs">
+      <DependentUpon>CrearRol.cs</DependentUpon>
     </Compile>
     <Compile Include="AbmUsuario\Form1.cs">
       <SubType>Form</SubType>
@@ -179,6 +185,7 @@
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\Encriptador.cs" />
+    <Compile Include="Model\Funcionalidad.cs" />
     <Compile Include="Model\NumericTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -199,8 +206,10 @@
     <Compile Include="RegistrarEstadia\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Repositorios\Repo_Funcionalidad.cs" />
     <Compile Include="Repositorios\Repo_hotel.cs" />
     <Compile Include="Repositorios\Repo_regimen.cs" />
+    <Compile Include="Repositorios\Repo_Rol.cs" />
     <Compile Include="Repositorios\Repo_usuario.cs" />
     <Compile Include="Utils\DBhelper.cs" />
     <EmbeddedResource Include="AbmCliente\Abm_Cliente.resx">
@@ -226,6 +235,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AbmHotel\CrearHotel.resx">
       <DependentUpon>CrearHotel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmRol\AbmRol.resx">
+      <DependentUpon>AbmRol.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmRol\CrearRol.resx">
+      <DependentUpon>CrearRol.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login\SeleccionarFuncionalidad.resx">
       <DependentUpon>SeleccionarFuncionalidad.cs</DependentUpon>

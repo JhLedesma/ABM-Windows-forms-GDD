@@ -11,6 +11,7 @@ namespace FrbaHotel.Model
         public Int32 idRol {get;set;}
         public String nombreRol {get;set;}
         public Int16 estado {get;set;}
+        public List<Model.Funcionalidad> funcionalidades;
 
 
         public Rol(String nombre, Int32 id)
