@@ -200,6 +200,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Repositorios\Repo_Cliente.cs" />
+    <Compile Include="Repositorios\Repo_hotel.cs" />
     <Compile Include="Repositorios\Repo_regimen.cs" />
     <Compile Include="Repositorios\Repo_usuario.cs" />
     <Compile Include="Utils\DBhelper.cs" />
