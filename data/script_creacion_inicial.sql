@@ -650,11 +650,49 @@ create procedure TRAEME_LA_COPA_MESSI.getHotelesFiltrados
 
 as
 begin
-	
 	SELECT h.IdHotel, h.Nombre, h.Mail, h.Telefono, h.CantEstrellas, h.PorcentajeEstrellas, h.FechaCreacion, dh.Ciudad, dh.Pais, dh.Calle, dh.NroCalle FROM (TRAEME_LA_COPA_MESSI.Hotel h JOIN TRAEME_LA_COPA_MESSI.Direccion dh ON h.Direccion = dh.IdDir)
 	WHERE 
 	(h.Nombre LIKE '%' + @Nombre + '%' AND dh.Ciudad LIKE '%' + @Ciudad + '%' AND dh.Pais LIKE '%' + @Pais + '%' AND CAST(h.CantEstrellas AS NVARCHAR) LIKE '%' + CAST(@Estrellas AS NVARCHAR) + '%')
 	OR
 	(h.Nombre IS NULL)
-	
 end
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.newCliente
+@email nvarchar(255),
+@nombre nvarchar(255),
+@apellido nvarchar(255),
+@tipoDoc nvarchar(255),
+@numDoc numeric(18,0),
+@telefono int,
+@PaisOrigen nvarchar(255),
+@Nacionalidad nvarchar(255),
+@FechaNacimiento Datetime,
+@ciudad nvarchar(255), 
+@calle nvarchar(255), 
+@nroCalle int,
+@piso int,
+@dpto int,
+@localidad nvarchar(255),
+@pais nvarchar(255)
+as
+begin transaction
+	begin
+		declare @IdDireccion int
+
+		insert into TRAEME_LA_COPA_MESSI.Direccion (Ciudad, Calle, NroCalle, Piso, Departamento, Localidad, Pais)
+		values(@ciudad, @calle, @nroCalle, @piso, @dpto, @localidad, @pais)
+
+		set @IdDireccion = (select IdDir from TRAEME_LA_COPA_MESSI.Direccion where Ciudad=@ciudad and Calle=@calle and NroCalle=@nroCalle and Piso=@piso and Departamento=@dpto and Localidad=@localidad and Pais=@pais)
+
+		insert into TRAEME_LA_COPA_MESSI.Cliente (Email, Direccion, Nombre, Apellido, TipoDoc, NumDoc, Telefono, PaisOrigen, Nacionalidad, FechaNacimiento)
+		values(@email, @IdDireccion, @nombre, @apellido, @tipoDoc, @numDoc, @telefono, @PaisOrigen, @Nacionalidad, @FechaNacimiento)
+	end
+commit
+
+
+
+
+
+
