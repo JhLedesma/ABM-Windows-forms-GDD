@@ -116,6 +116,9 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getClientesFiltrados','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getHotelesFiltrados','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getHotelesFiltrados;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.newCliente','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.newCliente;
+
 
 
 
@@ -650,11 +653,12 @@ create procedure TRAEME_LA_COPA_MESSI.getHotelesFiltrados
 
 as
 begin
+/*Si el nombre esta en NULL pero el pais no, no podria filtrar por nombre y pais al mismo tiempo. Si el pais esta en null pero el nombre no, No puedo filtrar por nombre y pais al mismo tiempo*/
 	SELECT h.IdHotel, h.Nombre, h.Mail, h.Telefono, h.CantEstrellas, h.PorcentajeEstrellas, h.FechaCreacion, dh.Ciudad, dh.Pais, dh.Calle, dh.NroCalle FROM (TRAEME_LA_COPA_MESSI.Hotel h JOIN TRAEME_LA_COPA_MESSI.Direccion dh ON h.Direccion = dh.IdDir)
 	WHERE 
 	(h.Nombre LIKE '%' + @Nombre + '%' AND dh.Ciudad LIKE '%' + @Ciudad + '%' AND dh.Pais LIKE '%' + @Pais + '%' AND CAST(h.CantEstrellas AS NVARCHAR) LIKE '%' + CAST(@Estrellas AS NVARCHAR) + '%')
 	OR
-	(h.Nombre IS NULL)
+	(@Nombre = '' AND @Pais = '' AND dh.Ciudad LIKE '%' + @Ciudad + '%' AND CAST(h.CantEstrellas AS NVARCHAR) LIKE '%' + CAST(@Estrellas AS NVARCHAR) + '%')
 end
 
 
