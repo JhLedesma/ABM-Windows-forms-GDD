@@ -35,7 +35,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.boton_eliminar = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
+            this.boton_listar = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -105,14 +105,15 @@
             this.label2.TabIndex = 14;
             this.label2.Text = "Seleccione un hotel a eliminar:";
             // 
-            // button2
+            // boton_listar
             // 
-            this.button2.Location = new System.Drawing.Point(92, 317);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 17;
-            this.button2.Text = "Listar";
-            this.button2.UseVisualStyleBackColor = true;
+            this.boton_listar.Location = new System.Drawing.Point(92, 317);
+            this.boton_listar.Name = "boton_listar";
+            this.boton_listar.Size = new System.Drawing.Size(75, 23);
+            this.boton_listar.TabIndex = 17;
+            this.boton_listar.Text = "Listar";
+            this.boton_listar.UseVisualStyleBackColor = true;
+            this.boton_listar.Click += new System.EventHandler(this.boton_listar_Click);
             // 
             // label4
             // 
@@ -128,7 +129,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 429);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.boton_listar);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.boton_eliminar);
             this.Controls.Add(this.label2);
@@ -153,7 +154,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button boton_eliminar;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button boton_listar;
         private System.Windows.Forms.Label label4;
     }
 }
