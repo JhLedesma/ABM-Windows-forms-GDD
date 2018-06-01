@@ -647,12 +647,12 @@ end
 
 GO
 CREATE PROCEDURE TRAEME_LA_COPA_MESSI.darBajaHotel
-@idHotel int
+@hotelId int
 
 AS
 BEGIN
 
-	UPDATE TRAEME_LA_COPA_MESSI.Hotel SET EstadoHotel = 1 WHERE IdHotel =  @idHotel
+	UPDATE TRAEME_LA_COPA_MESSI.Hotel SET EstadoHotel = 1 WHERE IdHotel =  @hotelId
 	
 END
 
