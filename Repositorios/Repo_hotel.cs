@@ -55,7 +55,7 @@ namespace FrbaHotel.Repositorios
         }
 
 
-        public DataTable getTablaHotelesFiltrados(String nombre, String ciudad, String pais, Int32 estrellas)
+        public DataTable getTablaHotelesFiltrados(String nombre, String ciudad, String pais, String estrellas)
         {
 
             DataTable tablaClientesFiltrados;
@@ -68,7 +68,7 @@ namespace FrbaHotel.Repositorios
             cmd.Parameters.Add("@Nombre", SqlDbType.NVarChar).Value = nombre;
             cmd.Parameters.Add("@Ciudad", SqlDbType.NVarChar).Value = ciudad;
             cmd.Parameters.Add("@Pais", SqlDbType.NVarChar).Value = pais;
-            cmd.Parameters.Add("@Estrellas", SqlDbType.Int).Value = estrellas;
+            cmd.Parameters.Add("@Estrellas", SqlDbType.NVarChar).Value = estrellas;
 
             tablaClientesFiltrados = DBhelper.obtenerTabla(cmd);
 

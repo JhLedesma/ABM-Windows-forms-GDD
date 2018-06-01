@@ -20,9 +20,7 @@ namespace FrbaHotel.AbmHotel
         private void button_filtrar_Click(object sender, EventArgs e)
         {
             //ESTE METODO ROMPE SI LE PIDO LOS DATOS DEL NUMERIC TEXT BOX, DEBO ARREGLAR ESO, AHORA TIENE UN 3
-            //TAMBIEN HAY QUE PREGUNTAR QUE HACEMOS CON AQUELLOS QUE TIENEN NULL EN LO QUE ESTOY FILTRANDO, PORQUE HACE QUE LA BUSQUEDA NO DE RTDOS
-            //AHORA ESTA CONFIG PARA QUE TRAIGA TODO LO QUE TENGA NULL EN EL NOMBRE
-            dataGridHoteles.DataSource = Repositorios.Repo_hotel.getInstancia().getTablaHotelesFiltrados(filtroNombre.Text, textBox_ciudad.Text, textBox_pais.Text, 4);
+            dataGridHoteles.DataSource = Repositorios.Repo_hotel.getInstancia().getTablaHotelesFiltrados(filtroNombre.Text, textBox_ciudad.Text, textBox_pais.Text, numericTextBox_estrellas.Text);
         }
 
     }
