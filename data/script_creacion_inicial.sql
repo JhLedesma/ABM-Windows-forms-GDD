@@ -119,6 +119,9 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getHotelesFiltrados','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.newCliente','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.newCliente;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.darBajaHotel','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.darBajaHotel;
+
 
 
 
@@ -265,7 +268,8 @@ Telefono int NULL,
 Direccion int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Direccion(IdDir),
 CantEstrellas int  NULL,
 PorcentajeEstrellas numeric(18,0) NULL,
-FechaCreacion datetime NULL
+FechaCreacion datetime NULL,
+EstadoHotel BIT DEFAULT 0
 );
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.RegimenPorHotel(
@@ -618,6 +622,42 @@ BEGIN
 
 END 
 
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.getHotelesFiltrados
+@Nombre nvarchar(255),
+@Ciudad nvarchar(255),
+@Estrellas nvarchar(255),
+@Pais nvarchar(255)
+
+as
+begin
+
+	SELECT h.IdHotel, h.Nombre, h.Mail, h.Telefono, h.CantEstrellas, h.PorcentajeEstrellas, h.FechaCreacion, h.EstadoHotel, dh.Ciudad, dh.Pais, dh.Calle, dh.NroCalle FROM (TRAEME_LA_COPA_MESSI.Hotel h JOIN TRAEME_LA_COPA_MESSI.Direccion dh ON h.Direccion = dh.IdDir)
+	WHERE 
+	(h.Nombre LIKE '%' + @Nombre + '%' AND dh.Ciudad LIKE '%' + @Ciudad + '%' AND dh.Pais LIKE '%' + @Pais + '%' AND CAST(h.CantEstrellas AS NVARCHAR) LIKE '%' + @Estrellas  + '%')
+	OR
+	(@Nombre = '' AND @Pais = '' AND dh.Ciudad LIKE '%' + @Ciudad + '%' AND CAST(h.CantEstrellas AS NVARCHAR) LIKE '%' + @Estrellas + '%')
+	OR
+	(@Nombre = '' AND dh.Pais LIKE '%' + @Pais + '%' AND dh.Ciudad LIKE '%' + @Ciudad + '%' AND CAST(h.CantEstrellas AS NVARCHAR) LIKE '%' + @Estrellas + '%')
+	OR
+	(@Pais = '' AND h.Nombre LIKE '%' + @Nombre + '%' AND dh.Ciudad LIKE '%' + @Ciudad + '%' AND CAST(h.CantEstrellas AS NVARCHAR) LIKE '%' + @Estrellas + '%')
+
+end
+
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.darBajaHotel
+@idHotel int
+
+AS
+BEGIN
+
+	UPDATE TRAEME_LA_COPA_MESSI.Hotel SET EstadoHotel = 1 WHERE IdHotel =  @idHotel
+	
+END
+
+
+
 /* Repositorio Clientes */
 
 
@@ -642,28 +682,6 @@ begin
 	WHERE
 	ci.Nombre LIKE '%' + @Nombre + '%' AND ci.Apellido LIKE '%' + @Apellido + '%' AND ci.Email LIKE '%' + @Mail + '%' AND ci.TipoDoc LIKE '%' + @Tipo_Identificacion + '%' AND CAST(ci.NumDoc AS nvarchar) LIKE '%' + CAST(@Numero_Identificacion AS NVARCHAR) + '%'
 	
-end
-
-GO
-create procedure TRAEME_LA_COPA_MESSI.getHotelesFiltrados
-@Nombre nvarchar(255),
-@Ciudad nvarchar(255),
-@Estrellas nvarchar(255),
-@Pais nvarchar(255)
-
-as
-begin
-
-	SELECT h.IdHotel, h.Nombre, h.Mail, h.Telefono, h.CantEstrellas, h.PorcentajeEstrellas, h.FechaCreacion, dh.Ciudad, dh.Pais, dh.Calle, dh.NroCalle FROM (TRAEME_LA_COPA_MESSI.Hotel h JOIN TRAEME_LA_COPA_MESSI.Direccion dh ON h.Direccion = dh.IdDir)
-	WHERE 
-	(h.Nombre LIKE '%' + @Nombre + '%' AND dh.Ciudad LIKE '%' + @Ciudad + '%' AND dh.Pais LIKE '%' + @Pais + '%' AND CAST(h.CantEstrellas AS NVARCHAR) LIKE '%' + @Estrellas  + '%')
-	OR
-	(@Nombre = '' AND @Pais = '' AND dh.Ciudad LIKE '%' + @Ciudad + '%' AND CAST(h.CantEstrellas AS NVARCHAR) LIKE '%' + @Estrellas + '%')
-	OR
-	(@Nombre = '' AND dh.Pais LIKE '%' + @Pais + '%' AND dh.Ciudad LIKE '%' + @Ciudad + '%' AND CAST(h.CantEstrellas AS NVARCHAR) LIKE '%' + @Estrellas + '%')
-	OR
-	(@Pais = '' AND h.Nombre LIKE '%' + @Nombre + '%' AND dh.Ciudad LIKE '%' + @Ciudad + '%' AND CAST(h.CantEstrellas AS NVARCHAR) LIKE '%' + @Estrellas + '%')
-
 end
 
 
@@ -699,6 +717,8 @@ begin transaction
 		values(@email, @IdDireccion, @nombre, @apellido, @tipoDoc, @numDoc, @telefono, @PaisOrigen, @Nacionalidad, @FechaNacimiento)
 	end
 commit
+
+
 
 
 

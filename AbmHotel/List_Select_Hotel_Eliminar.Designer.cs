@@ -129,6 +129,7 @@
             this.dataGridHoteles.ReadOnly = true;
             this.dataGridHoteles.Size = new System.Drawing.Size(531, 251);
             this.dataGridHoteles.TabIndex = 20;
+            this.dataGridHoteles.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridHoteles_CellClick);
             // 
             // button_filtrar
             // 
@@ -148,16 +149,16 @@
             this.button_dar_baja.TabIndex = 22;
             this.button_dar_baja.Text = "Dar baja";
             this.button_dar_baja.UseVisualStyleBackColor = true;
+            this.button_dar_baja.Click += new System.EventHandler(this.button_dar_baja_Click);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(23, 167);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(526, 13);
+            this.label2.Size = new System.Drawing.Size(256, 13);
             this.label2.TabIndex = 23;
-            this.label2.Text = "Seleccione la fila del hotel al que desee dar de baja (CONFIG PARA QUE TRAIGA LOS" +
-    " DE NOMBRE NULL):";
+            this.label2.Text = "Seleccione la fila del hotel al que desee dar de baja :";
             // 
             // numericTextBox_estrellas
             // 

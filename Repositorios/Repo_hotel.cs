@@ -78,6 +78,22 @@ namespace FrbaHotel.Repositorios
 
         }
 
+        public void darBajaHotel(int idHotel)
+        {
+
+            DBhelper.crearConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.darBajaHotel");
+            cmd.Parameters.Add("@hotelId", SqlDbType.Int).Value = idHotel;
+
+            DBhelper.abrirConexion();
+
+            DBhelper.ejecutarProcedure(cmd);
+
+            DBhelper.cerrarConexion();
+
+        }
+
 
     }
 }
