@@ -43,7 +43,7 @@ namespace FrbaHotel.AbmCliente
                     tbMail.Text,
                     tbNombre.Text,
                     tbApellido.Text,
-                    "",
+                    "", //combobox
                     numericNumeroIdentificacion.Value,
                     numericTelefono.Value,
                     tbPaisOrigen.Text,
@@ -60,6 +60,25 @@ namespace FrbaHotel.AbmCliente
                 MessageBox.Show("Cliente creado correctamente");
             }
 
+        }
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+                    tbMail.Text = "";
+                    tbNombre.Text  = "";
+                    tbApellido.Text  = "";
+                    //combobox
+                    numericNumeroIdentificacion.Value = decimal.Zero;
+                    numericTelefono.Value = decimal.Zero;
+                    tbPaisOrigen.Text = "";
+                    tbNacionalidad.Text = "";
+                    textBox1.Text = "";
+                    tbCalle.Text = "";
+                    numericNumero.Value = decimal.Zero;
+                    numericPiso.Value = decimal.Zero;
+                    tbDpto.Text = "";
+                    tbLocalidad.Text = "";
+                    tbPais.Text = "";
         }
 
  
