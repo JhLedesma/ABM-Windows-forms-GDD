@@ -166,14 +166,14 @@
             // 
             this.filtroMail.Location = new System.Drawing.Point(60, 101);
             this.filtroMail.Name = "filtroMail";
-            this.filtroMail.Size = new System.Drawing.Size(100, 20);
+            this.filtroMail.Size = new System.Drawing.Size(122, 20);
             this.filtroMail.TabIndex = 4;
             // 
             // filtroApellido
             // 
             this.filtroApellido.Location = new System.Drawing.Point(60, 66);
             this.filtroApellido.Name = "filtroApellido";
-            this.filtroApellido.Size = new System.Drawing.Size(100, 20);
+            this.filtroApellido.Size = new System.Drawing.Size(122, 20);
             this.filtroApellido.TabIndex = 3;
             // 
             // lblApellido
@@ -198,7 +198,7 @@
             // 
             this.filtroNombre.Location = new System.Drawing.Point(60, 34);
             this.filtroNombre.Name = "filtroNombre";
-            this.filtroNombre.Size = new System.Drawing.Size(100, 20);
+            this.filtroNombre.Size = new System.Drawing.Size(122, 20);
             this.filtroNombre.TabIndex = 0;
             // 
             // List_Select_Cliente_Modificar

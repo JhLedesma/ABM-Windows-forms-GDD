@@ -13,7 +13,7 @@ namespace FrbaHotel.AbmCliente
     public partial class List_Select_Cliente_Modificar : Form
     {
         const Int32 VACIO = 0;
-        int IdClienteSeleccionado;
+        int idClienteSeleccionado;
         
 
         public List_Select_Cliente_Modificar()
@@ -28,18 +28,18 @@ namespace FrbaHotel.AbmCliente
 
         private void dataGridModificar_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            IdClienteSeleccionado = Convert.ToInt32( dataGridModificar.Rows[e.RowIndex].Cells["IdCliente"].Value);
+            idClienteSeleccionado = Convert.ToInt32( dataGridModificar.Rows[e.RowIndex].Cells["IdCliente"].Value);
         }
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            if (IdClienteSeleccionado <= VACIO)
+            if (idClienteSeleccionado <= VACIO)
             {
                 MessageBox.Show("Por favor, seleccione de la grilla una empresa a modificar clickeando en cualquiera de sus atributos", "Seleccione empresa", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
-                new AbmCliente.Modificar_Cliente().ShowDialog();
+                new AbmCliente.Modificar_Cliente(idClienteSeleccionado).ShowDialog();
             }
         }
 

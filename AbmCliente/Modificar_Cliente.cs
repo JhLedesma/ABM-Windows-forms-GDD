@@ -12,9 +12,12 @@ namespace FrbaHotel.AbmCliente
 {
     public partial class Modificar_Cliente : Form
     {
-        public Modificar_Cliente()
+        int idClienteSeleccionado;
+
+        public Modificar_Cliente(int idCliente)
         {
             InitializeComponent();
+            idClienteSeleccionado = idCliente;
         }
     }
 }
