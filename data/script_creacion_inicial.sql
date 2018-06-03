@@ -35,6 +35,9 @@ IF OBJECT_ID ('TRAEME_LA_COPA_MESSI.InhabilitacionesHotel','U') IS NOT NULL
 IF OBJECT_ID ('TRAEME_LA_COPA_MESSI.RegimenPorHotel','U') IS NOT NULL
     DROP TABLE TRAEME_LA_COPA_MESSI.RegimenPorHotel;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.UsuariosPorHotel','U') IS NOT NULL    
+	DROP TABLE TRAEME_LA_COPA_MESSI.UsuariosPorHotel;
+
 IF OBJECT_ID ('TRAEME_LA_COPA_MESSI.Hotel','U') IS NOT NULL
     DROP TABLE TRAEME_LA_COPA_MESSI.Hotel;
 
@@ -80,6 +83,13 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Direccion','U') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Direcciones_Hoteles','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.Direcciones_hoteles;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Habitacion','U') IS NOT NULL    
+	DROP TABLE TRAEME_LA_COPA_MESSI.Habitacion;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.RegimenPorHotel','U') IS NOT NULL    
+	DROP TABLE TRAEME_LA_COPA_MESSI.RegimenPorHotel;
+
+
 /* Dropeo de procedures si ya existen */
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarUsuario','P') IS NOT NULL  
@@ -106,7 +116,6 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.persistirRol','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.actualizarFuncionalidadesPorRol','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.actualizarFuncionalidadesPorRol;
 	
-
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.crearHotel','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.crearHotel;
 
@@ -160,7 +169,7 @@ IdTipo int IDENTITY(1,1) PRIMARY KEY,
 Descripcion nvarchar(255) NOT NULL
 );
 
-CREATE TABLE TRAEME_LA_COPA_MESSI.Usuario( --Falta direccion
+CREATE TABLE TRAEME_LA_COPA_MESSI.Usuario( 
 Username nvarchar(255) PRIMARY KEY,
 Pass nvarchar(255)  NOT NULL,
 Direccion int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Direccion(IdDir) NULL,
@@ -178,7 +187,7 @@ Estado bit DEFAULT 0
 CREATE TABLE TRAEME_LA_COPA_MESSI.Rol(
 IdRol int IDENTITY(1,1) PRIMARY KEY,
 Nombre nvarchar(255) NOT NULL,
-Estado BIT DEFAULT 0 --No deberia ser int, luego lo cambio
+Estado BIT DEFAULT 0 
 );
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.RolPorUsuario(
@@ -273,6 +282,13 @@ FechaCreacion datetime NULL,
 EstadoHotel BIT DEFAULT 0
 );
 
+CREATE TABLE TRAEME_LA_COPA_MESSI.UsuariosPorHotel(
+IdHotel int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Hotel(IdHotel),
+Username nvarchar(255) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Usuario(Username),
+User_desempenio nvarchar(255) NOT NULL
+CONSTRAINT IdUsuariosPorHotel PRIMARY KEY(IdHotel,Username)
+);
+
 CREATE TABLE TRAEME_LA_COPA_MESSI.RegimenPorHotel(
 IdHotel int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Hotel(IdHotel),
 IdRegimenEstadia int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.RegimenEstadia(IdRegimenEstadia)
@@ -298,7 +314,7 @@ Numero int,
 Piso int NOT NULL,
 Ubicacion nvarchar(255) NOT NULL,
 CodigoTipo int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.TipoHabitacion(Codigo),
-Estado int NOT NULL --esto no deberia ser int, luego lo veo
+Estado BIT DEFAULT 0
 CONSTRAINT IdHabitacion PRIMARY KEY(IdHotel,Numero)
 );
 
@@ -308,17 +324,19 @@ IdEstadoReserva int IDENTITY(1,1) PRIMARY KEY not null,
 DescripEstadoReserva nvarchar not null,
 );
 
+-- IdCliente o IdClienteIncon va a estar en NULL (uno de los dos) porque no se puede referenciar a dos clientes, uno solo hace reserva
 create table traeme_la_copa_messi.Reserva(
-IdReserva numeric(18,0) IDENTITY(1,1) PRIMARY KEY not null,
-ClienteMail int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente(IdCliente) not null, --Como ahora Cliente tiene autogenerado, la relacion esta con un cliente y no con su mail
---ClienteInconsistenteMail nvarchar(255) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente_Inconsistente(Email) not null,
-Fecha datetime NOT NULL,
-FechaDesde datetime NOT NULL,
-FechaHasta datetime NOT NULL,
-CantidadNoches int not null,
-EstadoReserva int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.EstadoReserva(IdEstadoReserva) not null,
-RegimenEstadiaId int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.RegimenEstadia(IdRegimenEstadia) not null
+IdReserva numeric(18,0) PRIMARY KEY,
+IdCliente int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente(IdCliente) null,
+IdClienteInconsistente int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente_Inconsistente(IdClienteInconsistente) null,
+FechaReserva datetime  NULL,
+FechaCheckIn datetime  NULL,
+CantidadNochesReservadas numeric(18,0)  NULL,
+CantidadNochesUsadas numeric(18,0)  NULL,
+EstadoReserva int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.EstadoReserva(IdEstadoReserva)  null,
+RegimenEstadiaId int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.RegimenEstadia(IdRegimenEstadia)  null
 );
+
 
 create table traeme_la_copa_messi.LogEstadia(
 IdLogEstadia int IDENTITY(1,1) PRIMARY KEY not null,
@@ -474,6 +492,64 @@ INSERT INTO TRAEME_LA_COPA_MESSI.TipoHabitacion
 	SELECT DISTINCT Habitacion_Tipo_Codigo, Habitacion_Tipo_Descripcion, Habitacion_Tipo_Porcentual
 	FROM gd_esquema.Maestra
 
+
+-- Habitacion --
+
+INSERT INTO TRAEME_LA_COPA_MESSI.Habitacion(IdHotel,Numero,Piso,Ubicacion,CodigoTipo)
+	SELECT DISTINCT h.IdHotel, m.Habitacion_Numero, m.Habitacion_Piso, m.Habitacion_Frente, m.Habitacion_Tipo_Codigo
+	FROM TRAEME_LA_COPA_MESSI.Hotel h, gd_esquema.Maestra m
+	WHERE h.Direccion =
+		(SELECT IdDir_Hotel FROM TRAEME_LA_COPA_MESSI.Direcciones_Hoteles
+		 WHERE Calle = m.Hotel_Calle AND NroCalle = m.Hotel_Nro_Calle AND Ciudad = m.Hotel_Ciudad)
+
+
+-- Regimen por Hotel --
+
+INSERT INTO TRAEME_LA_COPA_MESSI.RegimenPorHotel(IdHotel,IdRegimenEstadia)
+	SELECT DISTINCT h.IdHotel, t.IdRegimenEstadia
+	FROM TRAEME_LA_COPA_MESSI.Hotel h, gd_esquema.Maestra m, TRAEME_LA_COPA_MESSI.RegimenEstadia t
+	WHERE h.Direccion =
+		(SELECT IdDir_Hotel FROM TRAEME_LA_COPA_MESSI.Direcciones_Hoteles
+		 WHERE Calle = m.Hotel_Calle AND NroCalle = m.Hotel_Nro_Calle AND Ciudad = m.Hotel_Ciudad)
+		 AND
+		 t.Descripcion = m.Regimen_Descripcion
+
+
+-- Usuario por Hotel --
+
+INSERT INTO TRAEME_LA_COPA_MESSI.UsuariosPorHotel(IdHotel,Username,User_desempenio)
+	SELECT DISTINCT IdHotel,'admin', 'Administrador' FROM TRAEME_LA_COPA_MESSI.Hotel
+
+
+-- Reserva --
+/*Falta agregar id clientes, estado reserva y regimen estadia id*/
+INSERT INTO TRAEME_LA_COPA_MESSI.Reserva(IdReserva, FechaReserva, FechaCheckIn, CantidadNochesReservadas, CantidadNochesUsadas)
+
+	SELECT DISTINCT m.Reserva_Codigo, m.Reserva_Fecha_Inicio, m.Estadia_Fecha_Inicio, m.Reserva_Cant_Noches, m.Estadia_Cant_Noches FROM gd_esquema.Maestra m
+	WHERE m.Estadia_Fecha_Inicio IS NULL
+
+
+UPDATE TRAEME_LA_COPA_MESSI.Reserva  SET
+FechaCheckIn = (SELECT Estadia_Fecha_Inicio FROM gd_esquema.Maestra
+					 WHERE Reserva_Codigo = IdReserva AND Estadia_Fecha_Inicio IS NOT NULL
+					 GROUP BY Estadia_Fecha_Inicio),
+CantidadNochesUsadas = (SELECT Estadia_Cant_Noches FROM gd_esquema.Maestra
+							WHERE Reserva_Codigo = IdReserva AND Estadia_Cant_Noches IS NOT NULL
+							GROUP BY Estadia_Cant_Noches)
+
+
+/*create table traeme_la_copa_messi.Reserva(
+IdReserva numeric(18,0) PRIMARY KEY,
+IdCliente int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente(IdCliente) not null,
+IdClienteInconsistente int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente_Inconsistente(IdClienteInconsistente) not null,
+FechaReserva datetime NOT NULL,
+FechaCheckIn datetime NOT NULL,
+CantidadNochesReservadas numeric(18,0) NOT NULL,
+CantidadNochesUsadas numeric(18,0) NOT NULL,
+EstadoReserva int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.EstadoReserva(IdEstadoReserva) not null,
+RegimenEstadiaId int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.RegimenEstadia(IdRegimenEstadia) not null
+);
+*/
 
 -- Creacion de procedures --
 
