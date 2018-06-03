@@ -131,6 +131,9 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.newCliente','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.darBajaHotel','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.darBajaHotel;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getCliente','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getCliente;
+
 
 
 
@@ -745,7 +748,6 @@ create procedure TRAEME_LA_COPA_MESSI.getClientesFiltrados
 @Mail nvarchar(255),
 @Tipo_Identificacion nvarchar(255),
 @Numero_Identificacion numeric(18,0)
-
 as
 begin
 	
@@ -794,6 +796,13 @@ begin transaction
 		values(@email, @IdDireccion, @nombre, @apellido, @tipoDoc, @numDoc, @telefono, @PaisOrigen, @Nacionalidad, @FechaNacimiento)
 	end
 commit
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.getCliente
+@id int
+as
+	select * from TRAEME_LA_COPA_MESSI.Cliente c, TRAEME_LA_COPA_MESSI.Cliente_Inconsistente ci where c.IdCliente = @id or ci.IdClienteInconsistente = @id
 
 
 
