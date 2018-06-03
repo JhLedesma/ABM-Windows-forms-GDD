@@ -214,8 +214,9 @@ PRIMARY KEY (Fact_Nro)
 );
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.Cliente(
-Email nvarchar(255) PRIMARY KEY,
-Direccion nvarchar(255) NULL,
+IdCliente int IDENTITY(1,1) PRIMARY KEY,
+Email nvarchar(255) UNIQUE,
+Direccion int NULL, --FALTA EN LA MIGRACION ASOCIAR CON LAS DIRECCIONES CORRESPONDIENTES
 Nombre nvarchar(255) NOT NULL,
 Apellido nvarchar(255) NOT NULL,
 TipoDoc nvarchar(255) NULL,
@@ -229,7 +230,7 @@ FechaNacimiento Datetime NOT NULL,
 CREATE TABLE TRAEME_LA_COPA_MESSI.Cliente_Inconsistente( --Agrego id porque en esta tabla el email se repite
 IdClienteInconsistente int IDENTITY(1,1) PRIMARY KEY,
 Email nvarchar(255),
-Direccion nvarchar(255) NULL, --FALTA EN LA MIGRACION ASOCIAR CON LAS DIRECCIONES CORRESPONDIENTES
+Direccion int NULL, --FALTA EN LA MIGRACION ASOCIAR CON LAS DIRECCIONES CORRESPONDIENTES
 Nombre nvarchar(255) NOT NULL,
 Apellido nvarchar(255) NOT NULL,
 TipoDoc nvarchar(255) NULL,
@@ -309,7 +310,7 @@ DescripEstadoReserva nvarchar not null,
 
 create table traeme_la_copa_messi.Reserva(
 IdReserva numeric(18,0) IDENTITY(1,1) PRIMARY KEY not null,
-ClienteMail nvarchar(255) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente(Email) not null,
+ClienteMail int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente(IdCliente) not null, --Como ahora Cliente tiene autogenerado, la relacion esta con un cliente y no con su mail
 --ClienteInconsistenteMail nvarchar(255) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente_Inconsistente(Email) not null,
 Fecha datetime NOT NULL,
 FechaDesde datetime NOT NULL,
@@ -362,7 +363,7 @@ FOREIGN KEY (IdHotelHab, IdNumeroHab) REFERENCES TRAEME_LA_COPA_MESSI.Habitacion
 ); */
 
 
-/* Migracion de datos */ 
+-----------------------------------------------------------------------/* Migracion de datos */-------------------------------------------------------------------------- 
 
 -- Tipos de regimenes --
 
