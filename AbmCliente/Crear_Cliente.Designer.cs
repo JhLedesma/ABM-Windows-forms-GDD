@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tbPaisOrigen = new System.Windows.Forms.TextBox();
+            this.lblPaisOrigen = new System.Windows.Forms.Label();
             this.dtFechaNacimiento = new System.Windows.Forms.DateTimePicker();
             this.lblFechaNacimiento = new System.Windows.Forms.Label();
             this.tbNacionalidad = new System.Windows.Forms.TextBox();
@@ -37,7 +39,6 @@
             this.lblTipoIndentificacion = new System.Windows.Forms.Label();
             this.numericNumeroIdentificacion = new System.Windows.Forms.NumericUpDown();
             this.lblNumeroIdentificacion = new System.Windows.Forms.Label();
-            this.tbTelefono = new System.Windows.Forms.TextBox();
             this.lblTelefono = new System.Windows.Forms.Label();
             this.tbMail = new System.Windows.Forms.TextBox();
             this.lblMail = new System.Windows.Forms.Label();
@@ -47,33 +48,33 @@
             this.lblNombre = new System.Windows.Forms.Label();
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.btnCrear = new System.Windows.Forms.Button();
-            this.lblPaisOrigen = new System.Windows.Forms.Label();
-            this.tbPaisOrigen = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.lblCiudad = new System.Windows.Forms.Label();
             this.tbPais = new System.Windows.Forms.TextBox();
             this.lblPais = new System.Windows.Forms.Label();
             this.tbLocalidad = new System.Windows.Forms.TextBox();
             this.lblLocalidad = new System.Windows.Forms.Label();
             this.numericPiso = new System.Windows.Forms.NumericUpDown();
-            this.numericDto = new System.Windows.Forms.NumericUpDown();
             this.lblPiso = new System.Windows.Forms.Label();
             this.lblDepartamento = new System.Windows.Forms.Label();
             this.numericNumero = new System.Windows.Forms.NumericUpDown();
             this.lblNumero = new System.Windows.Forms.Label();
             this.tbCalle = new System.Windows.Forms.TextBox();
             this.lblCalle = new System.Windows.Forms.Label();
-            this.lblCiudad = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tbDpto = new System.Windows.Forms.TextBox();
+            this.numericTelefono = new System.Windows.Forms.NumericUpDown();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericNumeroIdentificacion)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericPiso)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericDto)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericNumero)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericTelefono)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.numericTelefono);
             this.groupBox1.Controls.Add(this.tbPaisOrigen);
             this.groupBox1.Controls.Add(this.lblPaisOrigen);
             this.groupBox1.Controls.Add(this.dtFechaNacimiento);
@@ -84,7 +85,6 @@
             this.groupBox1.Controls.Add(this.lblTipoIndentificacion);
             this.groupBox1.Controls.Add(this.numericNumeroIdentificacion);
             this.groupBox1.Controls.Add(this.lblNumeroIdentificacion);
-            this.groupBox1.Controls.Add(this.tbTelefono);
             this.groupBox1.Controls.Add(this.lblTelefono);
             this.groupBox1.Controls.Add(this.tbMail);
             this.groupBox1.Controls.Add(this.lblMail);
@@ -98,6 +98,22 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Ingrese los datos del nuevo cliente (todos los datos son obligatorios):";
+            // 
+            // tbPaisOrigen
+            // 
+            this.tbPaisOrigen.Location = new System.Drawing.Point(146, 301);
+            this.tbPaisOrigen.Name = "tbPaisOrigen";
+            this.tbPaisOrigen.Size = new System.Drawing.Size(118, 20);
+            this.tbPaisOrigen.TabIndex = 19;
+            // 
+            // lblPaisOrigen
+            // 
+            this.lblPaisOrigen.AutoSize = true;
+            this.lblPaisOrigen.Location = new System.Drawing.Point(6, 304);
+            this.lblPaisOrigen.Name = "lblPaisOrigen";
+            this.lblPaisOrigen.Size = new System.Drawing.Size(61, 13);
+            this.lblPaisOrigen.TabIndex = 18;
+            this.lblPaisOrigen.Text = "PaisOrigen:";
             // 
             // dtFechaNacimiento
             // 
@@ -119,7 +135,7 @@
             // 
             this.tbNacionalidad.Location = new System.Drawing.Point(146, 233);
             this.tbNacionalidad.Name = "tbNacionalidad";
-            this.tbNacionalidad.Size = new System.Drawing.Size(100, 20);
+            this.tbNacionalidad.Size = new System.Drawing.Size(118, 20);
             this.tbNacionalidad.TabIndex = 15;
             // 
             // lblNacionalidad
@@ -136,7 +152,7 @@
             this.listadoTipoIdentificacion.FormattingEnabled = true;
             this.listadoTipoIdentificacion.Location = new System.Drawing.Point(146, 199);
             this.listadoTipoIdentificacion.Name = "listadoTipoIdentificacion";
-            this.listadoTipoIdentificacion.Size = new System.Drawing.Size(121, 21);
+            this.listadoTipoIdentificacion.Size = new System.Drawing.Size(118, 21);
             this.listadoTipoIdentificacion.TabIndex = 13;
             // 
             // lblTipoIndentificacion
@@ -157,7 +173,7 @@
             0,
             0});
             this.numericNumeroIdentificacion.Name = "numericNumeroIdentificacion";
-            this.numericNumeroIdentificacion.Size = new System.Drawing.Size(120, 20);
+            this.numericNumeroIdentificacion.Size = new System.Drawing.Size(117, 20);
             this.numericNumeroIdentificacion.TabIndex = 11;
             // 
             // lblNumeroIdentificacion
@@ -168,13 +184,6 @@
             this.lblNumeroIdentificacion.Size = new System.Drawing.Size(128, 13);
             this.lblNumeroIdentificacion.TabIndex = 10;
             this.lblNumeroIdentificacion.Text = "Numero de Identificacion:";
-            // 
-            // tbTelefono
-            // 
-            this.tbTelefono.Location = new System.Drawing.Point(147, 135);
-            this.tbTelefono.Name = "tbTelefono";
-            this.tbTelefono.Size = new System.Drawing.Size(100, 20);
-            this.tbTelefono.TabIndex = 9;
             // 
             // lblTelefono
             // 
@@ -189,7 +198,7 @@
             // 
             this.tbMail.Location = new System.Drawing.Point(147, 101);
             this.tbMail.Name = "tbMail";
-            this.tbMail.Size = new System.Drawing.Size(100, 20);
+            this.tbMail.Size = new System.Drawing.Size(117, 20);
             this.tbMail.TabIndex = 7;
             // 
             // lblMail
@@ -205,7 +214,7 @@
             // 
             this.tbApellido.Location = new System.Drawing.Point(147, 69);
             this.tbApellido.Name = "tbApellido";
-            this.tbApellido.Size = new System.Drawing.Size(100, 20);
+            this.tbApellido.Size = new System.Drawing.Size(117, 20);
             this.tbApellido.TabIndex = 5;
             // 
             // lblApellido
@@ -221,7 +230,7 @@
             // 
             this.tbNombre.Location = new System.Drawing.Point(147, 35);
             this.tbNombre.Name = "tbNombre";
-            this.tbNombre.Size = new System.Drawing.Size(100, 20);
+            this.tbNombre.Size = new System.Drawing.Size(117, 20);
             this.tbNombre.TabIndex = 3;
             // 
             // lblNombre
@@ -250,25 +259,11 @@
             this.btnCrear.TabIndex = 18;
             this.btnCrear.Text = "Crear";
             this.btnCrear.UseVisualStyleBackColor = true;
-            // 
-            // lblPaisOrigen
-            // 
-            this.lblPaisOrigen.AutoSize = true;
-            this.lblPaisOrigen.Location = new System.Drawing.Point(6, 304);
-            this.lblPaisOrigen.Name = "lblPaisOrigen";
-            this.lblPaisOrigen.Size = new System.Drawing.Size(61, 13);
-            this.lblPaisOrigen.TabIndex = 18;
-            this.lblPaisOrigen.Text = "PaisOrigen:";
-            // 
-            // tbPaisOrigen
-            // 
-            this.tbPaisOrigen.Location = new System.Drawing.Point(146, 301);
-            this.tbPaisOrigen.Name = "tbPaisOrigen";
-            this.tbPaisOrigen.Size = new System.Drawing.Size(100, 20);
-            this.tbPaisOrigen.TabIndex = 19;
+            this.btnCrear.Click += new System.EventHandler(this.btnCrear_Click);
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.tbDpto);
             this.groupBox2.Controls.Add(this.textBox1);
             this.groupBox2.Controls.Add(this.lblCiudad);
             this.groupBox2.Controls.Add(this.tbPais);
@@ -276,7 +271,6 @@
             this.groupBox2.Controls.Add(this.tbLocalidad);
             this.groupBox2.Controls.Add(this.lblLocalidad);
             this.groupBox2.Controls.Add(this.numericPiso);
-            this.groupBox2.Controls.Add(this.numericDto);
             this.groupBox2.Controls.Add(this.lblPiso);
             this.groupBox2.Controls.Add(this.lblDepartamento);
             this.groupBox2.Controls.Add(this.numericNumero);
@@ -289,6 +283,22 @@
             this.groupBox2.TabIndex = 42;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Direccion";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(85, 97);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(130, 20);
+            this.textBox1.TabIndex = 55;
+            // 
+            // lblCiudad
+            // 
+            this.lblCiudad.AutoSize = true;
+            this.lblCiudad.Location = new System.Drawing.Point(23, 100);
+            this.lblCiudad.Name = "lblCiudad";
+            this.lblCiudad.Size = new System.Drawing.Size(43, 13);
+            this.lblCiudad.TabIndex = 54;
+            this.lblCiudad.Text = "Ciudad:";
             // 
             // tbPais
             // 
@@ -333,18 +343,6 @@
             this.numericPiso.Name = "numericPiso";
             this.numericPiso.Size = new System.Drawing.Size(68, 20);
             this.numericPiso.TabIndex = 49;
-            // 
-            // numericDto
-            // 
-            this.numericDto.Location = new System.Drawing.Point(295, 60);
-            this.numericDto.Maximum = new decimal(new int[] {
-            1569325056,
-            23283064,
-            0,
-            0});
-            this.numericDto.Name = "numericDto";
-            this.numericDto.Size = new System.Drawing.Size(68, 20);
-            this.numericDto.TabIndex = 48;
             // 
             // lblPiso
             // 
@@ -401,21 +399,24 @@
             this.lblCalle.TabIndex = 42;
             this.lblCalle.Text = "Calle:";
             // 
-            // lblCiudad
+            // tbDpto
             // 
-            this.lblCiudad.AutoSize = true;
-            this.lblCiudad.Location = new System.Drawing.Point(23, 100);
-            this.lblCiudad.Name = "lblCiudad";
-            this.lblCiudad.Size = new System.Drawing.Size(43, 13);
-            this.lblCiudad.TabIndex = 54;
-            this.lblCiudad.Text = "Ciudad:";
+            this.tbDpto.Location = new System.Drawing.Point(295, 59);
+            this.tbDpto.Name = "tbDpto";
+            this.tbDpto.Size = new System.Drawing.Size(68, 20);
+            this.tbDpto.TabIndex = 20;
             // 
-            // textBox1
+            // numericTelefono
             // 
-            this.textBox1.Location = new System.Drawing.Point(85, 97);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(130, 20);
-            this.textBox1.TabIndex = 55;
+            this.numericTelefono.Location = new System.Drawing.Point(146, 136);
+            this.numericTelefono.Maximum = new decimal(new int[] {
+            1569325056,
+            23283064,
+            0,
+            0});
+            this.numericTelefono.Name = "numericTelefono";
+            this.numericTelefono.Size = new System.Drawing.Size(118, 20);
+            this.numericTelefono.TabIndex = 56;
             // 
             // Crear_Cliente
             // 
@@ -434,8 +435,8 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericPiso)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericDto)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericNumero)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericTelefono)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -448,7 +449,6 @@
         private System.Windows.Forms.Label lblApellido;
         private System.Windows.Forms.TextBox tbApellido;
         private System.Windows.Forms.Label lblMail;
-        private System.Windows.Forms.TextBox tbTelefono;
         private System.Windows.Forms.Label lblTelefono;
         private System.Windows.Forms.TextBox tbMail;
         private System.Windows.Forms.Label lblNumeroIdentificacion;
@@ -469,7 +469,6 @@
         private System.Windows.Forms.TextBox tbLocalidad;
         private System.Windows.Forms.Label lblLocalidad;
         private System.Windows.Forms.NumericUpDown numericPiso;
-        private System.Windows.Forms.NumericUpDown numericDto;
         private System.Windows.Forms.Label lblPiso;
         private System.Windows.Forms.Label lblDepartamento;
         private System.Windows.Forms.NumericUpDown numericNumero;
@@ -478,5 +477,7 @@
         private System.Windows.Forms.Label lblCalle;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label lblCiudad;
+        private System.Windows.Forms.TextBox tbDpto;
+        private System.Windows.Forms.NumericUpDown numericTelefono;
     }
 }
