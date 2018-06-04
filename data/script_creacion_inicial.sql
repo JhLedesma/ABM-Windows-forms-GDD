@@ -815,7 +815,7 @@ begin
 
 	SELECT *  FROM TRAEME_LA_COPA_MESSI.Cliente_Inconsistente ci
 	WHERE
-	and ci.Nombre LIKE '%' + @Nombre + '%' AND ci.Apellido LIKE '%' + @Apellido + '%' AND ci.Email LIKE '%' + @Mail + '%' AND ci.TipoDoc LIKE '%' + @Tipo_Identificacion + '%' AND CAST(ci.NumDoc AS nvarchar) LIKE '%' + CAST(@Numero_Identificacion AS NVARCHAR) + '%'
+	ci.Nombre LIKE '%' + @Nombre + '%' AND ci.Apellido LIKE '%' + @Apellido + '%' AND ci.Email LIKE '%' + @Mail + '%' AND ci.TipoDoc LIKE '%' + @Tipo_Identificacion + '%' AND CAST(ci.NumDoc AS nvarchar) LIKE '%' + CAST(@Numero_Identificacion AS NVARCHAR) + '%'
 	
 end
 
