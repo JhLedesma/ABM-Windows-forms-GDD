@@ -131,8 +131,13 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.newCliente','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.darBajaHotel','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.darBajaHotel;
 
+<<<<<<< HEAD
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.agregarRegimenHotel','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.agregarRegimenHotel;
+=======
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getCliente','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getCliente;
+>>>>>>> 0e882a98ed943fcbf2528b0ed9a7918bcb0a8c20
 
 
 
@@ -159,8 +164,8 @@ GO
 CREATE TABLE TRAEME_LA_COPA_MESSI.Direccion(
 IdDir int IDENTITY(1,1) PRIMARY KEY,
 Ciudad nvarchar(255) NULL,
-Calle nvarchar(255) NOT NULL,
-NroCalle numeric(18,0) NOT NULL,
+Calle nvarchar(255) NULL,
+NroCalle numeric(18,0) NULL,
 Piso numeric(18,0) NULL,
 Departamento nvarchar(50) NULL,
 Localidad nvarchar(255) NULL,
@@ -763,7 +768,6 @@ create procedure TRAEME_LA_COPA_MESSI.getClientesFiltrados
 @Mail nvarchar(255),
 @Tipo_Identificacion nvarchar(255),
 @Numero_Identificacion numeric(18,0)
-
 as
 begin
 	
@@ -812,6 +816,13 @@ begin transaction
 		values(@email, @IdDireccion, @nombre, @apellido, @tipoDoc, @numDoc, @telefono, @PaisOrigen, @Nacionalidad, @FechaNacimiento)
 	end
 commit
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.getCliente
+@id int
+as
+	select * from TRAEME_LA_COPA_MESSI.Cliente c, TRAEME_LA_COPA_MESSI.Cliente_Inconsistente ci where c.IdCliente = @id or ci.IdClienteInconsistente = @id
 
 
 

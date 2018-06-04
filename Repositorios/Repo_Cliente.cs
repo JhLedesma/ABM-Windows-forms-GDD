@@ -57,7 +57,6 @@ namespace FrbaHotel.Repositorios
 
             DBhelper.abrirConexion();
 
-
             SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.newCliente");
             cmd.Parameters.Add("@email", SqlDbType.NVarChar).Value = email;
             cmd.Parameters.Add("@nombre", SqlDbType.NVarChar).Value = nombre;
@@ -81,5 +80,64 @@ namespace FrbaHotel.Repositorios
             DBhelper.cerrarConexion();
         }
 
+        public Model.Cliente getCliente(int idCliente)
+        {
+            DBhelper.crearConexion();
+
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getCliente");
+            cmd.Parameters.Add("@id", SqlDbType.Int).Value = idCliente;
+
+            DataTable tablaCliente = DBhelper.obtenerTabla(cmd);
+
+            Model.Cliente cliente = new FrbaHotel.Model.Cliente();
+
+            foreach (DataRow row in tablaCliente.Rows)
+            {
+                    cliente.id = (Int32)row["IdCliente"];
+                    cliente.nombre = (String)row["Nombre"];
+                    cliente.apellido = (String)row["Apellido"];
+                    cliente.mail = (String)row["Email"];
+                    cliente.telefono = (decimal)row["Telefono"];
+                    cliente.numDoc = (decimal)row["NumDoc"];
+                    cliente.tipoDoc = (String)row["TipoDoc"];
+                    cliente.nacionalidad = (String)row["Nacionalidad"];
+                    cliente.fechaNac = (DateTime)row["FechaNacimiento"];
+                    cliente.paisOrigen = (String)row["PaisOrigen"];
+                    cliente.direccion = this.getDireccion((Int32)row["IdCliente"]);
+            }
+
+            DBhelper.cerrarConexion();
+
+            return cliente;
+        }
+
+        public Model.Direccion getDireccion(int idDireccion)
+        {
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getDireccion");
+            cmd.Parameters.Add("@id", SqlDbType.Int).Value = idDireccion;
+
+            DataTable tablaCliente = DBhelper.obtenerTabla(cmd);
+
+            Model.Direccion direccion = new Model.Direccion();
+
+            foreach (DataRow row in tablaCliente.Rows)
+            {
+                direccion.id = (Int32)row["IdDir"];
+                direccion.calle = (String)row["Calle"];
+                direccion.ciudad = (String)row["Ciudad"];
+                direccion.dpto = (String)row["Departamento"];
+                direccion.localidad = (String)row["Localidad"];
+                direccion.pais = (String)row["Pais"];
+                direccion.piso = (decimal)row["Piso"];
+                direccion.numDomicilio = (decimal)row["NroCalle"];
+            }
+
+            return direccion;
+        }
+
+
+       
     }
 }

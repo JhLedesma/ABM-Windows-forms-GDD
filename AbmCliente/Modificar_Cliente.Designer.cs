@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tbPaisOrigen = new System.Windows.Forms.TextBox();
+            this.lblPaisOrigen = new System.Windows.Forms.Label();
             this.dtFechaNacimiento = new System.Windows.Forms.DateTimePicker();
             this.lblFechaNacimiento = new System.Windows.Forms.Label();
             this.tbNacionalidad = new System.Windows.Forms.TextBox();
@@ -37,7 +39,6 @@
             this.lblTipoIndentificacion = new System.Windows.Forms.Label();
             this.numericNumeroIdentificacion = new System.Windows.Forms.NumericUpDown();
             this.lblNumeroIdentificacion = new System.Windows.Forms.Label();
-            this.tbTelefono = new System.Windows.Forms.TextBox();
             this.lblTelefono = new System.Windows.Forms.Label();
             this.tbMail = new System.Windows.Forms.TextBox();
             this.lblMail = new System.Windows.Forms.Label();
@@ -45,8 +46,6 @@
             this.lblApellido = new System.Windows.Forms.Label();
             this.tbNombre = new System.Windows.Forms.TextBox();
             this.lblNombre = new System.Windows.Forms.Label();
-            this.tbPaisOrigen = new System.Windows.Forms.TextBox();
-            this.lblPaisOrigen = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tbDpto = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -64,15 +63,18 @@
             this.lblCalle = new System.Windows.Forms.Label();
             this.btnCrear = new System.Windows.Forms.Button();
             this.btnLimpiar = new System.Windows.Forms.Button();
+            this.numericTelefono = new System.Windows.Forms.NumericUpDown();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericNumeroIdentificacion)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericPiso)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericNumero)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericTelefono)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.numericTelefono);
             this.groupBox1.Controls.Add(this.tbPaisOrigen);
             this.groupBox1.Controls.Add(this.lblPaisOrigen);
             this.groupBox1.Controls.Add(this.dtFechaNacimiento);
@@ -83,7 +85,6 @@
             this.groupBox1.Controls.Add(this.lblTipoIndentificacion);
             this.groupBox1.Controls.Add(this.numericNumeroIdentificacion);
             this.groupBox1.Controls.Add(this.lblNumeroIdentificacion);
-            this.groupBox1.Controls.Add(this.tbTelefono);
             this.groupBox1.Controls.Add(this.lblTelefono);
             this.groupBox1.Controls.Add(this.tbMail);
             this.groupBox1.Controls.Add(this.lblMail);
@@ -97,6 +98,22 @@
             this.groupBox1.TabIndex = 19;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Ingrese los datos que desea modificar del cliente:";
+            // 
+            // tbPaisOrigen
+            // 
+            this.tbPaisOrigen.Location = new System.Drawing.Point(146, 305);
+            this.tbPaisOrigen.Name = "tbPaisOrigen";
+            this.tbPaisOrigen.Size = new System.Drawing.Size(118, 20);
+            this.tbPaisOrigen.TabIndex = 21;
+            // 
+            // lblPaisOrigen
+            // 
+            this.lblPaisOrigen.AutoSize = true;
+            this.lblPaisOrigen.Location = new System.Drawing.Point(6, 308);
+            this.lblPaisOrigen.Name = "lblPaisOrigen";
+            this.lblPaisOrigen.Size = new System.Drawing.Size(61, 13);
+            this.lblPaisOrigen.TabIndex = 20;
+            this.lblPaisOrigen.Text = "PaisOrigen:";
             // 
             // dtFechaNacimiento
             // 
@@ -168,13 +185,6 @@
             this.lblNumeroIdentificacion.TabIndex = 10;
             this.lblNumeroIdentificacion.Text = "Numero de Identificacion:";
             // 
-            // tbTelefono
-            // 
-            this.tbTelefono.Location = new System.Drawing.Point(147, 140);
-            this.tbTelefono.Name = "tbTelefono";
-            this.tbTelefono.Size = new System.Drawing.Size(120, 20);
-            this.tbTelefono.TabIndex = 9;
-            // 
             // lblTelefono
             // 
             this.lblTelefono.AutoSize = true;
@@ -231,22 +241,6 @@
             this.lblNombre.Size = new System.Drawing.Size(47, 13);
             this.lblNombre.TabIndex = 2;
             this.lblNombre.Text = "Nombre:";
-            // 
-            // tbPaisOrigen
-            // 
-            this.tbPaisOrigen.Location = new System.Drawing.Point(146, 305);
-            this.tbPaisOrigen.Name = "tbPaisOrigen";
-            this.tbPaisOrigen.Size = new System.Drawing.Size(118, 20);
-            this.tbPaisOrigen.TabIndex = 21;
-            // 
-            // lblPaisOrigen
-            // 
-            this.lblPaisOrigen.AutoSize = true;
-            this.lblPaisOrigen.Location = new System.Drawing.Point(6, 308);
-            this.lblPaisOrigen.Name = "lblPaisOrigen";
-            this.lblPaisOrigen.Size = new System.Drawing.Size(61, 13);
-            this.lblPaisOrigen.TabIndex = 20;
-            this.lblPaisOrigen.Text = "PaisOrigen:";
             // 
             // groupBox2
             // 
@@ -411,6 +405,18 @@
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.UseVisualStyleBackColor = true;
             // 
+            // numericTelefono
+            // 
+            this.numericTelefono.Location = new System.Drawing.Point(146, 141);
+            this.numericTelefono.Maximum = new decimal(new int[] {
+            1569325056,
+            23283064,
+            0,
+            0});
+            this.numericTelefono.Name = "numericTelefono";
+            this.numericTelefono.Size = new System.Drawing.Size(121, 20);
+            this.numericTelefono.TabIndex = 57;
+            // 
             // Modificar_Cliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -429,6 +435,7 @@
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericPiso)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericNumero)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericTelefono)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -444,7 +451,6 @@
         private System.Windows.Forms.Label lblTipoIndentificacion;
         private System.Windows.Forms.NumericUpDown numericNumeroIdentificacion;
         private System.Windows.Forms.Label lblNumeroIdentificacion;
-        private System.Windows.Forms.TextBox tbTelefono;
         private System.Windows.Forms.Label lblTelefono;
         private System.Windows.Forms.TextBox tbMail;
         private System.Windows.Forms.Label lblMail;
@@ -471,5 +477,6 @@
         private System.Windows.Forms.Label lblCalle;
         private System.Windows.Forms.Button btnCrear;
         private System.Windows.Forms.Button btnLimpiar;
+        private System.Windows.Forms.NumericUpDown numericTelefono;
     }
 }
