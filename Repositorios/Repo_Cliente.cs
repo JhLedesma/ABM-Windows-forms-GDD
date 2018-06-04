@@ -27,7 +27,7 @@ namespace FrbaHotel.Repositorios
             }
         }
 
-        public DataTable getTablaClientesFiltrados(String nombre, String apellido, String mail, String tipoIdentificacion, decimal NumeroIdentificacion)
+        public DataTable getTablaClientesFiltradosConInactivos(String nombre, String apellido, String mail, String tipoIdentificacion, decimal NumeroIdentificacion)
         {
 
             DataTable tablaClientesFiltrados;
@@ -36,7 +36,7 @@ namespace FrbaHotel.Repositorios
 
             DBhelper.abrirConexion();
 
-            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getClientesFiltrados");
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getClientesFiltradosConInactivos");
             cmd.Parameters.Add("@Nombre", SqlDbType.NVarChar).Value = nombre;
             cmd.Parameters.Add("@Apellido", SqlDbType.NVarChar).Value = apellido;
             cmd.Parameters.Add("@Mail", SqlDbType.NVarChar).Value = mail;
@@ -50,6 +50,33 @@ namespace FrbaHotel.Repositorios
             return tablaClientesFiltrados;
 
         }
+
+
+        public DataTable getTablaClientesFiltradosActivos(String nombre, String apellido, String mail, String tipoIdentificacion, decimal NumeroIdentificacion)
+        {
+
+            DataTable tablaClientesFiltrados;
+
+            DBhelper.crearConexion();
+
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getClientesFiltradosActivos");
+            cmd.Parameters.Add("@Nombre", SqlDbType.NVarChar).Value = nombre;
+            cmd.Parameters.Add("@Apellido", SqlDbType.NVarChar).Value = apellido;
+            cmd.Parameters.Add("@Mail", SqlDbType.NVarChar).Value = mail;
+            cmd.Parameters.Add("@Tipo_Identificacion", SqlDbType.NVarChar).Value = tipoIdentificacion;
+            cmd.Parameters.Add("@Numero_Identificacion", SqlDbType.Decimal).Value = NumeroIdentificacion;
+
+            tablaClientesFiltrados = DBhelper.obtenerTabla(cmd);
+
+            DBhelper.cerrarConexion();
+
+            return tablaClientesFiltrados;
+
+        }
+
+
 
         public void crearCliente(String email, String nombre, String apellido, String tipoDoc, decimal numDoc, decimal telefono, String paisOrigen, String nacionalidad, DateTime fechaNac, String ciudad, String calle, decimal numCalle, decimal piso, String dpto, String localidad, String pais)
         {
@@ -170,6 +197,19 @@ namespace FrbaHotel.Repositorios
         }
 
 
+        public void darBajaCliente(int idCliente)
+        {
+            DBhelper.crearConexion();
+
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.darDeBajaCliente");
+            cmd.Parameters.Add("@idCliente", SqlDbType.Int).Value = idCliente;
+
+            cmd.ExecuteNonQuery();
+
+            DBhelper.cerrarConexion();
+        }
        
     }
 }

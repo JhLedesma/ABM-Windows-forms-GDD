@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             this.gBoxBusquedaCliente = new System.Windows.Forms.GroupBox();
-            this.tbIdClienteSeleccionado = new System.Windows.Forms.TextBox();
-            this.lblIdClienteSeleccionado = new System.Windows.Forms.Label();
             this.lblNumeroIdentificacion = new System.Windows.Forms.Label();
             this.filtroNumeroIdentificacion = new System.Windows.Forms.NumericUpDown();
             this.lblTipoIndentificacion = new System.Windows.Forms.Label();
@@ -53,8 +51,6 @@
             // 
             // gBoxBusquedaCliente
             // 
-            this.gBoxBusquedaCliente.Controls.Add(this.tbIdClienteSeleccionado);
-            this.gBoxBusquedaCliente.Controls.Add(this.lblIdClienteSeleccionado);
             this.gBoxBusquedaCliente.Controls.Add(this.lblNumeroIdentificacion);
             this.gBoxBusquedaCliente.Controls.Add(this.filtroNumeroIdentificacion);
             this.gBoxBusquedaCliente.Controls.Add(this.lblTipoIndentificacion);
@@ -71,23 +67,6 @@
             this.gBoxBusquedaCliente.TabIndex = 0;
             this.gBoxBusquedaCliente.TabStop = false;
             this.gBoxBusquedaCliente.Text = "Busqueda de Cliente";
-            // 
-            // tbIdClienteSeleccionado
-            // 
-            this.tbIdClienteSeleccionado.Enabled = false;
-            this.tbIdClienteSeleccionado.Location = new System.Drawing.Point(393, 99);
-            this.tbIdClienteSeleccionado.Name = "tbIdClienteSeleccionado";
-            this.tbIdClienteSeleccionado.Size = new System.Drawing.Size(120, 20);
-            this.tbIdClienteSeleccionado.TabIndex = 11;
-            // 
-            // lblIdClienteSeleccionado
-            // 
-            this.lblIdClienteSeleccionado.AutoSize = true;
-            this.lblIdClienteSeleccionado.Location = new System.Drawing.Point(262, 102);
-            this.lblIdClienteSeleccionado.Name = "lblIdClienteSeleccionado";
-            this.lblIdClienteSeleccionado.Size = new System.Drawing.Size(121, 13);
-            this.lblIdClienteSeleccionado.TabIndex = 10;
-            this.lblIdClienteSeleccionado.Text = "ID Cliente Seleccionado";
             // 
             // lblNumeroIdentificacion
             // 
@@ -192,6 +171,7 @@
             this.lblFiltrar.TabIndex = 13;
             this.lblFiltrar.Text = "Filtrar";
             this.lblFiltrar.UseVisualStyleBackColor = true;
+            this.lblFiltrar.Click += new System.EventHandler(this.lblFiltrar_Click);
             // 
             // dataGridView1
             // 
@@ -218,8 +198,9 @@
             this.btnEliminar.TabIndex = 17;
             this.btnEliminar.Text = "Eliminar";
             this.btnEliminar.UseVisualStyleBackColor = true;
+            this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
             // 
-            // Form1
+            // List_Select_Cliente_Eliminar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -230,7 +211,7 @@
             this.Controls.Add(this.lblFiltrar);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.gBoxBusquedaCliente);
-            this.Name = "Form1";
+            this.Name = "List_Select_Cliente_Eliminar";
             this.Text = "Listado Seleccion Cliente";
             this.gBoxBusquedaCliente.ResumeLayout(false);
             this.gBoxBusquedaCliente.PerformLayout();
@@ -244,8 +225,6 @@
         #endregion
 
         private System.Windows.Forms.GroupBox gBoxBusquedaCliente;
-        private System.Windows.Forms.TextBox tbIdClienteSeleccionado;
-        private System.Windows.Forms.Label lblIdClienteSeleccionado;
         private System.Windows.Forms.Label lblNumeroIdentificacion;
         private System.Windows.Forms.NumericUpDown filtroNumeroIdentificacion;
         private System.Windows.Forms.Label lblTipoIndentificacion;

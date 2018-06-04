@@ -119,8 +119,11 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.actualizarFuncionalidadesPorRol','P') IS NOT 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.crearHotel','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.crearHotel;
 
-IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getClientesFiltrados','P') IS NOT NULL  
-	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getClientesFiltrados;
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getClientesFiltradosActivos','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getClientesFiltradosActivos;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getClientesFiltradosConInactivos','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getClientesFiltradosConInactivos;
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getHotelesFiltrados','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getHotelesFiltrados;
@@ -142,6 +145,10 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getDireccion','P') IS NOT NULL
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.modificarCliente','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.modificarCliente;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.darDeBajaCliente','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.darDeBajaCliente;
+	
 
 
 
@@ -247,6 +254,7 @@ Telefono numeric(18,0) NULL,
 PaisOrigen nvarchar(255) NULL,
 Nacionalidad nvarchar(255) NOT NULL,
 FechaNacimiento Datetime NOT NULL,
+Estado BIT DEFAULT 0,
 );
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.Cliente_Inconsistente( --Agrego id porque en esta tabla el email se repite
@@ -261,6 +269,7 @@ Telefono numeric(18,0),
 PaisOrigen nvarchar(255)  NULL,
 Nacionalidad nvarchar(255) NOT NULL,
 FechaNacimiento Datetime NOT NULL,
+Estado BIT DEFAULT 0,
 );
 
 
@@ -767,7 +776,29 @@ END
 
 
 GO
-create procedure TRAEME_LA_COPA_MESSI.getClientesFiltrados
+create procedure TRAEME_LA_COPA_MESSI.getClientesFiltradosActivos
+@Nombre nvarchar(255),
+@Apellido nvarchar(255),
+@Mail nvarchar(255),
+@Tipo_Identificacion nvarchar(255),
+@Numero_Identificacion numeric(18,0)
+as
+begin
+	
+	SELECT * FROM TRAEME_LA_COPA_MESSI.Cliente c
+	WHERE 
+	c.Estado = 0 and c.Nombre LIKE '%' + @Nombre + '%' AND c.Apellido LIKE '%' + @Apellido + '%' AND c.Email LIKE '%' + @Mail + '%' AND c.TipoDoc LIKE '%' + @Tipo_Identificacion + '%' AND CAST(c.NumDoc AS NVARCHAR) LIKE '%' + CAST(@Numero_Identificacion AS NVARCHAR) + '%'
+	
+	UNION
+
+	SELECT *  FROM TRAEME_LA_COPA_MESSI.Cliente_Inconsistente ci
+	WHERE
+	ci.Estado = 0 and ci.Nombre LIKE '%' + @Nombre + '%' AND ci.Apellido LIKE '%' + @Apellido + '%' AND ci.Email LIKE '%' + @Mail + '%' AND ci.TipoDoc LIKE '%' + @Tipo_Identificacion + '%' AND CAST(ci.NumDoc AS nvarchar) LIKE '%' + CAST(@Numero_Identificacion AS NVARCHAR) + '%'
+	
+end
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.getClientesFiltradosConInactivos
 @Nombre nvarchar(255),
 @Apellido nvarchar(255),
 @Mail nvarchar(255),
@@ -784,7 +815,7 @@ begin
 
 	SELECT *  FROM TRAEME_LA_COPA_MESSI.Cliente_Inconsistente ci
 	WHERE
-	ci.Nombre LIKE '%' + @Nombre + '%' AND ci.Apellido LIKE '%' + @Apellido + '%' AND ci.Email LIKE '%' + @Mail + '%' AND ci.TipoDoc LIKE '%' + @Tipo_Identificacion + '%' AND CAST(ci.NumDoc AS nvarchar) LIKE '%' + CAST(@Numero_Identificacion AS NVARCHAR) + '%'
+	and ci.Nombre LIKE '%' + @Nombre + '%' AND ci.Apellido LIKE '%' + @Apellido + '%' AND ci.Email LIKE '%' + @Mail + '%' AND ci.TipoDoc LIKE '%' + @Tipo_Identificacion + '%' AND CAST(ci.NumDoc AS nvarchar) LIKE '%' + CAST(@Numero_Identificacion AS NVARCHAR) + '%'
 	
 end
 
@@ -870,6 +901,20 @@ begin transaction
 				update TRAEME_LA_COPA_MESSI.Cliente_Inconsistente set Email=@email, Direccion=@idDireccion, Nombre=@nombre, Apellido=@apellido, TipoDoc=@tipoDoc, NumDoc=@numDoc, Telefono=@telefono, PaisOrigen=@PaisOrigen, Nacionalidad=@Nacionalidad, FechaNacimiento=@FechaNacimiento where IdClienteInconsistente = @idCliente
 				update TRAEME_LA_COPA_MESSI.Direccion set Ciudad=@ciudad, Calle=@calle, NroCalle=@nroCalle, Piso=@piso, Departamento=@dpto, Localidad=@localidad, Pais=@pais where IdDir=@idDireccion
 			end
+	end
+commit
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.darDeBajaCliente
+@idCliente int
+as
+begin transaction
+	begin
+		if(exists (select IdCliente from TRAEME_LA_COPA_MESSI.Cliente where IdCliente = @idCliente))
+			update TRAEME_LA_COPA_MESSI.Cliente set Estado = 1 where IdCliente=@idCliente
+		else
+			update TRAEME_LA_COPA_MESSI.Cliente_Inconsistente set Estado = 1 where IdClienteInconsistente=@idCliente
 	end
 commit
 

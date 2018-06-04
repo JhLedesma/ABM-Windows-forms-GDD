@@ -23,7 +23,7 @@ namespace FrbaHotel.AbmCliente
 
         private void lblFiltrar_Click(object sender, EventArgs e)
         {
-            dataGridModificar.DataSource = Repositorios.Repo_Cliente.getInstancia().getTablaClientesFiltrados(filtroNombre.Text, filtroApellido.Text, filtroMail.Text, "", numericUpDown1.Value);
+            dataGridModificar.DataSource = Repositorios.Repo_Cliente.getInstancia().getTablaClientesFiltradosConInactivos(filtroNombre.Text, filtroApellido.Text, filtroMail.Text, "", numericUpDown1.Value);
         }
 
         private void dataGridModificar_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -35,7 +35,7 @@ namespace FrbaHotel.AbmCliente
         {
             if (idClienteSeleccionado <= VACIO)
             {
-                MessageBox.Show("Por favor, seleccione de la grilla una empresa a modificar clickeando en cualquiera de sus atributos", "Seleccione empresa", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Por favor, seleccione de la grilla un cliente a modificar clickeando en cualquiera de sus atributos", "Seleccione cliente", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {

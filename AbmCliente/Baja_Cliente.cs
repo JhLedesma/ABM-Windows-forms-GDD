@@ -12,9 +12,26 @@ namespace FrbaHotel.AbmCliente
 {
     public partial class Baja_Cliente : Form
     {
-        public Baja_Cliente()
+        int idClienteSeleccionado;
+
+        public Baja_Cliente(int idCliente)
         {
             InitializeComponent();
+            idClienteSeleccionado = idCliente;
+            tbIdCliente.Text = idCliente.ToString();
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            this.Close();
+        }
+
+        private void btnAceptar_Click(object sender, EventArgs e)
+        {
+            Repositorios.Repo_Cliente.getInstancia().darBajaCliente(idClienteSeleccionado);
+            this.Hide();
+            this.Close();
         }
     }
 }
