@@ -808,6 +808,49 @@ as
 	select * from TRAEME_LA_COPA_MESSI.Cliente c, TRAEME_LA_COPA_MESSI.Cliente_Inconsistente ci where c.IdCliente = @id or ci.IdClienteInconsistente = @id
 
 
+GO
+create procedure TRAEME_LA_COPA_MESSI.getDireccion
+@id int
+as
+	select * from TRAEME_LA_COPA_MESSI.Direccion where IdDir = @id
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.modificarCliente
+@email nvarchar(255),
+@nombre nvarchar(255),
+@apellido nvarchar(255),
+@tipoDoc nvarchar(255),
+@numDoc numeric(18,0),
+@telefono numeric(18,0),
+@PaisOrigen nvarchar(255),
+@Nacionalidad nvarchar(255),
+@FechaNacimiento Datetime,
+@ciudad nvarchar(255), 
+@calle nvarchar(255), 
+@nroCalle numeric(18,0),
+@piso numeric(18,0),
+@dpto nvarchar(50),
+@localidad nvarchar(255),
+@pais nvarchar(255),
+@idCliente int,
+@idDireccion int
+as
+begin transaction
+	begin
+		if(exists (select IdCliente from TRAEME_LA_COPA_MESSI.Cliente where IdCliente = @idCliente))
+			begin
+				update TRAEME_LA_COPA_MESSI.Cliente set Email=@email, Direccion=@idDireccion, Nombre=@nombre, Apellido=@apellido, TipoDoc=@tipoDoc, NumDoc=@numDoc, Telefono=@telefono, PaisOrigen=@PaisOrigen, Nacionalidad=@Nacionalidad, FechaNacimiento=@FechaNacimiento where IdCliente = @idCliente
+				update TRAEME_LA_COPA_MESSI.Direccion set Ciudad=@ciudad, Calle=@calle, NroCalle=@nroCalle, Piso=@piso, Departamento=@dpto, Localidad=@localidad, Pais=@pais where IdDir=@idDireccion
+			end
+		else
+			begin
+				update TRAEME_LA_COPA_MESSI.Cliente_Inconsistente set Email=@email, Direccion=@idDireccion, Nombre=@nombre, Apellido=@apellido, TipoDoc=@tipoDoc, NumDoc=@numDoc, Telefono=@telefono, PaisOrigen=@PaisOrigen, Nacionalidad=@Nacionalidad, FechaNacimiento=@FechaNacimiento where IdClienteInconsistente = @idCliente
+				update TRAEME_LA_COPA_MESSI.Direccion set Ciudad=@ciudad, Calle=@calle, NroCalle=@nroCalle, Piso=@piso, Departamento=@dpto, Localidad=@localidad, Pais=@pais where IdDir=@idDireccion
+			end
+	end
+commit
+
 
 
 
