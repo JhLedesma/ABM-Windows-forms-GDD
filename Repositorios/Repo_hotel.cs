@@ -31,7 +31,7 @@ namespace FrbaHotel.Repositorios
         }
 
 
-        public void crearHotel(String nombre, String mail, Int32 telefono, Int32 estrellas, Int32 porcEstrellas, String regimen, String calle, Int32 nroCalle, String ciudad, String pais)
+        public void crearHotel(String nombre, String mail, Int32 telefono, Int32 estrellas, Int32 porcEstrellas, String calle, Int32 nroCalle, String ciudad, String pais)
         {
 
             DBhelper.crearConexion();
@@ -41,11 +41,27 @@ namespace FrbaHotel.Repositorios
             cmd.Parameters.Add("@telefono", SqlDbType.Int).Value = telefono;
             cmd.Parameters.Add("@estrellas", SqlDbType.Int).Value = estrellas;
             cmd.Parameters.Add("@porcEstrellas", SqlDbType.Int).Value = porcEstrellas;
-            cmd.Parameters.Add("@regimen", SqlDbType.NVarChar).Value = regimen;
             cmd.Parameters.Add("@calle", SqlDbType.NVarChar).Value = calle;
             cmd.Parameters.Add("@nroCalle", SqlDbType.Int).Value = nroCalle;
             cmd.Parameters.Add("@ciudad", SqlDbType.NVarChar).Value = ciudad;
             cmd.Parameters.Add("@pais", SqlDbType.NVarChar).Value = pais;
+
+            DBhelper.abrirConexion();
+
+            cmd.ExecuteNonQuery();
+
+            DBhelper.cerrarConexion();
+        }
+
+        public void agregarRegimenHotel(String nombre, String mail, Int32 telefono, String regimen)
+        {
+
+            DBhelper.crearConexion();
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.agregarRegimenHotel");
+            cmd.Parameters.Add("@nombre", SqlDbType.NVarChar).Value = nombre;
+            cmd.Parameters.Add("@mail", SqlDbType.NVarChar).Value = mail;
+            cmd.Parameters.Add("@telefono", SqlDbType.Int).Value = telefono;
+            cmd.Parameters.Add("@regimen", SqlDbType.NVarChar).Value = regimen;
 
             DBhelper.abrirConexion();
 

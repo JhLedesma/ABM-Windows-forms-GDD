@@ -13,23 +13,24 @@ namespace FrbaHotel.AbmHotel
     public partial class CrearHotel : Form
     {
 
-        public List<Model.Regimen> listaDeRegimenes = Repositorios.Repo_regimen.getInstancia().getRegimenes();
+        public List<Model.Regimen> listaDeRegimenesDisponibles = Repositorios.Repo_regimen.getInstancia().getRegimenes();
         public Repositorios.Repo_hotel repo_hotel = Repositorios.Repo_hotel.getInstancia();
+        public List<Model.Regimen> regimenesAgregados = new List<Model.Regimen>();
+        private Model.Regimen regimenSeleccionado;
 
 
         public CrearHotel()
         {
             InitializeComponent();
             configuarComboBox();
-            numericTextBox_estrellas.MaxLength = 1;
-            
+            numericTextBox_estrellas.MaxLength = 1;        
         }
 
         public void configuarComboBox()
         {
             this.comboBox_regimen.ValueMember = "Objeto";
             this.comboBox_regimen.DisplayMember = "Descripcion";
-            this.comboBox_regimen.DataSource = listaDeRegimenes;
+            this.comboBox_regimen.DataSource = listaDeRegimenesDisponibles;
             this.comboBox_regimen.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
@@ -48,7 +49,14 @@ namespace FrbaHotel.AbmHotel
                 if (numericTextBox_estrellas.IntValue <= 5 && numericTextBox_estrellas.IntValue >= 1)
                 {
 
-                    repo_hotel.crearHotel(textBox_nombre.Text, textBox_mail.Text, numericTextBox_telefono.IntValue, numericTextBox_estrellas.IntValue, numericTextBox_porc_est.IntValue, comboBox_regimen.Text, textBox_calle.Text, numericTextBox_nroCalle.IntValue, textBox_ciudad.Text, textBox_pais.Text);
+                    repo_hotel.crearHotel(textBox_nombre.Text, textBox_mail.Text, numericTextBox_telefono.IntValue, numericTextBox_estrellas.IntValue, numericTextBox_porc_est.IntValue, textBox_calle.Text, numericTextBox_nroCalle.IntValue, textBox_ciudad.Text, textBox_pais.Text);
+
+                    
+
+                    foreach (Model.Regimen element in regimenesAgregados)
+                        {
+                            repo_hotel.agregarRegimenHotel(textBox_nombre.Text, textBox_mail.Text, numericTextBox_telefono.IntValue, element.descripcion);
+                        }
 
                     MessageBox.Show("Hotel creado correctamente");
 
@@ -79,7 +87,20 @@ namespace FrbaHotel.AbmHotel
             textBox_ciudad.Text = string.Empty;
             textBox_pais.Text = string.Empty;
         }
-        
+
+        //Falta agregar un chequeo para comboBox vacio
+        private void boton_agregar_Click(object sender, EventArgs e)
+        {
+            regimenSeleccionado = (Model.Regimen)comboBox_regimen.SelectedValue;
+            regimenesAgregados.Add(regimenSeleccionado);
+            
+            comboBox_regimen.DataSource = null;
+            listaDeRegimenesDisponibles.Remove(regimenSeleccionado);
+            
+            configuarComboBox();
+
+            MessageBox.Show("Agregado");
+        }
 
     }
 }
