@@ -34,5 +34,7 @@ namespace FrbaHotel.Model
             this.paisOrigen = paisOrigen;
             this.direccion = direccion;
         }
+
+        public Cliente() { }
     }
 }

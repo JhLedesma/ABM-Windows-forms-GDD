@@ -28,5 +28,7 @@ namespace FrbaHotel.Model
             this.numDomicilio = numDomicilio;
             this.piso = piso;
         }
+
+        public Direccion() { }
     }
 }

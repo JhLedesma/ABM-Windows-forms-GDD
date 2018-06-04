@@ -159,8 +159,8 @@ GO
 CREATE TABLE TRAEME_LA_COPA_MESSI.Direccion(
 IdDir int IDENTITY(1,1) PRIMARY KEY,
 Ciudad nvarchar(255) NULL,
-Calle nvarchar(255) NOT NULL,
-NroCalle numeric(18,0) NOT NULL,
+Calle nvarchar(255) NULL,
+NroCalle numeric(18,0) NULL,
 Piso numeric(18,0) NULL,
 Departamento nvarchar(50) NULL,
 Localidad nvarchar(255) NULL,
@@ -324,7 +324,7 @@ CONSTRAINT IdHabitacion PRIMARY KEY(IdHotel,Numero)
 
 create table traeme_la_copa_messi.EstadoReserva(
 IdEstadoReserva int IDENTITY(1,1) PRIMARY KEY not null,
-DescripEstadoReserva nvarchar not null,
+DescripEstadoReserva nvarchar(255) not null,
 );
 
 -- IdCliente o IdClienteIncon va a estar en NULL (uno de los dos) porque no se puede referenciar a dos clientes, uno solo hace reserva
@@ -445,14 +445,14 @@ INSERT INTO TRAEME_LA_COPA_MESSI.Factura_Inconsistente
 
 --FALTA EN LA MIGRACION ASOCIAR CON LAS DIRECCIONES CORRESPONDIENTES
 
-/*INSERT INTO TRAEME_LA_COPA_MESSI.Cliente_Inconsistente(Email,Nombre,Apellido,NumDoc, Nacionalidad, FechaNacimiento)
-	SELECT DISTINCT m1.Cliente_Mail, m1.Cliente_Nombre, m1.Cliente_Apellido, m1.Cliente_Pasaporte_Nro, m1.Cliente_Nacionalidad, m1.Cliente_Fecha_Nac
-	FROM gd_esquema.Maestra m1, gd_esquema.Maestra m2
-	WHERE m1.Cliente_Mail = m2.Cliente_Mail AND m1.Cliente_Pasaporte_Nro != m2.Cliente_Pasaporte_Nro
-
-UPDATE TRAEME_LA_COPA_MESSI.Cliente_Inconsistente SET TipoDoc = 1; --NO DEBERIA HACER UN UPDATE, TARDO MUCHO MAS
-																   --AVERIGUAR COMO METER ESTE VALOR EN EL INSERT DE ARRIBA
-*/
+INSERT INTO TRAEME_LA_COPA_MESSI.Cliente_Inconsistente(Email,Nombre,Apellido,NumDoc, Nacionalidad, FechaNacimiento, TipoDoc)
+    SELECT DISTINCT Cliente_Mail, Cliente_Nombre, Cliente_Apellido, Cliente_Pasaporte_Nro, Cliente_Nacionalidad, Cliente_Fecha_Nac, 1
+    FROM gd_esquema.Maestra 
+    WHERE Cliente_Mail in
+     (select t1.Cliente_Mail 
+        from gd_esquema.Maestra t1, gd_esquema.Maestra t2
+        where t1.Cliente_Mail = t2.Cliente_Mail and t1.Cliente_Pasaporte_Nro != t2.Cliente_Pasaporte_Nro
+        group by t1.Cliente_Mail,t1.Cliente_Pasaporte_Nro, t2.Cliente_Pasaporte_Nro)
 
 -- Clientes --
 
@@ -465,6 +465,8 @@ INSERT INTO TRAEME_LA_COPA_MESSI.Cliente(Email,Nombre,Apellido,NumDoc, Nacionali
 		from gd_esquema.Maestra t1, gd_esquema.Maestra t2
 		where t1.Cliente_Mail = t2.Cliente_Mail and t1.Cliente_Pasaporte_Nro != t2.Cliente_Pasaporte_Nro
 		group by t1.Cliente_Mail,t1.Cliente_Pasaporte_Nro, t2.Cliente_Pasaporte_Nro)
+
+													
 
 
 -- Hoteles --
@@ -524,11 +526,22 @@ INSERT INTO TRAEME_LA_COPA_MESSI.UsuariosPorHotel(IdHotel,Username,User_desempen
 	SELECT DISTINCT IdHotel,'admin', 'Administrador' FROM TRAEME_LA_COPA_MESSI.Hotel
 
 
--- Reserva --
-/*Falta agregar id clientes, estado reserva y regimen estadia id*/
-INSERT INTO TRAEME_LA_COPA_MESSI.Reserva(IdReserva, FechaReserva, FechaCheckIn, CantidadNochesReservadas, CantidadNochesUsadas)
+-- Estado_Reserva --
 
-	SELECT DISTINCT m.Reserva_Codigo, m.Reserva_Fecha_Inicio, m.Estadia_Fecha_Inicio, m.Reserva_Cant_Noches, m.Estadia_Cant_Noches FROM gd_esquema.Maestra m
+/*Decidimos crear un nuevo estado "Reserva sistema anterior" porque no podemos inferir
+la informacion necesaria para poner un estado correcto y sugerido por el enunciado en todas las reservas  */
+
+INSERT INTO TRAEME_LA_COPA_MESSI.EstadoReserva(DescripEstadoReserva)
+	 VALUES('Reserva sistema anterior') 
+
+
+-- Reserva --
+
+/*Falta agregar id clientes, estado reserva y regimen estadia id*/
+
+INSERT INTO TRAEME_LA_COPA_MESSI.Reserva(IdReserva, FechaReserva, FechaCheckIn, CantidadNochesReservadas, CantidadNochesUsadas,EstadoReserva)
+
+	SELECT DISTINCT m.Reserva_Codigo, m.Reserva_Fecha_Inicio, m.Estadia_Fecha_Inicio, m.Reserva_Cant_Noches, m.Estadia_Cant_Noches, 1 FROM gd_esquema.Maestra m
 	WHERE m.Estadia_Fecha_Inicio IS NULL
 
 
@@ -541,18 +554,8 @@ CantidadNochesUsadas = (SELECT Estadia_Cant_Noches FROM gd_esquema.Maestra
 							GROUP BY Estadia_Cant_Noches)
 
 
-/*create table traeme_la_copa_messi.Reserva(
-IdReserva numeric(18,0) PRIMARY KEY,
-IdCliente int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente(IdCliente) not null,
-IdClienteInconsistente int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente_Inconsistente(IdClienteInconsistente) not null,
-FechaReserva datetime NOT NULL,
-FechaCheckIn datetime NOT NULL,
-CantidadNochesReservadas numeric(18,0) NOT NULL,
-CantidadNochesUsadas numeric(18,0) NOT NULL,
-EstadoReserva int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.EstadoReserva(IdEstadoReserva) not null,
-RegimenEstadiaId int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.RegimenEstadia(IdRegimenEstadia) not null
-);
-*/
+
+
 
 -- Creacion de procedures --
 
