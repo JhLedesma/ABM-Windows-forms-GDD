@@ -151,9 +151,6 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.darDeBajaCliente','P') IS NOT NULL
 	
 
 
-
-
-
 /* Dropeo las views si ya existen */
 
 

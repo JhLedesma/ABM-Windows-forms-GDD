@@ -110,6 +110,37 @@ namespace FrbaHotel.Repositorios
 
         }
 
+  /*      public List<Model.Hotel> getFuncionalidades()
+        {
+
+            DataTable Funcionalidades;
+
+            List<Model.Funcionalidad> listaDeFuncionalidades = new List<Model.Funcionalidad>();
+
+            DBhelper.crearConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getFuncionalidades");
+
+            DBhelper.abrirConexion();
+
+            Funcionalidades = DBhelper.obtenerTabla(cmd);
+
+            DBhelper.cerrarConexion();
+            foreach (DataRow row in Funcionalidades.Rows)
+            {
+                Model.Funcionalidad funcionalidad = new Model.Funcionalidad();
+
+                funcionalidad.idFunc = row.Field<Int32>("IdFunc");
+                funcionalidad.descripcion = row.Field<String>("Descripcion");
+                funcionalidad.estado = Convert.ToInt16(row["Estado"]);
+
+                listaDeFuncionalidades.Add(funcionalidad);
+            }
+
+            return listaDeFuncionalidades;
+
+        }*/
+
 
     }
 }
