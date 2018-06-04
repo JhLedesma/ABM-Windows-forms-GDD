@@ -131,6 +131,9 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.newCliente','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.darBajaHotel','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.darBajaHotel;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.agregarRegimenHotel','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.agregarRegimenHotel;
+
 
 
 
@@ -454,10 +457,8 @@ INSERT INTO TRAEME_LA_COPA_MESSI.Cliente_Inconsistente(Email,Nombre,Apellido,Num
 -- Clientes --
 
 --FALTA EN LA MIGRACION ASOCIAR CON LAS DIRECCIONES CORRESPONDIENTES
-INSERT INTO TRAEME_LA_COPA_MESSI.Cliente(Email,Nombre,Apellido,NumDoc, Nacionalidad, FechaNacimiento, TipoDoc,Direccion)
-	SELECT DISTINCT Cliente_Mail, Cliente_Nombre, Cliente_Apellido, Cliente_Pasaporte_Nro, Cliente_Nacionalidad, Cliente_Fecha_Nac, 1,
-		(SELECT IdDir FROM TRAEME_LA_COPA_MESSI.Direccion d , gd_esquema.Maestra m
-		 WHERE d.Calle = m.Cliente_Dom_Calle AND d.Departamento = m.Cliente_Depto AND d.NroCalle = m.Cliente_Nro_Calle AND d.Piso = m.Cliente_Piso)
+INSERT INTO TRAEME_LA_COPA_MESSI.Cliente(Email,Nombre,Apellido,NumDoc, Nacionalidad, FechaNacimiento, TipoDoc)
+	SELECT DISTINCT Cliente_Mail, Cliente_Nombre, Cliente_Apellido, Cliente_Pasaporte_Nro, Cliente_Nacionalidad, Cliente_Fecha_Nac, 1
     FROM gd_esquema.Maestra 
     WHERE Cliente_Mail not in
 	 (select t1.Cliente_Mail 
@@ -676,7 +677,6 @@ CREATE PROCEDURE TRAEME_LA_COPA_MESSI.crearHotel
 @telefono int,
 @estrellas int,
 @porcEstrellas numeric(18,0),
-@regimen nvarchar(255),
 @calle nvarchar(255),
 @nroCalle int,
 @ciudad nvarchar(255),
@@ -686,8 +686,6 @@ AS
 BEGIN
 
 	DECLARE @direccion_id int
-	DECLARE @hotel_id int
-	DECLARE @regimen_id int
 
 	INSERT INTO TRAEME_LA_COPA_MESSI.Direccion(Calle,NroCalle,Ciudad,Pais) VALUES (@calle,@nroCalle,@ciudad,@pais)
 
@@ -696,13 +694,28 @@ BEGIN
 	INSERT INTO TRAEME_LA_COPA_MESSI.Hotel (Nombre, Mail,Telefono,CantEstrellas,PorcentajeEstrellas,Direccion,FechaCreacion)
 	VALUES (@nombre, @mail, @telefono, @estrellas, @porcEstrellas,@direccion_id,GETDATE())
 
+END
+
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.agregarRegimenHotel
+@regimen nvarchar(255),
+@nombre nvarchar(255),
+@mail nvarchar(255),
+@telefono int
+
+AS
+BEGIN
+
+	DECLARE @hotel_id int
+	DECLARE @regimen_id int
+
 	SET @hotel_id = (SELECT h.IdHotel FROM TRAEME_LA_COPA_MESSI.Hotel h WHERE h.Nombre = @nombre AND h.Mail = @mail AND h.Telefono = @telefono)
 	SET @regimen_id = (SELECT r.IdRegimenEstadia FROM TRAEME_LA_COPA_MESSI.RegimenEstadia r WHERE r.Descripcion = @regimen)
 
 	INSERT INTO TRAEME_LA_COPA_MESSI.RegimenPorHotel(IdHotel,IdRegimenEstadia)
 	VALUES (@hotel_id, @regimen_id)
 
-END 
+END
 
 
 GO
