@@ -89,6 +89,9 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Habitacion','U') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.RegimenPorHotel','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.RegimenPorHotel;
 
+if OBJECT_ID('Traeme_la_Copa_messi.auxiliar','U') is not null
+	drop table Traeme_la_Copa_messi.auxiliar;
+
 
 /* Dropeo de procedures si ya existen */
 
@@ -148,6 +151,9 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.modificarCliente','P') IS NOT NULL
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.darDeBajaCliente','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.darDeBajaCliente;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getClientesFiltrados','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getClientesFiltrados;
 	
 
 
@@ -390,6 +396,16 @@ Localidad nvarchar(255) NULL,
 Pais nvarchar(255) NULL
 );
 
+create table Traeme_la_Copa_messi.auxiliar(
+mailInconsistente nvarchar(255) not null Primary key,
+);
+
+
+insert into TRAEME_LA_COPA_MESSI.auxiliar(mailInconsistente)
+select distinct t1.Cliente_Mail 
+        from gd_esquema.Maestra t1, gd_esquema.Maestra t2
+        where t1.Cliente_Mail = t2.Cliente_Mail and (t1.Cliente_Pasaporte_Nro != t2.Cliente_Pasaporte_Nro or t1.Cliente_Dom_Calle != t2.Cliente_Dom_Calle or t1.Cliente_Depto != t2.Cliente_Depto or t1.Cliente_Nro_Calle != t2.Cliente_Nro_Calle)
+        group by t1.Cliente_Mail;
 
 /*create table traeme_la_copa_messi.HabitacionPorReserva(
 IdReserva numeric(18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Reserva(IdReserva),
@@ -415,7 +431,7 @@ INSERT INTO TRAEME_LA_COPA_MESSI.Direcciones_Hoteles(Ciudad,Calle,NroCalle)
 	FROM gd_esquema.Maestra
 
 INSERT INTO TRAEME_LA_COPA_MESSI.Direccion(Ciudad,Calle,NroCalle) --Dejamos pais como null, aunque se podria determinar por la ciudad
-	SELECT  Ciudad, Calle, NroCalle
+	SELECT  distinct Ciudad, Calle, NroCalle
 	FROM TRAEME_LA_COPA_MESSI.Direcciones_Hoteles
 
 
@@ -459,30 +475,23 @@ INSERT INTO TRAEME_LA_COPA_MESSI.Factura_Inconsistente
 
 -- Clientes inconsistentes --
 
---FALTA EN LA MIGRACION ASOCIAR CON LAS DIRECCIONES CORRESPONDIENTES
 
-INSERT INTO TRAEME_LA_COPA_MESSI.Cliente_Inconsistente(Email,Nombre,Apellido,NumDoc, Nacionalidad, FechaNacimiento, TipoDoc)
-    SELECT DISTINCT Cliente_Mail, Cliente_Nombre, Cliente_Apellido, Cliente_Pasaporte_Nro, Cliente_Nacionalidad, Cliente_Fecha_Nac, 1
-    FROM gd_esquema.Maestra 
-    WHERE Cliente_Mail in
-     (select t1.Cliente_Mail 
-        from gd_esquema.Maestra t1, gd_esquema.Maestra t2
-        where t1.Cliente_Mail = t2.Cliente_Mail and t1.Cliente_Pasaporte_Nro != t2.Cliente_Pasaporte_Nro
-        group by t1.Cliente_Mail,t1.Cliente_Pasaporte_Nro, t2.Cliente_Pasaporte_Nro)
+
+INSERT INTO TRAEME_LA_COPA_MESSI.Cliente_Inconsistente(Email,Nombre,Apellido,NumDoc, Nacionalidad, FechaNacimiento, TipoDoc, Direccion)
+    select distinct Cliente_Mail, Cliente_Nombre, Cliente_Apellido,Cliente_Pasaporte_Nro, Cliente_Nacionalidad, Cliente_Fecha_Nac, 1, IdDir
+from gd_esquema.Maestra m join TRAEME_LA_COPA_MESSI.Direccion d on (d.Calle = m.Cliente_Dom_Calle and m.Cliente_Depto = d.Departamento and 
+m.Cliente_Nro_Calle = d.NroCalle and m.Cliente_Piso = d.Piso)
+where Cliente_Mail in (select mailInconsistente from TRAEME_LA_COPA_MESSI.auxiliar) 
 
 -- Clientes --
 
---FALTA EN LA MIGRACION ASOCIAR CON LAS DIRECCIONES CORRESPONDIENTES
-INSERT INTO TRAEME_LA_COPA_MESSI.Cliente(Email,Nombre,Apellido,NumDoc, Nacionalidad, FechaNacimiento, TipoDoc)
-	SELECT DISTINCT Cliente_Mail, Cliente_Nombre, Cliente_Apellido, Cliente_Pasaporte_Nro, Cliente_Nacionalidad, Cliente_Fecha_Nac, 1
-    FROM gd_esquema.Maestra 
-    WHERE Cliente_Mail not in
-	 (select t1.Cliente_Mail 
-		from gd_esquema.Maestra t1, gd_esquema.Maestra t2
-		where t1.Cliente_Mail = t2.Cliente_Mail and t1.Cliente_Pasaporte_Nro != t2.Cliente_Pasaporte_Nro
-		group by t1.Cliente_Mail,t1.Cliente_Pasaporte_Nro, t2.Cliente_Pasaporte_Nro)
+INSERT INTO TRAEME_LA_COPA_MESSI.Cliente(Email,Nombre,Apellido,NumDoc, Nacionalidad, FechaNacimiento, TipoDoc, Direccion)
+	select distinct Cliente_Mail, Cliente_Nombre, Cliente_Apellido, Cliente_Pasaporte_Nro, Cliente_Nacionalidad, Cliente_Fecha_Nac, 1, IdDir
+from gd_esquema.Maestra m join TRAEME_LA_COPA_MESSI.Direccion d on (d.Calle = m.Cliente_Dom_Calle and m.Cliente_Depto = d.Departamento and 
+m.Cliente_Nro_Calle = d.NroCalle and m.Cliente_Piso = d.Piso)
+where Cliente_Mail not in (select mailInconsistente from TRAEME_LA_COPA_MESSI.auxiliar) 
 
-													
+											
 
 
 -- Hoteles --
