@@ -565,10 +565,13 @@ INSERT INTO TRAEME_LA_COPA_MESSI.EstadoReserva(DescripEstadoReserva)
 
 /*Falta agregar id clientes y regimen estadia id*/
 
-INSERT INTO TRAEME_LA_COPA_MESSI.Reserva(IdReserva, FechaReserva, FechaCheckIn, CantidadNochesReservadas, CantidadNochesUsadas,EstadoReserva)
+INSERT INTO TRAEME_LA_COPA_MESSI.Reserva(IdReserva, IdHotel, FechaReserva, FechaCheckIn, CantidadNochesReservadas, CantidadNochesUsadas,EstadoReserva)
 
-	SELECT DISTINCT m.Reserva_Codigo, m.Reserva_Fecha_Inicio, m.Estadia_Fecha_Inicio, m.Reserva_Cant_Noches, m.Estadia_Cant_Noches, 1 FROM gd_esquema.Maestra m
+	SELECT DISTINCT m.Reserva_Codigo, h.IdHotel, m.Reserva_Fecha_Inicio, m.Estadia_Fecha_Inicio, m.Reserva_Cant_Noches, m.Estadia_Cant_Noches, 1 FROM
+	(gd_esquema.Maestra m JOIN TRAEME_LA_COPA_MESSI.Direcciones_Hoteles d ON m.Hotel_Calle = d.Calle AND m.Hotel_Nro_Calle = d.NroCalle AND m.Hotel_Ciudad = d.Ciudad)
+	JOIN TRAEME_LA_COPA_MESSI.Hotel h ON h.Direccion = d.IdDir_Hotel
 	WHERE m.Estadia_Fecha_Inicio IS NULL
+
 
 
 UPDATE TRAEME_LA_COPA_MESSI.Reserva  SET
@@ -769,16 +772,20 @@ begin
 end
 
 GO
-CREATE PROCEDURE TRAEME_LA_COPA_MESSI.darBajaHotel
-@hotelId int
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.darBajaHotel /*No chequeo si hay una reserva que se hizo antes de la fecha de inicio y termina en la mitad de mi baja*/
+@hotelId int,
+@fechaInicio datetime,
+@fechaFin datetime
 
 AS
 BEGIN
 
-	UPDATE TRAEME_LA_COPA_MESSI.Hotel SET EstadoHotel = 1 WHERE IdHotel =  @hotelId
+	UPDATE TRAEME_LA_COPA_MESSI.Hotel SET EstadoHotel = 1 WHERE
+	IdHotel =  @hotelId AND
+	NOT EXISTS (SELECT * FROM TRAEME_LA_COPA_MESSI.Reserva r WHERE
+	r.IdHotel = @hotelId AND CONVERT(char(10),r.FechaReserva ,112) >= CONVERT(char(10), @fechaInicio ,112) AND  CONVERT(char(10),r.FechaReserva ,112) <= CONVERT(char(10),@fechaFin ,112))
 	
 END
-
 
 
 /* Repositorio Clientes */
