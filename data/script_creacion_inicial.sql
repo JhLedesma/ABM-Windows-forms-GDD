@@ -354,6 +354,7 @@ create table traeme_la_copa_messi.Reserva(
 IdReserva numeric(18,0) PRIMARY KEY,
 IdCliente int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente(IdCliente) null,
 IdClienteInconsistente int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente_Inconsistente(IdClienteInconsistente) null,
+IdHotel int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Hotel(IdHotel) null, --Cambiar a not null
 FechaReserva datetime  NULL,
 FechaCheckIn datetime  NULL,
 CantidadNochesReservadas numeric(18,0)  NULL,
@@ -562,7 +563,7 @@ INSERT INTO TRAEME_LA_COPA_MESSI.EstadoReserva(DescripEstadoReserva)
 
 -- Reserva --
 
-/*Falta agregar id clientes, estado reserva y regimen estadia id*/
+/*Falta agregar id clientes y regimen estadia id*/
 
 INSERT INTO TRAEME_LA_COPA_MESSI.Reserva(IdReserva, FechaReserva, FechaCheckIn, CantidadNochesReservadas, CantidadNochesUsadas,EstadoReserva)
 
@@ -577,6 +578,8 @@ FechaCheckIn = (SELECT Estadia_Fecha_Inicio FROM gd_esquema.Maestra
 CantidadNochesUsadas = (SELECT Estadia_Cant_Noches FROM gd_esquema.Maestra
 							WHERE Reserva_Codigo = IdReserva AND Estadia_Cant_Noches IS NOT NULL
 							GROUP BY Estadia_Cant_Noches)
+
+
 
 
 
