@@ -89,9 +89,14 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Habitacion','U') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.RegimenPorHotel','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.RegimenPorHotel;
 
-if OBJECT_ID('Traeme_la_Copa_messi.auxiliar','U') is not null
-	drop table Traeme_la_Copa_messi.auxiliar;
+if OBJECT_ID('Traeme_la_Copa_messi.MailsInconsistentes','U') is not null
+	drop table Traeme_la_Copa_messi.MailsInconsistentes;
 
+if OBJECT_ID('Traeme_la_Copa_messi.ReservasDeClientes','U') is not null
+	drop table Traeme_la_Copa_messi.ReservasDeClientes;
+
+if OBJECT_ID('Traeme_la_Copa_messi.ReservasDeClientesIncon','U') is not null
+	drop table Traeme_la_Copa_messi.ReservasDeClientesIncon;
 
 /* Dropeo de procedures si ya existen */
 
@@ -397,27 +402,41 @@ Localidad nvarchar(255) NULL,
 Pais nvarchar(255) NULL
 );
 
-create table Traeme_la_Copa_messi.auxiliar(
+create table Traeme_la_Copa_messi.MailsInconsistentes(
 mailInconsistente nvarchar(255) not null Primary key,
 );
 
+CREATE TABLE TRAEME_LA_COPA_MESSI.ReservasDeClientes(
+IdClienteAux int,
+IdReservaAux int,
+CONSTRAINT IdReservasDeClientes PRIMARY KEY(IdClienteAux, IdReservaAux)
+);
 
-insert into TRAEME_LA_COPA_MESSI.auxiliar(mailInconsistente)
-select distinct t1.Cliente_Mail 
-        from gd_esquema.Maestra t1, gd_esquema.Maestra t2
-        where t1.Cliente_Mail = t2.Cliente_Mail and (t1.Cliente_Pasaporte_Nro != t2.Cliente_Pasaporte_Nro or t1.Cliente_Dom_Calle != t2.Cliente_Dom_Calle or t1.Cliente_Depto != t2.Cliente_Depto or t1.Cliente_Nro_Calle != t2.Cliente_Nro_Calle)
-        group by t1.Cliente_Mail;
+CREATE TABLE TRAEME_LA_COPA_MESSI.ReservasDeClientesIncon(
+IdClienteInconAux int,
+IdReservaAux int,
+CONSTRAINT IdReservasDeClientesIncon PRIMARY KEY(IdClienteInconAux, IdReservaAux)
+);
 
-/*create table traeme_la_copa_messi.HabitacionPorReserva(
-IdReserva numeric(18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Reserva(IdReserva),
-IdHotelHab int,
-IdNumeroHab int,
-CONSTRAINT IdConsumiblePorReserva PRIMARY KEY(IdReserva,IdHotelHab,IdNumeroHab),
-FOREIGN KEY (IdHotelHab, IdNumeroHab) REFERENCES TRAEME_LA_COPA_MESSI.Habitacion(IdHotel,Numero)
-); */
 
 
 -----------------------------------------------------------------------/* Migracion de datos */-------------------------------------------------------------------------- 
+
+-- Tablas auxiliares creacion clientes --
+
+insert into TRAEME_LA_COPA_MESSI.MailsInconsistentes(mailInconsistente)
+select distinct t1.Cliente_Mail 
+        from gd_esquema.Maestra t1 JOIN gd_esquema.Maestra t2 ON t1.Cliente_Mail = t2.Cliente_Mail
+        where (t1.Cliente_Pasaporte_Nro != t2.Cliente_Pasaporte_Nro)
+        group by t1.Cliente_Mail;
+
+
+INSERT INTO TRAEME_LA_COPA_MESSI.MailsInconsistentes(mailInconsistente)
+SELECT DISTINCT t1.Cliente_Mail 
+        from gd_esquema.Maestra t1 JOIN gd_esquema.Maestra t2 ON t1.Cliente_Pasaporte_Nro = t2.Cliente_Pasaporte_Nro
+        where  t1.Cliente_Mail not in (select * from TRAEME_LA_COPA_MESSI.MailsInconsistentes) and(t1.Cliente_Mail != t2.Cliente_Mail)
+        group by t1.Cliente_Mail;
+
 
 -- Tipos de regimenes --
 
@@ -482,7 +501,7 @@ INSERT INTO TRAEME_LA_COPA_MESSI.Cliente_Inconsistente(Email,Nombre,Apellido,Num
     select distinct Cliente_Mail, Cliente_Nombre, Cliente_Apellido,Cliente_Pasaporte_Nro, Cliente_Nacionalidad, Cliente_Fecha_Nac, 1, IdDir
 from gd_esquema.Maestra m join TRAEME_LA_COPA_MESSI.Direccion d on (d.Calle = m.Cliente_Dom_Calle and m.Cliente_Depto = d.Departamento and 
 m.Cliente_Nro_Calle = d.NroCalle and m.Cliente_Piso = d.Piso)
-where Cliente_Mail in (select mailInconsistente from TRAEME_LA_COPA_MESSI.auxiliar) 
+where Cliente_Mail in (select mailInconsistente from TRAEME_LA_COPA_MESSI.MailsInconsistentes) 
 
 -- Clientes --
 
@@ -490,7 +509,7 @@ INSERT INTO TRAEME_LA_COPA_MESSI.Cliente(Email,Nombre,Apellido,NumDoc, Nacionali
 	select distinct Cliente_Mail, Cliente_Nombre, Cliente_Apellido, Cliente_Pasaporte_Nro, Cliente_Nacionalidad, Cliente_Fecha_Nac, 1, IdDir
 from gd_esquema.Maestra m join TRAEME_LA_COPA_MESSI.Direccion d on (d.Calle = m.Cliente_Dom_Calle and m.Cliente_Depto = d.Departamento and 
 m.Cliente_Nro_Calle = d.NroCalle and m.Cliente_Piso = d.Piso)
-where Cliente_Mail not in (select mailInconsistente from TRAEME_LA_COPA_MESSI.auxiliar) 
+where Cliente_Mail not in (select mailInconsistente from TRAEME_LA_COPA_MESSI.MailsInconsistentes) 
 
 											
 
@@ -560,32 +579,46 @@ la informacion necesaria para poner un estado correcto y sugerido por el enuncia
 INSERT INTO TRAEME_LA_COPA_MESSI.EstadoReserva(DescripEstadoReserva)
 	 VALUES('Reserva sistema anterior') 
 
+-- Tablas auxiliares creacion de reservas --
+
+INSERT INTO TRAEME_LA_COPA_MESSI.ReservasDeClientes
+SELECT DISTINCT IdCliente, Reserva_Codigo FROM TRAEME_LA_COPA_MESSI.Cliente JOIN gd_esquema.Maestra ON NumDoc = Cliente_Pasaporte_Nro;
+
+INSERT INTO TRAEME_LA_COPA_MESSI.ReservasDeClientesIncon
+SELECT DISTINCT IdClienteInconsistente, Reserva_Codigo FROM TRAEME_LA_COPA_MESSI.Cliente_Inconsistente JOIN gd_esquema.Maestra ON NumDoc = Cliente_Pasaporte_Nro;
+
+
 
 -- Reserva --
 
-/*Falta agregar id clientes y regimen estadia id*/
+/*Falta agregar id clientes*/
 
-INSERT INTO TRAEME_LA_COPA_MESSI.Reserva(IdReserva, IdHotel, FechaReserva, FechaCheckIn, CantidadNochesReservadas, CantidadNochesUsadas,EstadoReserva)
+INSERT INTO TRAEME_LA_COPA_MESSI.Reserva(IdReserva, IdHotel, FechaReserva, FechaCheckIn, CantidadNochesReservadas, CantidadNochesUsadas,RegimenEstadiaId ,EstadoReserva)
 
-	SELECT DISTINCT m.Reserva_Codigo, h.IdHotel, m.Reserva_Fecha_Inicio, m.Estadia_Fecha_Inicio, m.Reserva_Cant_Noches, m.Estadia_Cant_Noches, 1 FROM
+	SELECT DISTINCT m.Reserva_Codigo, h.IdHotel, m.Reserva_Fecha_Inicio, m.Estadia_Fecha_Inicio, m.Reserva_Cant_Noches, m.Estadia_Cant_Noches,
+	(SELECT IdRegimenEstadia FROM TRAEME_LA_COPA_MESSI.RegimenEstadia WHERE Descripcion = m.Regimen_Descripcion), 1
+
+	FROM
+
 	(gd_esquema.Maestra m JOIN TRAEME_LA_COPA_MESSI.Direcciones_Hoteles d ON m.Hotel_Calle = d.Calle AND m.Hotel_Nro_Calle = d.NroCalle AND m.Hotel_Ciudad = d.Ciudad)
 	JOIN TRAEME_LA_COPA_MESSI.Hotel h ON h.Direccion = d.IdDir_Hotel
 	WHERE m.Estadia_Fecha_Inicio IS NULL
 
 
 
-UPDATE TRAEME_LA_COPA_MESSI.Reserva  SET
+UPDATE TRAEME_LA_COPA_MESSI.Reserva  SET  /*Tarda mil años*/
+
 FechaCheckIn = (SELECT Estadia_Fecha_Inicio FROM gd_esquema.Maestra
 					 WHERE Reserva_Codigo = IdReserva AND Estadia_Fecha_Inicio IS NOT NULL
 					 GROUP BY Estadia_Fecha_Inicio),
+
 CantidadNochesUsadas = (SELECT Estadia_Cant_Noches FROM gd_esquema.Maestra
 							WHERE Reserva_Codigo = IdReserva AND Estadia_Cant_Noches IS NOT NULL
-							GROUP BY Estadia_Cant_Noches)
+							GROUP BY Estadia_Cant_Noches),
 
+IdCliente = (SELECT IdClienteAux FROM TRAEME_LA_COPA_MESSI.ReservasDeClientes  WHERE IdReservaAux = IdReserva)
 
-
-
-
+--IdClienteInconsistente = (SELECT IdClienteInconAux FROM TRAEME_LA_COPA_MESSI.ReservasDeClientesIncon  WHERE IdReservaAux = IdReserva)
 
 
 -- Creacion de procedures --
