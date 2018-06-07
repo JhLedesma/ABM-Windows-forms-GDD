@@ -98,6 +98,9 @@ if OBJECT_ID('Traeme_la_Copa_messi.ReservasDeClientes','U') is not null
 if OBJECT_ID('Traeme_la_Copa_messi.ReservasDeClientesIncon','U') is not null
 	drop table Traeme_la_Copa_messi.ReservasDeClientesIncon;
 
+if OBJECT_ID('Traeme_la_Copa_messi.HabitacionPorReserva','U') is not null
+	drop table Traeme_la_Copa_messi.HabitacionPorReserva;
+
 /* Dropeo de procedures si ya existen */
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarUsuario','P') IS NOT NULL  
@@ -380,7 +383,7 @@ ReservaId numeric(18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Reserva(IdRe
 );
 
 create table traeme_la_copa_messi.Consumible(
-IdConsumible numeric(18,0) IDENTITY(1,1) PRIMARY KEY not null,
+IdConsumible numeric(18,0) PRIMARY KEY not null,
 Descripcion nvarchar(255) not null,
 Precio numeric(18,2) not null,
 );
@@ -388,6 +391,7 @@ Precio numeric(18,2) not null,
 create table traeme_la_copa_messi.ConsumiblePorReserva(
 ConsumibleId numeric(18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Consumible(IdConsumible),
 ReservaID numeric(18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Reserva(IdReserva),
+Cantidad int NOT NULL,
 CONSTRAINT IdConsumiblePorReserva PRIMARY KEY(ConsumibleId,ReservaID)
 );
 
@@ -418,6 +422,12 @@ IdReservaAux int,
 CONSTRAINT IdReservasDeClientesIncon PRIMARY KEY(IdClienteInconAux, IdReservaAux)
 );
 
+CREATE TABLE TRAEME_LA_COPA_MESSI.HabitacionPorReserva(
+IdHotel int,
+NumeroHabitacion int,
+IdReserva numeric(18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Reserva(IdReserva),
+CONSTRAINT FK_Habitacion FOREIGN KEY(IdHotel, NumeroHabitacion) REFERENCES TRAEME_LA_COPA_MESSI.Habitacion(IdHotel, Numero)
+);
 
 
 -----------------------------------------------------------------------/* Migracion de datos */-------------------------------------------------------------------------- 
@@ -616,6 +626,27 @@ CantidadNochesUsadas = (SELECT Estadia_Cant_Noches FROM gd_esquema.Maestra
 IdCliente = (SELECT IdClienteAux FROM TRAEME_LA_COPA_MESSI.ReservasDeClientes  WHERE IdReservaAux = IdReserva),
 
 IdClienteInconsistente = (SELECT IdClienteInconAux FROM TRAEME_LA_COPA_MESSI.ReservasDeClientesIncon  WHERE IdReservaAux = IdReserva)
+
+
+-- Consumibles --
+
+INSERT INTO TRAEME_LA_COPA_MESSI.Consumible
+SELECT DISTINCT Consumible_Codigo, Consumible_Descripcion, Consumible_Precio FROM gd_esquema.Maestra WHERE Consumible_Codigo IS NOT NULL
+
+-- Consumible por reserva --
+
+INSERT INTO TRAEME_LA_COPA_MESSI.ConsumiblePorReserva
+SELECT Consumible_Codigo, Reserva_Codigo, SUM(Item_Factura_Cantidad) FROM gd_esquema.Maestra WHERE Consumible_Codigo IS NOT NULL GROUP BY Consumible_Codigo,Reserva_Codigo
+
+-- Habitacion por reserva --
+
+-- FALTA PRIMARY KEY EN TABLA
+INSERT INTO TRAEME_LA_COPA_MESSI.HabitacionPorReserva
+SELECT DISTINCT IdHotel, Habitacion_Numero, Reserva_Codigo FROM
+TRAEME_LA_COPA_MESSI.Hotel h JOIN TRAEME_LA_COPA_MESSI.Direcciones_Hoteles d
+ON h.Direccion = d.IdDir_Hotel, gd_esquema.Maestra m
+WHERE m.Hotel_Calle = d.Calle AND m.Hotel_Ciudad = d.Ciudad AND m.Hotel_Nro_Calle = d.NroCalle
+
 
 -- Creacion de procedures --
 
