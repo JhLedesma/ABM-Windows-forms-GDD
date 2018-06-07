@@ -101,6 +101,10 @@ if OBJECT_ID('Traeme_la_Copa_messi.ReservasDeClientesIncon','U') is not null
 if OBJECT_ID('Traeme_la_Copa_messi.HabitacionPorReserva','U') is not null
 	drop table Traeme_la_Copa_messi.HabitacionPorReserva;
 
+if OBJECT_ID('TRAEME_LA_COPA_MESSI.ConsumiblePorHabitacion','U') is not null
+	drop table TRAEME_LA_COPA_MESSI.ConsumiblePorHabitacion;
+		
+
 /* Dropeo de procedures si ya existen */
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarUsuario','P') IS NOT NULL  
@@ -162,6 +166,8 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.darDeBajaCliente','P') IS NOT NULL
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getClientesFiltrados','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getClientesFiltrados;
+
+
 	
 
 
@@ -429,6 +435,13 @@ IdReserva numeric(18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Reserva(IdRe
 CONSTRAINT FK_Habitacion FOREIGN KEY(IdHotel, NumeroHabitacion) REFERENCES TRAEME_LA_COPA_MESSI.Habitacion(IdHotel, Numero)
 );
 
+Create Table TRAEME_LA_COPA_MESSI.ConsumiblePorHabitacion(
+idHotel int,
+NumeroHabitacion int,
+ConsumibleId numeric (18,0) Foreign key references TRAEME_LA_COPA_MESSI.Consumible(IdConsumible),
+CONSTRAINT FK_ConsPorHab FOREIGN KEY(IdHotel, NumeroHabitacion) REFERENCES TRAEME_LA_COPA_MESSI.Habitacion(IdHotel, Numero)
+);
+
 
 -----------------------------------------------------------------------/* Migracion de datos */-------------------------------------------------------------------------- 
 
@@ -646,6 +659,17 @@ SELECT DISTINCT IdHotel, Habitacion_Numero, Reserva_Codigo FROM
 TRAEME_LA_COPA_MESSI.Hotel h JOIN TRAEME_LA_COPA_MESSI.Direcciones_Hoteles d
 ON h.Direccion = d.IdDir_Hotel, gd_esquema.Maestra m
 WHERE m.Hotel_Calle = d.Calle AND m.Hotel_Ciudad = d.Ciudad AND m.Hotel_Nro_Calle = d.NroCalle
+
+
+-- Consumible por habitacion
+Insert into TRAEME_LA_COPA_MESSI.ConsumiblePorHabitacion
+select distinct h.IdHotel,h.Numero,m.Consumible_Codigo
+from TRAEME_LA_COPA_MESSI.Habitacion h join gd_esquema.Maestra m 
+on (h.Numero = m.Habitacion_Numero and h.Piso = m.Habitacion_Piso and h.Ubicacion = m.Habitacion_Frente) where m.Consumible_Codigo is not null
+
+--item factura
+
+insert into TRAEME_LA_COPA_MESSI.Item_Factura
 
 
 -- Creacion de procedures --
