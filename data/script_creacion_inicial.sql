@@ -237,8 +237,8 @@ CONSTRAINT IdRolPorUsuario PRIMARY KEY(Username,IdRol)
 CREATE TABLE TRAEME_LA_COPA_MESSI.Item_Factura(
 Fac_Numero int,
 IdFac int,
--- Reserva --Agregar despues de crear Reserva
--- Consumible 
+IdReserva int,
+IdConsumible int,
 Cantidad int,
 Monto int,
 PRIMARY KEY (Fac_Numero , IdFac)
@@ -667,9 +667,17 @@ select distinct h.IdHotel,h.Numero,m.Consumible_Codigo
 from TRAEME_LA_COPA_MESSI.Habitacion h join gd_esquema.Maestra m 
 on (h.Numero = m.Habitacion_Numero and h.Piso = m.Habitacion_Piso and h.Ubicacion = m.Habitacion_Frente) where m.Consumible_Codigo is not null
 
+--Factura
+ 
 --item factura
-
+--FALTA FACTURA PARA PROBAR Y AGREGAR IDFACTURA
 insert into TRAEME_LA_COPA_MESSI.Item_Factura
+select f.Fact_Nro, m.Reserva_Codigo, m.Consumible_Codigo, count(m.Consumible_Codigo) as cantidad,sum (m.Consumible_Precio) as monto
+from TRAEME_LA_COPA_MESSI.Factura f left join gd_esquema.Maestra m
+on (f.Fact_Nro = m.Factura_Nro)
+group by f.Fact_Nro, m.Reserva_Codigo, m.Consumible_Codigo
+
+
 
 
 -- Creacion de procedures --
