@@ -585,13 +585,11 @@ INSERT INTO TRAEME_LA_COPA_MESSI.ReservasDeClientes
 SELECT DISTINCT IdCliente, Reserva_Codigo FROM TRAEME_LA_COPA_MESSI.Cliente JOIN gd_esquema.Maestra ON NumDoc = Cliente_Pasaporte_Nro;
 
 INSERT INTO TRAEME_LA_COPA_MESSI.ReservasDeClientesIncon
-SELECT DISTINCT IdClienteInconsistente, Reserva_Codigo FROM TRAEME_LA_COPA_MESSI.Cliente_Inconsistente JOIN gd_esquema.Maestra ON NumDoc = Cliente_Pasaporte_Nro;
+SELECT DISTINCT IdClienteInconsistente, Reserva_Codigo FROM TRAEME_LA_COPA_MESSI.Cliente_Inconsistente JOIN gd_esquema.Maestra ON NumDoc = Cliente_Pasaporte_Nro AND Email = Cliente_Mail;
 
 
 
 -- Reserva --
-
-/*Falta agregar id clientes*/
 
 INSERT INTO TRAEME_LA_COPA_MESSI.Reserva(IdReserva, IdHotel, FechaReserva, FechaCheckIn, CantidadNochesReservadas, CantidadNochesUsadas,RegimenEstadiaId ,EstadoReserva)
 
@@ -605,7 +603,6 @@ INSERT INTO TRAEME_LA_COPA_MESSI.Reserva(IdReserva, IdHotel, FechaReserva, Fecha
 	WHERE m.Estadia_Fecha_Inicio IS NULL
 
 
-
 UPDATE TRAEME_LA_COPA_MESSI.Reserva  SET  /*Tarda mil años*/
 
 FechaCheckIn = (SELECT Estadia_Fecha_Inicio FROM gd_esquema.Maestra
@@ -616,10 +613,9 @@ CantidadNochesUsadas = (SELECT Estadia_Cant_Noches FROM gd_esquema.Maestra
 							WHERE Reserva_Codigo = IdReserva AND Estadia_Cant_Noches IS NOT NULL
 							GROUP BY Estadia_Cant_Noches),
 
-IdCliente = (SELECT IdClienteAux FROM TRAEME_LA_COPA_MESSI.ReservasDeClientes  WHERE IdReservaAux = IdReserva)
+IdCliente = (SELECT IdClienteAux FROM TRAEME_LA_COPA_MESSI.ReservasDeClientes  WHERE IdReservaAux = IdReserva),
 
---IdClienteInconsistente = (SELECT IdClienteInconAux FROM TRAEME_LA_COPA_MESSI.ReservasDeClientesIncon  WHERE IdReservaAux = IdReserva)
-
+IdClienteInconsistente = (SELECT IdClienteInconAux FROM TRAEME_LA_COPA_MESSI.ReservasDeClientesIncon  WHERE IdReservaAux = IdReserva)
 
 -- Creacion de procedures --
 
