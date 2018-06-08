@@ -30,8 +30,11 @@ namespace FrbaHotel.AbmCliente
         private void btnAceptar_Click(object sender, EventArgs e)
         {
             Repositorios.Repo_Cliente.getInstancia().darBajaCliente(idClienteSeleccionado);
+
             this.Hide();
             this.Close();
+
+            MessageBox.Show("Cliente dado de baja correctamente");
         }
     }
 }
