@@ -5,8 +5,26 @@ GO
 
 /* Dropeo de tablas si estas ya existen */
 
-IF OBJECT_ID ('traeme_la_copa_messi.HabitacionPorReserva','U') IS NOT NULL
-    DROP TABLE traeme_la_copa_messi.HabitacionPorReserva;
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Item_Factura','U') IS NOT NULL    
+	DROP TABLE TRAEME_LA_COPA_MESSI.Item_Factura;
+
+if OBJECT_ID('TRAEME_LA_COPA_MESSI.ConsumiblePorHabitacion','U') is not null
+	drop table TRAEME_LA_COPA_MESSI.ConsumiblePorHabitacion;
+
+if OBJECT_ID('Traeme_la_Copa_messi.HabitacionPorReserva','U') is not null
+	drop table Traeme_la_Copa_messi.HabitacionPorReserva;
+
+if OBJECT_ID('Traeme_la_Copa_messi.ReservasDeClientesIncon','U') is not null
+	drop table Traeme_la_Copa_messi.ReservasDeClientesIncon;
+
+if OBJECT_ID('Traeme_la_Copa_messi.ReservasDeClientes','U') is not null
+	drop table Traeme_la_Copa_messi.ReservasDeClientes;
+
+if OBJECT_ID('Traeme_la_Copa_messi.MailsInconsistentes','U') is not null
+	drop table Traeme_la_Copa_messi.MailsInconsistentes;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Direcciones_Hoteles','U') IS NOT NULL    
+	DROP TABLE TRAEME_LA_COPA_MESSI.Direcciones_hoteles;
 
 IF OBJECT_ID ('traeme_la_copa_messi.ConsumiblePorReserva','U') IS NOT NULL
     DROP TABLE traeme_la_copa_messi.ConsumiblePorReserva;
@@ -62,9 +80,6 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Factura_Inconsistente','U') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Factura','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.Factura;
 
-IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Item_Factura','U') IS NOT NULL    
-	DROP TABLE TRAEME_LA_COPA_MESSI.Item_Factura;
-
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.RolPorUsuario','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.RolPorUsuario;
 
@@ -80,30 +95,6 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.TipoDoc','U') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Direccion','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.Direccion;
 
-IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Direcciones_Hoteles','U') IS NOT NULL    
-	DROP TABLE TRAEME_LA_COPA_MESSI.Direcciones_hoteles;
-
-IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Habitacion','U') IS NOT NULL    
-	DROP TABLE TRAEME_LA_COPA_MESSI.Habitacion;
-
-IF OBJECT_ID('TRAEME_LA_COPA_MESSI.RegimenPorHotel','U') IS NOT NULL    
-	DROP TABLE TRAEME_LA_COPA_MESSI.RegimenPorHotel;
-
-if OBJECT_ID('Traeme_la_Copa_messi.MailsInconsistentes','U') is not null
-	drop table Traeme_la_Copa_messi.MailsInconsistentes;
-
-if OBJECT_ID('Traeme_la_Copa_messi.ReservasDeClientes','U') is not null
-	drop table Traeme_la_Copa_messi.ReservasDeClientes;
-
-if OBJECT_ID('Traeme_la_Copa_messi.ReservasDeClientesIncon','U') is not null
-	drop table Traeme_la_Copa_messi.ReservasDeClientesIncon;
-
-if OBJECT_ID('Traeme_la_Copa_messi.HabitacionPorReserva','U') is not null
-	drop table Traeme_la_Copa_messi.HabitacionPorReserva;
-
-if OBJECT_ID('TRAEME_LA_COPA_MESSI.ConsumiblePorHabitacion','U') is not null
-	drop table TRAEME_LA_COPA_MESSI.ConsumiblePorHabitacion;
-		
 
 /* Dropeo de procedures si ya existen */
 
@@ -674,18 +665,6 @@ on (f.Fact_Nro = m.Factura_Nro) WHERE Consumible_Codigo IS NOT NULL
 group by f.Fact_Nro, m.Reserva_Codigo, m.Consumible_Codigo, m.Consumible_Precio
 ORDER BY Reserva_Codigo ASC
 
-/*
-
-CREATE TABLE TRAEME_LA_COPA_MESSI.Item_Factura(
-Id_item int IDENTITY (1,1) PRIMARY KEY,
-Fac_Numero int,
-IdReserva int,
-IdConsumible int,
-Cantidad int,
-Monto int
-);
-
-*/
 
 -- Creacion de procedures --
 
