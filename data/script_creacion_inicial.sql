@@ -233,31 +233,19 @@ IdRol int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Rol(IdRol),
 CONSTRAINT IdRolPorUsuario PRIMARY KEY(Username,IdRol)
 );
 
-
-CREATE TABLE TRAEME_LA_COPA_MESSI.Item_Factura(
-Fac_Numero int,
-IdFac int,
-IdReserva int,
-IdConsumible int,
-Cantidad int,
-Monto int,
-PRIMARY KEY (Fac_Numero , IdFac)
-);
-
-
 CREATE TABLE TRAEME_LA_COPA_MESSI.Factura(
-Fact_Nro int NOT NULL,
+Fact_Nro int PRIMARY KEY,
 Fact_Fecha DateTime NOT NULL,
-Fact_Total int NOT NULL,
-PRIMARY KEY (Fact_Nro)
+Fact_Total int NOT NULL
 );
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.Factura_Inconsistente(
 Fact_Nro int,
 Fact_Fecha DateTime,
-Fact_Total int,
+Fact_Total numeric (18,2),
 PRIMARY KEY (Fact_Nro)
 );
+
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.Cliente(
 IdCliente int IDENTITY(1,1) PRIMARY KEY,
@@ -442,7 +430,15 @@ ConsumibleId numeric (18,0) Foreign key references TRAEME_LA_COPA_MESSI.Consumib
 CONSTRAINT FK_ConsPorHab FOREIGN KEY(IdHotel, NumeroHabitacion) REFERENCES TRAEME_LA_COPA_MESSI.Habitacion(IdHotel, Numero)
 );
 
-
+CREATE TABLE TRAEME_LA_COPA_MESSI.Item_Factura(
+Id_item int IDENTITY (1,1) PRIMARY KEY,
+Fac_Numero int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Factura(Fact_Nro),
+Fac_Numero_Inc int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Factura_Inconsistente(Fact_nro),
+IdReserva numeric(18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Reserva(IdReserva),
+IdConsumible numeric(18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Consumible(IdConsumible),
+Cantidad int,
+Monto int
+);
 -----------------------------------------------------------------------/* Migracion de datos */-------------------------------------------------------------------------- 
 
 -- Tablas auxiliares creacion clientes --
@@ -670,17 +666,30 @@ on (h.Numero = m.Habitacion_Numero and h.Piso = m.Habitacion_Piso and h.Ubicacio
 --Factura
  
 --item factura
---FALTA FACTURA PARA PROBAR Y AGREGAR IDFACTURA
-insert into TRAEME_LA_COPA_MESSI.Item_Factura
-select f.Fact_Nro, m.Reserva_Codigo, m.Consumible_Codigo, count(m.Consumible_Codigo) as cantidad,sum (m.Consumible_Precio) as monto
-from TRAEME_LA_COPA_MESSI.Factura f left join gd_esquema.Maestra m
-on (f.Fact_Nro = m.Factura_Nro)
-group by f.Fact_Nro, m.Reserva_Codigo, m.Consumible_Codigo
+--FALTA FACTURA PARA PROBAR Y AGREGAR IDFACTURA. FALTA VER SI SE CALCULA BIEN LA CANTIDAD TOTAL
+insert into TRAEME_LA_COPA_MESSI.Item_Factura(Fac_Numero_Inc,IdReserva,IdConsumible,Cantidad,Monto)
+select f.Fact_Nro, m.Reserva_Codigo, m.Consumible_Codigo, SUM(m.Item_Factura_Cantidad) as cantidad, m.Consumible_Precio * SUM(m.Item_Factura_Cantidad) as monto
+from TRAEME_LA_COPA_MESSI.Factura_Inconsistente f JOIN gd_esquema.Maestra m
+on (f.Fact_Nro = m.Factura_Nro) WHERE Consumible_Codigo IS NOT NULL
+group by f.Fact_Nro, m.Reserva_Codigo, m.Consumible_Codigo, m.Consumible_Precio
+ORDER BY Reserva_Codigo ASC
 
+/*
 
+CREATE TABLE TRAEME_LA_COPA_MESSI.Item_Factura(
+Id_item int IDENTITY (1,1) PRIMARY KEY,
+Fac_Numero int,
+IdReserva int,
+IdConsumible int,
+Cantidad int,
+Monto int
+);
 
+*/
 
 -- Creacion de procedures --
+
+
 
 /* Repositorio Usuarios */
 
