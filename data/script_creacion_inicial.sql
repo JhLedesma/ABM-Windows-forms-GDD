@@ -183,13 +183,13 @@ GO
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.Direccion(
 IdDir int IDENTITY(1,1) PRIMARY KEY,
-Ciudad nvarchar(255) DEFAULT 'Campo_Vacio',
-Calle nvarchar(255) DEFAULT 'Campo_Vacio',
+Ciudad nvarchar(255) DEFAULT '',
+Calle nvarchar(255) DEFAULT '',
 NroCalle numeric(18,0) DEFAULT -1,
 Piso numeric(18,0) DEFAULT -1,
-Departamento nvarchar(50) DEFAULT 'Campo_Vacio',
-Localidad nvarchar(255) DEFAULT 'Campo_Vacio',
-Pais nvarchar(255) DEFAULT 'Campo_Vacio',
+Departamento nvarchar(50) DEFAULT '',
+Localidad nvarchar(255) DEFAULT '',
+Pais nvarchar(255) DEFAULT '',
 );
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.TipoDoc(
@@ -247,7 +247,7 @@ Apellido nvarchar(255) NOT NULL,
 TipoDoc nvarchar(255) NULL,
 NumDoc numeric(18,0) NOT NULL,
 Telefono numeric(18,0) DEFAULT -1,
-PaisOrigen nvarchar(255) DEFAULT 'Campo_Vacio',
+PaisOrigen nvarchar(255) DEFAULT '',
 Nacionalidad nvarchar(255) NOT NULL,
 FechaNacimiento Datetime NOT NULL,
 Estado BIT DEFAULT 0,
@@ -262,7 +262,7 @@ Apellido nvarchar(255) NOT NULL,
 TipoDoc nvarchar(255) NULL,
 NumDoc numeric(18,0) NOT NULL,
 Telefono numeric(18,0) DEFAULT -1,
-PaisOrigen nvarchar(255)  DEFAULT 'Campo_Vacio',
+PaisOrigen nvarchar(255)  DEFAULT '',
 Nacionalidad nvarchar(255) NOT NULL,
 FechaNacimiento Datetime NOT NULL,
 Estado BIT DEFAULT 0,
@@ -953,7 +953,7 @@ commit
 GO
 create procedure TRAEME_LA_COPA_MESSI.getCliente
 @id int,
-@mail nvarchar
+@mail nvarchar(255)
 as
 begin
 	if exists (select IdCliente from TRAEME_LA_COPA_MESSI.Cliente c where c.IdCliente=@id and c.Email=@mail)
@@ -1009,7 +1009,7 @@ commit
 GO
 create procedure TRAEME_LA_COPA_MESSI.darDeBajaCliente
 @idCliente int,
-@mail nvarchar
+@mail nvarchar(255)
 as
 begin transaction
 	begin
