@@ -115,7 +115,7 @@ namespace FrbaHotel.Repositorios
 
             SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getCliente");
             cmd.Parameters.Add("@id", SqlDbType.Int).Value = idCliente;
-            cmd.Parameters.Add("@@mail", SqlDbType.NVarChar).Value = idCliente;
+            cmd.Parameters.Add("@mail", SqlDbType.NVarChar).Value = mail;
 
             DataTable tablaCliente = DBhelper.obtenerTabla(cmd);
 
@@ -133,7 +133,8 @@ namespace FrbaHotel.Repositorios
                     cliente.nacionalidad = (String)row["Nacionalidad"];
                     cliente.fechaNac = (DateTime)row["FechaNacimiento"];
                     cliente.paisOrigen = (String)row["PaisOrigen"];
-                    cliente.direccion = this.getDireccion((Int32)row["IdCliente"]);
+                    cliente.direccion = this.getDireccion((Int32)row["Direccion"]);
+                    cliente.estado = Convert.ToInt16(row["Estado"]);
             }
 
             DBhelper.cerrarConexion();
@@ -143,6 +144,10 @@ namespace FrbaHotel.Repositorios
 
         public Model.Direccion getDireccion(int idDireccion)
         {
+            DBhelper.crearConexion();
+
+            DBhelper.abrirConexion();
+
             SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getDireccion");
             cmd.Parameters.Add("@id", SqlDbType.Int).Value = idDireccion;
 
@@ -161,6 +166,8 @@ namespace FrbaHotel.Repositorios
                 direccion.piso = (decimal)row["Piso"];
                 direccion.numDomicilio = (decimal)row["NroCalle"];
             }
+
+            DBhelper.cerrarConexion();
 
             return direccion;
         }
@@ -198,7 +205,7 @@ namespace FrbaHotel.Repositorios
         }
 
 
-        public void darBajaCliente(int idCliente)
+        public void darBajaCliente(int idCliente, string mail)
         {
             DBhelper.crearConexion();
 
@@ -206,7 +213,7 @@ namespace FrbaHotel.Repositorios
 
             SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.darDeBajaCliente");
             cmd.Parameters.Add("@idCliente", SqlDbType.Int).Value = idCliente;
-            cmd.Parameters.Add("@@mail", SqlDbType.NVarChar).Value = idCliente;
+            cmd.Parameters.Add("@mail", SqlDbType.NVarChar).Value = mail;
 
             cmd.ExecuteNonQuery();
 

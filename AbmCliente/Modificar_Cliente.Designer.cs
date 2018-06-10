@@ -107,6 +107,11 @@
             23283064,
             0,
             0});
+            this.numericTelefono.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
             this.numericTelefono.Name = "numericTelefono";
             this.numericTelefono.Size = new System.Drawing.Size(121, 20);
             this.numericTelefono.TabIndex = 57;
@@ -184,6 +189,11 @@
             23283064,
             0,
             0});
+            this.numericNumeroIdentificacion.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
             this.numericNumeroIdentificacion.Name = "numericNumeroIdentificacion";
             this.numericNumeroIdentificacion.Size = new System.Drawing.Size(120, 20);
             this.numericNumeroIdentificacion.TabIndex = 11;
@@ -340,6 +350,11 @@
             23283064,
             0,
             0});
+            this.numericPiso.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
             this.numericPiso.Name = "numericPiso";
             this.numericPiso.Size = new System.Drawing.Size(68, 20);
             this.numericPiso.TabIndex = 49;
@@ -370,6 +385,11 @@
             23283064,
             0,
             0});
+            this.numericNumero.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
             this.numericNumero.Name = "numericNumero";
             this.numericNumero.Size = new System.Drawing.Size(68, 20);
             this.numericNumero.TabIndex = 45;

@@ -37,11 +37,16 @@ namespace FrbaHotel.AbmCliente
             }
             else
             {
-                new AbmCliente.Baja_Cliente(idClienteSeleccionado, mailClienteSeleccionado).ShowDialog();
+                new AbmCliente.Baja_Cliente(idClienteSeleccionado, mailClienteSeleccionado, this).ShowDialog();
             }
         }
 
         private void lblFiltrar_Click(object sender, EventArgs e)
+        {
+            dataGridView1.DataSource = Repositorios.Repo_Cliente.getInstancia().getTablaClientesFiltradosActivos(filtroNombre.Text, filtroApellido.Text, filtroMail.Text, "", filtroNumeroIdentificacion.Value);
+        }
+
+        public void vaciarDataGrid()
         {
             dataGridView1.DataSource = Repositorios.Repo_Cliente.getInstancia().getTablaClientesFiltradosActivos(filtroNombre.Text, filtroApellido.Text, filtroMail.Text, "", filtroNumeroIdentificacion.Value);
         }
