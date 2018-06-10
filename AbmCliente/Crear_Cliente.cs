@@ -17,6 +17,7 @@ namespace FrbaHotel.AbmCliente
             InitializeComponent();
         }
 
+        //Falta hacer validacion para que no meta mail repetido
         private void btnCrear_Click(object sender, EventArgs e) //Configurar ComboBox
         {
             if (

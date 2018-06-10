@@ -23,7 +23,7 @@ namespace FrbaHotel.AbmHotel
 
         private void boton_dar_baja_Click(object sender, EventArgs e)
         {
-
+            Console.WriteLine(fecha_desde.Value);
         }
 
 

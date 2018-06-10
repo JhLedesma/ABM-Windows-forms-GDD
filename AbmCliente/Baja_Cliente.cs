@@ -14,7 +14,7 @@ namespace FrbaHotel.AbmCliente
     {
         int idClienteSeleccionado;
 
-        public Baja_Cliente(int idCliente)
+        public Baja_Cliente(int idCliente, string mail)
         {
             InitializeComponent();
             idClienteSeleccionado = idCliente;
@@ -29,7 +29,7 @@ namespace FrbaHotel.AbmCliente
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            Repositorios.Repo_Cliente.getInstancia().darBajaCliente(idClienteSeleccionado);
+            Repositorios.Repo_Cliente.getInstancia().darBajaCliente(idClienteSeleccionado, mail);
 
             this.Hide();
             this.Close();

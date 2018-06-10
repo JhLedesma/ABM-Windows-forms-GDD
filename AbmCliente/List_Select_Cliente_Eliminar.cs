@@ -14,6 +14,7 @@ namespace FrbaHotel.AbmCliente
     {
         const Int32 VACIO = 0;
         int idClienteSeleccionado;
+        string mailClienteSeleccionado;
 
         public List_Select_Cliente_Eliminar()
         {
@@ -25,6 +26,7 @@ namespace FrbaHotel.AbmCliente
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             idClienteSeleccionado = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["IdCliente"].Value);
+            mailClienteSeleccionado = Convert.ToString(dataGridView1.Rows[e.RowIndex].Cells["Email"].Value);
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
@@ -35,7 +37,7 @@ namespace FrbaHotel.AbmCliente
             }
             else
             {
-                new AbmCliente.Baja_Cliente(idClienteSeleccionado).ShowDialog();
+                new AbmCliente.Baja_Cliente(idClienteSeleccionado, mailClienteSeleccionado).ShowDialog();
             }
         }
 

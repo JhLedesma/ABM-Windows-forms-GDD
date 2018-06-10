@@ -77,7 +77,7 @@ namespace FrbaHotel.Repositorios
         }
 
 
-
+        //Falta hacer validacion para que no meta mail repetido
         public void crearCliente(String email, String nombre, String apellido, String tipoDoc, decimal numDoc, decimal telefono, String paisOrigen, String nacionalidad, DateTime fechaNac, String ciudad, String calle, decimal numCalle, decimal piso, String dpto, String localidad, String pais)
         {
             DBhelper.crearConexion();
@@ -107,7 +107,7 @@ namespace FrbaHotel.Repositorios
             DBhelper.cerrarConexion();
         }
 
-        public Model.Cliente getCliente(int idCliente)
+        public Model.Cliente getCliente(int idCliente, string mail)
         {
             DBhelper.crearConexion();
 
@@ -115,6 +115,7 @@ namespace FrbaHotel.Repositorios
 
             SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getCliente");
             cmd.Parameters.Add("@id", SqlDbType.Int).Value = idCliente;
+            cmd.Parameters.Add("@@mail", SqlDbType.NVarChar).Value = idCliente;
 
             DataTable tablaCliente = DBhelper.obtenerTabla(cmd);
 
@@ -205,6 +206,7 @@ namespace FrbaHotel.Repositorios
 
             SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.darDeBajaCliente");
             cmd.Parameters.Add("@idCliente", SqlDbType.Int).Value = idCliente;
+            cmd.Parameters.Add("@@mail", SqlDbType.NVarChar).Value = idCliente;
 
             cmd.ExecuteNonQuery();
 
