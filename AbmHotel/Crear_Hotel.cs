@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace FrbaHotel.AbmHotel
 {
-    public partial class CrearHotel : Form
+    public partial class Crear_Hotel : Form
     {
 
         public List<Model.Regimen> listaDeRegimenesDisponibles = Repositorios.Repo_regimen.getInstancia().getRegimenes();
@@ -19,7 +19,7 @@ namespace FrbaHotel.AbmHotel
         private Model.Regimen regimenSeleccionado;
 
 
-        public CrearHotel()
+        public Crear_Hotel()
         {
             InitializeComponent();
             configuarComboBox();

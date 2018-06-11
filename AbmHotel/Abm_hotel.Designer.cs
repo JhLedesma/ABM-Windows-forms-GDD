@@ -57,6 +57,7 @@
             this.button_Listado_seleccion_sucursales.TabIndex = 12;
             this.button_Listado_seleccion_sucursales.Text = "Modificar";
             this.button_Listado_seleccion_sucursales.UseVisualStyleBackColor = true;
+            this.button_Listado_seleccion_sucursales.Click += new System.EventHandler(this.button_Listado_seleccion_sucursales_Click);
             // 
             // label3
             // 

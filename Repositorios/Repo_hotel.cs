@@ -118,36 +118,95 @@ namespace FrbaHotel.Repositorios
 
         }
 
-  /*      public List<Model.Hotel> getFuncionalidades()
+        public Model.Hotel getHotel(Int32 idHotel)
         {
-
-            DataTable Funcionalidades;
-
-            List<Model.Funcionalidad> listaDeFuncionalidades = new List<Model.Funcionalidad>();
-
             DBhelper.crearConexion();
-
-            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getFuncionalidades");
 
             DBhelper.abrirConexion();
 
-            Funcionalidades = DBhelper.obtenerTabla(cmd);
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getHotel");
+            cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = idHotel;
 
-            DBhelper.cerrarConexion();
-            foreach (DataRow row in Funcionalidades.Rows)
+            DataTable tablaCliente = DBhelper.obtenerTabla(cmd);
+
+            Model.Hotel hotel = new FrbaHotel.Model.Hotel();
+
+            foreach (DataRow row in tablaCliente.Rows)
             {
-                Model.Funcionalidad funcionalidad = new Model.Funcionalidad();
-
-                funcionalidad.idFunc = row.Field<Int32>("IdFunc");
-                funcionalidad.descripcion = row.Field<String>("Descripcion");
-                funcionalidad.estado = Convert.ToInt16(row["Estado"]);
-
-                listaDeFuncionalidades.Add(funcionalidad);
+                
+                hotel.nombre = (String)row["Nombre"];
+                hotel.mail = (String)row["Mail"];
+                hotel.telefono = (Int32)row["Telefono"];
+                hotel.ciudad = (String)row["Ciudad"];
+                hotel.calle = (String)row["Calle"];
+                hotel.nroCalle = (Int32)row["NroCalle"];
+                hotel.estrellas = (Int32)row["CantEstrellas"];
+                hotel.fechaCreacion = (DateTime)row["FechaCreacion"];
+                hotel.pais = (String)row["Pais"];
+                hotel.porcEstrella = (Decimal)row["PorcentajeEstrellas"];
+                
             }
 
-            return listaDeFuncionalidades;
+            DBhelper.cerrarConexion();
 
-        }*/
+            return hotel;
+        }
+
+
+
+        public List<Model.Regimen> getRegimenes(Int32 idHotel)
+        {
+
+            DataTable Regimenes;
+
+            List<Model.Regimen> listaDeRegimenes = new List<Model.Regimen>();
+
+            DBhelper.crearConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getRegimenes");
+
+            DBhelper.abrirConexion();
+
+            Regimenes = DBhelper.obtenerTabla(cmd);
+
+            DBhelper.cerrarConexion();
+            foreach (DataRow row in Regimenes.Rows)
+            {
+                Model.Regimen regimen = new Model.Regimen();
+
+                regimen.idRegimen = row.Field<Int32>("IdRegimenEstadia");
+                regimen.descripcion = row.Field<String>("Descripcion");
+                regimen.precioBase = row.Field<Int32>("PrecioBase");
+
+                listaDeRegimenes.Add(regimen);
+            }
+
+            return listaDeRegimenes;
+
+        }
+
+        public void modificarHotel(Int32 idHotel, String nombre, String mail, Int32 tel, Int32 cantEstrellas, Decimal porcEstrellas, String pais, String calle, String ciudad, Int32 nroCalle)
+        {
+            DBhelper.crearConexion();
+
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.modificarHotel");
+            cmd.Parameters.Add("@hotelId", SqlDbType.Int).Value = idHotel;
+            cmd.Parameters.Add("@nombre", SqlDbType.NVarChar).Value = nombre;
+            cmd.Parameters.Add("@mail", SqlDbType.NVarChar).Value = mail;
+            cmd.Parameters.Add("@telefono", SqlDbType.Int).Value = tel;
+            cmd.Parameters.Add("@estrellas", SqlDbType.Int).Value = cantEstrellas;
+            cmd.Parameters.Add("@porcEstrellas", SqlDbType.Decimal).Value = porcEstrellas;
+            cmd.Parameters.Add("@pais", SqlDbType.NVarChar).Value = pais;
+            cmd.Parameters.Add("@calle", SqlDbType.NVarChar).Value = calle;
+            cmd.Parameters.Add("@ciudad", SqlDbType.NVarChar).Value = ciudad;
+            cmd.Parameters.Add("@nroCalle", SqlDbType.Int).Value = nroCalle;
+
+            cmd.ExecuteNonQuery();
+
+            DBhelper.cerrarConexion();
+        }
 
 
     }
