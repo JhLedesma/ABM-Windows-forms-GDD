@@ -50,5 +50,12 @@ namespace FrbaHotel.AbmCliente
         {
             dataGridView1.DataSource = Repositorios.Repo_Cliente.getInstancia().getTablaClientesFiltradosActivos(filtroNombre.Text, filtroApellido.Text, filtroMail.Text, "", filtroNumeroIdentificacion.Value);
         }
+
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            this.Close();
+            new AbmCliente.Abm_Cliente().ShowDialog();
+        }
     }
 }

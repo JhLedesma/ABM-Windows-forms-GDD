@@ -14,7 +14,7 @@ namespace FrbaHotel.AbmCliente
     {
         int idClienteSeleccionado;
         string mailClienteSeleccionado;
-        private List_Select_Cliente_Eliminar list_Select_Cliente_Eliminar;
+        private List_Select_Cliente_Eliminar list_Select_Cliente_Eliminar; //Lo recibe para que cuadno un cliente se elimine, se vuelva a filtrar la tabla, para evitar eliminar dos veces el mismo dato y causar un error
 
         public Baja_Cliente(int idCliente, string mail, List_Select_Cliente_Eliminar list_Select_Cliente_Eliminar)
         {

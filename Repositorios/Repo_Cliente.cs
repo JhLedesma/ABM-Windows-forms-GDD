@@ -219,6 +219,25 @@ namespace FrbaHotel.Repositorios
 
             DBhelper.cerrarConexion();
         }
+
+        public int validarMail(string mail)
+        {
+            DBhelper.crearConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.validarMail");
+            cmd.Parameters.Add("@mail", SqlDbType.NVarChar).Value = mail;
+
+            var valorDeRetorno = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
+            valorDeRetorno.Direction = ParameterDirection.ReturnValue;
+
+            DBhelper.abrirConexion();
+
+            DBhelper.ejecutarProcedure(cmd);
+
+            DBhelper.cerrarConexion();
+
+            return (int)valorDeRetorno.Value;
+        }
        
     }
 }

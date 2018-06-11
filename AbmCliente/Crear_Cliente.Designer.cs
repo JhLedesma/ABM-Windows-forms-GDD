@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.numericTelefono = new System.Windows.Forms.NumericUpDown();
             this.tbPaisOrigen = new System.Windows.Forms.TextBox();
             this.lblPaisOrigen = new System.Windows.Forms.Label();
             this.dtFechaNacimiento = new System.Windows.Forms.DateTimePicker();
@@ -49,6 +50,7 @@
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.btnCrear = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.tbDpto = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.lblCiudad = new System.Windows.Forms.Label();
             this.tbPais = new System.Windows.Forms.TextBox();
@@ -62,14 +64,13 @@
             this.lblNumero = new System.Windows.Forms.Label();
             this.tbCalle = new System.Windows.Forms.TextBox();
             this.lblCalle = new System.Windows.Forms.Label();
-            this.tbDpto = new System.Windows.Forms.TextBox();
-            this.numericTelefono = new System.Windows.Forms.NumericUpDown();
+            this.btnVolver = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericTelefono)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericNumeroIdentificacion)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericPiso)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericNumero)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericTelefono)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -98,6 +99,18 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Ingrese los datos del nuevo cliente (todos los datos son obligatorios):";
+            // 
+            // numericTelefono
+            // 
+            this.numericTelefono.Location = new System.Drawing.Point(146, 136);
+            this.numericTelefono.Maximum = new decimal(new int[] {
+            1569325056,
+            23283064,
+            0,
+            0});
+            this.numericTelefono.Name = "numericTelefono";
+            this.numericTelefono.Size = new System.Drawing.Size(118, 20);
+            this.numericTelefono.TabIndex = 56;
             // 
             // tbPaisOrigen
             // 
@@ -244,7 +257,7 @@
             // 
             // btnLimpiar
             // 
-            this.btnLimpiar.Location = new System.Drawing.Point(54, 535);
+            this.btnLimpiar.Location = new System.Drawing.Point(171, 535);
             this.btnLimpiar.Name = "btnLimpiar";
             this.btnLimpiar.Size = new System.Drawing.Size(75, 23);
             this.btnLimpiar.TabIndex = 17;
@@ -254,7 +267,7 @@
             // 
             // btnCrear
             // 
-            this.btnCrear.Location = new System.Drawing.Point(283, 535);
+            this.btnCrear.Location = new System.Drawing.Point(307, 535);
             this.btnCrear.Name = "btnCrear";
             this.btnCrear.Size = new System.Drawing.Size(75, 23);
             this.btnCrear.TabIndex = 18;
@@ -284,6 +297,13 @@
             this.groupBox2.TabIndex = 42;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Direccion";
+            // 
+            // tbDpto
+            // 
+            this.tbDpto.Location = new System.Drawing.Point(295, 59);
+            this.tbDpto.Name = "tbDpto";
+            this.tbDpto.Size = new System.Drawing.Size(68, 20);
+            this.tbDpto.TabIndex = 20;
             // 
             // textBox1
             // 
@@ -400,30 +420,22 @@
             this.lblCalle.TabIndex = 42;
             this.lblCalle.Text = "Calle:";
             // 
-            // tbDpto
+            // btnVolver
             // 
-            this.tbDpto.Location = new System.Drawing.Point(295, 59);
-            this.tbDpto.Name = "tbDpto";
-            this.tbDpto.Size = new System.Drawing.Size(68, 20);
-            this.tbDpto.TabIndex = 20;
-            // 
-            // numericTelefono
-            // 
-            this.numericTelefono.Location = new System.Drawing.Point(146, 136);
-            this.numericTelefono.Maximum = new decimal(new int[] {
-            1569325056,
-            23283064,
-            0,
-            0});
-            this.numericTelefono.Name = "numericTelefono";
-            this.numericTelefono.Size = new System.Drawing.Size(118, 20);
-            this.numericTelefono.TabIndex = 56;
+            this.btnVolver.Location = new System.Drawing.Point(29, 535);
+            this.btnVolver.Name = "btnVolver";
+            this.btnVolver.Size = new System.Drawing.Size(75, 23);
+            this.btnVolver.TabIndex = 43;
+            this.btnVolver.Text = "Volver";
+            this.btnVolver.UseVisualStyleBackColor = true;
+            this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
             // 
             // Crear_Cliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(408, 570);
+            this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnCrear);
             this.Controls.Add(this.btnLimpiar);
@@ -432,12 +444,12 @@
             this.Text = "Crear_Cliente";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericTelefono)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericNumeroIdentificacion)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericPiso)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericNumero)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericTelefono)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -480,5 +492,6 @@
         private System.Windows.Forms.Label lblCiudad;
         private System.Windows.Forms.TextBox tbDpto;
         private System.Windows.Forms.NumericUpDown numericTelefono;
+        private System.Windows.Forms.Button btnVolver;
     }
 }

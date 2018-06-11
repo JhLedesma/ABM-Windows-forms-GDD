@@ -158,7 +158,9 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.darDeBajaCliente','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getClientesFiltrados','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getClientesFiltrados;
 
-
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarMail','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.validarMail;
+	
 	
 
 
@@ -1019,6 +1021,18 @@ begin transaction
 			update TRAEME_LA_COPA_MESSI.Cliente_Inconsistente set Estado = 1 where IdCliente=@idCliente and Email=@mail
 	end
 commit
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.validarMail
+@mail nvarchar(255)
+as
+begin
+	if exists (select 1 from TRAEME_LA_COPA_MESSI.Cliente c, TRAEME_LA_COPA_MESSI.Cliente_Inconsistente ci where c.Email=@mail or ci.Email=@mail)
+		return 1
+	else
+		return 0
+end
 
 
 

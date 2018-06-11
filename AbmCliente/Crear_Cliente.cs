@@ -38,6 +38,10 @@ namespace FrbaHotel.AbmCliente
             {
                 MessageBox.Show("Por favor complete todos los campos", "Campos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            else if (Repositorios.Repo_Cliente.getInstancia().validarMail(tbMail.Text) == 1)
+            {
+                MessageBox.Show("Por favor ingrese un mail que no registrado", "Mail ya existente", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             else
             {
                 Repositorios.Repo_Cliente.getInstancia().crearCliente(
@@ -80,6 +84,13 @@ namespace FrbaHotel.AbmCliente
                     tbDpto.Text = "";
                     tbLocalidad.Text = "";
                     tbPais.Text = "";
+        }
+
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            this.Close();
+            new AbmCliente.Abm_Cliente().ShowDialog();
         }
 
  
