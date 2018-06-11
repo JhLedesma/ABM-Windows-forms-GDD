@@ -92,7 +92,7 @@
             this.boton_eliminar.Name = "boton_eliminar";
             this.boton_eliminar.Size = new System.Drawing.Size(75, 23);
             this.boton_eliminar.TabIndex = 15;
-            this.boton_eliminar.Text = "Eliminar";
+            this.boton_eliminar.Text = "Inhabilitar";
             this.boton_eliminar.UseVisualStyleBackColor = true;
             this.boton_eliminar.Click += new System.EventHandler(this.boton_eliminar_Click);
             // 
@@ -101,9 +101,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(56, 193);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(151, 13);
+            this.label2.Size = new System.Drawing.Size(160, 13);
             this.label2.TabIndex = 14;
-            this.label2.Text = "Seleccione un hotel a eliminar:";
+            this.label2.Text = "Seleccione un hotel a inhabilitar:";
             // 
             // boton_listar
             // 

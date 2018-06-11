@@ -296,8 +296,7 @@ Telefono int NULL,
 Direccion int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Direccion(IdDir),
 CantEstrellas int  NULL,
 PorcentajeEstrellas numeric(18,0) NULL,
-FechaCreacion datetime NULL,
-EstadoHotel BIT DEFAULT 0
+FechaCreacion datetime NULL
 );
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.UsuariosPorHotel(
@@ -830,7 +829,7 @@ END
 
 
 GO
-create procedure TRAEME_LA_COPA_MESSI.getHotelesFiltrados
+create procedure TRAEME_LA_COPA_MESSI.getHotelesFiltrados --TRAE HASTA LOS QUE ESTAN DE BAJA
 @Nombre nvarchar(255),
 @Ciudad nvarchar(255),
 @Estrellas nvarchar(255),
@@ -839,7 +838,7 @@ create procedure TRAEME_LA_COPA_MESSI.getHotelesFiltrados
 as
 begin
 
-	SELECT h.IdHotel, h.Nombre, h.Mail, h.Telefono, h.CantEstrellas, h.PorcentajeEstrellas, h.FechaCreacion, h.EstadoHotel, dh.Ciudad, dh.Pais, dh.Calle, dh.NroCalle FROM (TRAEME_LA_COPA_MESSI.Hotel h JOIN TRAEME_LA_COPA_MESSI.Direccion dh ON h.Direccion = dh.IdDir)
+	SELECT h.IdHotel, h.Nombre, h.Mail, h.Telefono, h.CantEstrellas, h.PorcentajeEstrellas, h.FechaCreacion, dh.Ciudad, dh.Pais, dh.Calle, dh.NroCalle FROM (TRAEME_LA_COPA_MESSI.Hotel h JOIN TRAEME_LA_COPA_MESSI.Direccion dh ON h.Direccion = dh.IdDir)
 	WHERE 
 	(h.Nombre LIKE '%' + @Nombre + '%' AND dh.Ciudad LIKE '%' + @Ciudad + '%' AND dh.Pais LIKE '%' + @Pais + '%' AND CAST(h.CantEstrellas AS NVARCHAR) LIKE '%' + @Estrellas  + '%')
 	OR
@@ -852,19 +851,41 @@ begin
 end
 
 GO
-CREATE PROCEDURE TRAEME_LA_COPA_MESSI.darBajaHotel /*No chequeo si hay una reserva que se hizo antes de la fecha de inicio y termina en la mitad de mi baja*/
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.darBajaHotel
 @hotelId int,
 @fechaInicio datetime,
-@fechaFin datetime
+@fechaFin datetime,
+@descripcion nvarchar(255)
 
 AS
 BEGIN
-
-	UPDATE TRAEME_LA_COPA_MESSI.Hotel SET EstadoHotel = 1 WHERE
-	IdHotel =  @hotelId AND
-	NOT EXISTS (SELECT * FROM TRAEME_LA_COPA_MESSI.Reserva r WHERE
-	r.IdHotel = @hotelId AND CONVERT(char(10),r.FechaReserva ,112) >= CONVERT(char(10), @fechaInicio ,112) AND  CONVERT(char(10),r.FechaReserva ,112) <= CONVERT(char(10),@fechaFin ,112))
 	
+	IF (NOT EXISTS (SELECT * FROM TRAEME_LA_COPA_MESSI.Reserva r WHERE
+				   ((r.IdHotel = @hotelId) AND (
+				   (CONVERT(char(10),r.FechaReserva ,112) >= CONVERT(char(10), @fechaInicio ,112) AND  CONVERT(char(10),r.FechaReserva + r.CantidadNochesReservadas ,112) <= CONVERT(char(10),@fechaFin ,112))
+				   OR (CONVERT(char(10),r.FechaReserva + r.CantidadNochesReservadas ,112) >= CONVERT(char(10), @fechaInicio ,112) AND CONVERT(char(10),r.FechaReserva + r.CantidadNochesReservadas ,112) <= CONVERT(char(10), @fechaFin ,112))
+				   OR (CONVERT(char(10),r.FechaReserva ,112) >= CONVERT(char(10), @fechaInicio ,112) AND CONVERT(char(10),r.FechaReserva ,112) <= CONVERT(char(10), @fechaFin ,112))
+				   OR (CONVERT(char(10),r.FechaReserva ,112) <= CONVERT(char(10), @fechaInicio ,112) AND CONVERT(char(10),r.FechaReserva + r.CantidadNochesReservadas ,112) >= CONVERT(char(10), @fechaInicio ,112))
+				   ))
+				   ))
+	
+	BEGIN
+
+	INSERT INTO TRAEME_LA_COPA_MESSI.InhabilitacionesHotel(IdHotel,FechaInicio,FechaFin,Descripcion)
+	VALUES (@hotelId, @fechaInicio, @fechaFin, @descripcion)
+
+	RETURN 1
+
+	END
+
+	ELSE
+
+	BEGIN
+
+	RETURN 0
+
+	END
+
 END
 
 

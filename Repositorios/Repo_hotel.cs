@@ -94,19 +94,27 @@ namespace FrbaHotel.Repositorios
 
         }
 
-        public void darBajaHotel(int idHotel)
+        public Int32 darBajaHotel(int idHotel, DateTime fechaInicio, DateTime fechaFin, String descripcion)
         {
 
             DBhelper.crearConexion();
 
             SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.darBajaHotel");
             cmd.Parameters.Add("@hotelId", SqlDbType.Int).Value = idHotel;
+            cmd.Parameters.Add("@descripcion", SqlDbType.NVarChar).Value = descripcion;
+            cmd.Parameters.Add("@fechaInicio", SqlDbType.DateTime).Value = fechaInicio;
+            cmd.Parameters.Add("@fechaFin", SqlDbType.DateTime).Value = fechaFin;
+
+            var valorDeRetorno = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
+            valorDeRetorno.Direction = ParameterDirection.ReturnValue;
 
             DBhelper.abrirConexion();
 
             DBhelper.ejecutarProcedure(cmd);
 
             DBhelper.cerrarConexion();
+
+            return (int)valorDeRetorno.Value;
 
         }
 

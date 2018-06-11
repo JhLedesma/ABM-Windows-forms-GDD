@@ -32,7 +32,7 @@ namespace FrbaHotel.AbmHotel
         private void boton_eliminar_Click(object sender, EventArgs e)
         {
             this.Hide();
-            new List_Select_Hotel_Eliminar().ShowDialog();
+            new List_Select_Hotel_Inhabilitar().ShowDialog();
             this.Close();
         }
 

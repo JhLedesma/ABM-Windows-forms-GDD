@@ -124,11 +124,11 @@
     <Compile Include="AbmHotel\CrearHotel.Designer.cs">
       <DependentUpon>CrearHotel.cs</DependentUpon>
     </Compile>
-    <Compile Include="AbmHotel\List_Select_Hotel_Eliminar.cs">
+    <Compile Include="AbmHotel\List_Select_Hotel_Inhabilitar.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AbmHotel\List_Select_Hotel_Eliminar.Designer.cs">
-      <DependentUpon>List_Select_Hotel_Eliminar.cs</DependentUpon>
+    <Compile Include="AbmHotel\List_Select_Hotel_Inhabilitar.Designer.cs">
+      <DependentUpon>List_Select_Hotel_Inhabilitar.cs</DependentUpon>
     </Compile>
     <Compile Include="AbmHotel\List_Select_Hotel_Listar.cs">
       <SubType>Form</SubType>
@@ -260,8 +260,8 @@
     <EmbeddedResource Include="AbmHotel\CrearHotel.resx">
       <DependentUpon>CrearHotel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AbmHotel\List_Select_Hotel_Eliminar.resx">
-      <DependentUpon>List_Select_Hotel_Eliminar.cs</DependentUpon>
+    <EmbeddedResource Include="AbmHotel\List_Select_Hotel_Inhabilitar.resx">
+      <DependentUpon>List_Select_Hotel_Inhabilitar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AbmHotel\List_Select_Hotel_Listar.resx">
       <DependentUpon>List_Select_Hotel_Listar.cs</DependentUpon>

@@ -34,7 +34,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.descripcion = new System.Windows.Forms.RichTextBox();
             this.boton_dar_baja = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -93,13 +93,13 @@
             this.label3.TabIndex = 1;
             this.label3.Text = "Motivo de la baja:";
             // 
-            // richTextBox1
+            // descripcion
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(12, 188);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(269, 96);
-            this.richTextBox1.TabIndex = 3;
-            this.richTextBox1.Text = "";
+            this.descripcion.Location = new System.Drawing.Point(12, 188);
+            this.descripcion.Name = "descripcion";
+            this.descripcion.Size = new System.Drawing.Size(269, 96);
+            this.descripcion.TabIndex = 3;
+            this.descripcion.Text = "";
             // 
             // boton_dar_baja
             // 
@@ -117,7 +117,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(295, 360);
             this.Controls.Add(this.boton_dar_baja);
-            this.Controls.Add(this.richTextBox1);
+            this.Controls.Add(this.descripcion);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.groupBox1);
             this.Name = "Baja_hotel";
@@ -137,7 +137,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox descripcion;
         private System.Windows.Forms.Button boton_dar_baja;
 
     }

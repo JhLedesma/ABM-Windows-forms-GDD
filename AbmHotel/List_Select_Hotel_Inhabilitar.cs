@@ -10,12 +10,13 @@ using System.Windows.Forms;
 
 namespace FrbaHotel.AbmHotel
 {
-    public partial class List_Select_Hotel_Eliminar : Form
+    public partial class List_Select_Hotel_Inhabilitar : Form
     {
 
-        Int32 idSeleccionado;
+        private Int32 idSeleccionado;
+        private const Int32 VACIO = 0;
 
-        public List_Select_Hotel_Eliminar()
+        public List_Select_Hotel_Inhabilitar()
         {
             InitializeComponent();
         }
@@ -32,12 +33,18 @@ namespace FrbaHotel.AbmHotel
 
         private void button_dar_baja_Click(object sender, EventArgs e)
         {
+            if (idSeleccionado <= VACIO) {
+
+                MessageBox.Show("Por favor seleccione un hotel del filtro de hoteles", "Seleccione hotel", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+            else{
+
             this.Hide();
-            new Baja_hotel().ShowDialog();
+            new Baja_hotel(idSeleccionado).ShowDialog();
             this.Close();
-            /*Repositorios.Repo_hotel.getInstancia().darBajaHotel(idSeleccionado);
-            MessageBox.Show("Baja logica realizada con exito", "Baja logica realizada", MessageBoxButtons.OK, MessageBoxIcon.Information);
-             */
+
+            }
         }
 
     }

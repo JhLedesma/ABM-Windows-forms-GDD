@@ -1,6 +1,6 @@
 ﻿namespace FrbaHotel.AbmHotel
 {
-    partial class List_Select_Hotel_Eliminar
+    partial class List_Select_Hotel_Inhabilitar
     {
         /// <summary>
         /// Required designer variable.
