@@ -140,8 +140,14 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.newCliente','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.darBajaHotel','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.darBajaHotel;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.modificarHotel','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.modificarHotel;
+
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.agregarRegimenHotel','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.agregarRegimenHotel;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getHotel','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getHotel;
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getCliente','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getCliente;
@@ -292,13 +298,13 @@ EstadoRegimenEstadia BIT DEFAULT 0,
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.Hotel(
 IdHotel int IDENTITY(1,1) PRIMARY KEY,
-Nombre nvarchar(255) NULL,
-Mail nvarchar(255) NULL,
-Telefono int NULL,
+Nombre nvarchar(255) DEFAULT '',
+Mail nvarchar(255) DEFAULT '',
+Telefono int DEFAULT -1,
 Direccion int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Direccion(IdDir),
 CantEstrellas int  NULL,
 PorcentajeEstrellas numeric(18,0) NULL,
-FechaCreacion datetime NULL
+FechaCreacion datetime DEFAULT GETDATE()
 );
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.UsuariosPorHotel(
@@ -457,8 +463,8 @@ INSERT INTO TRAEME_LA_COPA_MESSI.RegimenEstadia(Descripcion,PrecioBase)
 
 -- Direcciones --
 
-INSERT INTO TRAEME_LA_COPA_MESSI.Direcciones_Hoteles(Ciudad,Calle,NroCalle)
-	SELECT DISTINCT Hotel_Ciudad, Hotel_Calle, Hotel_Nro_Calle
+INSERT INTO TRAEME_LA_COPA_MESSI.Direcciones_Hoteles(Ciudad,Calle,NroCalle,Pais)
+	SELECT DISTINCT Hotel_Ciudad, Hotel_Calle, Hotel_Nro_Calle,''
 	FROM gd_esquema.Maestra
 
 INSERT INTO TRAEME_LA_COPA_MESSI.Direccion(Ciudad,Calle,NroCalle) --Dejamos pais como null, aunque se podria determinar por la ciudad
@@ -614,7 +620,7 @@ INSERT INTO TRAEME_LA_COPA_MESSI.Reserva(IdReserva, IdHotel, FechaReserva, Fecha
 	WHERE m.Estadia_Fecha_Inicio IS NULL
 
 
-UPDATE TRAEME_LA_COPA_MESSI.Reserva  SET  /*Tarda mil años*/
+UPDATE TRAEME_LA_COPA_MESSI.Reserva  SET  
 
 FechaCheckIn = (SELECT Estadia_Fecha_Inicio FROM gd_esquema.Maestra
 					 WHERE Reserva_Codigo = IdReserva AND Estadia_Fecha_Inicio IS NOT NULL
@@ -809,6 +815,18 @@ BEGIN
 END
 
 GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.getHotel
+@idHotel int
+
+AS
+BEGIN
+
+	SELECT * FROM TRAEME_LA_COPA_MESSI.Hotel h JOIN TRAEME_LA_COPA_MESSI.Direcciones_Hoteles d ON h.Direccion = d.IdDir_Hotel
+	WHERE h.IdHotel = @idHotel
+
+END
+
+GO
 CREATE PROCEDURE TRAEME_LA_COPA_MESSI.agregarRegimenHotel
 @regimen nvarchar(255),
 @nombre nvarchar(255),
@@ -887,6 +905,52 @@ BEGIN
 	RETURN 0
 
 	END
+
+END
+
+
+
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.modificarHotel
+@hotelId int,
+@nombre nvarchar(255),
+@mail nvarchar(255),
+@telefono int,
+@estrellas int,
+@porcEstrellas numeric(18,0),
+@calle nvarchar(255),
+@nroCalle int,
+@ciudad nvarchar(255),
+@pais nvarchar(255)
+
+AS
+BEGIN
+
+	UPDATE TRAEME_LA_COPA_MESSI.Hotel SET
+	Nombre = @nombre,
+	Mail = @mail,
+	Telefono = @telefono,
+	CantEstrellas = @estrellas,
+	PorcentajeEstrellas = @porcEstrellas
+
+	WHERE IdHotel = @hotelId
+
+	UPDATE TRAEME_LA_COPA_MESSI.Direcciones_Hoteles SET
+	Calle = @calle,
+	NroCalle = @nroCalle,
+	Ciudad = @ciudad,
+	Pais = @pais
+
+	WHERE IdDir_Hotel = (SELECT Direccion FROM TRAEME_LA_COPA_MESSI.Hotel WHERE IdHotel = @hotelId)
+
+	UPDATE TRAEME_LA_COPA_MESSI.Direccion SET
+	Calle = @calle,
+	NroCalle = @nroCalle,
+	Ciudad = @ciudad,
+	Pais = @pais
+
+	WHERE IdDir = (SELECT Direccion FROM TRAEME_LA_COPA_MESSI.Hotel WHERE IdHotel = @hotelId)
+
 
 END
 
@@ -1054,10 +1118,3 @@ begin
 	else
 		return 0
 end
-
-
-
-
-
-
-

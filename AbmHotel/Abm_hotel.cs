@@ -25,7 +25,7 @@ namespace FrbaHotel.AbmHotel
         private void boton_crear_hotel_Click(object sender, EventArgs e)
         {
             this.Hide();
-            new CrearHotel().ShowDialog();
+            new Crear_Hotel().ShowDialog();
             this.Close();
         }
 
@@ -40,6 +40,13 @@ namespace FrbaHotel.AbmHotel
         {
             this.Hide();
             new AbmHotel.List_Select_Hotel_Listar().ShowDialog();
+            this.Close();
+        }
+
+        private void button_Listado_seleccion_sucursales_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            new AbmHotel.List_Select_Hotel_Modificar().ShowDialog();
             this.Close();
         }
     }

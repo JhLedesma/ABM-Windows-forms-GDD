@@ -1,6 +1,6 @@
 ﻿namespace FrbaHotel.AbmHotel
 {
-    partial class CrearHotel
+    partial class Crear_Hotel
     {
         /// <summary>
         /// Required designer variable.
