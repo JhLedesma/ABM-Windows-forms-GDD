@@ -19,8 +19,9 @@ namespace FrbaHotel.Model
         public DateTime fechaNac { get; set; }
         public String paisOrigen { get; set; }
         public Model.Direccion direccion { get; set; }
+        public Int16 estado { get; set; }
 
-        public Cliente(int id, String nombre, String apellido, String mail, decimal telefono, decimal numDoc, String tipoDoc, String nacionalidad, DateTime fechaNac, String paisOrigen, Model.Direccion direccion)
+        public Cliente(int id, String nombre, String apellido, String mail, decimal telefono, decimal numDoc, String tipoDoc, String nacionalidad, DateTime fechaNac, String paisOrigen, Model.Direccion direccion, Int16 estado)
         {
             this.id = id;
             this.nombre = nombre;
@@ -33,6 +34,7 @@ namespace FrbaHotel.Model
             this.fechaNac = fechaNac;
             this.paisOrigen = paisOrigen;
             this.direccion = direccion;
+            this.estado = estado;
         }
 
         public Cliente() { }

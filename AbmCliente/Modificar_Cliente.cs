@@ -14,10 +14,11 @@ namespace FrbaHotel.AbmCliente
     {
         Model.Cliente clienteSeleccionado;
 
-        public Modificar_Cliente(int idCliente)
+        public Modificar_Cliente(int idCliente, string mail)
         {
             InitializeComponent();
-            clienteSeleccionado = Repositorios.Repo_Cliente.getInstancia().getCliente(idCliente);
+            clienteSeleccionado = Repositorios.Repo_Cliente.getInstancia().getCliente(idCliente, mail);
+            mostrarDatos();
         }
 
         public void mostrarDatos()//Agregar combobox

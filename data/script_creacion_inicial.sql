@@ -158,7 +158,9 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.darDeBajaCliente','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getClientesFiltrados','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getClientesFiltrados;
 
-
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarMail','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.validarMail;
+	
 	
 
 
@@ -183,13 +185,13 @@ GO
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.Direccion(
 IdDir int IDENTITY(1,1) PRIMARY KEY,
-Ciudad nvarchar(255) NULL,
-Calle nvarchar(255) NULL,
-NroCalle numeric(18,0) NULL,
-Piso numeric(18,0) NULL,
-Departamento nvarchar(50) NULL,
-Localidad nvarchar(255) NULL,
-Pais nvarchar(255) NULL
+Ciudad nvarchar(255) DEFAULT '',
+Calle nvarchar(255) DEFAULT '',
+NroCalle numeric(18,0) DEFAULT -1,
+Piso numeric(18,0) DEFAULT -1,
+Departamento nvarchar(50) DEFAULT '',
+Localidad nvarchar(255) DEFAULT '',
+Pais nvarchar(255) DEFAULT '',
 );
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.TipoDoc(
@@ -246,23 +248,23 @@ Nombre nvarchar(255) NOT NULL,
 Apellido nvarchar(255) NOT NULL,
 TipoDoc nvarchar(255) NULL,
 NumDoc numeric(18,0) NOT NULL,
-Telefono numeric(18,0) NULL,
-PaisOrigen nvarchar(255) NULL,
+Telefono numeric(18,0) DEFAULT -1,
+PaisOrigen nvarchar(255) DEFAULT '',
 Nacionalidad nvarchar(255) NOT NULL,
 FechaNacimiento Datetime NOT NULL,
 Estado BIT DEFAULT 0,
 );
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.Cliente_Inconsistente( --Agrego id porque en esta tabla el email se repite
-IdClienteInconsistente int IDENTITY(1,1) PRIMARY KEY,
+IdCliente int IDENTITY(1,1) PRIMARY KEY,
 Email nvarchar(255),
 Direccion int NULL, --FALTA EN LA MIGRACION ASOCIAR CON LAS DIRECCIONES CORRESPONDIENTES
 Nombre nvarchar(255) NOT NULL,
 Apellido nvarchar(255) NOT NULL,
 TipoDoc nvarchar(255) NULL,
 NumDoc numeric(18,0) NOT NULL,
-Telefono numeric(18,0),
-PaisOrigen nvarchar(255)  NULL,
+Telefono numeric(18,0) DEFAULT -1,
+PaisOrigen nvarchar(255)  DEFAULT '',
 Nacionalidad nvarchar(255) NOT NULL,
 FechaNacimiento Datetime NOT NULL,
 Estado BIT DEFAULT 0,
@@ -345,7 +347,7 @@ DescripEstadoReserva nvarchar(255) not null,
 create table traeme_la_copa_messi.Reserva(
 IdReserva numeric(18,0) PRIMARY KEY,
 IdCliente int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente(IdCliente) null,
-IdClienteInconsistente int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente_Inconsistente(IdClienteInconsistente) null,
+IdClienteInconsistente int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente_Inconsistente(IdCliente) null,
 IdHotel int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Hotel(IdHotel) null, --Cambiar a not null
 FechaReserva datetime  NULL,
 FechaCheckIn datetime  NULL,
@@ -594,7 +596,7 @@ INSERT INTO TRAEME_LA_COPA_MESSI.ReservasDeClientes
 SELECT DISTINCT IdCliente, Reserva_Codigo FROM TRAEME_LA_COPA_MESSI.Cliente JOIN gd_esquema.Maestra ON NumDoc = Cliente_Pasaporte_Nro;
 
 INSERT INTO TRAEME_LA_COPA_MESSI.ReservasDeClientesIncon
-SELECT DISTINCT IdClienteInconsistente, Reserva_Codigo FROM TRAEME_LA_COPA_MESSI.Cliente_Inconsistente JOIN gd_esquema.Maestra ON NumDoc = Cliente_Pasaporte_Nro AND Email = Cliente_Mail;
+SELECT DISTINCT IdCliente, Reserva_Codigo FROM TRAEME_LA_COPA_MESSI.Cliente_Inconsistente JOIN gd_esquema.Maestra ON NumDoc = Cliente_Pasaporte_Nro AND Email = Cliente_Mail;
 
 
 
@@ -973,10 +975,15 @@ commit
 
 GO
 create procedure TRAEME_LA_COPA_MESSI.getCliente
-@id int
+@id int,
+@mail nvarchar(255)
 as
-	select * from TRAEME_LA_COPA_MESSI.Cliente c, TRAEME_LA_COPA_MESSI.Cliente_Inconsistente ci where c.IdCliente = @id or ci.IdClienteInconsistente = @id
-
+begin
+	if exists (select IdCliente from TRAEME_LA_COPA_MESSI.Cliente c where c.IdCliente=@id and c.Email=@mail)
+		select * from TRAEME_LA_COPA_MESSI.Cliente c where c.IdCliente=@id and c.Email=@mail
+	else
+		select * from TRAEME_LA_COPA_MESSI.Cliente_Inconsistente ci where ci.IdCliente=@id and ci.Email=@mail
+end
 
 GO
 create procedure TRAEME_LA_COPA_MESSI.getDireccion
@@ -1008,14 +1015,14 @@ create procedure TRAEME_LA_COPA_MESSI.modificarCliente
 as
 begin transaction
 	begin
-		if(exists (select IdCliente from TRAEME_LA_COPA_MESSI.Cliente where IdCliente = @idCliente))
+		if exists (select IdCliente from TRAEME_LA_COPA_MESSI.Cliente c where c.IdCliente = @idCliente and c.Email=@email)
 			begin
 				update TRAEME_LA_COPA_MESSI.Cliente set Email=@email, Direccion=@idDireccion, Nombre=@nombre, Apellido=@apellido, TipoDoc=@tipoDoc, NumDoc=@numDoc, Telefono=@telefono, PaisOrigen=@PaisOrigen, Nacionalidad=@Nacionalidad, FechaNacimiento=@FechaNacimiento where IdCliente = @idCliente
 				update TRAEME_LA_COPA_MESSI.Direccion set Ciudad=@ciudad, Calle=@calle, NroCalle=@nroCalle, Piso=@piso, Departamento=@dpto, Localidad=@localidad, Pais=@pais where IdDir=@idDireccion
 			end
 		else
 			begin
-				update TRAEME_LA_COPA_MESSI.Cliente_Inconsistente set Email=@email, Direccion=@idDireccion, Nombre=@nombre, Apellido=@apellido, TipoDoc=@tipoDoc, NumDoc=@numDoc, Telefono=@telefono, PaisOrigen=@PaisOrigen, Nacionalidad=@Nacionalidad, FechaNacimiento=@FechaNacimiento where IdClienteInconsistente = @idCliente
+				update TRAEME_LA_COPA_MESSI.Cliente_Inconsistente set Email=@email, Direccion=@idDireccion, Nombre=@nombre, Apellido=@apellido, TipoDoc=@tipoDoc, NumDoc=@numDoc, Telefono=@telefono, PaisOrigen=@PaisOrigen, Nacionalidad=@Nacionalidad, FechaNacimiento=@FechaNacimiento where IdCliente = @idCliente
 				update TRAEME_LA_COPA_MESSI.Direccion set Ciudad=@ciudad, Calle=@calle, NroCalle=@nroCalle, Piso=@piso, Departamento=@dpto, Localidad=@localidad, Pais=@pais where IdDir=@idDireccion
 			end
 	end
@@ -1024,16 +1031,29 @@ commit
 
 GO
 create procedure TRAEME_LA_COPA_MESSI.darDeBajaCliente
-@idCliente int
+@idCliente int,
+@mail nvarchar(255)
 as
 begin transaction
 	begin
-		if(exists (select IdCliente from TRAEME_LA_COPA_MESSI.Cliente where IdCliente = @idCliente))
+		if(exists (select IdCliente from TRAEME_LA_COPA_MESSI.Cliente c where c.IdCliente = @idCliente and c.Email=@mail))
 			update TRAEME_LA_COPA_MESSI.Cliente set Estado = 1 where IdCliente=@idCliente
 		else
-			update TRAEME_LA_COPA_MESSI.Cliente_Inconsistente set Estado = 1 where IdClienteInconsistente=@idCliente
+			update TRAEME_LA_COPA_MESSI.Cliente_Inconsistente set Estado = 1 where IdCliente=@idCliente and Email=@mail
 	end
 commit
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.validarMail
+@mail nvarchar(255)
+as
+begin
+	if exists (select 1 from TRAEME_LA_COPA_MESSI.Cliente c, TRAEME_LA_COPA_MESSI.Cliente_Inconsistente ci where c.Email=@mail or ci.Email=@mail)
+		return 1
+	else
+		return 0
+end
 
 
 

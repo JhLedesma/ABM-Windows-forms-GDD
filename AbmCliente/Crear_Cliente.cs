@@ -17,6 +17,7 @@ namespace FrbaHotel.AbmCliente
             InitializeComponent();
         }
 
+        //Falta hacer validacion para que no meta mail repetido
         private void btnCrear_Click(object sender, EventArgs e) //Configurar ComboBox
         {
             if (
@@ -36,6 +37,10 @@ namespace FrbaHotel.AbmCliente
                 string.IsNullOrWhiteSpace(tbPais.Text))
             {
                 MessageBox.Show("Por favor complete todos los campos", "Campos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if (Repositorios.Repo_Cliente.getInstancia().validarMail(tbMail.Text) == 1)
+            {
+                MessageBox.Show("Por favor ingrese un mail que no registrado", "Mail ya existente", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
@@ -79,6 +84,13 @@ namespace FrbaHotel.AbmCliente
                     tbDpto.Text = "";
                     tbLocalidad.Text = "";
                     tbPais.Text = "";
+        }
+
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            this.Close();
+            new AbmCliente.Abm_Cliente().ShowDialog();
         }
 
  
