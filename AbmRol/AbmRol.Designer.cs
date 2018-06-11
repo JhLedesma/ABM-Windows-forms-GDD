@@ -28,9 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.Crear = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            
+           
             this.SuspendLayout();
             // 
             // Crear
@@ -61,6 +64,8 @@
             this.button3.Text = "Eliminar";
             this.button3.UseVisualStyleBackColor = true;
             // 
+      
+            // 
             // AbmRol
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -71,6 +76,8 @@
             this.Controls.Add(this.Crear);
             this.Name = "AbmRol";
             this.Text = "AbmRol";
+            this.Load += new System.EventHandler(this.AbmRol_Load);
+
             this.ResumeLayout(false);
 
         }
@@ -80,5 +87,6 @@
         private System.Windows.Forms.Button Crear;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
+
     }
 }

@@ -160,6 +160,16 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getClientesFiltrados','P') IS NOT NULL
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarMail','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.validarMail;
+
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarNombreDeRol','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.validarNombreDeRol;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.agregarNuevoRol','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.agregarNuevoRol;
+
+
+	
 	
 	
 
@@ -1055,6 +1065,26 @@ begin
 		return 0
 end
 
+GO
+create procedure TRAEME_LA_COPA_MESSI.validarNombreDeRol
+@nombreRol nvarchar(255)
+as
+begin
+	if exists (select 1 from TRAEME_LA_COPA_MESSI.Rol where Nombre = @nombreRol)
+		return 1
+	else
+		return 0
+	end
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.agregarNuevoRol
+@nombreRol nvarchar(255),
+@estado int
+as
+begin
+insert into TRAEME_LA_COPA_MESSI.Rol 
+values (@nombreRol,@estado)
+end
 
 
 

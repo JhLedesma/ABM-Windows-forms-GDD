@@ -24,6 +24,12 @@ namespace FrbaHotel.AbmRol
             this.Close();
         }
 
+        private void AbmRol_Load(object sender, EventArgs e)
+        {
+       
+
+        }
+
         
     }
 }
