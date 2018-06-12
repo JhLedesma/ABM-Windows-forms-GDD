@@ -30,7 +30,7 @@ namespace FrbaHotel.Repositorios
 
         public int validarRol(string nombre)
         {
-            
+
             DBhelper.crearConexion();
 
             SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.ValidarNombreDeRol");
@@ -50,7 +50,7 @@ namespace FrbaHotel.Repositorios
 
         }
 
-        public void agregarRol(string nombre, List<Model.Funcionalidad> funcionalidades, bool activo)
+        public int agregarRol(string nombre, List<Model.Funcionalidad> funcionalidades, bool activo)
         {
 
             int estado;
@@ -63,11 +63,30 @@ namespace FrbaHotel.Repositorios
             SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.agregarNuevoRol");
             cmd.Parameters.Add("@nombreRol", SqlDbType.NVarChar).Value = nombre;
             cmd.Parameters.Add("@estado", SqlDbType.Int).Value = estado;
+
+            var retorno = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
+            retorno.Direction = ParameterDirection.ReturnValue;
             DBhelper.abrirConexion();
 
             DBhelper.ejecutarProcedure(cmd);
 
             DBhelper.cerrarConexion();
+            int id = (int)retorno.Value;
+            return id;
         }
+
+
+        public void actualizarFuncPorRol(List<Model.Funcionalidad> funcionalidades, int id)
+        {
+            foreach(Model.Funcionalidad funcionalidad in funcionalidades){
+                DBhelper.crearConexion();
+                SqlCommand cmd= DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.actualizarFuncionalidadporRol");
+                cmd.Parameters.Add("@idRol", SqlDbType.Int).Value = id;
+                cmd.Parameters.Add("@funcionalidad", SqlDbType.NVarChar).Value = funcionalidad.getDescripcion;
+               
+                DBhelper.abrirConexion();
+                DBhelper.ejecutarProcedure(cmd);
+                DBhelper.cerrarConexion();
+        }}
     }
 }

@@ -174,7 +174,8 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarNombreDeRol','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.agregarNuevoRol','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.agregarNuevoRol;
 
-
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.actualizarFuncionalidadporRol','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.actualizarFuncionalidadporRol;
 	
 	
 	
@@ -1149,6 +1150,17 @@ as
 begin
 insert into TRAEME_LA_COPA_MESSI.Rol 
 values (@nombreRol,@estado)
+return (select IdRol from TRAEME_LA_COPA_MESSI.Rol where Nombre=@nombreRol)
+end
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.actualizarFuncionalidadporRol
+@idRol int,
+@funcionalidad nvarchar(255)
+as
+begin
+insert into FuncionalidadPorRol
+values((select IdFunc from TRAEME_LA_COPA_MESSI.Funcionalidad where @funcionalidad=Descripcion),@idRol)
 end
 
 

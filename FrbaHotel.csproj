@@ -166,6 +166,12 @@
     <Compile Include="AbmRol\CrearRol.Designer.cs">
       <DependentUpon>CrearRol.cs</DependentUpon>
     </Compile>
+    <Compile Include="AbmRol\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmRol\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
     <Compile Include="AbmUsuario\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -290,6 +296,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AbmRol\CrearRol.resx">
       <DependentUpon>CrearRol.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmRol\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login\SeleccionarFuncionalidad.resx">
       <DependentUpon>SeleccionarFuncionalidad.cs</DependentUpon>

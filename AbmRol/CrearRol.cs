@@ -43,10 +43,13 @@ namespace FrbaHotel.AbmRol
             }
             else
             {
-                //TODO ver los errores
-                int validacion = Repositorios.Repo_Rol.instancia.validarRol((string)textBoxNombre.Text);
-                if(validacion==1){
-                     Repositorios.Repo_Rol.instancia.agregarRol(textBoxNombre.Text,funcionalidadesSeleccionadas,RadioActivo.Checked);
+                
+                int validacion = Repositorios.Repo_Rol.getInstancia().validarRol(textBoxNombre.Text);
+                if(validacion==0){
+                     int id =Repositorios.Repo_Rol.getInstancia().agregarRol(textBoxNombre.Text,funcionalidadesSeleccionadas,RadioActivo.Checked);
+                     Repositorios.Repo_Rol.getInstancia().actualizarFuncPorRol(funcionalidadesSeleccionadas, id);
+                     MessageBox.Show("Rol aniadido correctamente", "Rol creado", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    
                  }
                  else
                  { MessageBox.Show("Ya existe ese nombre de rol en la base de datos", "Nombre invalido", MessageBoxButtons.OK, MessageBoxIcon.Error); };
@@ -72,7 +75,12 @@ namespace FrbaHotel.AbmRol
         private void BotonLimpiar_Click(object sender, EventArgs e)
         {
             textBoxNombre.Text = "";
-            
+            funcionalidades.Clear();
+            funcionalidades = Repositorios.Repo_Funcionalidad.getInstancia().getFuncionalidades();
+            funcionalidadesSeleccionadas.Clear();
+            radioInactivo.Checked = false;
+            RadioActivo.Checked = false;
+            configuarComboBox();
             
         }
 
