@@ -69,7 +69,6 @@
             this.listadoHoteles = new System.Windows.Forms.ComboBox();
             this.lblHoteles = new System.Windows.Forms.Label();
             this.btnAgregarHotel = new System.Windows.Forms.Button();
-            this.btnQuitarHotel = new System.Windows.Forms.Button();
             this.lblRol = new System.Windows.Forms.Label();
             this.ListadoRol = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
@@ -439,7 +438,6 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.btnQuitarHotel);
             this.groupBox3.Controls.Add(this.btnAgregarHotel);
             this.groupBox3.Controls.Add(this.listadoHoteles);
             this.groupBox3.Controls.Add(this.lblHoteles);
@@ -453,7 +451,7 @@
             // listadoHoteles
             // 
             this.listadoHoteles.FormattingEnabled = true;
-            this.listadoHoteles.Location = new System.Drawing.Point(76, 40);
+            this.listadoHoteles.Location = new System.Drawing.Point(85, 40);
             this.listadoHoteles.Name = "listadoHoteles";
             this.listadoHoteles.Size = new System.Drawing.Size(118, 21);
             this.listadoHoteles.TabIndex = 60;
@@ -461,7 +459,7 @@
             // lblHoteles
             // 
             this.lblHoteles.AutoSize = true;
-            this.lblHoteles.Location = new System.Drawing.Point(9, 43);
+            this.lblHoteles.Location = new System.Drawing.Point(23, 43);
             this.lblHoteles.Name = "lblHoteles";
             this.lblHoteles.Size = new System.Drawing.Size(46, 13);
             this.lblHoteles.TabIndex = 59;
@@ -469,21 +467,13 @@
             // 
             // btnAgregarHotel
             // 
-            this.btnAgregarHotel.Location = new System.Drawing.Point(209, 38);
+            this.btnAgregarHotel.Location = new System.Drawing.Point(240, 39);
             this.btnAgregarHotel.Name = "btnAgregarHotel";
             this.btnAgregarHotel.Size = new System.Drawing.Size(75, 23);
             this.btnAgregarHotel.TabIndex = 49;
             this.btnAgregarHotel.Text = "Agregar";
             this.btnAgregarHotel.UseVisualStyleBackColor = true;
-            // 
-            // btnQuitarHotel
-            // 
-            this.btnQuitarHotel.Location = new System.Drawing.Point(295, 38);
-            this.btnQuitarHotel.Name = "btnQuitarHotel";
-            this.btnQuitarHotel.Size = new System.Drawing.Size(75, 23);
-            this.btnQuitarHotel.TabIndex = 61;
-            this.btnQuitarHotel.Text = "Quitar";
-            this.btnQuitarHotel.UseVisualStyleBackColor = true;
+            this.btnAgregarHotel.Click += new System.EventHandler(this.btnAgregarHotel_Click);
             // 
             // lblRol
             // 
@@ -571,7 +561,6 @@
         private System.Windows.Forms.Button btnCrear;
         private System.Windows.Forms.Button btnLimpiar;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Button btnQuitarHotel;
         private System.Windows.Forms.Button btnAgregarHotel;
         private System.Windows.Forms.ComboBox listadoHoteles;
         private System.Windows.Forms.Label lblHoteles;

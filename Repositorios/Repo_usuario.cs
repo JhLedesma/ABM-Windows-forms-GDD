@@ -147,6 +147,13 @@ namespace FrbaHotel.Repositorios
         }
 
 
+        ///ABM Usuario////////////////////////////
+
+        public List<Model.Rol> getRoles()
+        {
+            return null;
+        }
+
     }
 
 }

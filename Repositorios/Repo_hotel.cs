@@ -209,5 +209,12 @@ namespace FrbaHotel.Repositorios
         }
 
 
+
+        public List<Model.Hotel> getHoteles()
+        {
+            return null;
+        }
+
+
     }
 }
