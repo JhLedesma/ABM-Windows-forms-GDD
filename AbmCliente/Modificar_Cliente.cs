@@ -68,6 +68,11 @@ namespace FrbaHotel.AbmCliente
                 tbLocalidad.Text,
                 tbPais.Text
                 );
+
+            MessageBox.Show("Cliente modificado correctamente");
+
+            this.Hide();
+            this.Close();
         }
 
 
