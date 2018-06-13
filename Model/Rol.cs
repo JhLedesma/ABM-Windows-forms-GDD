@@ -11,15 +11,19 @@ namespace FrbaHotel.Model
         public Int32 idRol {get;set;}
         public String nombreRol {get;set;}
         public Int16 estado {get;set;}
-        public List<Model.Funcionalidad> funcionalidades;
+        public List<Model.Funcionalidad> funcionalidades=new List<Funcionalidad>();
 
 
-        public Rol(String nombre, Int32 id)
+        public Rol(String nombre, Int32 id, Int16 estade)
         {
 
             nombreRol = nombre;
             idRol = id;
+            estado = estade;
             
+        }
+        public void agregarFuncionalidad(Model.Funcionalidad func){
+            funcionalidades.Add(func);
         }
 
         public Rol() { }

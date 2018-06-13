@@ -56,7 +56,6 @@ namespace FrbaHotel.Repositorios
             int estado;
             if (activo) { estado = 1; } else { estado = 0; };
             int cantidadDeFuncionalidades = funcionalidades.Count;
-            //falta modificar funcionalidades por rol
 
             DBhelper.crearConexion();
 
@@ -78,15 +77,63 @@ namespace FrbaHotel.Repositorios
 
         public void actualizarFuncPorRol(List<Model.Funcionalidad> funcionalidades, int id)
         {
-            foreach(Model.Funcionalidad funcionalidad in funcionalidades){
+            foreach (Model.Funcionalidad funcionalidad in funcionalidades)
+            {
                 DBhelper.crearConexion();
-                SqlCommand cmd= DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.actualizarFuncionalidadporRol");
+                SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.actualizarFuncionalidadporRol");
                 cmd.Parameters.Add("@idRol", SqlDbType.Int).Value = id;
                 cmd.Parameters.Add("@funcionalidad", SqlDbType.NVarChar).Value = funcionalidad.getDescripcion;
-               
+
                 DBhelper.abrirConexion();
                 DBhelper.ejecutarProcedure(cmd);
                 DBhelper.cerrarConexion();
-        }}
+            }
+        }
+
+        public List<Model.Rol> getRoles()
+        {
+            List<Model.Rol> listaDeRoles = new List<Model.Rol>();
+            DataTable roles;
+            SqlCommand cm2;
+            DBhelper.crearConexion();
+            DBhelper.abrirConexion();
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getRoles");
+
+
+            roles = DBhelper.obtenerTabla(cmd);
+            DBhelper.cerrarConexion();
+            foreach (DataRow row in roles.Rows)
+            {
+                Model.Rol rol = new Model.Rol();
+
+                rol.nombreRol = ((String)row["Nombre"]);
+                rol.estado = Convert.ToInt16(row["Estado"]);
+                rol.idRol = ((Int32)row["IdRol"]);
+                listaDeRoles.Add(rol);/*
+            }
+            
+            foreach (Model.Rol rol in listaDeRoles)
+            {
+                DBhelper.crearConexion();
+                DBhelper.abrirConexion();
+
+                cm2 = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getFuncionalidadPorRol");
+                cm2.Parameters.Add("@idRol", SqlDbType.Int).Value = rol.idRol;
+                DataTable funcionalidadesDelRol = DBhelper.obtenerTabla(cm2);
+                DBhelper.cerrarConexion();
+                foreach (DataRow funcion in funcionalidadesDelRol.Rows)
+                {
+                 
+
+                        Model.Funcionalidad funcionali = new Model.Funcionalidad();
+
+                        funcionali.descripcion = ((String)funcion["Descripcion"]);
+                        rol.agregarFuncionalidad(funcionali);
+                    
+                }*/
+
+            } return listaDeRoles;
+
+        }
     }
 }

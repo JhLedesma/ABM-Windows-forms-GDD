@@ -172,6 +172,12 @@
     <Compile Include="AbmRol\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="AbmRol\ListaDeRoles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmRol\ListaDeRoles.Designer.cs">
+      <DependentUpon>ListaDeRoles.cs</DependentUpon>
+    </Compile>
     <Compile Include="AbmUsuario\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -183,6 +189,11 @@
     </Compile>
     <Compile Include="CancelarReserva\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GD1C2018DataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GD1C2018DataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="GenerarModificacionReserva\Form1.cs">
       <SubType>Form</SubType>
@@ -300,6 +311,9 @@
     <EmbeddedResource Include="AbmRol\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AbmRol\ListaDeRoles.resx">
+      <DependentUpon>ListaDeRoles.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Login\SeleccionarFuncionalidad.resx">
       <DependentUpon>SeleccionarFuncionalidad.cs</DependentUpon>
     </EmbeddedResource>
@@ -336,6 +350,17 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="GD1C2018DataSet.xsc">
+      <DependentUpon>GD1C2018DataSet.xsd</DependentUpon>
+    </None>
+    <None Include="GD1C2018DataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>GD1C2018DataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="GD1C2018DataSet.xss">
+      <DependentUpon>GD1C2018DataSet.xsd</DependentUpon>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -28,12 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.Crear = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            
-           
             this.SuspendLayout();
             // 
             // Crear
@@ -54,6 +51,7 @@
             this.button2.TabIndex = 1;
             this.button2.Text = "Modificar";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button3
             // 
@@ -63,8 +61,6 @@
             this.button3.TabIndex = 2;
             this.button3.Text = "Eliminar";
             this.button3.UseVisualStyleBackColor = true;
-            // 
-      
             // 
             // AbmRol
             // 
@@ -77,7 +73,6 @@
             this.Name = "AbmRol";
             this.Text = "AbmRol";
             this.Load += new System.EventHandler(this.AbmRol_Load);
-
             this.ResumeLayout(false);
 
         }
