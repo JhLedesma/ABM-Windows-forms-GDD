@@ -10,21 +10,11 @@ using System.Windows.Forms;
 
 namespace FrbaHotel.AbmUsuario
 {
-    public partial class Form1 : Form
+    public partial class ABM_Usuario : Form
     {
-        public Form1()
+        public ABM_Usuario()
         {
             InitializeComponent();
-        }
-
-        private void textBox5_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox6_TextChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }

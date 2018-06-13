@@ -179,7 +179,7 @@ namespace FrbaHotel.Repositorios
 
             DBhelper.abrirConexion();
 
-            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.newCliente");
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.modificarCliente");
             cmd.Parameters.Add("@email", SqlDbType.NVarChar).Value = email;
             cmd.Parameters.Add("@nombre", SqlDbType.NVarChar).Value = nombre;
             cmd.Parameters.Add("@apellido", SqlDbType.NVarChar).Value = apellido;
