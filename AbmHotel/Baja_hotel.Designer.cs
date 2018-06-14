@@ -121,7 +121,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.groupBox1);
             this.Name = "Baja_hotel";
-            this.Text = "Baja_hotel";
+            this.Text = "Baja hotel";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

@@ -66,6 +66,7 @@
             this.boton_volver.TabIndex = 18;
             this.boton_volver.Text = "Volver";
             this.boton_volver.UseVisualStyleBackColor = true;
+            this.boton_volver.Click += new System.EventHandler(this.boton_volver_Click);
             // 
             // boton_cobrar_facturas
             // 
@@ -108,9 +109,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(16, 25);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(264, 13);
+            this.label1.Size = new System.Drawing.Size(254, 13);
             this.label1.TabIndex = 13;
-            this.label1.Text = "Cree, modifique o de la baja a un huesped del sistema:";
+            this.label1.Text = "Cree, modifique o de la baja a un cliente del sistema:";
             // 
             // boton_abm_cliente
             // 
@@ -120,11 +121,13 @@
             this.boton_abm_cliente.TabIndex = 12;
             this.boton_abm_cliente.Text = "ABM Cliente";
             this.boton_abm_cliente.UseVisualStyleBackColor = true;
+            this.boton_abm_cliente.Click += new System.EventHandler(this.boton_abm_cliente_Click);
             // 
             // linkLabelFuncAdmin
             // 
             this.linkLabelFuncAdmin.AutoSize = true;
-            this.linkLabelFuncAdmin.LinkColor = System.Drawing.Color.Gray;
+            this.linkLabelFuncAdmin.DisabledLinkColor = System.Drawing.Color.Blue;
+            this.linkLabelFuncAdmin.LinkColor = System.Drawing.Color.MediumBlue;
             this.linkLabelFuncAdmin.Location = new System.Drawing.Point(319, 368);
             this.linkLabelFuncAdmin.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.linkLabelFuncAdmin.Name = "linkLabelFuncAdmin";
@@ -151,7 +154,7 @@
             this.Controls.Add(this.boton_abm_cliente);
             this.Controls.Add(this.linkLabelFuncAdmin);
             this.Name = "SeleccionarFuncionalidad";
-            this.Text = "SeleccionarFuncionalidad";
+            this.Text = "Funcionalidades del sistema";
             this.ResumeLayout(false);
             this.PerformLayout();
 

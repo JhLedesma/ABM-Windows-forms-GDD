@@ -47,5 +47,12 @@ namespace FrbaHotel.AbmHotel
             }
         }
 
+        private void boton_volver_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            new Abm_hotel().ShowDialog();
+            this.Close();
+        }
+
     }
 }

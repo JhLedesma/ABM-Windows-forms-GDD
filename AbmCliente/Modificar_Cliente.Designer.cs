@@ -449,7 +449,7 @@
             this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.groupBox1);
             this.Name = "Modificar_Cliente";
-            this.Text = "Modificar_Cliente";
+            this.Text = "Modificar Cliente";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericTelefono)).EndInit();

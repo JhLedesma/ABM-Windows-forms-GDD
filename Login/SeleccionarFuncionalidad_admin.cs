@@ -23,5 +23,12 @@ namespace FrbaHotel.Login
             new AbmHotel.Abm_hotel().ShowDialog();
             this.Close();
         }
+
+        private void boton_volver_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            new SeleccionarFuncionalidad().ShowDialog();
+            this.Close();
+        }
     }
 }

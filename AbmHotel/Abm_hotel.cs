@@ -19,7 +19,9 @@ namespace FrbaHotel.AbmHotel
 
         private void button_volver_Click(object sender, EventArgs e)
         {
-
+            this.Hide();
+            new Login.SeleccionarFuncionalidad_admin().ShowDialog();
+            this.Close();
         }
 
         private void boton_crear_hotel_Click(object sender, EventArgs e)

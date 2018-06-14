@@ -157,6 +157,13 @@ namespace FrbaHotel.AbmHotel
             MessageBox.Show("Cambios efectuados", "Exito al guardar", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        private void boton_volver_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            new Abm_hotel().ShowDialog();
+            this.Close();
+        }
+
         
     }
 }
