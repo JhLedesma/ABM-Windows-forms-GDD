@@ -178,8 +178,6 @@
     <Compile Include="AbmRol\ListaDeRoles.Designer.cs">
       <DependentUpon>ListaDeRoles.cs</DependentUpon>
     </Compile>
-    <Compile Include="AbmUsuario\Form1.cs">
-    </Compile>
     <Compile Include="AbmUsuario\ABM_Usuario.cs">
       <SubType>Form</SubType>
     </Compile>

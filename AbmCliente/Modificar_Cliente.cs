@@ -18,17 +18,26 @@ namespace FrbaHotel.AbmCliente
         {
             InitializeComponent();
             clienteSeleccionado = Repositorios.Repo_Cliente.getInstancia().getCliente(idCliente, mail);
+            configuarComboBoxTipoDoc();
             mostrarDatos();
         }
 
-        public void mostrarDatos()//Agregar combobox
+        public void configuarComboBoxTipoDoc()
+        {
+            this.listadoTipoIdentificacion.ValueMember = "Objeto";
+            this.listadoTipoIdentificacion.DisplayMember = "Descripcion";
+            this.listadoTipoIdentificacion.DataSource = Repositorios.RepoTipoDocumento.getInstancia().getTipoDocumentos();
+            this.listadoTipoIdentificacion.DropDownStyle = ComboBoxStyle.DropDownList;
+        }
+
+        public void mostrarDatos()
         {
             tbNombre.Text = clienteSeleccionado.nombre;
             tbApellido.Text = clienteSeleccionado.apellido;
             tbMail.Text = clienteSeleccionado.mail;
             numericTelefono.Value = clienteSeleccionado.telefono;
             numericNumeroIdentificacion.Value = clienteSeleccionado.numDoc;
-            //Tipo de Identificacion
+            listadoTipoIdentificacion.SelectedItem = clienteSeleccionado.tipoDoc;
             tbNacionalidad.Text = clienteSeleccionado.nacionalidad;
             dtFechaNacimiento.Value = clienteSeleccionado.fechaNac;
             tbPaisOrigen.Text = clienteSeleccionado.paisOrigen;
@@ -48,13 +57,15 @@ namespace FrbaHotel.AbmCliente
 
         private void btnGuardar_Click(object sender, EventArgs e)//Agregar combobox
         {
+            Model.TipoDocumento tipoDoc = (Model.TipoDocumento)listadoTipoIdentificacion.SelectedValue;
+
             Repositorios.Repo_Cliente.getInstancia().modificarCliente(
                 clienteSeleccionado.id,
                 clienteSeleccionado.direccion.id,
                 tbMail.Text,
                 tbNombre.Text,
                 tbApellido.Text,
-                "",
+                tipoDoc.id,
                 numericNumeroIdentificacion.Value,
                 numericTelefono.Value,
                 tbPaisOrigen.Text,

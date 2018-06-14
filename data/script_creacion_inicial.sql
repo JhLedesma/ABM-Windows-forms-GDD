@@ -1209,3 +1209,9 @@ create procedure TRAEME_LA_COPA_MESSI.getTipoDocumentos
 as
 select * from TRAEME_LA_COPA_MESSI.TipoDoc
 
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.getTipoDocumento
+@id int
+as
+select * from TRAEME_LA_COPA_MESSI.TipoDoc where IdTipo=@id

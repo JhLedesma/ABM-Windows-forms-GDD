@@ -15,10 +15,10 @@ namespace FrbaHotel.AbmCliente
         public Crear_Cliente()
         {
             InitializeComponent();
-            configuarComboBoxRol();
+            configuarComboBoxTipoDoc();
         }
 
-        public void configuarComboBoxRol()
+        public void configuarComboBoxTipoDoc()
         {
             this.listadoTipoIdentificacion.ValueMember = "Objeto";
             this.listadoTipoIdentificacion.DisplayMember = "Descripcion";
@@ -53,11 +53,13 @@ namespace FrbaHotel.AbmCliente
             }
             else
             {
+                Model.TipoDocumento tipoDoc = (Model.TipoDocumento)listadoTipoIdentificacion.SelectedValue;
+
                 Repositorios.Repo_Cliente.getInstancia().crearCliente(
                     tbMail.Text,
                     tbNombre.Text,
                     tbApellido.Text,
-                    "", //combobox
+                    tipoDoc.id, //combobox
                     numericNumeroIdentificacion.Value,
                     numericTelefono.Value,
                     tbPaisOrigen.Text,
@@ -81,7 +83,7 @@ namespace FrbaHotel.AbmCliente
                     tbMail.Text = "";
                     tbNombre.Text  = "";
                     tbApellido.Text  = "";
-                    //combobox
+                    configuarComboBoxTipoDoc();
                     numericNumeroIdentificacion.Value = decimal.Zero;
                     numericTelefono.Value = decimal.Zero;
                     tbPaisOrigen.Text = "";

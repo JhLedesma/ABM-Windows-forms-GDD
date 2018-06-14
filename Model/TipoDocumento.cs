@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FrbaHotel.Model
 {
-    class TipoDocumento
+    public class TipoDocumento
     {
         public int id { get; set; }
         public String descripcion { get; set; }

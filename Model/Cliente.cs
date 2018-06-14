@@ -14,14 +14,14 @@ namespace FrbaHotel.Model
         public String mail { get; set; }
         public decimal telefono { get; set; }
         public decimal numDoc { get; set; }
-        public String tipoDoc { get; set; }
+        public Model.TipoDocumento tipoDoc{ get; set; }
         public String nacionalidad { get; set; }
         public DateTime fechaNac { get; set; }
         public String paisOrigen { get; set; }
         public Model.Direccion direccion { get; set; }
         public Int16 estado { get; set; }
 
-        public Cliente(int id, String nombre, String apellido, String mail, decimal telefono, decimal numDoc, String tipoDoc, String nacionalidad, DateTime fechaNac, String paisOrigen, Model.Direccion direccion, Int16 estado)
+        public Cliente(int id, String nombre, String apellido, String mail, decimal telefono, decimal numDoc, Model.TipoDocumento tipoDoc, String nacionalidad, DateTime fechaNac, String paisOrigen, Model.Direccion direccion, Int16 estado)
         {
             this.id = id;
             this.nombre = nombre;

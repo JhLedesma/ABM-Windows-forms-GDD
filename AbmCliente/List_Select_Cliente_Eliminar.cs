@@ -19,9 +19,16 @@ namespace FrbaHotel.AbmCliente
         public List_Select_Cliente_Eliminar()
         {
             InitializeComponent();
+            configuarComboBoxTipoDoc();
         }
 
-    
+        public void configuarComboBoxTipoDoc()
+        {
+            this.listadoTipoIdentificacion.ValueMember = "Objeto";
+            this.listadoTipoIdentificacion.DisplayMember = "Descripcion";
+            this.listadoTipoIdentificacion.DataSource = Repositorios.RepoTipoDocumento.getInstancia().getTipoDocumentos();
+            this.listadoTipoIdentificacion.DropDownStyle = ComboBoxStyle.DropDownList;
+        }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -43,12 +50,15 @@ namespace FrbaHotel.AbmCliente
 
         private void lblFiltrar_Click(object sender, EventArgs e)
         {
-            dataGridView1.DataSource = Repositorios.Repo_Cliente.getInstancia().getTablaClientesFiltradosActivos(filtroNombre.Text, filtroApellido.Text, filtroMail.Text, "", filtroNumeroIdentificacion.Value);
+            Model.TipoDocumento tipoDoc = (Model.TipoDocumento)listadoTipoIdentificacion.SelectedValue;
+
+            dataGridView1.DataSource = Repositorios.Repo_Cliente.getInstancia().getTablaClientesFiltradosActivos(filtroNombre.Text, filtroApellido.Text, filtroMail.Text, tipoDoc.id, filtroNumeroIdentificacion.Value);
         }
 
         public void vaciarDataGrid()
         {
-            dataGridView1.DataSource = Repositorios.Repo_Cliente.getInstancia().getTablaClientesFiltradosActivos(filtroNombre.Text, filtroApellido.Text, filtroMail.Text, "", filtroNumeroIdentificacion.Value);
+            Model.TipoDocumento tipoDoc = (Model.TipoDocumento)listadoTipoIdentificacion.SelectedValue;
+            dataGridView1.DataSource = Repositorios.Repo_Cliente.getInstancia().getTablaClientesFiltradosActivos(filtroNombre.Text, filtroApellido.Text, filtroMail.Text, tipoDoc.id, filtroNumeroIdentificacion.Value);
         }
 
         private void btnVolver_Click(object sender, EventArgs e)

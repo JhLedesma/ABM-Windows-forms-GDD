@@ -27,7 +27,7 @@ namespace FrbaHotel.Repositorios
             }
         }
 
-        public DataTable getTablaClientesFiltradosConInactivos(String nombre, String apellido, String mail, String tipoIdentificacion, decimal NumeroIdentificacion)
+        public DataTable getTablaClientesFiltradosConInactivos(String nombre, String apellido, String mail, int tipoIdentificacion, decimal NumeroIdentificacion)
         {
 
             DataTable tablaClientesFiltrados;
@@ -40,7 +40,7 @@ namespace FrbaHotel.Repositorios
             cmd.Parameters.Add("@Nombre", SqlDbType.NVarChar).Value = nombre;
             cmd.Parameters.Add("@Apellido", SqlDbType.NVarChar).Value = apellido;
             cmd.Parameters.Add("@Mail", SqlDbType.NVarChar).Value = mail;
-            cmd.Parameters.Add("@Tipo_Identificacion", SqlDbType.NVarChar).Value = tipoIdentificacion;
+            cmd.Parameters.Add("@Tipo_Identificacion", SqlDbType.Int).Value = tipoIdentificacion;
             cmd.Parameters.Add("@Numero_Identificacion", SqlDbType.Decimal).Value = NumeroIdentificacion;
 
             tablaClientesFiltrados = DBhelper.obtenerTabla(cmd);
@@ -52,7 +52,7 @@ namespace FrbaHotel.Repositorios
         }
 
 
-        public DataTable getTablaClientesFiltradosActivos(String nombre, String apellido, String mail, String tipoIdentificacion, decimal NumeroIdentificacion)
+        public DataTable getTablaClientesFiltradosActivos(String nombre, String apellido, String mail, int tipoIdentificacion, decimal NumeroIdentificacion)
         {
 
             DataTable tablaClientesFiltrados;
@@ -65,7 +65,7 @@ namespace FrbaHotel.Repositorios
             cmd.Parameters.Add("@Nombre", SqlDbType.NVarChar).Value = nombre;
             cmd.Parameters.Add("@Apellido", SqlDbType.NVarChar).Value = apellido;
             cmd.Parameters.Add("@Mail", SqlDbType.NVarChar).Value = mail;
-            cmd.Parameters.Add("@Tipo_Identificacion", SqlDbType.NVarChar).Value = tipoIdentificacion;
+            cmd.Parameters.Add("@Tipo_Identificacion", SqlDbType.Int).Value = tipoIdentificacion;
             cmd.Parameters.Add("@Numero_Identificacion", SqlDbType.Decimal).Value = NumeroIdentificacion;
 
             tablaClientesFiltrados = DBhelper.obtenerTabla(cmd);
@@ -78,7 +78,7 @@ namespace FrbaHotel.Repositorios
 
 
         //Falta hacer validacion para que no meta mail repetido
-        public void crearCliente(String email, String nombre, String apellido, String tipoDoc, decimal numDoc, decimal telefono, String paisOrigen, String nacionalidad, DateTime fechaNac, String ciudad, String calle, decimal numCalle, decimal piso, String dpto, String localidad, String pais)
+        public void crearCliente(String email, String nombre, String apellido, int tipoDoc, decimal numDoc, decimal telefono, String paisOrigen, String nacionalidad, DateTime fechaNac, String ciudad, String calle, decimal numCalle, decimal piso, String dpto, String localidad, String pais)
         {
             DBhelper.crearConexion();
 
@@ -88,7 +88,7 @@ namespace FrbaHotel.Repositorios
             cmd.Parameters.Add("@email", SqlDbType.NVarChar).Value = email;
             cmd.Parameters.Add("@nombre", SqlDbType.NVarChar).Value = nombre;
             cmd.Parameters.Add("@apellido", SqlDbType.NVarChar).Value = apellido;
-            cmd.Parameters.Add("@tipoDoc", SqlDbType.NVarChar).Value = tipoDoc;
+            cmd.Parameters.Add("@tipoDoc", SqlDbType.Int).Value = tipoDoc;
             cmd.Parameters.Add("@numDoc", SqlDbType.Decimal).Value = numDoc;
             cmd.Parameters.Add("@telefono", SqlDbType.Decimal).Value = telefono;
             cmd.Parameters.Add("@PaisOrigen", SqlDbType.NVarChar).Value = paisOrigen;
@@ -129,7 +129,7 @@ namespace FrbaHotel.Repositorios
                     cliente.mail = (String)row["Email"];
                     cliente.telefono = (decimal)row["Telefono"];
                     cliente.numDoc = (decimal)row["NumDoc"];
-                    cliente.tipoDoc = (String)row["TipoDoc"];
+                    cliente.tipoDoc = this.getTipoDocumento((Int32)row["TipoDoc"]);
                     cliente.nacionalidad = (String)row["Nacionalidad"];
                     cliente.fechaNac = (DateTime)row["FechaNacimiento"];
                     cliente.paisOrigen = (String)row["PaisOrigen"];
@@ -140,6 +140,28 @@ namespace FrbaHotel.Repositorios
             DBhelper.cerrarConexion();
 
             return cliente;
+        }
+
+        public Model.TipoDocumento getTipoDocumento(int idTipoDoc)
+        {
+            DBhelper.crearConexion();
+
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getTipoDocumento");
+            cmd.Parameters.Add("@id", SqlDbType.Int).Value = idTipoDoc;
+
+            DataTable tablaTipoDoc = DBhelper.obtenerTabla(cmd);
+
+            Model.TipoDocumento tipoDoc = new Model.TipoDocumento();
+
+            foreach (DataRow row in tablaTipoDoc.Rows)
+            {
+                tipoDoc.id = (Int32)row["IdTipo"];
+                tipoDoc.descripcion = (String)row["Descripcion"];
+            }
+
+            return tipoDoc;
         }
 
         public Model.Direccion getDireccion(int idDireccion)
@@ -173,7 +195,7 @@ namespace FrbaHotel.Repositorios
         }
 
 
-        public void modificarCliente(int idCliente, int idDireccion, String email, String nombre, String apellido, String tipoDoc, decimal numDoc, decimal telefono, String paisOrigen, String nacionalidad, DateTime fechaNac, String ciudad, String calle, decimal numCalle, decimal piso, String dpto, String localidad, String pais)
+        public void modificarCliente(int idCliente, int idDireccion, String email, String nombre, String apellido, int tipoDoc, decimal numDoc, decimal telefono, String paisOrigen, String nacionalidad, DateTime fechaNac, String ciudad, String calle, decimal numCalle, decimal piso, String dpto, String localidad, String pais)
         {
             DBhelper.crearConexion();
 
@@ -183,7 +205,7 @@ namespace FrbaHotel.Repositorios
             cmd.Parameters.Add("@email", SqlDbType.NVarChar).Value = email;
             cmd.Parameters.Add("@nombre", SqlDbType.NVarChar).Value = nombre;
             cmd.Parameters.Add("@apellido", SqlDbType.NVarChar).Value = apellido;
-            cmd.Parameters.Add("@tipoDoc", SqlDbType.NVarChar).Value = tipoDoc;
+            cmd.Parameters.Add("@tipoDoc", SqlDbType.Int).Value = tipoDoc;
             cmd.Parameters.Add("@numDoc", SqlDbType.Decimal).Value = numDoc;
             cmd.Parameters.Add("@telefono", SqlDbType.Decimal).Value = telefono;
             cmd.Parameters.Add("@PaisOrigen", SqlDbType.NVarChar).Value = paisOrigen;

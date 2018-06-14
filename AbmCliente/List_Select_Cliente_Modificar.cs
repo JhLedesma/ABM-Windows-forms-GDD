@@ -20,11 +20,22 @@ namespace FrbaHotel.AbmCliente
         public List_Select_Cliente_Modificar()
         {
             InitializeComponent();
+            configuarComboBoxTipoDoc();
+        }
+
+        public void configuarComboBoxTipoDoc()
+        {
+            this.listadoTipoIdentificacion.ValueMember = "Objeto";
+            this.listadoTipoIdentificacion.DisplayMember = "Descripcion";
+            this.listadoTipoIdentificacion.DataSource = Repositorios.RepoTipoDocumento.getInstancia().getTipoDocumentos();
+            this.listadoTipoIdentificacion.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         private void lblFiltrar_Click(object sender, EventArgs e)
         {
-            dataGridModificar.DataSource = Repositorios.Repo_Cliente.getInstancia().getTablaClientesFiltradosConInactivos(filtroNombre.Text, filtroApellido.Text, filtroMail.Text, "", numericUpDown1.Value);
+            Model.TipoDocumento tipoDoc = (Model.TipoDocumento)listadoTipoIdentificacion.SelectedValue;
+
+            dataGridModificar.DataSource = Repositorios.Repo_Cliente.getInstancia().getTablaClientesFiltradosConInactivos(filtroNombre.Text, filtroApellido.Text, filtroMail.Text, tipoDoc.id, numericUpDown1.Value);
         }
 
         private void dataGridModificar_CellClick(object sender, DataGridViewCellEventArgs e)

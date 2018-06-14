@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 
 namespace FrbaHotel.Repositorios
 {
-    class RepoTipoDocumento
+    public class RepoTipoDocumento
     {
         private static RepoTipoDocumento instancia;
         public Utils.DBhelper DBhelper = Utils.DBhelper.getInstancia();
