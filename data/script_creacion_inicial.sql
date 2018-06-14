@@ -273,7 +273,7 @@ Email nvarchar(255) UNIQUE,
 Direccion int NULL, --FALTA EN LA MIGRACION ASOCIAR CON LAS DIRECCIONES CORRESPONDIENTES
 Nombre nvarchar(255) NOT NULL,
 Apellido nvarchar(255) NOT NULL,
-TipoDoc nvarchar(255) NULL,
+TipoDoc int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.TipoDoc(IdTipo) NOT NULL,
 NumDoc numeric(18,0) NOT NULL,
 Telefono numeric(18,0) DEFAULT -1,
 PaisOrigen nvarchar(255) DEFAULT '',
@@ -288,7 +288,7 @@ Email nvarchar(255),
 Direccion int NULL, --FALTA EN LA MIGRACION ASOCIAR CON LAS DIRECCIONES CORRESPONDIENTES
 Nombre nvarchar(255) NOT NULL,
 Apellido nvarchar(255) NOT NULL,
-TipoDoc nvarchar(255) NULL,
+TipoDoc int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.TipoDoc(IdTipo) NOT NULL,
 NumDoc numeric(18,0) NOT NULL,
 Telefono numeric(18,0) DEFAULT -1,
 PaisOrigen nvarchar(255)  DEFAULT '',
@@ -990,20 +990,20 @@ create procedure TRAEME_LA_COPA_MESSI.getClientesFiltradosActivos
 @Nombre nvarchar(255),
 @Apellido nvarchar(255),
 @Mail nvarchar(255),
-@Tipo_Identificacion nvarchar(255),
+@Tipo_Identificacion int,
 @Numero_Identificacion numeric(18,0)
 as
 begin
 	
 	SELECT * FROM TRAEME_LA_COPA_MESSI.Cliente c
 	WHERE 
-	c.Estado = 0 and c.Nombre LIKE '%' + @Nombre + '%' AND c.Apellido LIKE '%' + @Apellido + '%' AND c.Email LIKE '%' + @Mail + '%' AND c.TipoDoc LIKE '%' + @Tipo_Identificacion + '%' AND CAST(c.NumDoc AS NVARCHAR) LIKE '%' + CAST(@Numero_Identificacion AS NVARCHAR) + '%'
+	c.Estado = 0 and c.Nombre LIKE '%' + @Nombre + '%' AND c.Apellido LIKE '%' + @Apellido + '%' AND c.Email LIKE '%' + @Mail + '%' AND  CAST(c.TipoDoc AS NVARCHAR) LIKE '%' +  CAST(@Tipo_Identificacion AS NVARCHAR) + '%' AND CAST(c.NumDoc AS NVARCHAR) LIKE '%' + CAST(@Numero_Identificacion AS NVARCHAR) + '%'
 	
 	UNION
 
 	SELECT *  FROM TRAEME_LA_COPA_MESSI.Cliente_Inconsistente ci
 	WHERE
-	ci.Estado = 0 and ci.Nombre LIKE '%' + @Nombre + '%' AND ci.Apellido LIKE '%' + @Apellido + '%' AND ci.Email LIKE '%' + @Mail + '%' AND ci.TipoDoc LIKE '%' + @Tipo_Identificacion + '%' AND CAST(ci.NumDoc AS nvarchar) LIKE '%' + CAST(@Numero_Identificacion AS NVARCHAR) + '%'
+	ci.Estado = 0 and ci.Nombre LIKE '%' + @Nombre + '%' AND ci.Apellido LIKE '%' + @Apellido + '%' AND ci.Email LIKE '%' + @Mail + '%' AND CAST(ci.TipoDoc AS NVARCHAR) LIKE '%' + CAST(@Tipo_Identificacion AS NVARCHAR) + '%' AND CAST(ci.NumDoc AS nvarchar) LIKE '%' + CAST(@Numero_Identificacion AS NVARCHAR) + '%'
 	
 end
 
@@ -1012,20 +1012,20 @@ create procedure TRAEME_LA_COPA_MESSI.getClientesFiltradosConInactivos
 @Nombre nvarchar(255),
 @Apellido nvarchar(255),
 @Mail nvarchar(255),
-@Tipo_Identificacion nvarchar(255),
+@Tipo_Identificacion int,
 @Numero_Identificacion numeric(18,0)
 as
 begin
 	
 	SELECT * FROM TRAEME_LA_COPA_MESSI.Cliente c
 	WHERE 
-	c.Nombre LIKE '%' + @Nombre + '%' AND c.Apellido LIKE '%' + @Apellido + '%' AND c.Email LIKE '%' + @Mail + '%' AND c.TipoDoc LIKE '%' + @Tipo_Identificacion + '%' AND CAST(c.NumDoc AS NVARCHAR) LIKE '%' + CAST(@Numero_Identificacion AS NVARCHAR) + '%'
+	c.Nombre LIKE '%' + @Nombre + '%' AND c.Apellido LIKE '%' + @Apellido + '%' AND c.Email LIKE '%' + @Mail + '%' AND CAST(c.TipoDoc AS NVARCHAR) LIKE '%' +  CAST(@Tipo_Identificacion AS NVARCHAR) + '%' AND CAST(c.NumDoc AS NVARCHAR) LIKE '%' + CAST(@Numero_Identificacion AS NVARCHAR) + '%'
 	
 	UNION
 
 	SELECT *  FROM TRAEME_LA_COPA_MESSI.Cliente_Inconsistente ci
 	WHERE
-	ci.Nombre LIKE '%' + @Nombre + '%' AND ci.Apellido LIKE '%' + @Apellido + '%' AND ci.Email LIKE '%' + @Mail + '%' AND ci.TipoDoc LIKE '%' + @Tipo_Identificacion + '%' AND CAST(ci.NumDoc AS nvarchar) LIKE '%' + CAST(@Numero_Identificacion AS NVARCHAR) + '%'
+	ci.Nombre LIKE '%' + @Nombre + '%' AND ci.Apellido LIKE '%' + @Apellido + '%' AND ci.Email LIKE '%' + @Mail + '%' AND CAST(ci.TipoDoc AS NVARCHAR) LIKE '%' + CAST(@Tipo_Identificacion AS NVARCHAR) + '%' AND CAST(ci.NumDoc AS nvarchar) LIKE '%' + CAST(@Numero_Identificacion AS NVARCHAR) + '%'
 	
 end
 
@@ -1035,7 +1035,7 @@ create procedure TRAEME_LA_COPA_MESSI.newCliente
 @email nvarchar(255),
 @nombre nvarchar(255),
 @apellido nvarchar(255),
-@tipoDoc nvarchar(255),
+@tipoDoc int,
 @numDoc numeric(18,0),
 @telefono numeric(18,0),
 @PaisOrigen nvarchar(255),
@@ -1088,7 +1088,7 @@ create procedure TRAEME_LA_COPA_MESSI.modificarCliente
 @email nvarchar(255),
 @nombre nvarchar(255),
 @apellido nvarchar(255),
-@tipoDoc nvarchar(255),
+@tipoDoc int,
 @numDoc numeric(18,0),
 @telefono numeric(18,0),
 @PaisOrigen nvarchar(255),
@@ -1145,6 +1145,9 @@ begin
 	else
 		return 0
 end
+
+
+/* Repositorio Rol*/
 
 
 GO

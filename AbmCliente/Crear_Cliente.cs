@@ -15,13 +15,14 @@ namespace FrbaHotel.AbmCliente
         public Crear_Cliente()
         {
             InitializeComponent();
+            configuarComboBoxRol();
         }
 
         public void configuarComboBoxRol()
         {
             this.listadoTipoIdentificacion.ValueMember = "Objeto";
-            this.listadoTipoIdentificacion.DisplayMember = "Nombre";
-            this.listadoTipoIdentificacion.DataSource = Repositorios.Repo_Rol.getInstancia().getRoles();//Cambiar por metodo de Repo Roles
+            this.listadoTipoIdentificacion.DisplayMember = "Descripcion";
+            this.listadoTipoIdentificacion.DataSource = Repositorios.RepoTipoDocumento.getInstancia().getTipoDocumentos();
             this.listadoTipoIdentificacion.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
