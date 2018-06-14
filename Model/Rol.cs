@@ -20,10 +20,15 @@ namespace FrbaHotel.Model
             nombreRol = nombre;
             idRol = id;
             estado = estade;
-            
         }
-        public void agregarFuncionalidad(Model.Funcionalidad func){
-            funcionalidades.Add(func);
+
+        public void agregarFuncionalidad(Model.Funcionalidad funcionalidad)
+        {
+            funcionalidades.Add(funcionalidad);
+        }
+            
+        public void nuevasFuncionalidades(List<Model.Funcionalidad> Lista){
+            this.funcionalidades=Lista;
         }
 
         public Rol() { }
@@ -38,7 +43,7 @@ namespace FrbaHotel.Model
             }
         }
 
-
+      
         public Rol Objeto
         {
 
@@ -47,6 +52,7 @@ namespace FrbaHotel.Model
                 return this;
             }
         }
+
 
     }
 }

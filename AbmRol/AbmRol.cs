@@ -32,8 +32,17 @@ namespace FrbaHotel.AbmRol
 
         private void button2_Click(object sender, EventArgs e)
         {
+            int a = 1;
             this.Hide();
-            new ListaDeRoles().ShowDialog();
+            new ListaDeRoles(a).ShowDialog();
+            this.Close();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            int a = 2;
+            this.Hide();
+            new ListaDeRoles(a).ShowDialog();
             this.Close();
         }
 

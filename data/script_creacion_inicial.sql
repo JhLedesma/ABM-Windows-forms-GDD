@@ -194,8 +194,20 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getRoles','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getFuncionalidadPorRol','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getFuncionalidadPorRol;
 
-	
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getTipoDocumentos','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getTipoDocumentos;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.newUsuario','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.newUsuario;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.modificarRol','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.modificarRol;	
+	
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.eliminarFuncionalidadesDelRol','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.eliminarFuncionalidadesDelRol;		
+	
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.eliminarRol','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.eliminarRol;	
 
 	
 	
@@ -798,7 +810,7 @@ Create Procedure TRAEME_LA_COPA_MESSI.getFuncionalidades
 as
 begin
 
-select *
+select distinct * 
 from TRAEME_LA_COPA_MESSI.Funcionalidad
 end
 
@@ -1245,9 +1257,16 @@ create procedure TRAEME_LA_COPA_MESSI.actualizarFuncionalidadporRol
 as
 begin
 insert into FuncionalidadPorRol
-values((select IdFunc from TRAEME_LA_COPA_MESSI.Funcionalidad where @funcionalidad=Descripcion),@idRol)
+values((select IdFunc from TRAEME_LA_COPA_MESSI.Funcionalidad where @funcionalidad=Descripcion),@idRol)  
 end
 
+GO 
+create procedure TRAEME_LA_COPA_MESSI.eliminarFuncionalidadesDelRol
+@idRol int
+as
+begin
+delete from TRAEME_LA_COPA_MESSI.FuncionalidadPorRol where @idRol=IdRol
+end
 
 GO
 create procedure TRAEME_LA_COPA_MESSI.getRoles
@@ -1261,9 +1280,27 @@ create procedure TRAEME_LA_COPA_MESSI.getFuncionalidadPorRol
 @idRol int
 as
 begin
-return (select f1.Descripcion from TRAEME_LA_COPA_MESSI.Funcionalidad f1 join TRAEME_LA_COPA_MESSI.FuncionalidadPorRol f2 on (f1.IdFunc=f2.IdFunc) where @idRol = f2.IdRol)
+select f1.Descripcion from TRAEME_LA_COPA_MESSI.Funcionalidad f1 join TRAEME_LA_COPA_MESSI.FuncionalidadPorRol f2 on (f1.IdFunc=f2.IdFunc) where @idRol = f2.IdRol
 end
-            
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.eliminarRol
+@idRol int
+as
+begin
+delete from TRAEME_LA_COPA_MESSI.RolPorUsuario where @idRol=IdRol
+delete from TRAEME_LA_COPA_MESSI.Rol where @idRol=IdRol
+
+end 
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.modificarRol
+@nombreRol nvarchar(255),
+@estado int
+as
+begin
+update TRAEME_LA_COPA_MESSI.Rol set Estado = @estado where Nombre=@nombreRol;
+end            
 
 /* Repositorio Tipo Doc*/
 

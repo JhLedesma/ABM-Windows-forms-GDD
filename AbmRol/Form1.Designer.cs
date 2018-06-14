@@ -28,13 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.Lfuncionalidades = new System.Windows.Forms.ListBox();
+            this.LfuncionalidadesPosibles = new System.Windows.Forms.ListBox();
             this.LFuncionalidadesActuales = new System.Windows.Forms.ListBox();
             this.BotonAgregar = new System.Windows.Forms.Button();
             this.BotonQuitar = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.radioHabilitado = new System.Windows.Forms.RadioButton();
             this.radioInhabilitado = new System.Windows.Forms.RadioButton();
             this.BotonVolver = new System.Windows.Forms.Button();
@@ -46,13 +46,13 @@
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // Lfuncionalidades
+            // LfuncionalidadesPosibles
             // 
-            this.Lfuncionalidades.FormattingEnabled = true;
-            this.Lfuncionalidades.Location = new System.Drawing.Point(39, 47);
-            this.Lfuncionalidades.Name = "Lfuncionalidades";
-            this.Lfuncionalidades.Size = new System.Drawing.Size(120, 95);
-            this.Lfuncionalidades.TabIndex = 0;
+            this.LfuncionalidadesPosibles.FormattingEnabled = true;
+            this.LfuncionalidadesPosibles.Location = new System.Drawing.Point(39, 47);
+            this.LfuncionalidadesPosibles.Name = "LfuncionalidadesPosibles";
+            this.LfuncionalidadesPosibles.Size = new System.Drawing.Size(120, 95);
+            this.LfuncionalidadesPosibles.TabIndex = 0;
             // 
             // LFuncionalidadesActuales
             // 
@@ -70,6 +70,7 @@
             this.BotonAgregar.TabIndex = 2;
             this.BotonAgregar.Text = "Agregar ->";
             this.BotonAgregar.UseVisualStyleBackColor = true;
+            this.BotonAgregar.Click += new System.EventHandler(this.BotonAgregar_Click);
             // 
             // BotonQuitar
             // 
@@ -87,7 +88,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.BotonAgregar);
             this.groupBox1.Controls.Add(this.BotonQuitar);
-            this.groupBox1.Controls.Add(this.Lfuncionalidades);
+            this.groupBox1.Controls.Add(this.LfuncionalidadesPosibles);
             this.groupBox1.Controls.Add(this.LFuncionalidadesActuales);
             this.groupBox1.Location = new System.Drawing.Point(13, 66);
             this.groupBox1.Name = "groupBox1";
@@ -95,15 +96,6 @@
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Modificar Funcionalidaes";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(36, 28);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(84, 13);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Funcionalidades";
             // 
             // label2
             // 
@@ -113,6 +105,15 @@
             this.label2.Size = new System.Drawing.Size(128, 13);
             this.label2.TabIndex = 5;
             this.label2.Text = "Funcionalidades Actuales";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(36, 28);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(138, 13);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "FuncionalidadesDisponibles";
             // 
             // radioHabilitado
             // 
@@ -144,6 +145,7 @@
             this.BotonVolver.TabIndex = 7;
             this.BotonVolver.Text = "Volver";
             this.BotonVolver.UseVisualStyleBackColor = true;
+            this.BotonVolver.Click += new System.EventHandler(this.BotonVolver_Click);
             // 
             // BotonLimpiar
             // 
@@ -151,8 +153,9 @@
             this.BotonLimpiar.Name = "BotonLimpiar";
             this.BotonLimpiar.Size = new System.Drawing.Size(75, 23);
             this.BotonLimpiar.TabIndex = 8;
-            this.BotonLimpiar.Text = "Limpiar";
+            this.BotonLimpiar.Text = "Deshacer cambios";
             this.BotonLimpiar.UseVisualStyleBackColor = true;
+            this.BotonLimpiar.Click += new System.EventHandler(this.BotonLimpiar_Click);
             // 
             // BotonAceptar
             // 
@@ -162,6 +165,7 @@
             this.BotonAceptar.TabIndex = 9;
             this.BotonAceptar.Text = "Aceptar";
             this.BotonAceptar.UseVisualStyleBackColor = true;
+            this.BotonAceptar.Click += new System.EventHandler(this.BotonAceptar_Click);
             // 
             // groupBox2
             // 
@@ -214,7 +218,7 @@
 
         #endregion
 
-        private System.Windows.Forms.ListBox Lfuncionalidades;
+        private System.Windows.Forms.ListBox LfuncionalidadesPosibles;
         private System.Windows.Forms.ListBox LFuncionalidadesActuales;
         private System.Windows.Forms.Button BotonAgregar;
         private System.Windows.Forms.Button BotonQuitar;
