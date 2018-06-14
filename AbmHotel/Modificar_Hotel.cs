@@ -74,6 +74,7 @@ namespace FrbaHotel.AbmHotel
 
         private void boton_agregar_Click(object sender, EventArgs e)
         {
+            regimenSeleccionado = (Model.Regimen)comboBox_regimenes.SelectedValue;
 
             if (String.IsNullOrEmpty(comboBox_regimenes.Text))
             {
@@ -82,37 +83,29 @@ namespace FrbaHotel.AbmHotel
 
             }
 
-            else { 
+                else {
 
-            regimenSeleccionado = (Model.Regimen)comboBox_regimenes.SelectedValue;
+                    Console.WriteLine(regimenSeleccionado.idRegimen);
 
-            comboBox_regimenesAct.DataSource = null;
-            comboBox_regimenes.DataSource = null;
- 
-            regimenesHotelSelec.Add(regimenSeleccionado);
-            regimenesDisponibles.Remove(regimenSeleccionado);
-            
-            configuarComboBox();
+                    comboBox_regimenesAct.DataSource = null;
+                    comboBox_regimenes.DataSource = null;
 
-            MessageBox.Show("Agregado");
+                    regimenesHotelSelec.Add(regimenSeleccionado);
+                    regimenesDisponibles.Remove(regimenSeleccionado);
 
-            foreach (Model.Regimen r in regimenesDisponibles) {
+                    configuarComboBox();
 
-                Console.WriteLine(r.descripcion);
+                    MessageBox.Show("Agregado");
+                
+                }
 
             }
-
-            foreach (Model.Regimen r in regimenesHotelSelec) {
-
-                Console.WriteLine(r.descripcion);
-
-            }
-
-            }
-        }
+        
 
         private void boton_quitar_Click(object sender, EventArgs e)
         {
+
+            regimenSeleccionado = (Model.Regimen)comboBox_regimenesAct.SelectedValue;
 
             if (String.IsNullOrEmpty(comboBox_regimenesAct.Text))
             {
@@ -123,29 +116,27 @@ namespace FrbaHotel.AbmHotel
 
             else {
 
-            regimenSeleccionado = (Model.Regimen)comboBox_regimenesAct.SelectedValue;
+                if (Repositorios.Repo_hotel.getInstancia().comprobarRegimen(idHotel, regimenSeleccionado.idRegimen) == 0) {
 
-            comboBox_regimenesAct.DataSource = null;
-            comboBox_regimenes.DataSource = null;
+                    MessageBox.Show("Hay reservas futuras o actuales bajo el regimen seleccionado", "Error al quitar regimen", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                
+                }
 
-            regimenesHotelSelec.Remove(regimenSeleccionado);
-            regimenesDisponibles.Add(regimenSeleccionado);
+                else {
 
-            configuarComboBox();
+                    
+                    comboBox_regimenesAct.DataSource = null;
+                    comboBox_regimenes.DataSource = null;
 
-            MessageBox.Show("Quitado");
+                    regimenesHotelSelec.Remove(regimenSeleccionado);
+                    regimenesDisponibles.Add(regimenSeleccionado);
 
-            foreach (Model.Regimen r in regimenesDisponibles) {
+                    configuarComboBox();
 
-                Console.WriteLine(r.descripcion);
-
-            }
-
-            foreach (Model.Regimen r in regimenesHotelSelec) {
-
-                Console.WriteLine(r.descripcion);
-
-            }
+                    MessageBox.Show("Quitado");
+                
+                
+                    }
 
                 }
 
@@ -154,6 +145,15 @@ namespace FrbaHotel.AbmHotel
         private void boton_guardar_Click(object sender, EventArgs e)
         {
             Repositorios.Repo_hotel.getInstancia().modificarHotel(idHotel, textBox_nombre.Text, textBox_mail.Text, numericTextBox_telefono.IntValue, numericTextBox_estrellas.IntValue, numericTextBox_porc_est.IntValue, textBox_pais.Text, textBox_calle.Text, textBox_ciudad.Text, numericTextBox_nroCalle.IntValue);
+
+            Repositorios.Repo_hotel.getInstancia().elminarRegimenesPorHotel(idHotel);
+
+            foreach(Model.Regimen r in regimenesHotelSelec){
+
+                Repositorios.Repo_hotel.getInstancia().agregarRegimenPorHotel(r.idRegimen, idHotel);
+            
+            }
+
             MessageBox.Show("Cambios efectuados", "Exito al guardar", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 

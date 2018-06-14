@@ -28,7 +28,9 @@ namespace FrbaHotel.AbmHotel
 
         private void dataGridHoteles_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            idSeleccionado = Int32.Parse(dataGridHoteles.Rows[e.RowIndex].Cells["IdHotel"].Value.ToString());
+            //idSeleccionado = Int32.Parse(dataGridHoteles.Rows[e.RowIndex].Cells["IdHotel"].Value.ToString());
+            idSeleccionado = (Int32)(dataGridHoteles.Rows[e.RowIndex].Cells["IdHotel"].Value);
+            Console.WriteLine(idSeleccionado);
         }
 
 

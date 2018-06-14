@@ -16,7 +16,7 @@ namespace FrbaHotel.Model
         public String ciudad { get; set; }
         public String pais { get; set; }
         public String calle { get; set; }
-        public Int32 nroCalle { get; set; }
+        public Decimal nroCalle { get; set; }
         public Decimal porcEstrella { get; set; }
         public Int32 estrellas { get; set; }
         public List<Model.Regimen> regimenes;
