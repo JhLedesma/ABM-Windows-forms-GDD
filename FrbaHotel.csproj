@@ -172,7 +172,6 @@
     <Compile Include="AbmRol\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-
     <Compile Include="AbmRol\ListaDeRoles.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -182,7 +181,6 @@
     <Compile Include="AbmUsuario\Form1.cs">
     </Compile>
     <Compile Include="AbmUsuario\ABM_Usuario.cs">
-
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="AbmUsuario\ABM_Usuario.Designer.cs">
@@ -251,6 +249,7 @@
     </Compile>
     <Compile Include="Model\Regimen.cs" />
     <Compile Include="Model\Rol.cs" />
+    <Compile Include="Model\TipoDocumento.cs" />
     <Compile Include="Model\Usuario.cs" />
     <Compile Include="Model\main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -266,6 +265,7 @@
     <Compile Include="RegistrarEstadia\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Repositorios\RepoTipoDocumento.cs" />
     <Compile Include="Repositorios\Repo_Funcionalidad.cs" />
     <Compile Include="Repositorios\Repo_Cliente.cs" />
     <Compile Include="Repositorios\Repo_hotel.cs" />
@@ -321,7 +321,6 @@
     <EmbeddedResource Include="AbmRol\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-
     <EmbeddedResource Include="AbmRol\ListaDeRoles.resx">
       <DependentUpon>ListaDeRoles.cs</DependentUpon>
     </EmbeddedResource>
@@ -330,7 +329,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AbmUsuario\Crear_Usuario.resx">
       <DependentUpon>Crear_Usuario.cs</DependentUpon>
-
     </EmbeddedResource>
     <EmbeddedResource Include="Login\SeleccionarFuncionalidad.resx">
       <DependentUpon>SeleccionarFuncionalidad.cs</DependentUpon>

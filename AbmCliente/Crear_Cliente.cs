@@ -17,7 +17,15 @@ namespace FrbaHotel.AbmCliente
             InitializeComponent();
         }
 
-        //Falta hacer validacion para que no meta mail repetido
+        public void configuarComboBoxRol()
+        {
+            this.listadoTipoIdentificacion.ValueMember = "Objeto";
+            this.listadoTipoIdentificacion.DisplayMember = "Nombre";
+            this.listadoTipoIdentificacion.DataSource = Repositorios.Repo_Rol.getInstancia().getRoles();//Cambiar por metodo de Repo Roles
+            this.listadoTipoIdentificacion.DropDownStyle = ComboBoxStyle.DropDownList;
+        }
+
+        
         private void btnCrear_Click(object sender, EventArgs e) //Configurar ComboBox
         {
             if (
