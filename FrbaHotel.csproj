@@ -247,6 +247,7 @@
     </Compile>
     <Compile Include="Model\Regimen.cs" />
     <Compile Include="Model\Rol.cs" />
+    <Compile Include="Model\TipoDocumento.cs" />
     <Compile Include="Model\Usuario.cs" />
     <Compile Include="Model\main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -262,6 +263,7 @@
     <Compile Include="RegistrarEstadia\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Repositorios\RepoTipoDocumento.cs" />
     <Compile Include="Repositorios\Repo_Funcionalidad.cs" />
     <Compile Include="Repositorios\Repo_Cliente.cs" />
     <Compile Include="Repositorios\Repo_hotel.cs" />

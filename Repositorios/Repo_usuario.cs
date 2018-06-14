@@ -148,6 +148,13 @@ namespace FrbaHotel.Repositorios
 
 
         ///ABM Usuario////////////////////////////
+        ///
+
+        public void newUsuario(Model.Usuario usuario, Model.Rol rol, List<Model.Hotel> hoteles)
+        {
+        
+        }
+
 
         public List<Model.Rol> getRoles()
         {

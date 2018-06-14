@@ -771,6 +771,12 @@ BEGIN
 END 
 
 
+GO
+create procedure TRAEME_LA_COPA_MESSI.newUsuario
+
+as
+
+
 /* Repositorio Regimenes */
 
 GO
@@ -1257,3 +1263,13 @@ as
 begin
 return (select f1.Descripcion from TRAEME_LA_COPA_MESSI.Funcionalidad f1 join TRAEME_LA_COPA_MESSI.FuncionalidadPorRol f2 on (f1.IdFunc=f2.IdFunc) where @idRol = f2.IdRol)
 end
+            
+
+/* Repositorio Tipo Doc*/
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.getTipoDocumentos
+as
+select * from TRAEME_LA_COPA_MESSI.TipoDoc
+
+

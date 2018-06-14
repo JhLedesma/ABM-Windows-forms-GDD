@@ -19,6 +19,8 @@ namespace FrbaHotel.AbmUsuario
         public Crear_Usuario()
         {
             InitializeComponent();
+            configuarComboBoxHotel();
+            configuarComboBoxRol();
         }
 
 
@@ -26,7 +28,7 @@ namespace FrbaHotel.AbmUsuario
         {
             this.ListadoRol.ValueMember = "Objeto";
             this.ListadoRol.DisplayMember = "Nombre";
-            this.ListadoRol.DataSource = Repositorios.Repo_usuario.getInstancia().getRoles();//Cambiar por metodo de Repo Roles
+            this.ListadoRol.DataSource = Repositorios.Repo_Rol.getInstancia().getRoles();//Cambiar por metodo de Repo Roles
             this.ListadoRol.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
@@ -49,6 +51,33 @@ namespace FrbaHotel.AbmUsuario
             configuarComboBoxHotel();
 
             MessageBox.Show("Agregado");
+        }
+
+        private void btnCrear_Click(object sender, EventArgs e) //Agregar ComboBox Tipo NumeroDocumento
+        {
+            Model.Usuario usuario = new Model.Usuario();
+            Model.Direccion direccion = new Model.Direccion();
+
+            usuario.username = tbUsername.Text;
+            usuario.password = Model.Encriptador.getInstancia().encriptar(tbPass.Text);
+            usuario.nombre = tbNombre.Text;
+            usuario.apellido = tbApellido.Text;
+            usuario.email = tbMail.Text;
+            usuario.telefono = numericTelefono.Value;
+            usuario.nroDocumento = numericNumeroIdentificacion.Value;
+            usuario.tipoDoc = "";
+            usuario.fechaDeNacimiento = dtFechaNacimiento.Value;
+            usuario.direccion = direccion;
+
+            direccion.calle = tbCalle.Text;
+            direccion.ciudad = textBox1.Text;
+            direccion.localidad = tbLocalidad.Text;
+            direccion.pais = tbPais.Text;
+            direccion.dpto = tbDpto.Text;
+            direccion.numDomicilio = numericNumero.Value;
+            direccion.piso = numericPiso.Value;
+
+            Repositorios.Repo_usuario.getInstancia().newUsuario(usuario, (Model.Rol)ListadoRol.SelectedValue, listaHotelesAgregados);
         }
 
     }

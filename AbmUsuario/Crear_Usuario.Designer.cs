@@ -29,6 +29,10 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.ListadoRol = new System.Windows.Forms.ComboBox();
+            this.lblRol = new System.Windows.Forms.Label();
+            this.lblPass = new System.Windows.Forms.Label();
+            this.tbPass = new System.Windows.Forms.TextBox();
             this.numericTelefono = new System.Windows.Forms.NumericUpDown();
             this.tbUsername = new System.Windows.Forms.TextBox();
             this.lblUsername = new System.Windows.Forms.Label();
@@ -45,8 +49,6 @@
             this.lblApellido = new System.Windows.Forms.Label();
             this.tbNombre = new System.Windows.Forms.TextBox();
             this.lblNombre = new System.Windows.Forms.Label();
-            this.tbPass = new System.Windows.Forms.TextBox();
-            this.lblPass = new System.Windows.Forms.Label();
             this.btnVolver = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tbDpto = new System.Windows.Forms.TextBox();
@@ -66,11 +68,9 @@
             this.btnCrear = new System.Windows.Forms.Button();
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnAgregarHotel = new System.Windows.Forms.Button();
             this.listadoHoteles = new System.Windows.Forms.ComboBox();
             this.lblHoteles = new System.Windows.Forms.Label();
-            this.btnAgregarHotel = new System.Windows.Forms.Button();
-            this.lblRol = new System.Windows.Forms.Label();
-            this.ListadoRol = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericTelefono)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericNumeroIdentificacion)).BeginInit();
@@ -108,6 +108,39 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Ingrese los datos del nuevo usuario (todos los datos son obligatorios):";
+            // 
+            // ListadoRol
+            // 
+            this.ListadoRol.FormattingEnabled = true;
+            this.ListadoRol.Location = new System.Drawing.Point(157, 108);
+            this.ListadoRol.Name = "ListadoRol";
+            this.ListadoRol.Size = new System.Drawing.Size(118, 21);
+            this.ListadoRol.TabIndex = 62;
+            // 
+            // lblRol
+            // 
+            this.lblRol.AutoSize = true;
+            this.lblRol.Location = new System.Drawing.Point(18, 111);
+            this.lblRol.Name = "lblRol";
+            this.lblRol.Size = new System.Drawing.Size(26, 13);
+            this.lblRol.TabIndex = 62;
+            this.lblRol.Text = "Rol:";
+            // 
+            // lblPass
+            // 
+            this.lblPass.AutoSize = true;
+            this.lblPass.Location = new System.Drawing.Point(17, 78);
+            this.lblPass.Name = "lblPass";
+            this.lblPass.Size = new System.Drawing.Size(56, 13);
+            this.lblPass.TabIndex = 58;
+            this.lblPass.Text = "Password:";
+            // 
+            // tbPass
+            // 
+            this.tbPass.Location = new System.Drawing.Point(157, 75);
+            this.tbPass.Name = "tbPass";
+            this.tbPass.Size = new System.Drawing.Size(118, 20);
+            this.tbPass.TabIndex = 57;
             // 
             // numericTelefono
             // 
@@ -247,22 +280,6 @@
             this.lblNombre.Size = new System.Drawing.Size(47, 13);
             this.lblNombre.TabIndex = 2;
             this.lblNombre.Text = "Nombre:";
-            // 
-            // tbPass
-            // 
-            this.tbPass.Location = new System.Drawing.Point(157, 75);
-            this.tbPass.Name = "tbPass";
-            this.tbPass.Size = new System.Drawing.Size(118, 20);
-            this.tbPass.TabIndex = 57;
-            // 
-            // lblPass
-            // 
-            this.lblPass.AutoSize = true;
-            this.lblPass.Location = new System.Drawing.Point(17, 78);
-            this.lblPass.Name = "lblPass";
-            this.lblPass.Size = new System.Drawing.Size(56, 13);
-            this.lblPass.TabIndex = 58;
-            this.lblPass.Text = "Password:";
             // 
             // btnVolver
             // 
@@ -426,6 +443,7 @@
             this.btnCrear.TabIndex = 45;
             this.btnCrear.Text = "Crear";
             this.btnCrear.UseVisualStyleBackColor = true;
+            this.btnCrear.Click += new System.EventHandler(this.btnCrear_Click);
             // 
             // btnLimpiar
             // 
@@ -448,6 +466,16 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Hoteles donde se desempeña";
             // 
+            // btnAgregarHotel
+            // 
+            this.btnAgregarHotel.Location = new System.Drawing.Point(240, 39);
+            this.btnAgregarHotel.Name = "btnAgregarHotel";
+            this.btnAgregarHotel.Size = new System.Drawing.Size(75, 23);
+            this.btnAgregarHotel.TabIndex = 49;
+            this.btnAgregarHotel.Text = "Agregar";
+            this.btnAgregarHotel.UseVisualStyleBackColor = true;
+            this.btnAgregarHotel.Click += new System.EventHandler(this.btnAgregarHotel_Click);
+            // 
             // listadoHoteles
             // 
             this.listadoHoteles.FormattingEnabled = true;
@@ -464,33 +492,6 @@
             this.lblHoteles.Size = new System.Drawing.Size(46, 13);
             this.lblHoteles.TabIndex = 59;
             this.lblHoteles.Text = "Hoteles:";
-            // 
-            // btnAgregarHotel
-            // 
-            this.btnAgregarHotel.Location = new System.Drawing.Point(240, 39);
-            this.btnAgregarHotel.Name = "btnAgregarHotel";
-            this.btnAgregarHotel.Size = new System.Drawing.Size(75, 23);
-            this.btnAgregarHotel.TabIndex = 49;
-            this.btnAgregarHotel.Text = "Agregar";
-            this.btnAgregarHotel.UseVisualStyleBackColor = true;
-            this.btnAgregarHotel.Click += new System.EventHandler(this.btnAgregarHotel_Click);
-            // 
-            // lblRol
-            // 
-            this.lblRol.AutoSize = true;
-            this.lblRol.Location = new System.Drawing.Point(18, 111);
-            this.lblRol.Name = "lblRol";
-            this.lblRol.Size = new System.Drawing.Size(26, 13);
-            this.lblRol.TabIndex = 62;
-            this.lblRol.Text = "Rol:";
-            // 
-            // ListadoRol
-            // 
-            this.ListadoRol.FormattingEnabled = true;
-            this.ListadoRol.Location = new System.Drawing.Point(157, 108);
-            this.ListadoRol.Name = "ListadoRol";
-            this.ListadoRol.Size = new System.Drawing.Size(118, 21);
-            this.ListadoRol.TabIndex = 62;
             // 
             // Crear_Usuario
             // 
