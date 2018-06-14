@@ -60,8 +60,6 @@ namespace FrbaHotel.AbmHotel
 
                     MessageBox.Show("Hotel creado correctamente");
 
-                    limpiar_inputs();
-
                 }
 
                 else
@@ -86,6 +84,10 @@ namespace FrbaHotel.AbmHotel
             textBox_calle.Text = string.Empty;
             textBox_ciudad.Text = string.Empty;
             textBox_pais.Text = string.Empty;
+            numericTextBox_porc_est.Text = string.Empty;
+            regimenesAgregados = new List<Model.Regimen>();
+            listaDeRegimenesDisponibles = Repositorios.Repo_regimen.getInstancia().getRegimenes();
+            configuarComboBox();
         }
 
         //Falta agregar un chequeo para comboBox vacio
@@ -100,6 +102,18 @@ namespace FrbaHotel.AbmHotel
             configuarComboBox();
 
             MessageBox.Show("Agregado");
+        }
+
+        private void boton_volver_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            new Abm_hotel().ShowDialog();
+            this.Close();
+        }
+
+        private void boton_limpiar_Click(object sender, EventArgs e)
+        {
+            limpiar_inputs();
         }
 
     }

@@ -40,7 +40,9 @@ namespace FrbaHotel.AbmCliente
 
         private void btnVolver_Click(object sender, EventArgs e)
         {
-
+            this.Hide();
+            new Login.SeleccionarFuncionalidad().ShowDialog();
+            this.Close();
         }
     }
 }

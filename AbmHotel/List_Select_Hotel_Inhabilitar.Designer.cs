@@ -31,6 +31,7 @@
             this.gBoxBusquedaCliente = new System.Windows.Forms.GroupBox();
             this.textBox_pais = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.numericTextBox_estrellas = new FrbaHotel.Model.NumericTextBox();
             this.lblNumeroIdentificacion = new System.Windows.Forms.Label();
             this.textBox_ciudad = new System.Windows.Forms.TextBox();
             this.lblApellido = new System.Windows.Forms.Label();
@@ -40,7 +41,7 @@
             this.button_filtrar = new System.Windows.Forms.Button();
             this.button_dar_baja = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.numericTextBox_estrellas = new FrbaHotel.Model.NumericTextBox();
+            this.boton_volver = new System.Windows.Forms.Button();
             this.gBoxBusquedaCliente.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridHoteles)).BeginInit();
             this.SuspendLayout();
@@ -77,6 +78,14 @@
             this.label1.Size = new System.Drawing.Size(29, 13);
             this.label1.TabIndex = 13;
             this.label1.Text = "País";
+            // 
+            // numericTextBox_estrellas
+            // 
+            this.numericTextBox_estrellas.AllowSpace = false;
+            this.numericTextBox_estrellas.Location = new System.Drawing.Point(393, 34);
+            this.numericTextBox_estrellas.Name = "numericTextBox_estrellas";
+            this.numericTextBox_estrellas.Size = new System.Drawing.Size(120, 20);
+            this.numericTextBox_estrellas.TabIndex = 12;
             // 
             // lblNumeroIdentificacion
             // 
@@ -160,26 +169,29 @@
             this.label2.TabIndex = 23;
             this.label2.Text = "Seleccione la fila del hotel al que desee dar de baja :";
             // 
-            // numericTextBox_estrellas
+            // boton_volver
             // 
-            this.numericTextBox_estrellas.AllowSpace = false;
-            this.numericTextBox_estrellas.Location = new System.Drawing.Point(393, 34);
-            this.numericTextBox_estrellas.Name = "numericTextBox_estrellas";
-            this.numericTextBox_estrellas.Size = new System.Drawing.Size(120, 20);
-            this.numericTextBox_estrellas.TabIndex = 12;
+            this.boton_volver.Location = new System.Drawing.Point(38, 484);
+            this.boton_volver.Name = "boton_volver";
+            this.boton_volver.Size = new System.Drawing.Size(120, 23);
+            this.boton_volver.TabIndex = 24;
+            this.boton_volver.Text = "Volver";
+            this.boton_volver.UseVisualStyleBackColor = true;
+            this.boton_volver.Click += new System.EventHandler(this.boton_volver_Click);
             // 
-            // List_Select_Hotel_Eliminar
+            // List_Select_Hotel_Inhabilitar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(582, 526);
+            this.Controls.Add(this.boton_volver);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.button_dar_baja);
             this.Controls.Add(this.button_filtrar);
             this.Controls.Add(this.dataGridHoteles);
             this.Controls.Add(this.gBoxBusquedaCliente);
-            this.Name = "List_Select_Hotel_Eliminar";
-            this.Text = "List_Select_Hotel_Eliminar";
+            this.Name = "List_Select_Hotel_Inhabilitar";
+            this.Text = "Baja de hoteles - Listado";
             this.gBoxBusquedaCliente.ResumeLayout(false);
             this.gBoxBusquedaCliente.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridHoteles)).EndInit();
@@ -203,5 +215,6 @@
         private System.Windows.Forms.Button button_filtrar;
         private System.Windows.Forms.Button button_dar_baja;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button boton_volver;
     }
 }

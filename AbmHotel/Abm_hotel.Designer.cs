@@ -41,6 +41,7 @@
             // 
             // button_volver
             // 
+            this.button_volver.ImageAlign = System.Drawing.ContentAlignment.BottomRight;
             this.button_volver.Location = new System.Drawing.Point(25, 381);
             this.button_volver.Name = "button_volver";
             this.button_volver.Size = new System.Drawing.Size(75, 23);

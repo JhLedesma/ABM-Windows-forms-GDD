@@ -139,7 +139,7 @@ namespace FrbaHotel.Repositorios
                 hotel.telefono = (Int32)row["Telefono"];
                 hotel.ciudad = (String)row["Ciudad"];
                 hotel.calle = (String)row["Calle"];
-                hotel.nroCalle = (Int32)row["NroCalle"];
+                hotel.nroCalle = (Decimal)row["NroCalle"];
                 hotel.estrellas = (Int32)row["CantEstrellas"];
                 hotel.fechaCreacion = (DateTime)row["FechaCreacion"];
                 hotel.pais = (String)row["Pais"];
@@ -163,7 +163,9 @@ namespace FrbaHotel.Repositorios
 
             DBhelper.crearConexion();
 
-            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getRegimenes");
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getRegimenesHotel");
+            cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = idHotel;
+
 
             DBhelper.abrirConexion();
 
@@ -208,11 +210,98 @@ namespace FrbaHotel.Repositorios
             DBhelper.cerrarConexion();
         }
 
+        public Int32 comprobarRegimen(Int32 idHotel, Int32 idRegimen) 
+        {
+            DBhelper.crearConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.comprobarRegimen");
+            cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = idHotel;
+            cmd.Parameters.Add("@regimenEstadiaId", SqlDbType.Int).Value = idRegimen;
+
+            var valorDeRetorno = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
+            valorDeRetorno.Direction = ParameterDirection.ReturnValue;
+
+            DBhelper.abrirConexion();
+
+            DBhelper.ejecutarProcedure(cmd);
+
+            DBhelper.cerrarConexion();
+
+            return (int)valorDeRetorno.Value;
+        
+        }
+
+        public void agregarRegimenPorHotel(Int32 idRegimen, Int32 idHotel) {
+
+            DBhelper.crearConexion();
+
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.agregarRegimenPorHotel");
+            cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = idHotel;
+            cmd.Parameters.Add("@idRegimen", SqlDbType.Int).Value = idRegimen;
+          
+            cmd.ExecuteNonQuery();
+
+            DBhelper.cerrarConexion();
+        
+        }
+
+        public void elminarRegimenesPorHotel(Int32 idHotel) {
+
+            DBhelper.crearConexion();
+
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.eliminarRegimenesHotel");
+            cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = idHotel;
+
+            cmd.ExecuteNonQuery();
+
+            DBhelper.cerrarConexion();
+        
+        
+        }
+
 
 
         public List<Model.Hotel> getHoteles()
         {
-            return null;
+
+            DataTable Hoteles;
+
+            List<Model.Hotel> listaHoteles = new List<Model.Hotel>();
+
+            DBhelper.crearConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getHoteles");
+
+            DBhelper.abrirConexion();
+
+            Hoteles = DBhelper.obtenerTabla(cmd);
+
+            DBhelper.cerrarConexion();
+
+            foreach (DataRow row in Hoteles.Rows)
+            {
+                Model.Hotel hotel = new Model.Hotel();
+
+                hotel.idHotel = row.Field<Int32>("IdHotel");
+                hotel.nombre = row.Field<String>("Nombre");
+                hotel.mail = row.Field<String>("Mail");
+                hotel.telefono = row.Field<Int32>("Telefono");
+                hotel.estrellas = row.Field<Int32>("CantEstrellas");
+                hotel.porcEstrella = row.Field<Int32>("PorcentajeEstrellas");
+                hotel.fechaCreacion = row.Field<DateTime>("FechaCreacion");
+
+                listaHoteles.Add(hotel);
+            }
+
+            return listaHoteles;
+
+
+
+
         }
 
 

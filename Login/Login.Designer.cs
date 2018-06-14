@@ -33,6 +33,7 @@
             this.textBoxPassword = new System.Windows.Forms.TextBox();
             this.textBoxUsuario = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // aceptarLogin
@@ -43,7 +44,7 @@
             this.aceptarLogin.Name = "aceptarLogin";
             this.aceptarLogin.Size = new System.Drawing.Size(141, 29);
             this.aceptarLogin.TabIndex = 9;
-            this.aceptarLogin.Text = "Ingresar";
+            this.aceptarLogin.Text = "Log In";
             this.aceptarLogin.UseVisualStyleBackColor = false;
             this.aceptarLogin.Click += new System.EventHandler(this.aceptarLogin_Click);
             // 
@@ -86,18 +87,31 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "Usuario:";
             // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.button1.Enabled = false;
+            this.button1.Location = new System.Drawing.Point(73, 202);
+            this.button1.Margin = new System.Windows.Forms.Padding(2);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(141, 29);
+            this.button1.TabIndex = 10;
+            this.button1.Text = "Ingresar como Huesped";
+            this.button1.UseVisualStyleBackColor = false;
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 230);
+            this.ClientSize = new System.Drawing.Size(284, 251);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.aceptarLogin);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.textBoxPassword);
             this.Controls.Add(this.textBoxUsuario);
             this.Controls.Add(this.label1);
             this.Name = "Login";
-            this.Text = "Form1";
+            this.Text = "FrbaHotel - Login";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -110,5 +124,6 @@
         private System.Windows.Forms.TextBox textBoxPassword;
         private System.Windows.Forms.TextBox textBoxUsuario;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button button1;
     }
 }
