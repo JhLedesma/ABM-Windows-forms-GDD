@@ -9,7 +9,7 @@ namespace FrbaHotel.Model
  
     public class Hotel
     {
-
+        public Int32 idHotel { get; set; }
         public String nombre { get; set; }
         public String mail { get; set; }
         public Int32 telefono { get; set; }
