@@ -43,6 +43,7 @@
             this.label10 = new System.Windows.Forms.Label();
             this.textBox_ciudad = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
+            this.numericTextBox_nroCalle = new FrbaHotel.Model.NumericTextBox();
             this.textBox_calle = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -51,9 +52,9 @@
             this.label11 = new System.Windows.Forms.Label();
             this.boton_agregar = new System.Windows.Forms.Button();
             this.numericTextBox_porc_est = new FrbaHotel.Model.NumericTextBox();
-            this.numericTextBox_nroCalle = new FrbaHotel.Model.NumericTextBox();
             this.numericTextBox_telefono = new FrbaHotel.Model.NumericTextBox();
             this.numericTextBox_estrellas = new FrbaHotel.Model.NumericTextBox();
+            this.boton_limpiar = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -182,6 +183,14 @@
             this.label9.TabIndex = 11;
             this.label9.Text = "Ciudad:";
             // 
+            // numericTextBox_nroCalle
+            // 
+            this.numericTextBox_nroCalle.AllowSpace = false;
+            this.numericTextBox_nroCalle.Location = new System.Drawing.Point(78, 74);
+            this.numericTextBox_nroCalle.Name = "numericTextBox_nroCalle";
+            this.numericTextBox_nroCalle.Size = new System.Drawing.Size(129, 20);
+            this.numericTextBox_nroCalle.TabIndex = 10;
+            // 
             // textBox_calle
             // 
             this.textBox_calle.Location = new System.Drawing.Point(78, 35);
@@ -225,6 +234,7 @@
             this.boton_volver.TabIndex = 18;
             this.boton_volver.Text = "Volver";
             this.boton_volver.UseVisualStyleBackColor = true;
+            this.boton_volver.Click += new System.EventHandler(this.boton_volver_Click);
             // 
             // label11
             // 
@@ -253,14 +263,6 @@
             this.numericTextBox_porc_est.Size = new System.Drawing.Size(129, 20);
             this.numericTextBox_porc_est.TabIndex = 20;
             // 
-            // numericTextBox_nroCalle
-            // 
-            this.numericTextBox_nroCalle.AllowSpace = false;
-            this.numericTextBox_nroCalle.Location = new System.Drawing.Point(78, 74);
-            this.numericTextBox_nroCalle.Name = "numericTextBox_nroCalle";
-            this.numericTextBox_nroCalle.Size = new System.Drawing.Size(129, 20);
-            this.numericTextBox_nroCalle.TabIndex = 10;
-            // 
             // numericTextBox_telefono
             // 
             this.numericTextBox_telefono.AllowSpace = false;
@@ -277,11 +279,22 @@
             this.numericTextBox_estrellas.Size = new System.Drawing.Size(129, 20);
             this.numericTextBox_estrellas.TabIndex = 12;
             // 
-            // CrearHotel
+            // boton_limpiar
+            // 
+            this.boton_limpiar.Location = new System.Drawing.Point(174, 496);
+            this.boton_limpiar.Name = "boton_limpiar";
+            this.boton_limpiar.Size = new System.Drawing.Size(75, 23);
+            this.boton_limpiar.TabIndex = 22;
+            this.boton_limpiar.Text = "Limpiar";
+            this.boton_limpiar.UseVisualStyleBackColor = true;
+            this.boton_limpiar.Click += new System.EventHandler(this.boton_limpiar_Click);
+            // 
+            // Crear_Hotel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(367, 536);
+            this.Controls.Add(this.boton_limpiar);
             this.Controls.Add(this.boton_agregar);
             this.Controls.Add(this.numericTextBox_porc_est);
             this.Controls.Add(this.label11);
@@ -299,8 +312,8 @@
             this.Controls.Add(this.textBox_nombre);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Name = "CrearHotel";
-            this.Text = "CrearHotel";
+            this.Name = "Crear_Hotel";
+            this.Text = "Crear Hotel";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -336,5 +349,6 @@
         private System.Windows.Forms.Label label11;
         private Model.NumericTextBox numericTextBox_porc_est;
         private System.Windows.Forms.Button boton_agregar;
+        private System.Windows.Forms.Button boton_limpiar;
     }
 }

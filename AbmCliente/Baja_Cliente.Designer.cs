@@ -92,7 +92,7 @@
             this.Controls.Add(this.btnAceptar);
             this.Controls.Add(this.btnCancelar);
             this.Name = "Baja_Cliente";
-            this.Text = "Baja_Cliente";
+            this.Text = "Baja Cliente";
             this.ResumeLayout(false);
             this.PerformLayout();
 

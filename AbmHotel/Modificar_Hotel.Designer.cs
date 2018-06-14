@@ -55,7 +55,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.boton_guardar = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.boton_volver = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -313,21 +313,22 @@
             this.button3.Text = "Limpiar";
             this.button3.UseVisualStyleBackColor = true;
             // 
-            // button4
+            // boton_volver
             // 
-            this.button4.Location = new System.Drawing.Point(12, 515);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 68;
-            this.button4.Text = "Volver";
-            this.button4.UseVisualStyleBackColor = true;
+            this.boton_volver.Location = new System.Drawing.Point(12, 515);
+            this.boton_volver.Name = "boton_volver";
+            this.boton_volver.Size = new System.Drawing.Size(75, 23);
+            this.boton_volver.TabIndex = 68;
+            this.boton_volver.Text = "Volver";
+            this.boton_volver.UseVisualStyleBackColor = true;
+            this.boton_volver.Click += new System.EventHandler(this.boton_volver_Click);
             // 
             // Modificar_Hotel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(354, 550);
-            this.Controls.Add(this.button4);
+            this.Controls.Add(this.boton_volver);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.boton_guardar);
             this.Controls.Add(this.groupBox2);
@@ -371,7 +372,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button boton_guardar;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button boton_volver;
 
     }
 }

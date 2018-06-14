@@ -267,7 +267,41 @@ namespace FrbaHotel.Repositorios
 
         public List<Model.Hotel> getHoteles()
         {
-            return null;
+
+            DataTable Hoteles;
+
+            List<Model.Hotel> listaHoteles = new List<Model.Hotel>();
+
+            DBhelper.crearConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getHoteles");
+
+            DBhelper.abrirConexion();
+
+            Hoteles = DBhelper.obtenerTabla(cmd);
+
+            DBhelper.cerrarConexion();
+
+            foreach (DataRow row in Hoteles.Rows)
+            {
+                Model.Hotel hotel = new Model.Hotel();
+
+                hotel.idHotel = row.Field<Int32>("IdHotel");
+                hotel.nombre = row.Field<String>("Nombre");
+                hotel.mail = row.Field<String>("Mail");
+                hotel.telefono = row.Field<Int32>("Telefono");
+                hotel.estrellas = row.Field<Int32>("CantEstrellas");
+                hotel.porcEstrella = row.Field<Int32>("PorcentajeEstrellas");
+                hotel.fechaCreacion = row.Field<DateTime>("FechaCreacion");
+
+                listaHoteles.Add(hotel);
+            }
+
+            return listaHoteles;
+
+
+
+
         }
 
 

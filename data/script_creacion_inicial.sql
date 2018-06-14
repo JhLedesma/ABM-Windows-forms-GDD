@@ -1063,6 +1063,19 @@ BEGIN
 END 
 
 
+
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.getHoteles
+
+AS
+BEGIN
+
+	SELECT IdHotel,Nombre,Mail,Telefono,CantEstrellas,PorcentajeEstrellas,FechaCreacion FROM TRAEME_LA_COPA_MESSI.Hotel
+
+END
+
+
+
 /* Repositorio Clientes */
 
 
@@ -1309,4 +1322,4 @@ create procedure TRAEME_LA_COPA_MESSI.getTipoDocumentos
 as
 select * from TRAEME_LA_COPA_MESSI.TipoDoc
 
-
+SELECT * FROM TRAEME_LA_COPA_MESSI.Funcionalidad

@@ -214,7 +214,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.gBoxBusquedaCliente);
             this.Name = "List_Select_Cliente_Modificar";
-            this.Text = "List_Select_Cliente_Modificar";
+            this.Text = "Listado Seleccion Cliente";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridModificar)).EndInit();
             this.gBoxBusquedaCliente.ResumeLayout(false);
             this.gBoxBusquedaCliente.PerformLayout();
