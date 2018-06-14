@@ -109,9 +109,9 @@ namespace FrbaHotel.Repositorios
                 rol.nombreRol = ((String)row["Nombre"]);
                 rol.estado = Convert.ToInt16(row["Estado"]);
                 rol.idRol = ((Int32)row["IdRol"]);
-                listaDeRoles.Add(rol);/*
+                listaDeRoles.Add(rol);
             }
-            
+
             foreach (Model.Rol rol in listaDeRoles)
             {
                 DBhelper.crearConexion();
@@ -123,17 +123,68 @@ namespace FrbaHotel.Repositorios
                 DBhelper.cerrarConexion();
                 foreach (DataRow funcion in funcionalidadesDelRol.Rows)
                 {
-                 
 
-                        Model.Funcionalidad funcionali = new Model.Funcionalidad();
 
-                        funcionali.descripcion = ((String)funcion["Descripcion"]);
-                        rol.agregarFuncionalidad(funcionali);
-                    
-                }*/
+                    Model.Funcionalidad funcionali = new Model.Funcionalidad();
+
+                    funcionali.descripcion = ((String)funcion["Descripcion"]);
+                    rol.agregarFuncionalidad(funcionali);
+
+                }
 
             } return listaDeRoles;
 
+        }
+
+
+        public void actualizarRol(Model.Rol rolElegido)
+        {
+            DBhelper.crearConexion();
+            DBhelper.abrirConexion();
+            SqlCommand actualizar = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.modificarRol");
+            actualizar.Parameters.Add("@nombreRol", SqlDbType.NVarChar).Value = rolElegido.nombreRol;
+            actualizar.Parameters.Add("@estado", SqlDbType.Int).Value = rolElegido.estado;
+            DBhelper.ejecutarProcedure(actualizar);
+            DBhelper.crearConexion();
+
+            DBhelper.crearConexion();
+            DBhelper.abrirConexion();
+            SqlCommand actualizar2 = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.eliminarFuncionalidadesDelRol");
+            actualizar2.Parameters.Add("@idRol", SqlDbType.Int).Value = rolElegido.idRol;
+            DBhelper.ejecutarProcedure(actualizar2);
+            DBhelper.crearConexion();
+
+            foreach (Model.Funcionalidad func in rolElegido.funcionalidades)
+            {
+
+
+                DBhelper.crearConexion();
+                DBhelper.abrirConexion();
+                SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.actualizarFuncionalidadporRol");
+                cmd.Parameters.Add("@idRol", SqlDbType.Int).Value = rolElegido.idRol;
+                cmd.Parameters.Add("@funcionalidad", SqlDbType.NVarChar).Value = func.getDescripcion;
+                DBhelper.ejecutarProcedure(cmd);
+                DBhelper.crearConexion();
+
+            }
+
+
+        }
+        public void eliminarRol(Model.Rol rolElegido)
+        {
+            DBhelper.crearConexion();
+            DBhelper.abrirConexion();
+            SqlCommand eliminar = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.eliminarFuncionalidadesDelRol");
+            eliminar.Parameters.Add("@idRol", SqlDbType.Int).Value = rolElegido.idRol;
+            DBhelper.ejecutarProcedure(eliminar);
+            DBhelper.crearConexion();
+
+            DBhelper.crearConexion();
+            DBhelper.abrirConexion();
+            SqlCommand eliminar2 = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.eliminarRol");
+            eliminar2.Parameters.Add("@idRol", SqlDbType.Int).Value = rolElegido.idRol;
+            DBhelper.ejecutarProcedure(eliminar2);
+            DBhelper.crearConexion();
         }
     }
 }
