@@ -196,14 +196,14 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getFuncionalidadPorRol','P') IS NOT NULL
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getTipoDocumentos','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getTipoDocumentos;
-<<<<<<< HEAD
+
 	
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getTipoDocumento','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getTipoDocumento;	
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getHoteles','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getHoteles;		
-=======
+
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.newUsuario','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.newUsuario;
@@ -216,10 +216,17 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.eliminarFuncionalidadesDelRol','P') IS NOT NU
 	
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.eliminarRol','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.eliminarRol;	
->>>>>>> b2b972540a8d4aac4ab87db39d6c9f6906f88004
+
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.newUsuario','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.newUsuario;			
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarCancelacionUsuario','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.validarCancelacionUsuario;		
+		
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarCancelacion','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.validarCancelacion;			
+
 	
 
 
@@ -1358,3 +1365,22 @@ create procedure TRAEME_LA_COPA_MESSI.getTipoDocumento
 @id int
 as
 select * from TRAEME_LA_COPA_MESSI.TipoDoc where IdTipo=@id
+
+
+--Cancelacion reserva
+GO
+create procedure TRAEME_LA_COPA_MESSI.validarCancelacion
+@idReserva int 
+as begin
+select FechaReserva from TRAEME_LA_COPA_MESSI.Reserva where @idReserva=IdReserva
+end
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.validarCancelacionUsuario
+@usuario int
+as begin
+return (select 1 from TRAEME_LA_COPA_MESSI.Usuario where @usuario=Username)
+end
+
+
