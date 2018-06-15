@@ -798,6 +798,32 @@ END
 
 
 GO
+create procedure TRAEME_LA_COPA_MESSI.newRolPorUsuario
+@Rol int,
+@username nvarchar(255)
+as
+begin transaction
+	begin
+		insert into TRAEME_LA_COPA_MESSI.RolPorUsuario (Username, IdRol)
+			values(@username, @Rol)
+	end
+commit
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.newUsuariosPorHotel
+@hotelId int,
+@username nvarchar(255),
+@User_desempenio nvarchar(255)
+as
+begin transaction
+	begin
+		insert into TRAEME_LA_COPA_MESSI.UsuariosPorHotel (IdHotel, Username, User_desempenio)
+			values(@hotelId, @username, @User_desempenio)
+	end
+commit
+
+
+GO
 create procedure TRAEME_LA_COPA_MESSI.newUsuario
 @user nvarchar(255),
 @pass nvarchar(255),
@@ -825,23 +851,21 @@ begin transaction
 		declare @direccion int
 
 		insert into TRAEME_LA_COPA_MESSI.Direccion (Ciudad, Calle, NroCalle, Piso, Departamento, Localidad, Pais)
-		values(@ciudad, @calle, @nroCalle, @piso, @dpto, @localidad, @pais)
+			values(@ciudad, @calle, @nroCalle, @piso, @dpto, @localidad, @pais)
 
 		set @direccion = (select IdDir from TRAEME_LA_COPA_MESSI.Direccion where Ciudad=@ciudad and Calle=@calle and NroCalle=@nroCalle and Piso=@piso and Departamento=@dpto and Localidad=@localidad and Pais=@pais)
 
 		insert into TRAEME_LA_COPA_MESSI.Usuario (Username, Pass, Direccion, Nombre, Apellido, TipoDoc, NroDocumento, Email, Telefono, FechaNacimiento)
 			values(@user, @pass, @direccion, @nombre, @apellido, @tipoDoc, @numDoc, @email, @telefono, @FechaNacimiento)
-		
-		insert into TRAEME_LA_COPA_MESSI.RolPorUsuario (Username, IdRol)
-			values(@user, @idRol)
 
-		insert into TRAEME_LA_COPA_MESSI.UsuariosPorHotel (IdHotel, Username, User_desempenio)
-			values(@idHotel, @user, (select Nombre from TRAEME_LA_COPA_MESSI.Rol where IdRol=@idRol))
+		exec TRAEME_LA_COPA_MESSI.newRolPorUsuario @Rol=@idRol, @username=@user
+
+		declare @userDesempenio nvarchar(255)
+		set @userDesempenio = (select Nombre from TRAEME_LA_COPA_MESSI.Rol where IdRol=@idRol)
+
+		exec TRAEME_LA_COPA_MESSI.newUsuariosPorHotel @hotelId=@idHotel, @username=@user, @User_desempenio=@userDesempenio
 	end
 commit
-
-
-
 
 
 
