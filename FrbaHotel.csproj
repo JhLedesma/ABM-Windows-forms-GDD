@@ -94,6 +94,12 @@
     <Compile Include="AbmHabitacion\Crear_Habitacion.Designer.cs">
       <DependentUpon>Crear_Habitacion.cs</DependentUpon>
     </Compile>
+    <Compile Include="AbmHabitacion\List_Select_Hotel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmHabitacion\List_Select_Hotel.Designer.cs">
+      <DependentUpon>List_Select_Hotel.cs</DependentUpon>
+    </Compile>
     <Compile Include="AbmHabitacion\Modificar_Habitacion.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -196,11 +202,11 @@
     <Compile Include="AbmUsuario\Crear_Usuario.Designer.cs">
       <DependentUpon>Crear_Usuario.cs</DependentUpon>
     </Compile>
-    <Compile Include="CancelarReserva\Form1.cs">
+    <Compile Include="CancelarReserva\Cancelar_Reserva.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CancelarReserva\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="CancelarReserva\Cancelar_Reserva.Designer.cs">
+      <DependentUpon>Cancelar_Reserva.cs</DependentUpon>
     </Compile>
     <Compile Include="GD1C2018DataSet.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -243,6 +249,7 @@
     <Compile Include="Login\Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\ReservaCancelada.cs" />
     <Compile Include="Model\Cliente.cs" />
     <Compile Include="Model\Direccion.cs" />
     <Compile Include="Model\Encriptador.cs" />
@@ -254,6 +261,7 @@
     <Compile Include="Model\Regimen.cs" />
     <Compile Include="Model\Rol.cs" />
     <Compile Include="Model\TipoDocumento.cs" />
+    <Compile Include="Model\TipoHabitacion.cs" />
     <Compile Include="Model\Usuario.cs" />
     <Compile Include="Model\main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -269,9 +277,11 @@
     <Compile Include="RegistrarEstadia\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Repositorios\Repo_Reserva.cs" />
     <Compile Include="Repositorios\RepoTipoDocumento.cs" />
     <Compile Include="Repositorios\Repo_Funcionalidad.cs" />
     <Compile Include="Repositorios\Repo_Cliente.cs" />
+    <Compile Include="Repositorios\Repo_habitacion.cs" />
     <Compile Include="Repositorios\Repo_hotel.cs" />
     <Compile Include="Repositorios\Repo_regimen.cs" />
     <Compile Include="Repositorios\Repo_Rol.cs" />
@@ -294,6 +304,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AbmCliente\Modificar_Cliente.resx">
       <DependentUpon>Modificar_Cliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmHabitacion\List_Select_Hotel.resx">
+      <DependentUpon>List_Select_Hotel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AbmHotel\Abm_hotel.resx">
       <DependentUpon>Abm_hotel.cs</DependentUpon>
@@ -336,6 +349,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AbmUsuario\Crear_Usuario.resx">
       <DependentUpon>Crear_Usuario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CancelarReserva\Cancelar_Reserva.resx">
+      <DependentUpon>Cancelar_Reserva.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login\SeleccionarFuncionalidad.resx">
       <DependentUpon>SeleccionarFuncionalidad.cs</DependentUpon>

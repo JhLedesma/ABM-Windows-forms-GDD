@@ -36,7 +36,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.boton_abm_usuario = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.boton_abm_habitacion = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // boton_volver
@@ -120,23 +120,23 @@
             this.label4.TabIndex = 16;
             this.label4.Text = "Altas, bajas y modificaciones de habitaciones";
             // 
-            // button1
+            // boton_abm_habitacion
             // 
-            this.button1.Enabled = false;
-            this.button1.Location = new System.Drawing.Point(73, 312);
-            this.button1.Margin = new System.Windows.Forms.Padding(2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(125, 23);
-            this.button1.TabIndex = 17;
-            this.button1.Text = "ABM Habitacion";
-            this.button1.UseVisualStyleBackColor = true;
+            this.boton_abm_habitacion.Location = new System.Drawing.Point(73, 312);
+            this.boton_abm_habitacion.Margin = new System.Windows.Forms.Padding(2);
+            this.boton_abm_habitacion.Name = "boton_abm_habitacion";
+            this.boton_abm_habitacion.Size = new System.Drawing.Size(125, 23);
+            this.boton_abm_habitacion.TabIndex = 17;
+            this.boton_abm_habitacion.Text = "ABM Habitacion";
+            this.boton_abm_habitacion.UseVisualStyleBackColor = true;
+            this.boton_abm_habitacion.Click += new System.EventHandler(this.boton_abm_habitacion_Click);
             // 
             // SeleccionarFuncionalidad_admin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 431);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.boton_abm_habitacion);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.boton_abm_usuario);
             this.Controls.Add(this.label3);
@@ -162,6 +162,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button boton_abm_usuario;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button boton_abm_habitacion;
     }
 }

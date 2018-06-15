@@ -16,5 +16,12 @@ namespace FrbaHotel.AbmUsuario
         {
             InitializeComponent();
         }
+
+        private void btnCrear_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            new AbmUsuario.Crear_Usuario().ShowDialog();
+            this.Close();
+        }
     }
 }

@@ -267,20 +267,15 @@ namespace FrbaHotel.Repositorios
 
         public List<Model.Hotel> getHoteles()
         {
-
-            DataTable Hoteles;
-
             List<Model.Hotel> listaHoteles = new List<Model.Hotel>();
 
             DBhelper.crearConexion();
 
-            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getHoteles");
-
             DBhelper.abrirConexion();
 
-            Hoteles = DBhelper.obtenerTabla(cmd);
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getHoteles");
 
-            DBhelper.cerrarConexion();
+            DataTable Hoteles = DBhelper.obtenerTabla(cmd);
 
             foreach (DataRow row in Hoteles.Rows)
             {
@@ -291,17 +286,15 @@ namespace FrbaHotel.Repositorios
                 hotel.mail = row.Field<String>("Mail");
                 hotel.telefono = row.Field<Int32>("Telefono");
                 hotel.estrellas = row.Field<Int32>("CantEstrellas");
-                hotel.porcEstrella = row.Field<Int32>("PorcentajeEstrellas");
+                hotel.porcEstrella = row.Field<Decimal>("PorcentajeEstrellas");
                 hotel.fechaCreacion = row.Field<DateTime>("FechaCreacion");
 
                 listaHoteles.Add(hotel);
             }
 
+            DBhelper.cerrarConexion();
+
             return listaHoteles;
-
-
-
-
         }
 
 

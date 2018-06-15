@@ -214,9 +214,19 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.eliminarFuncionalidadesDelRol','P') IS NOT NU
 	
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.eliminarRol','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.eliminarRol;	
-	
-	
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarCancelacionUsuario','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.validarCancelacionUsuario;		
+		
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarCancelacion','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.validarCancelacion;			
+	
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getTiposHabitaciones','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getTiposHabitaciones;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.crearHabitacion','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.crearHabitacion;
+			
 
 /* Dropeo las views si ya existen */
 
@@ -260,9 +270,9 @@ Direccion int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Direccion(IdDir) NULL,
 Nombre nvarchar(255) NULL,
 Apellido nvarchar(255) NULL,
 TipoDoc int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.TipoDoc(IdTipo),
-NroDocumento int NULL,
+NroDocumento numeric(18,0) DEFAULT 0,
 Email nvarchar(255) UNIQUE NULL,
-Telefono int NULL,
+Telefono numeric(18,0) DEFAULT 0,
 FechaNacimiento datetime NULL,
 LogsFallidos int NOT NULL DEFAULT 0,
 Estado bit DEFAULT 0
@@ -789,8 +799,51 @@ END
 
 GO
 create procedure TRAEME_LA_COPA_MESSI.newUsuario
-
+@user nvarchar(255),
+@pass nvarchar(255),
+@email nvarchar(255),
+@nombre nvarchar(255),
+@apellido nvarchar(255),
+@tipoDoc int,
+@numDoc numeric(18,0),
+@telefono numeric(18,0),
+@PaisOrigen nvarchar(255),
+@Nacionalidad nvarchar(255),
+@FechaNacimiento Datetime,
+@ciudad nvarchar(255), 
+@calle nvarchar(255), 
+@nroCalle numeric(18,0),
+@piso numeric(18,0),
+@dpto nvarchar(50),
+@localidad nvarchar(255),
+@pais nvarchar(255),
+@idHotel int,
+@idRol int
 as
+begin transaction
+	begin
+		declare @direccion int
+
+		insert into TRAEME_LA_COPA_MESSI.Direccion (Ciudad, Calle, NroCalle, Piso, Departamento, Localidad, Pais)
+		values(@ciudad, @calle, @nroCalle, @piso, @dpto, @localidad, @pais)
+
+		set @direccion = (select IdDir from TRAEME_LA_COPA_MESSI.Direccion where Ciudad=@ciudad and Calle=@calle and NroCalle=@nroCalle and Piso=@piso and Departamento=@dpto and Localidad=@localidad and Pais=@pais)
+
+		insert into TRAEME_LA_COPA_MESSI.Usuario (Username, Pass, Direccion, Nombre, Apellido, TipoDoc, NroDocumento, Email, Telefono, FechaNacimiento)
+			values(@user, @pass, @direccion, @nombre, @apellido, @tipoDoc, @numDoc, @email, @telefono, @FechaNacimiento)
+		
+		insert into TRAEME_LA_COPA_MESSI.RolPorUsuario (Username, IdRol)
+			values(@user, @idRol)
+
+		insert into TRAEME_LA_COPA_MESSI.UsuariosPorHotel (IdHotel, Username, User_desempenio)
+			values(@idHotel, @user, (select Nombre from TRAEME_LA_COPA_MESSI.Rol where IdRol=@idRol))
+	end
+commit
+
+
+
+
+
 
 
 /* Repositorio Regimenes */
@@ -1353,3 +1406,68 @@ create procedure TRAEME_LA_COPA_MESSI.getTipoDocumento
 @id int
 as
 select * from TRAEME_LA_COPA_MESSI.TipoDoc where IdTipo=@id
+
+
+
+--Cancelacion reserva
+GO
+create procedure TRAEME_LA_COPA_MESSI.validarCancelacion
+@idReserva int 
+as begin
+select FechaReserva from TRAEME_LA_COPA_MESSI.Reserva where @idReserva=IdReserva
+end
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.validarCancelacionUsuario
+@usuario int
+as begin
+return (select 1 from TRAEME_LA_COPA_MESSI.Usuario where @usuario=Username)
+end
+
+
+
+/* Repositorio Tipo Habitacion*/
+
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.getTiposHabitaciones
+
+AS
+BEGIN
+
+SELECT * FROM TRAEME_LA_COPA_MESSI.TipoHabitacion
+
+END
+
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.crearHabitacion
+@idHotel int,
+@numero int,
+@piso int,
+@tipoHabitacion int,
+@ubicacion nvarchar(255)
+
+AS
+BEGIN
+	
+	IF NOT EXISTS (SELECT IdHotel,Numero FROM TRAEME_LA_COPA_MESSI.Habitacion WHERE IdHotel = @idHotel AND Numero = @numero)
+
+	BEGIN
+
+	INSERT INTO TRAEME_LA_COPA_MESSI.Habitacion(IdHotel,Numero,Piso,Ubicacion,CodigoTipo,Estado)
+	VALUES (@idHotel, @numero, @piso, @ubicacion, @tipoHabitacion, 0)
+
+	RETURN 0
+
+	END
+
+	ELSE
+
+	BEGIN
+
+	RETURN 1
+
+	END
+
+END
+

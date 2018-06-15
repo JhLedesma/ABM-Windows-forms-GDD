@@ -14,12 +14,12 @@ namespace FrbaHotel.Model
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
             //Application.Run(new AbmHotel.Abm_hotel());
             //Application.Run(new Login.Login());
             //Application.Run(new AbmRol.AbmRol());
-            Application.Run(new AbmCliente.Abm_Cliente());
-
+            //Application.Run(new AbmCliente.Abm_Cliente());
+            //Application.Run(new AbmHabitacion.Crear_Habitacion());
+            Application.Run(new AbmUsuario.ABM_Usuario());
         }
     }
 }

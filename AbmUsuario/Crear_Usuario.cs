@@ -21,6 +21,7 @@ namespace FrbaHotel.AbmUsuario
             InitializeComponent();
             configuarComboBoxHotel();
             configuarComboBoxRol();
+            configuarComboBoxTipoDoc();
         }
 
 
@@ -28,16 +29,24 @@ namespace FrbaHotel.AbmUsuario
         {
             this.ListadoRol.ValueMember = "Objeto";
             this.ListadoRol.DisplayMember = "Nombre";
-            this.ListadoRol.DataSource = Repositorios.Repo_Rol.getInstancia().getRoles();//Cambiar por metodo de Repo Roles
+            this.ListadoRol.DataSource = Repositorios.Repo_Rol.getInstancia().getRoles();
             this.ListadoRol.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         public void configuarComboBoxHotel()
         {
             this.ListadoRol.ValueMember = "Objeto";
-            this.ListadoRol.DisplayMember = "Nombre";
+            this.ListadoRol.DisplayMember = "idHotel";
             this.ListadoRol.DataSource = listaHotelesDisponibles;
             this.ListadoRol.DropDownStyle = ComboBoxStyle.DropDownList;
+        }
+
+        public void configuarComboBoxTipoDoc()
+        {
+            this.listadoTipoIdentificacion.ValueMember = "Objeto";
+            this.listadoTipoIdentificacion.DisplayMember = "Descripcion";
+            this.listadoTipoIdentificacion.DataSource = Repositorios.RepoTipoDocumento.getInstancia().getTipoDocumentos();
+            this.listadoTipoIdentificacion.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         private void btnAgregarHotel_Click(object sender, EventArgs e)
@@ -57,6 +66,7 @@ namespace FrbaHotel.AbmUsuario
         {
             Model.Usuario usuario = new Model.Usuario();
             Model.Direccion direccion = new Model.Direccion();
+            Model.TipoDocumento tipoDoc = (Model.TipoDocumento)listadoTipoIdentificacion.SelectedValue;
 
             usuario.username = tbUsername.Text;
             usuario.password = Model.Encriptador.getInstancia().encriptar(tbPass.Text);
@@ -65,7 +75,7 @@ namespace FrbaHotel.AbmUsuario
             usuario.email = tbMail.Text;
             usuario.telefono = numericTelefono.Value;
             usuario.nroDocumento = numericNumeroIdentificacion.Value;
-            usuario.tipoDoc = "";
+            usuario.tipoDoc = tipoDoc.id;
             usuario.fechaDeNacimiento = dtFechaNacimiento.Value;
             usuario.direccion = direccion;
 

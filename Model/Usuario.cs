@@ -9,12 +9,13 @@ namespace FrbaHotel.Model
 
     public class Usuario
     {
+        public int id { get; set; }
         public String username {get;set;}
         public String password {get;set;}
         public String nombre {get;set;}
         public String apellido {get;set;}
         public decimal nroDocumento {get;set;}
-        public String tipoDoc { get; set; }
+        public int tipoDoc { get; set; }
         public String email {get;set;}
         public decimal telefono {get;set;}
         public DateTime fechaDeNacimiento {get;set;}
