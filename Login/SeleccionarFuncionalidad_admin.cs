@@ -30,5 +30,12 @@ namespace FrbaHotel.Login
             new SeleccionarFuncionalidad().ShowDialog();
             this.Close();
         }
+
+        private void boton_abm_habitacion_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            new AbmHabitacion.Abm_Habitacion().ShowDialog();
+            this.Close();
+        }
     }
 }

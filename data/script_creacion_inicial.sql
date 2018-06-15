@@ -196,14 +196,12 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getFuncionalidadPorRol','P') IS NOT NULL
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getTipoDocumentos','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getTipoDocumentos;
-<<<<<<< HEAD
 	
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getTipoDocumento','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getTipoDocumento;	
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getHoteles','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getHoteles;		
-=======
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.newUsuario','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.newUsuario;
@@ -216,10 +214,16 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.eliminarFuncionalidadesDelRol','P') IS NOT NU
 	
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.eliminarRol','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.eliminarRol;	
->>>>>>> b2b972540a8d4aac4ab87db39d6c9f6906f88004
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.newUsuario','P') IS NOT NULL  
-	DROP PROCEDURE TRAEME_LA_COPA_MESSI.newUsuario;			
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.newUsuario;
+	
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getTiposHabitaciones','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getTiposHabitaciones;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.crearHabitacion','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.crearHabitacion;
+			
 	
 
 
@@ -1358,3 +1362,48 @@ create procedure TRAEME_LA_COPA_MESSI.getTipoDocumento
 @id int
 as
 select * from TRAEME_LA_COPA_MESSI.TipoDoc where IdTipo=@id
+
+
+/* Repositorio Tipo Habitacion*/
+
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.getTiposHabitaciones
+
+AS
+BEGIN
+
+SELECT * FROM TRAEME_LA_COPA_MESSI.TipoHabitacion
+
+END
+
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.crearHabitacion
+@idHotel int,
+@numero int,
+@piso int,
+@tipoHabitacion int,
+@ubicacion nvarchar(255)
+
+AS
+BEGIN
+	
+	IF NOT EXISTS (SELECT IdHotel,Numero FROM TRAEME_LA_COPA_MESSI.Habitacion WHERE IdHotel = @idHotel AND Numero = @numero)
+
+	BEGIN
+
+	INSERT INTO TRAEME_LA_COPA_MESSI.Habitacion(IdHotel,Numero,Piso,Ubicacion,CodigoTipo,Estado)
+	VALUES (@idHotel, @numero, @piso, @ubicacion, @tipoHabitacion, 0)
+
+	RETURN 0
+
+	END
+
+	ELSE
+
+	BEGIN
+
+	RETURN 1
+
+	END
+
+END
