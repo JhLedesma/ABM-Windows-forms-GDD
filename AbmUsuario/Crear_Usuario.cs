@@ -36,7 +36,7 @@ namespace FrbaHotel.AbmUsuario
         public void configuarComboBoxHotel()
         {
             this.ListadoRol.ValueMember = "Objeto";
-            this.ListadoRol.DisplayMember = "IdHotel";
+            this.ListadoRol.DisplayMember = "Nombre";
             this.ListadoRol.DataSource = listaHotelesDisponibles;
             this.ListadoRol.DropDownStyle = ComboBoxStyle.DropDownList;
         }
@@ -90,56 +90,6 @@ namespace FrbaHotel.AbmUsuario
 
             Repositorios.Repo_usuario.getInstancia().newUsuario(usuario, (Model.Rol)ListadoRol.SelectedValue, listaHotelesAgregados);
         }
-
-
-
-        /*
-            CREATE TABLE TRAEME_LA_COPA_MESSI.Usuario( 
-            Username nvarchar(255) PRIMARY KEY,
-            Pass nvarchar(255)  NOT NULL,
-            Direccion int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Direccion(IdDir) NULL,
-            Nombre nvarchar(255) NULL,
-            Apellido nvarchar(255) NULL,
-            TipoDoc int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.TipoDoc(IdTipo),
-            NroDocumento numeric(18,0) DEFAULT 0,
-            Email nvarchar(255) UNIQUE NULL,
-            Telefono numeric(18,0) DEFAULT 0,
-            FechaNacimiento datetime NULL,
-            LogsFallidos int NOT NULL DEFAULT 0,
-            Estado bit DEFAULT 0
-            );
-
-            CREATE TABLE TRAEME_LA_COPA_MESSI.Rol(
-            IdRol int IDENTITY(1,1) PRIMARY KEY,
-            Nombre nvarchar(255) NOT NULL,
-            Estado BIT DEFAULT 0 
-            );
-
-            CREATE TABLE TRAEME_LA_COPA_MESSI.RolPorUsuario(
-            Username nvarchar(255) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Usuario(Username),
-            IdRol int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Rol(IdRol),
-            CONSTRAINT IdRolPorUsuario PRIMARY KEY(Username,IdRol)
-            );
-         
-         
-            CREATE TABLE TRAEME_LA_COPA_MESSI.Hotel(
-            IdHotel int IDENTITY(1,1) PRIMARY KEY,
-            Nombre nvarchar(255) DEFAULT '',
-            Mail nvarchar(255) DEFAULT '',
-            Telefono int DEFAULT -1,
-            Direccion int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Direccion(IdDir),
-            CantEstrellas int  NULL,
-            PorcentajeEstrellas numeric(18,0) NULL,
-            FechaCreacion datetime DEFAULT GETDATE()
-            );
-
-            CREATE TABLE TRAEME_LA_COPA_MESSI.UsuariosPorHotel(
-            IdHotel int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Hotel(IdHotel),
-            Username nvarchar(255) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Usuario(Username),
-            User_desempenio nvarchar(255) NOT NULL
-            CONSTRAINT IdUsuariosPorHotel PRIMARY KEY(IdHotel,Username)
-            );
-        */
 
     }
 }

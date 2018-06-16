@@ -152,7 +152,104 @@ namespace FrbaHotel.Repositorios
 
         public void newUsuario(Model.Usuario usuario, Model.Rol rol, List<Model.Hotel> hoteles)
         {
-        
+            DBhelper.crearConexion();
+            DBhelper.abrirConexion();
+
+            SqlTransaction transaction = DBhelper.getConexion().BeginTransaction();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.newUsuario");
+            cmd.Transaction = transaction;
+
+            try
+            {
+
+                cmd.Parameters.Add("@user", SqlDbType.NVarChar).Value = usuario.username;
+                cmd.Parameters.Add("@pass", SqlDbType.NVarChar).Value = usuario.password;
+                cmd.Parameters.Add("@email", SqlDbType.NVarChar).Value = usuario.email;
+                cmd.Parameters.Add("@nombre", SqlDbType.NVarChar).Value = usuario.nombre;
+                cmd.Parameters.Add("@apellido", SqlDbType.NVarChar).Value = usuario.apellido;
+                cmd.Parameters.Add("@tipoDoc", SqlDbType.Int).Value = usuario.tipoDoc;
+                cmd.Parameters.Add("@numDoc", SqlDbType.Decimal).Value = usuario.nroDocumento;
+                cmd.Parameters.Add("@telefono", SqlDbType.Decimal).Value = usuario.telefono;
+                cmd.Parameters.Add("@FechaNacimiento", SqlDbType.DateTime).Value = usuario.fechaDeNacimiento;
+                cmd.Parameters.Add("@ciudad", SqlDbType.NVarChar).Value = usuario.direccion.ciudad;
+                cmd.Parameters.Add("@calle", SqlDbType.NVarChar).Value = usuario.direccion.calle;
+                cmd.Parameters.Add("@nroCalle", SqlDbType.Decimal).Value = usuario.direccion.numDomicilio;
+                cmd.Parameters.Add("@piso", SqlDbType.Decimal).Value = usuario.direccion.piso;
+                cmd.Parameters.Add("@dpto", SqlDbType.NVarChar).Value = usuario.direccion.dpto;
+                cmd.Parameters.Add("@localidad", SqlDbType.NVarChar).Value = usuario.direccion.localidad;
+                cmd.Parameters.Add("@pais", SqlDbType.NVarChar).Value = usuario.direccion.pais;
+
+                DBhelper.ejecutarProcedure(cmd);
+
+                this.newRolPorUsuario(rol.idRol, usuario.username);
+
+                foreach (Model.Hotel hotel in hoteles)
+                {
+                    this.newUsuariosPorHotel(hotel.idHotel, usuario.username, rol.Nombre);
+                }
+
+                transaction.Commit();
+                DBhelper.cerrarConexion();
+            }
+            catch (Exception e)
+            {
+                transaction.Rollback();
+                DBhelper.cerrarConexion();
+            }
+        }
+
+        private void newRolPorUsuario(int idRol, String username)
+        {
+            DBhelper.crearConexion();
+            DBhelper.abrirConexion();
+
+            SqlTransaction transaction = DBhelper.getConexion().BeginTransaction();
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.newRolPorUsuario");
+            cmd.Transaction = transaction;
+
+            try 
+            {
+                cmd.Parameters.Add("@username", SqlDbType.NVarChar).Value = username;
+                cmd.Parameters.Add("@Rol", SqlDbType.Int).Value = idRol;
+
+                DBhelper.ejecutarProcedure(cmd);
+                transaction.Commit();
+                DBhelper.cerrarConexion();
+            }
+            catch (Exception e)
+            {
+                transaction.Rollback();
+                DBhelper.cerrarConexion();
+            }
+                
+        }
+
+        private void newUsuariosPorHotel(int idHotel, String username, String userDesempeño)
+        {
+            DBhelper.crearConexion();
+            DBhelper.abrirConexion();
+
+            SqlTransaction transaction = DBhelper.getConexion().BeginTransaction();
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.newUsuariosPorHotel");
+            cmd.Transaction = transaction;
+
+            try
+            {
+                cmd.Parameters.Add("@username", SqlDbType.NVarChar).Value = username;
+                cmd.Parameters.Add("@User_desempenio", SqlDbType.NVarChar).Value = userDesempeño;
+                cmd.Parameters.Add("@hotelId", SqlDbType.Int).Value = idHotel;
+
+                DBhelper.ejecutarProcedure(cmd);
+                transaction.Commit();
+                DBhelper.cerrarConexion();
+            }
+            catch (Exception e)
+            {
+                transaction.Rollback();
+                DBhelper.cerrarConexion();
+            }
+                
         }
 
 

@@ -840,8 +840,6 @@ create procedure TRAEME_LA_COPA_MESSI.newUsuario
 @tipoDoc int,
 @numDoc numeric(18,0),
 @telefono numeric(18,0),
-@PaisOrigen nvarchar(255),
-@Nacionalidad nvarchar(255),
 @FechaNacimiento Datetime,
 @ciudad nvarchar(255), 
 @calle nvarchar(255), 
@@ -849,9 +847,7 @@ create procedure TRAEME_LA_COPA_MESSI.newUsuario
 @piso numeric(18,0),
 @dpto nvarchar(50),
 @localidad nvarchar(255),
-@pais nvarchar(255),
-@idHotel int,
-@idRol int
+@pais nvarchar(255)
 as
 begin transaction
 	begin
@@ -864,13 +860,6 @@ begin transaction
 
 		insert into TRAEME_LA_COPA_MESSI.Usuario (Username, Pass, Direccion, Nombre, Apellido, TipoDoc, NroDocumento, Email, Telefono, FechaNacimiento)
 			values(@user, @pass, @direccion, @nombre, @apellido, @tipoDoc, @numDoc, @email, @telefono, @FechaNacimiento)
-
-		exec TRAEME_LA_COPA_MESSI.newRolPorUsuario @Rol=@idRol, @username=@user
-
-		declare @userDesempenio nvarchar(255)
-		set @userDesempenio = (select Nombre from TRAEME_LA_COPA_MESSI.Rol where IdRol=@idRol)
-
-		exec TRAEME_LA_COPA_MESSI.newUsuariosPorHotel @hotelId=@idHotel, @username=@user, @User_desempenio=@userDesempenio
 	end
 commit
 
