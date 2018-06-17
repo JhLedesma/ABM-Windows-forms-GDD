@@ -41,7 +41,7 @@ namespace FrbaHotel.AbmHabitacion
         {
             Int32 respuesta;
    
-            respuesta = Repositorios.Repo_habitacion.getInstancia().crearHabitacion(idHotel, numericTextBox_numeroHab.IntValue, numericTextBox_piso.IntValue, comboBox_ubicacion.SelectedValue.ToString(), (Int32)comboBox_tipoHabitacion.SelectedValue);
+            respuesta = Repositorios.Repo_habitacion.getInstancia().crearHabitacion(idHotel, numericTextBox_numeroHab.IntValue, numericTextBox_piso.IntValue, comboBox_ubicacion.SelectedValue.ToString(), (Int32)comboBox_tipoHabitacion.SelectedValue, textBox_descripcion.Text);
 
             comunicarRespuesta(respuesta);
         }

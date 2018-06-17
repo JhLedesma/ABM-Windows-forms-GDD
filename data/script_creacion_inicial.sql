@@ -239,7 +239,8 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getTiposHabitaciones','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.crearHabitacion','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.crearHabitacion;
 			
-
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getHabitacionesFiltradas','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getHabitacionesFiltradas;
 	
 
 
@@ -412,7 +413,8 @@ Numero int,
 Piso int NOT NULL,
 Ubicacion nvarchar(255) NOT NULL,
 CodigoTipo int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.TipoHabitacion(Codigo),
-Estado BIT DEFAULT 0
+Estado BIT DEFAULT 0,
+Descripcion nvarchar(255) DEFAULT '',
 CONSTRAINT IdHabitacion PRIMARY KEY(IdHotel,Numero)
 );
 
@@ -1417,7 +1419,8 @@ CREATE PROCEDURE TRAEME_LA_COPA_MESSI.crearHabitacion
 @numero int,
 @piso int,
 @tipoHabitacion int,
-@ubicacion nvarchar(255)
+@ubicacion nvarchar(255),
+@descripcion nvarchar(255)
 
 AS
 BEGIN
@@ -1426,8 +1429,8 @@ BEGIN
 
 	BEGIN
 
-	INSERT INTO TRAEME_LA_COPA_MESSI.Habitacion(IdHotel,Numero,Piso,Ubicacion,CodigoTipo,Estado)
-	VALUES (@idHotel, @numero, @piso, @ubicacion, @tipoHabitacion, 0)
+	INSERT INTO TRAEME_LA_COPA_MESSI.Habitacion(IdHotel,Numero,Piso,Ubicacion,CodigoTipo,Estado,Descripcion)
+	VALUES (@idHotel, @numero, @piso, @ubicacion, @tipoHabitacion, 0, @descripcion)
 
 	RETURN 0
 
@@ -1443,3 +1446,23 @@ BEGIN
 
 END
 
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.getHabitacionesFiltradas
+@idTipo int,
+@ubicacion nvarchar(255),
+@idHotel int
+
+AS
+BEGIN
+
+	SELECT IdHotel, Numero, Piso, Ubicacion, t.Descripcion, Estado, h.Descripcion FROM TRAEME_LA_COPA_MESSI.Habitacion h JOIN TRAEME_LA_COPA_MESSI.TipoHabitacion t ON CodigoTipo = Codigo
+	WHERE 
+	(Ubicacion LIKE '%' + @ubicacion + '%' AND t.Codigo = @idTipo /*AND @idHotel = IdHotel*/)
+	OR
+	(@ubicacion = '' AND t.Codigo = @idTipo AND @idHotel = IdHotel)
+	/*OR
+	(@Nombre = '' AND dh.Pais LIKE '%' + @Pais + '%' AND dh.Ciudad LIKE '%' + @Ciudad + '%' AND CAST(h.CantEstrellas AS NVARCHAR) LIKE '%' + @Estrellas + '%')
+	OR
+	(@Pais = '' AND h.Nombre LIKE '%' + @Nombre + '%' AND dh.Ciudad LIKE '%' + @Ciudad + '%' AND CAST(h.CantEstrellas AS NVARCHAR) LIKE '%' + @Estrellas + '%')
+	*/
+END

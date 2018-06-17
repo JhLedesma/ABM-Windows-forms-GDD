@@ -59,7 +59,7 @@ namespace FrbaHotel.Repositorios
         
         }
 
-        public Int32 crearHabitacion(Int32 idHotel ,Int32 numero, Int32 piso, String ubicacion, Int32 tipoHabitacion)
+        public Int32 crearHabitacion(Int32 idHotel ,Int32 numero, Int32 piso, String ubicacion, Int32 tipoHabitacion, String descripcion)
         {
             
             DBhelper.crearConexion();
@@ -69,6 +69,7 @@ namespace FrbaHotel.Repositorios
             cmd.Parameters.Add("@piso", SqlDbType.Int).Value = piso;
             cmd.Parameters.Add("@tipoHabitacion", SqlDbType.Int).Value = tipoHabitacion;
             cmd.Parameters.Add("@ubicacion", SqlDbType.NVarChar).Value = ubicacion;
+            cmd.Parameters.Add("@descripcion", SqlDbType.NVarChar).Value = descripcion;
 
             var valorDeRetorno = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
             valorDeRetorno.Direction = ParameterDirection.ReturnValue;
@@ -80,6 +81,28 @@ namespace FrbaHotel.Repositorios
             DBhelper.cerrarConexion();
 
             return (int)valorDeRetorno.Value;
+
+        }
+
+        public DataTable getHabitacionesFiltradas(String ubicacion, Int32 idHotel, Int32 idTipo)
+        {
+
+            DataTable tablaHabitacionesFiltradas;
+
+            DBhelper.crearConexion();
+
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getHabitacionesFiltradas");
+            cmd.Parameters.Add("@ubicacion", SqlDbType.NVarChar).Value = ubicacion;
+            cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = idHotel;
+            cmd.Parameters.Add("@idTipo", SqlDbType.Int).Value = idTipo;
+
+            tablaHabitacionesFiltradas = DBhelper.obtenerTabla(cmd);
+
+            DBhelper.cerrarConexion();
+
+            return tablaHabitacionesFiltradas;
 
         }
 
