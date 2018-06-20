@@ -95,6 +95,9 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.TipoDoc','U') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Direccion','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.Direccion;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Log_Reserva','U') IS NOT NULL    
+	DROP TABLE TRAEME_LA_COPA_MESSI.Log_Reserva;
+
 
 /* Dropeo de procedures si ya existen */
 
@@ -241,6 +244,12 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.crearHabitacion','P') IS NOT NULL
 			
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getHabitacionesFiltradas','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getHabitacionesFiltradas;
+
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.cancelarReserva','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.cancelarReserva;
+
+	
 	
 
 
@@ -261,6 +270,14 @@ GO
 CREATE SCHEMA TRAEME_LA_COPA_MESSI AUTHORIZATION gdHotel2018
 
 GO
+
+Create table TRAEME_LA_COPA_MESSI.Log_Reserva(
+LogId int identity(1,1) Primary key,
+Log_Tipo nvarchar(255),
+Log_UsuarioId nvarchar(255),
+Log_Motivo nvarchar (255),
+Log_Fecha Datetime
+);
 
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.Direccion(
@@ -670,6 +687,10 @@ la informacion necesaria para poner un estado correcto y sugerido por el enuncia
 
 INSERT INTO TRAEME_LA_COPA_MESSI.EstadoReserva(DescripEstadoReserva)
 	 VALUES('Reserva sistema anterior') 
+
+INSERT INTO TRAEME_LA_COPA_MESSI.EstadoReserva(DescripEstadoReserva)
+	 VALUES('Reserva Cancelada') 
+
 
 -- Tablas auxiliares creacion de reservas --
 
@@ -1388,17 +1409,30 @@ GO
 create procedure TRAEME_LA_COPA_MESSI.validarCancelacion
 @idReserva int 
 as begin
-select FechaReserva from TRAEME_LA_COPA_MESSI.Reserva where @idReserva=IdReserva
+select FechaReserva, FechaCheckIn from TRAEME_LA_COPA_MESSI.Reserva where @idReserva=IdReserva 
 end
 
 
 GO
 create procedure TRAEME_LA_COPA_MESSI.validarCancelacionUsuario
-@usuario int
+@usuario nvarchar (255)
 as begin
-return (select 1 from TRAEME_LA_COPA_MESSI.Usuario where @usuario=Username)
+if exists (select 1 from TRAEME_LA_COPA_MESSI.Usuario where @usuario=Username)
+return 1
+else
+return 0
 end
 
+GO
+create procedure TRAEME_LA_COPA_MESSI.cancelarReserva
+@idReserva int,
+@nombreUsuario nvarchar (255),
+@fechaDeCancelacion Datetime,
+@motivo nvarchar(255)
+as begin
+update TRAEME_LA_COPA_MESSI.Reserva set EstadoReserva =  2 where IdReserva = @idReserva   
+insert into TRAEME_LA_COPA_MESSI.Log_Reserva values ('Cancelacion',@nombreUsuario,@motivo,@fechaDeCancelacion)
+end
 
 
 /* Repositorio Tipo Habitacion*/

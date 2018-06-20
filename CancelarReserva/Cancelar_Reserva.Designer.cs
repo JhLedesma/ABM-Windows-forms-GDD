@@ -136,6 +136,7 @@
             this.volver.TabIndex = 3;
             this.volver.Text = "Volver";
             this.volver.UseVisualStyleBackColor = true;
+            this.volver.Click += new System.EventHandler(this.volver_Click);
             // 
             // limpiar
             // 
@@ -145,6 +146,7 @@
             this.limpiar.TabIndex = 4;
             this.limpiar.Text = "Limpiar";
             this.limpiar.UseVisualStyleBackColor = true;
+            this.limpiar.Click += new System.EventHandler(this.limpiar_Click);
             // 
             // numericTextBox1
             // 
