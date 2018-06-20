@@ -95,6 +95,7 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.TipoDoc','U') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Direccion','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.Direccion;
 
+
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Log_Reserva','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.Log_Reserva;
 
@@ -1488,15 +1489,57 @@ CREATE PROCEDURE TRAEME_LA_COPA_MESSI.getHabitacionesFiltradas
 
 AS
 BEGIN
+	
+	IF (@idTipo = -1 AND @idHotel = -1)
+
+	BEGIN
 
 	SELECT IdHotel, Numero, Piso, Ubicacion, t.Descripcion, Estado, h.Descripcion FROM TRAEME_LA_COPA_MESSI.Habitacion h JOIN TRAEME_LA_COPA_MESSI.TipoHabitacion t ON CodigoTipo = Codigo
+	WHERE
+	(Ubicacion LIKE '%' + @ubicacion + '%')
+	
+	END
+	
+	ELSE
+
+	BEGIN
+	
+	IF (@idTipo = -1)
+	
+	BEGIN
+	
+	SELECT IdHotel, Numero, Piso, Ubicacion, t.Descripcion, Estado, h.Descripcion FROM TRAEME_LA_COPA_MESSI.Habitacion h JOIN TRAEME_LA_COPA_MESSI.TipoHabitacion t ON CodigoTipo = Codigo
 	WHERE 
-	(Ubicacion LIKE '%' + @ubicacion + '%' AND t.Codigo = @idTipo /*AND @idHotel = IdHotel*/)
-	OR
-	(@ubicacion = '' AND t.Codigo = @idTipo AND @idHotel = IdHotel)
-	/*OR
-	(@Nombre = '' AND dh.Pais LIKE '%' + @Pais + '%' AND dh.Ciudad LIKE '%' + @Ciudad + '%' AND CAST(h.CantEstrellas AS NVARCHAR) LIKE '%' + @Estrellas + '%')
-	OR
-	(@Pais = '' AND h.Nombre LIKE '%' + @Nombre + '%' AND dh.Ciudad LIKE '%' + @Ciudad + '%' AND CAST(h.CantEstrellas AS NVARCHAR) LIKE '%' + @Estrellas + '%')
-	*/
-END
+	(Ubicacion LIKE '%' + @ubicacion + '%' AND @idHotel = IdHotel)
+
+	END
+
+	ELSE
+
+	BEGIN
+
+	IF (@idHotel = -1)
+	
+	BEGIN
+
+	SELECT IdHotel, Numero, Piso, Ubicacion, t.Descripcion, Estado, h.Descripcion FROM TRAEME_LA_COPA_MESSI.Habitacion h JOIN TRAEME_LA_COPA_MESSI.TipoHabitacion t ON CodigoTipo = Codigo
+	WHERE
+	(Ubicacion LIKE '%' + @ubicacion + '%' AND t.Codigo = @idTipo)
+	
+	END
+
+	ELSE
+
+	BEGIN
+
+	SELECT IdHotel, Numero, Piso, Ubicacion, t.Descripcion, Estado, h.Descripcion FROM TRAEME_LA_COPA_MESSI.Habitacion h JOIN TRAEME_LA_COPA_MESSI.TipoHabitacion t ON CodigoTipo = Codigo
+	WHERE
+	(Ubicacion LIKE '%' + @ubicacion + '%' AND t.Codigo = @idTipo AND IdHotel = @idHotel)
+
+	END
+
+	END
+
+	END
+
+	END

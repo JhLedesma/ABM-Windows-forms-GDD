@@ -12,7 +12,7 @@ namespace FrbaHotel.AbmHabitacion
 {
     public partial class Modificar_Habitacion : Form
     {
-        public Modificar_Habitacion()
+        public Modificar_Habitacion(Int32 idHotel, Int32 numeroHabitacion)
         {
             InitializeComponent();
         }
