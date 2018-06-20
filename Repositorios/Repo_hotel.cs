@@ -297,6 +297,5 @@ namespace FrbaHotel.Repositorios
             return listaHoteles;
         }
 
-
     }
 }

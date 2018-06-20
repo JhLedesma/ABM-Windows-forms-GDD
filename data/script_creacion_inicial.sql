@@ -236,6 +236,9 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.newUsuariosPorHotel','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getUsuariosFiltradosConInactivos','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getUsuariosFiltradosConInactivos;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarMailUsuario','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.validarMailUsuario;
+
 
 
 
@@ -277,15 +280,15 @@ Descripcion nvarchar(255) NOT NULL
 CREATE TABLE TRAEME_LA_COPA_MESSI.Usuario( 
 Username nvarchar(255) PRIMARY KEY,
 Pass nvarchar(255)  NOT NULL,
-Direccion int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Direccion(IdDir) NULL,
-Nombre nvarchar(255) DEFAULT '',
-Apellido nvarchar(255) DEFAULT '',
-TipoDoc int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.TipoDoc(IdTipo),
-NroDocumento numeric(18,0) DEFAULT 0,
-Email nvarchar(255) UNIQUE DEFAULT '',
-Telefono numeric(18,0) DEFAULT 0,
-FechaNacimiento datetime DEFAULT GETDATE(),
-LogsFallidos int NOT NULL DEFAULT 0,
+Direccion int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Direccion(IdDir) not null,
+Nombre nvarchar(255) not null,
+Apellido nvarchar(255) not null,
+TipoDoc int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.TipoDoc(IdTipo) not null,
+NroDocumento numeric(18,0) not null,
+Email nvarchar(255) UNIQUE not null,
+Telefono numeric(18,0) not null,
+FechaNacimiento datetime not null,
+LogsFallidos int DEFAULT 0,
 Estado bit DEFAULT 0
 );
 
@@ -550,8 +553,11 @@ INSERT INTO TRAEME_LA_COPA_MESSI.Direccion(Calle,NroCalle,Piso,Departamento)
 INSERT INTO TRAEME_LA_COPA_MESSI.TipoDoc(Descripcion) VALUES ('Pasaporte');
 
 -- Usuarios --
-
-INSERT INTO TRAEME_LA_COPA_MESSI.Usuario(Username,Pass) VALUES ('admin','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7'); --Falta agregar su rol con funcionalidades
+declare @tipoDoc int
+set @tipoDoc = (select top 1 IdTipo from TRAEME_LA_COPA_MESSI.TipoDoc)
+declare @direccion int
+set @direccion = (select top 1 IdDir from TRAEME_LA_COPA_MESSI.Direccion)
+INSERT INTO TRAEME_LA_COPA_MESSI.Usuario(Username,Pass, Nombre, Apellido, Email, NroDocumento, Telefono, FechaNacimiento, TipoDoc, Direccion) VALUES ('admin','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', '', '', '', 0, 0, GETDATE(),@tipoDoc,@direccion); --Falta agregar su rol con funcionalidades
 
 -- Roles --
 
@@ -882,11 +888,20 @@ begin
 	(case Estado when 0 then 'Activo' else 'Inactivo' end) as Estado
 	FROM TRAEME_LA_COPA_MESSI.Usuario
 	WHERE 
-		Nombre LIKE '%' + @Nombre + '%' AND Apellido LIKE '%' + @Apellido + '%' AND Email LIKE '%' + @Username + '%' AND CAST(NroDocumento AS NVARCHAR) LIKE '%' + CAST(@Numero_Identificacion AS NVARCHAR) + '%'
+		Nombre LIKE '%' + @Nombre + '%' AND Apellido LIKE '%' + @Apellido + '%' AND Username LIKE '%' + @Username + '%' AND CAST(NroDocumento AS NVARCHAR) LIKE '%' + CAST(@Numero_Identificacion AS NVARCHAR) + '%'
 end
 
 
-
+GO
+create procedure TRAEME_LA_COPA_MESSI.validarMailUsuario
+@mail nvarchar(255)
+as
+begin
+	if exists (select 1 from TRAEME_LA_COPA_MESSI.Usuario where Email=@mail)
+		return 1
+	else
+		return 0
+end
 
 
 

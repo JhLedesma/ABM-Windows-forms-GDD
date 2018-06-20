@@ -155,10 +155,10 @@ namespace FrbaHotel.Repositorios
             DBhelper.crearConexion();
             DBhelper.abrirConexion();
 
-            SqlTransaction transaction = DBhelper.getConexion().BeginTransaction();
+            //SqlTransaction transaction = DBhelper.getConexion().BeginTransaction();
 
             SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.newUsuario");
-            cmd.Transaction = transaction;
+            //cmd.Transaction = transaction;
 
             try
             {
@@ -189,12 +189,12 @@ namespace FrbaHotel.Repositorios
                     this.newUsuariosPorHotel(hotel.idHotel, usuario.username, rol.Nombre);
                 }
 
-                transaction.Commit();
+                //transaction.Commit();
                 DBhelper.cerrarConexion();
             }
             catch (Exception e)
             {
-                transaction.Rollback();
+                //transaction.Rollback();
                 DBhelper.cerrarConexion();
             }
         }
@@ -204,9 +204,9 @@ namespace FrbaHotel.Repositorios
             DBhelper.crearConexion();
             DBhelper.abrirConexion();
 
-            SqlTransaction transaction = DBhelper.getConexion().BeginTransaction();
+            //SqlTransaction transaction = DBhelper.getConexion().BeginTransaction();
             SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.newRolPorUsuario");
-            cmd.Transaction = transaction;
+            //cmd.Transaction = transaction;
 
             try 
             {
@@ -214,12 +214,12 @@ namespace FrbaHotel.Repositorios
                 cmd.Parameters.Add("@Rol", SqlDbType.Int).Value = idRol;
 
                 DBhelper.ejecutarProcedure(cmd);
-                transaction.Commit();
+                //transaction.Commit();
                 DBhelper.cerrarConexion();
             }
             catch (Exception e)
             {
-                transaction.Rollback();
+                //transaction.Rollback();
                 DBhelper.cerrarConexion();
             }
                 
@@ -230,9 +230,9 @@ namespace FrbaHotel.Repositorios
             DBhelper.crearConexion();
             DBhelper.abrirConexion();
 
-            SqlTransaction transaction = DBhelper.getConexion().BeginTransaction();
+            //SqlTransaction transaction = DBhelper.getConexion().BeginTransaction();
             SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.newUsuariosPorHotel");
-            cmd.Transaction = transaction;
+            //cmd.Transaction = transaction;
 
             try
             {
@@ -241,12 +241,12 @@ namespace FrbaHotel.Repositorios
                 cmd.Parameters.Add("@hotelId", SqlDbType.Int).Value = idHotel;
 
                 DBhelper.ejecutarProcedure(cmd);
-                transaction.Commit();
+                //transaction.Commit();
                 DBhelper.cerrarConexion();
             }
             catch (Exception e)
             {
-                transaction.Rollback();
+                //transaction.Rollback();
                 DBhelper.cerrarConexion();
             }
                 
@@ -273,7 +273,26 @@ namespace FrbaHotel.Repositorios
             DBhelper.cerrarConexion();
 
             return tablaClientesFiltrados;
+        }
 
+
+        public int validarMail(string mail)
+        {
+            DBhelper.crearConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.validarMailUsuario");
+            cmd.Parameters.Add("@mail", SqlDbType.NVarChar).Value = mail;
+
+            var valorDeRetorno = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
+            valorDeRetorno.Direction = ParameterDirection.ReturnValue;
+
+            DBhelper.abrirConexion();
+
+            DBhelper.ejecutarProcedure(cmd);
+
+            DBhelper.cerrarConexion();
+
+            return (int)valorDeRetorno.Value;
         }
 
     }

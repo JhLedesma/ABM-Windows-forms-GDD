@@ -22,6 +22,30 @@ namespace FrbaHotel.Model
         public List<Model.Regimen> regimenes;
         public DateTime fechaCreacion { get; set; }
 
+
+        public int IdHotel
+        {
+
+            get
+            {
+                return idHotel;
+            }
+        }
+
+
+        public Hotel Objeto
+        {
+
+            get
+            {
+                return this;
+            }
+        }
+
+
+        public Hotel(){}
+    
+    
     }
 
 }
