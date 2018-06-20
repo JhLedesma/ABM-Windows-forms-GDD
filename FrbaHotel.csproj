@@ -94,6 +94,12 @@
     <Compile Include="AbmHabitacion\Crear_Habitacion.Designer.cs">
       <DependentUpon>Crear_Habitacion.cs</DependentUpon>
     </Compile>
+    <Compile Include="AbmHabitacion\List_Select_Habitacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmHabitacion\List_Select_Habitacion.Designer.cs">
+      <DependentUpon>List_Select_Habitacion.cs</DependentUpon>
+    </Compile>
     <Compile Include="AbmHabitacion\List_Select_Hotel.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -310,6 +316,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AbmCliente\Modificar_Cliente.resx">
       <DependentUpon>Modificar_Cliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmHabitacion\List_Select_Habitacion.resx">
+      <DependentUpon>List_Select_Habitacion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AbmHabitacion\List_Select_Hotel.resx">
       <DependentUpon>List_Select_Hotel.cs</DependentUpon>

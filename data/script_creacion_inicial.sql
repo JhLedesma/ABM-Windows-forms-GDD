@@ -96,6 +96,10 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Direccion','U') IS NOT NULL
 	DROP TABLE TRAEME_LA_COPA_MESSI.Direccion;
 
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Log_Reserva','U') IS NOT NULL    
+	DROP TABLE TRAEME_LA_COPA_MESSI.Log_Reserva;
+
+
 /* Dropeo de procedures si ya existen */
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarUsuario','P') IS NOT NULL  
@@ -227,6 +231,7 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getTiposHabitaciones','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.crearHabitacion','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.crearHabitacion;
 			
+<<<<<<< HEAD
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.newRolPorUsuario','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.newRolPorUsuario;
 
@@ -240,6 +245,17 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarMailUsuario','P') IS NOT NULL
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.validarMailUsuario;
 
 
+=======
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getHabitacionesFiltradas','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getHabitacionesFiltradas;
+
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.cancelarReserva','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.cancelarReserva;
+
+	
+	
+>>>>>>> 1929d880fc9e4125165e88514bee6d7172167b4d
 
 
 /* Dropeo las views si ya existen */
@@ -259,6 +275,14 @@ GO
 CREATE SCHEMA TRAEME_LA_COPA_MESSI AUTHORIZATION gdHotel2018
 
 GO
+
+Create table TRAEME_LA_COPA_MESSI.Log_Reserva(
+LogId int identity(1,1) Primary key,
+Log_Tipo nvarchar(255),
+Log_UsuarioId nvarchar(255),
+Log_Motivo nvarchar (255),
+Log_Fecha Datetime
+);
 
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.Direccion(
@@ -411,7 +435,8 @@ Numero int,
 Piso int NOT NULL,
 Ubicacion nvarchar(255) NOT NULL,
 CodigoTipo int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.TipoHabitacion(Codigo),
-Estado BIT DEFAULT 0
+Estado BIT DEFAULT 0,
+Descripcion nvarchar(255) DEFAULT '',
 CONSTRAINT IdHabitacion PRIMARY KEY(IdHotel,Numero)
 );
 
@@ -670,6 +695,10 @@ la informacion necesaria para poner un estado correcto y sugerido por el enuncia
 
 INSERT INTO TRAEME_LA_COPA_MESSI.EstadoReserva(DescripEstadoReserva)
 	 VALUES('Reserva sistema anterior') 
+
+INSERT INTO TRAEME_LA_COPA_MESSI.EstadoReserva(DescripEstadoReserva)
+	 VALUES('Reserva Cancelada') 
+
 
 -- Tablas auxiliares creacion de reservas --
 
@@ -1473,17 +1502,30 @@ GO
 create procedure TRAEME_LA_COPA_MESSI.validarCancelacion
 @idReserva int 
 as begin
-select FechaReserva from TRAEME_LA_COPA_MESSI.Reserva where @idReserva=IdReserva
+select FechaReserva, FechaCheckIn from TRAEME_LA_COPA_MESSI.Reserva where @idReserva=IdReserva 
 end
 
 
 GO
 create procedure TRAEME_LA_COPA_MESSI.validarCancelacionUsuario
-@usuario int
+@usuario nvarchar (255)
 as begin
-return (select 1 from TRAEME_LA_COPA_MESSI.Usuario where @usuario=Username)
+if exists (select 1 from TRAEME_LA_COPA_MESSI.Usuario where @usuario=Username)
+return 1
+else
+return 0
 end
 
+GO
+create procedure TRAEME_LA_COPA_MESSI.cancelarReserva
+@idReserva int,
+@nombreUsuario nvarchar (255),
+@fechaDeCancelacion Datetime,
+@motivo nvarchar(255)
+as begin
+update TRAEME_LA_COPA_MESSI.Reserva set EstadoReserva =  2 where IdReserva = @idReserva   
+insert into TRAEME_LA_COPA_MESSI.Log_Reserva values ('Cancelacion',@nombreUsuario,@motivo,@fechaDeCancelacion)
+end
 
 
 /* Repositorio Tipo Habitacion*/
@@ -1504,7 +1546,8 @@ CREATE PROCEDURE TRAEME_LA_COPA_MESSI.crearHabitacion
 @numero int,
 @piso int,
 @tipoHabitacion int,
-@ubicacion nvarchar(255)
+@ubicacion nvarchar(255),
+@descripcion nvarchar(255)
 
 AS
 BEGIN
@@ -1513,8 +1556,8 @@ BEGIN
 
 	BEGIN
 
-	INSERT INTO TRAEME_LA_COPA_MESSI.Habitacion(IdHotel,Numero,Piso,Ubicacion,CodigoTipo,Estado)
-	VALUES (@idHotel, @numero, @piso, @ubicacion, @tipoHabitacion, 0)
+	INSERT INTO TRAEME_LA_COPA_MESSI.Habitacion(IdHotel,Numero,Piso,Ubicacion,CodigoTipo,Estado,Descripcion)
+	VALUES (@idHotel, @numero, @piso, @ubicacion, @tipoHabitacion, 0, @descripcion)
 
 	RETURN 0
 
@@ -1530,3 +1573,65 @@ BEGIN
 
 END
 
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.getHabitacionesFiltradas
+@idTipo int,
+@ubicacion nvarchar(255),
+@idHotel int
+
+AS
+BEGIN
+	
+	IF (@idTipo = -1 AND @idHotel = -1)
+
+	BEGIN
+
+	SELECT IdHotel, Numero, Piso, Ubicacion, t.Descripcion, Estado, h.Descripcion FROM TRAEME_LA_COPA_MESSI.Habitacion h JOIN TRAEME_LA_COPA_MESSI.TipoHabitacion t ON CodigoTipo = Codigo
+	WHERE
+	(Ubicacion LIKE '%' + @ubicacion + '%')
+	
+	END
+	
+	ELSE
+
+	BEGIN
+	
+	IF (@idTipo = -1)
+	
+	BEGIN
+	
+	SELECT IdHotel, Numero, Piso, Ubicacion, t.Descripcion, Estado, h.Descripcion FROM TRAEME_LA_COPA_MESSI.Habitacion h JOIN TRAEME_LA_COPA_MESSI.TipoHabitacion t ON CodigoTipo = Codigo
+	WHERE 
+	(Ubicacion LIKE '%' + @ubicacion + '%' AND @idHotel = IdHotel)
+
+	END
+
+	ELSE
+
+	BEGIN
+
+	IF (@idHotel = -1)
+	
+	BEGIN
+
+	SELECT IdHotel, Numero, Piso, Ubicacion, t.Descripcion, Estado, h.Descripcion FROM TRAEME_LA_COPA_MESSI.Habitacion h JOIN TRAEME_LA_COPA_MESSI.TipoHabitacion t ON CodigoTipo = Codigo
+	WHERE
+	(Ubicacion LIKE '%' + @ubicacion + '%' AND t.Codigo = @idTipo)
+	
+	END
+
+	ELSE
+
+	BEGIN
+
+	SELECT IdHotel, Numero, Piso, Ubicacion, t.Descripcion, Estado, h.Descripcion FROM TRAEME_LA_COPA_MESSI.Habitacion h JOIN TRAEME_LA_COPA_MESSI.TipoHabitacion t ON CodigoTipo = Codigo
+	WHERE
+	(Ubicacion LIKE '%' + @ubicacion + '%' AND t.Codigo = @idTipo AND IdHotel = @idHotel)
+
+	END
+
+	END
+
+	END
+
+	END

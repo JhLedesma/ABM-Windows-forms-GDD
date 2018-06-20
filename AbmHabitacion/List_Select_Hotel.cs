@@ -14,12 +14,20 @@ namespace FrbaHotel.AbmHabitacion
     {
         public Int32 idSeleccionado;
         private const Int32 VACIO = 0;
-        private Crear_Habitacion controlador;
+        private Crear_Habitacion controladorCrear;
+        private List_Select_Habitacion controladorModif;
+
 
         public List_Select_Hotel(Crear_Habitacion ControladorCrearHab)
         {
             InitializeComponent();
-            controlador = ControladorCrearHab;
+            controladorCrear = ControladorCrearHab;
+        }
+
+        public List_Select_Hotel(List_Select_Habitacion controladorModifHab)
+        {
+            InitializeComponent();
+            controladorModif = controladorModifHab;
         }
 
         private void button_filtrar_Click(object sender, EventArgs e)
@@ -42,11 +50,21 @@ namespace FrbaHotel.AbmHabitacion
             }
             else
             {
+                try
+                {
+                    controladorCrear.idHotel = idSeleccionado;
+                    this.Hide();
+                    controladorCrear.Show();
+                    this.Close();
+                }
+                catch (NullReferenceException) {
 
-                controlador.idHotel = idSeleccionado;
-                this.Hide();
-                controlador.Show();
-                this.Close();
+                    controladorModif.idHotelFiltrado = idSeleccionado;
+                    this.Hide();
+                    controladorModif.Show();
+                    this.Close();
+                
+                }
 
             }
         }

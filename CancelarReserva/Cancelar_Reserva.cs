@@ -21,7 +21,7 @@ namespace FrbaHotel.CancelarReserva
 
         private void aceptar_Click(object sender, EventArgs e)
         {
-            if (numericTextBox1.Text == null || motivo.Text == null || fechacancelacion.Value == null || usuario.Text == null)
+            if (string.IsNullOrWhiteSpace(numericTextBox1.Text) || string.IsNullOrWhiteSpace(motivo.Text) || (fechacancelacion.Value==null) || string.IsNullOrWhiteSpace(usuario.Text))
             {
                 MessageBox.Show("Complete todos los campos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -40,13 +40,14 @@ namespace FrbaHotel.CancelarReserva
                         MessageBox.Show("No existe tal reserva", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
                     case 2:
-                        MessageBox.Show("La reserva no puede ser cancelada con tan poca anticipacion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("La reserva no puede ser cancelada debido a que ya fue utilizada o falta menos de un dia para que sea activa", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
                     case 3:
                         MessageBox.Show("El usuario no existe", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
                     case 0:
-                        //Repositorios.Repo_Reserva.getInstancia().EliminarReserva(reserva);
+                        Repositorios.Repo_Reserva.getInstancia().cancelarReserva(reserva);
+                        MessageBox.Show("Reserva cancelada correctamente", "Operacion completada", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         break;
                     default:
                         break;
@@ -55,6 +56,19 @@ namespace FrbaHotel.CancelarReserva
             }
 
 
+        }
+
+        private void limpiar_Click(object sender, EventArgs e)
+        {
+            motivo.ResetText();
+            fechacancelacion.ResetText();
+            usuario.ResetText();
+            numericTextBox1.ResetText();
+        }
+
+        private void volver_Click(object sender, EventArgs e)
+        {
+            //NO SE CUAL ES LA VISTA ANTERIOR
         }
     }
 }
