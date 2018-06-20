@@ -72,7 +72,7 @@ namespace FrbaHotel.Repositorios
         }
 
 
-        public Model.Usuario getUsuario(String nombre) 
+        public Model.Usuario getUsuarioLogeado(String nombre) 
         {
 
             DataTable tablaUsuario;
@@ -97,9 +97,150 @@ namespace FrbaHotel.Repositorios
 
             usuarioIngresado.setListaDeRoles(getRolesUsuario(usuarioIngresado.username));
 
-            return usuarioIngresado;
+            DBhelper.cerrarConexion();
 
+            return usuarioIngresado;
         }
+
+
+        public Model.Usuario getUsuario(String nombre)
+        {
+            DBhelper.crearConexion();
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getUsuario");
+            cmd.Parameters.Add("@usuarioNombre", SqlDbType.NVarChar).Value = nombre;
+
+            DataTable tablaUsuario = DBhelper.obtenerTabla(cmd);
+            Model.Usuario usuario = new Model.Usuario();
+
+            foreach (DataRow row in tablaUsuario.Rows)
+            {
+                usuario.username = ((String)row["Username"]);
+                usuario.password = ((String)row["Pass"]);
+                usuario.nombre = ((String)row["Nombre"]);
+                usuario.apellido = ((String)row["Apellido"]);
+                usuario.email = ((String)row["Email"]);
+                usuario.nroDocumento = ((decimal)row["NroDocumento"]);
+                usuario.telefono = ((decimal)row["Telefono"]);
+                usuario.fechaDeNacimiento = (DateTime)row["FechaNacimiento"];
+                usuario.estado = (Convert.ToInt16(row["Estado"]));
+                usuario.logsFallidos = ((Int32)row["LogsFallidos"]);
+                usuario.direccion = this.getDireccion((Int32)row["Direccion"]);
+                usuario.tipoDoc = this.getTipoDocumento((Int32)row["TipoDoc"]);
+                usuario.listaDeRoles = this.getRolesUsuario((String)row["Username"]);
+                usuario.listaHoteles = this.getHotelesDeUsuario((String)row["Username"]);
+                usuario.rolActivo = usuario.listaDeRoles.First();
+            }
+
+            DBhelper.cerrarConexion();
+
+            return usuario;
+        }
+
+
+       /* 
+        Username nvarchar(255) PRIMARY KEY,
+        Pass nvarchar(255)  NOT NULL,
+        Direccion int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Direccion(IdDir) not null,
+        Nombre nvarchar(255) not null,
+        Apellido nvarchar(255) not null,
+        TipoDoc int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.TipoDoc(IdTipo) not null,
+        NroDocumento numeric(18,0) not null,
+        Email nvarchar(255) UNIQUE not null,
+        Telefono numeric(18,0) not null,
+        FechaNacimiento datetime not null,
+        LogsFallidos int DEFAULT 0,
+        Estado bit DEFAULT 0
+        */
+
+
+        public List<Model.Hotel> getHotelesDeUsuario(String username)
+        {
+            List<Model.Hotel> listaHoteles = new List<Model.Hotel>();
+
+            DBhelper.crearConexion();
+
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getHotelesDeUsuario");
+            cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
+
+            DataTable Hoteles = DBhelper.obtenerTabla(cmd);
+
+            foreach (DataRow row in Hoteles.Rows)
+            {
+                Model.Hotel hotel = new Model.Hotel();
+
+                hotel.idHotel = row.Field<Int32>("IdHotel");
+                hotel.nombre = row.Field<String>("Nombre");
+                hotel.mail = row.Field<String>("Mail");
+                hotel.telefono = row.Field<Int32>("Telefono");
+                hotel.estrellas = row.Field<Int32>("CantEstrellas");
+                hotel.porcEstrella = row.Field<Decimal>("PorcentajeEstrellas");
+                hotel.fechaCreacion = row.Field<DateTime>("FechaCreacion");
+
+                listaHoteles.Add(hotel);
+            }
+
+            DBhelper.cerrarConexion();
+
+            return listaHoteles;
+        }
+
+
+        public Model.TipoDocumento getTipoDocumento(int idTipoDoc)
+        {
+            DBhelper.crearConexion();
+
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getTipoDocumento");
+            cmd.Parameters.Add("@id", SqlDbType.Int).Value = idTipoDoc;
+
+            DataTable tablaTipoDoc = DBhelper.obtenerTabla(cmd);
+
+            Model.TipoDocumento tipoDoc = new Model.TipoDocumento();
+
+            foreach (DataRow row in tablaTipoDoc.Rows)
+            {
+                tipoDoc.id = (Int32)row["IdTipo"];
+                tipoDoc.descripcion = (String)row["Descripcion"];
+            }
+
+            return tipoDoc;
+        }
+
+        public Model.Direccion getDireccion(int idDireccion)
+        {
+            DBhelper.crearConexion();
+
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getDireccion");
+            cmd.Parameters.Add("@id", SqlDbType.Int).Value = idDireccion;
+
+            DataTable tablaCliente = DBhelper.obtenerTabla(cmd);
+
+            Model.Direccion direccion = new Model.Direccion();
+
+            foreach (DataRow row in tablaCliente.Rows)
+            {
+                direccion.id = (Int32)row["IdDir"];
+                direccion.calle = (String)row["Calle"];
+                direccion.ciudad = (String)row["Ciudad"];
+                direccion.dpto = (String)row["Departamento"];
+                direccion.localidad = (String)row["Localidad"];
+                direccion.pais = (String)row["Pais"];
+                direccion.piso = (decimal)row["Piso"];
+                direccion.numDomicilio = (decimal)row["NroCalle"];
+            }
+
+            DBhelper.cerrarConexion();
+
+            return direccion;
+        }
+
 
         public Model.Usuario getUsuarioIngresado() 
         {
@@ -124,7 +265,7 @@ namespace FrbaHotel.Repositorios
             DBhelper.crearConexion();
 
             SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getRolesUsuario");
-            cmd.Parameters.Add("@IdUsuario", SqlDbType.NVarChar).Value = usuarioIngresado.username;
+            cmd.Parameters.Add("@IdUsuario", SqlDbType.NVarChar).Value = username;
 
             DBhelper.abrirConexion();
 
@@ -141,6 +282,8 @@ namespace FrbaHotel.Repositorios
 
                 listaDeRoles.Add(rol);
             }
+
+            DBhelper.cerrarConexion();
 
             return listaDeRoles;
 
@@ -168,7 +311,7 @@ namespace FrbaHotel.Repositorios
                 cmd.Parameters.Add("@email", SqlDbType.NVarChar).Value = usuario.email;
                 cmd.Parameters.Add("@nombre", SqlDbType.NVarChar).Value = usuario.nombre;
                 cmd.Parameters.Add("@apellido", SqlDbType.NVarChar).Value = usuario.apellido;
-                cmd.Parameters.Add("@tipoDoc", SqlDbType.Int).Value = usuario.tipoDoc;
+                cmd.Parameters.Add("@tipoDoc", SqlDbType.Int).Value = usuario.tipoDoc.id;
                 cmd.Parameters.Add("@numDoc", SqlDbType.Decimal).Value = usuario.nroDocumento;
                 cmd.Parameters.Add("@telefono", SqlDbType.Decimal).Value = usuario.telefono;
                 cmd.Parameters.Add("@FechaNacimiento", SqlDbType.DateTime).Value = usuario.fechaDeNacimiento;

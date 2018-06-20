@@ -73,6 +73,8 @@
             this.dataGridModificar.Name = "dataGridModificar";
             this.dataGridModificar.Size = new System.Drawing.Size(531, 188);
             this.dataGridModificar.TabIndex = 27;
+            this.dataGridModificar.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridModificar_CellClick);
+            this.dataGridModificar.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridModificar_CellClick);
             // 
             // lblFiltrar
             // 

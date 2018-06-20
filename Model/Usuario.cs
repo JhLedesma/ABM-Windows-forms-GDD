@@ -15,7 +15,7 @@ namespace FrbaHotel.Model
         public String nombre {get;set;}
         public String apellido {get;set;}
         public decimal nroDocumento {get;set;}
-        public int tipoDoc { get; set; }
+        public Model.TipoDocumento tipoDoc { get; set; }
         public String email {get;set;}
         public decimal telefono {get;set;}
         public DateTime fechaDeNacimiento {get;set;}
@@ -24,6 +24,7 @@ namespace FrbaHotel.Model
         public List<Rol> listaDeRoles = new List<Rol>();
         public Rol rolActivo {get;set;}
         public List<Hotel> listaHoteles { get; set; }
+        public Int16 estado { get; set; }
 
         public Usuario()
         {

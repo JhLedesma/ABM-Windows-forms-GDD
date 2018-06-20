@@ -55,7 +55,7 @@ namespace FrbaHotel.AbmCliente
             this.mostrarDatos();
         }
 
-        private void btnGuardar_Click(object sender, EventArgs e)//Agregar combobox
+        private void btnGuardar_Click(object sender, EventArgs e) //Agregar Validacion de que los datos esten llenos y tambien estado
         {
             Model.TipoDocumento tipoDoc = (Model.TipoDocumento)listadoTipoIdentificacion.SelectedValue;
 

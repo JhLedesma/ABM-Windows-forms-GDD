@@ -105,7 +105,7 @@ namespace FrbaHotel.AbmUsuario
                  usuario.email = tbMail.Text;
                  usuario.telefono = numericTelefono.Value;
                  usuario.nroDocumento = numericNumeroIdentificacion.Value;
-                 usuario.tipoDoc = tipoDoc.id;
+                 usuario.tipoDoc = tipoDoc;
                  usuario.fechaDeNacimiento = dtFechaNacimiento.Value;
                  usuario.direccion = direccion;
 

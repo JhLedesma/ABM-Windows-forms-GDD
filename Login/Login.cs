@@ -65,7 +65,7 @@ namespace FrbaHotel.Login
            {
                 Console.WriteLine("LOGIN ACEPTADO");
                 this.Hide();
-                repo_usuario.getUsuario(textBoxUsuario.Text);
+                repo_usuario.getUsuarioLogeado(textBoxUsuario.Text);
                 cantidadRolesDelUsuario = repo_usuario.usuarioIngresado.listaDeRoles.Count();
 
                 if(cantidadRolesDelUsuario > 1)
@@ -94,7 +94,7 @@ namespace FrbaHotel.Login
 
               Console.WriteLine("LOGIN FALLIDO");
 
-              repo_usuario.getUsuario(textBoxUsuario.Text);
+              repo_usuario.getUsuarioLogeado(textBoxUsuario.Text);
 
               controlarCantidadLogsFallidos();
 

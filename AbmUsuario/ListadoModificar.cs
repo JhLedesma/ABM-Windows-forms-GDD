@@ -31,35 +31,15 @@ namespace FrbaHotel.AbmUsuario
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            if (username != null)
+            if (username == null)
             {
                 MessageBox.Show("Por favor, seleccione de la grilla un cliente a modificar clickeando en cualquiera de sus atributos", "Seleccione cliente", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
-               // new AbmCliente.Modificar_Cliente(idClienteSeleccionado, mailClienteSeleccionado).ShowDialog();
+                new AbmUsuario.ModificarUsuario(username).ShowDialog();
             }
         }
-
-
-
-        /*
-         * Username nvarchar(255) PRIMARY KEY,
-            Pass nvarchar(255)  NOT NULL,
-            Direccion int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Direccion(IdDir) NULL,
-            Nombre nvarchar(255) NULL,
-            Apellido nvarchar(255) NULL,
-            TipoDoc int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.TipoDoc(IdTipo),
-            NroDocumento numeric(18,0) DEFAULT 0,
-            Email nvarchar(255) UNIQUE NULL,
-            Telefono numeric(18,0) DEFAULT 0,
-            FechaNacimiento datetime NULL,
-            LogsFallidos int NOT NULL DEFAULT 0,
-            Estado bit DEFAULT 0
-         * 
-         * 
-         * */
-
 
     }
 }

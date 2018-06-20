@@ -246,11 +246,12 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarMailUsuario','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getHabitacionesFiltradas','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getHabitacionesFiltradas;
 
-
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.cancelarReserva','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.cancelarReserva;
 
-
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getHotelesDeUsuario','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getHotelesDeUsuario;
+	
 
 /* Dropeo las views si ya existen */
 
@@ -283,8 +284,8 @@ CREATE TABLE TRAEME_LA_COPA_MESSI.Direccion(
 IdDir int IDENTITY(1,1) PRIMARY KEY,
 Ciudad nvarchar(255) DEFAULT '',
 Calle nvarchar(255) DEFAULT '',
-NroCalle numeric(18,0) DEFAULT -1,
-Piso numeric(18,0) DEFAULT -1,
+NroCalle numeric(18,0) DEFAULT 0,
+Piso numeric(18,0) DEFAULT 0,
 Departamento nvarchar(50) DEFAULT '',
 Localidad nvarchar(255) DEFAULT '',
 Pais nvarchar(255) DEFAULT '',
@@ -587,7 +588,7 @@ INSERT INTO TRAEME_LA_COPA_MESSI.Rol(Nombre)
 
 INSERT INTO TRAEME_LA_COPA_MESSI.RolPorUsuario(Username,IdRol)
 	VALUES ('admin',1)
-				
+
 -- Funcionalidades --
 
 INSERT INTO TRAEME_LA_COPA_MESSI.Funcionalidad(Descripcion)
@@ -926,6 +927,18 @@ begin
 		return 0
 end
 
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.getHotelesDeUsuario
+@Username nvarchar(255)
+as
+begin
+	SELECT h.IdHotel,h.Nombre,h.Mail,h.Telefono,h.CantEstrellas,h.PorcentajeEstrellas,h.FechaCreacion 
+	FROM TRAEME_LA_COPA_MESSI.Hotel h
+		join TRAEME_LA_COPA_MESSI.UsuariosPorHotel uh
+			on uh.Username = @Username
+	where uh.Username = @Username
+end
 
 
 /* Repositorio Regimenes */
