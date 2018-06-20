@@ -230,8 +230,7 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getTiposHabitaciones','P') IS NOT NULL
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.crearHabitacion','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.crearHabitacion;
-			
-<<<<<<< HEAD
+
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.newRolPorUsuario','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.newRolPorUsuario;
 
@@ -244,8 +243,6 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getUsuariosFiltradosConInactivos','P') IS NOT
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarMailUsuario','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.validarMailUsuario;
 
-
-=======
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getHabitacionesFiltradas','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getHabitacionesFiltradas;
 
@@ -253,9 +250,6 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getHabitacionesFiltradas','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.cancelarReserva','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.cancelarReserva;
 
-	
-	
->>>>>>> 1929d880fc9e4125165e88514bee6d7172167b4d
 
 
 /* Dropeo las views si ya existen */

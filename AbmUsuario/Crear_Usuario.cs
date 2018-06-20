@@ -124,6 +124,28 @@ namespace FrbaHotel.AbmUsuario
             
         }
 
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            tbUsername.Text = "";
+            tbPass.Text = "";
+            tbMail.Text = "";
+            tbNombre.Text = "";
+            tbApellido.Text = "";
+            configuarComboBoxTipoDoc();
+            numericNumeroIdentificacion.Value = decimal.Zero;
+            numericTelefono.Value = decimal.Zero;
+            textBox1.Text = "";
+            tbCalle.Text = "";
+            numericNumero.Value = decimal.Zero;
+            numericPiso.Value = decimal.Zero;
+            tbDpto.Text = "";
+            tbLocalidad.Text = "";
+            tbPais.Text = "";
+            listaHotelesAgregados.Clear();
+            listaHotelesDisponibles = Repositorios.Repo_hotel.getInstancia().getHoteles();
+            configuarComboBoxHotel();
+        }
+
 
     }
 }
