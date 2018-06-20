@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
             this.gBoxBusquedaCliente = new System.Windows.Forms.GroupBox();
+            this.boton_buscar = new System.Windows.Forms.Button();
+            this.comboBox_tipoHabitacion = new System.Windows.Forms.ComboBox();
+            this.comboBox_ubicacion = new System.Windows.Forms.ComboBox();
             this.textBox_idHotel = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.lblNumeroIdentificacion = new System.Windows.Forms.Label();
             this.lblApellido = new System.Windows.Forms.Label();
             this.lblNombre = new System.Windows.Forms.Label();
-            this.comboBox_ubicacion = new System.Windows.Forms.ComboBox();
-            this.comboBox_tipoHabitacion = new System.Windows.Forms.ComboBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.boton_modificar = new System.Windows.Forms.Button();
             this.boton_volver = new System.Windows.Forms.Button();
             this.dataGridHabitaciones = new System.Windows.Forms.DataGridView();
@@ -48,7 +48,7 @@
             // 
             // gBoxBusquedaCliente
             // 
-            this.gBoxBusquedaCliente.Controls.Add(this.button1);
+            this.gBoxBusquedaCliente.Controls.Add(this.boton_buscar);
             this.gBoxBusquedaCliente.Controls.Add(this.comboBox_tipoHabitacion);
             this.gBoxBusquedaCliente.Controls.Add(this.comboBox_ubicacion);
             this.gBoxBusquedaCliente.Controls.Add(this.textBox_idHotel);
@@ -62,6 +62,32 @@
             this.gBoxBusquedaCliente.TabIndex = 22;
             this.gBoxBusquedaCliente.TabStop = false;
             this.gBoxBusquedaCliente.Text = "Busqueda de Habitacion";
+            // 
+            // boton_buscar
+            // 
+            this.boton_buscar.Location = new System.Drawing.Point(393, 32);
+            this.boton_buscar.Name = "boton_buscar";
+            this.boton_buscar.Size = new System.Drawing.Size(120, 23);
+            this.boton_buscar.TabIndex = 17;
+            this.boton_buscar.Text = "Buscar";
+            this.boton_buscar.UseVisualStyleBackColor = true;
+            this.boton_buscar.Click += new System.EventHandler(this.boton_buscar_Click);
+            // 
+            // comboBox_tipoHabitacion
+            // 
+            this.comboBox_tipoHabitacion.FormattingEnabled = true;
+            this.comboBox_tipoHabitacion.Location = new System.Drawing.Point(86, 66);
+            this.comboBox_tipoHabitacion.Name = "comboBox_tipoHabitacion";
+            this.comboBox_tipoHabitacion.Size = new System.Drawing.Size(121, 21);
+            this.comboBox_tipoHabitacion.TabIndex = 16;
+            // 
+            // comboBox_ubicacion
+            // 
+            this.comboBox_ubicacion.FormattingEnabled = true;
+            this.comboBox_ubicacion.Location = new System.Drawing.Point(86, 34);
+            this.comboBox_ubicacion.Name = "comboBox_ubicacion";
+            this.comboBox_ubicacion.Size = new System.Drawing.Size(121, 21);
+            this.comboBox_ubicacion.TabIndex = 15;
             // 
             // textBox_idHotel
             // 
@@ -106,31 +132,6 @@
             this.lblNombre.Size = new System.Drawing.Size(31, 13);
             this.lblNombre.TabIndex = 1;
             this.lblNombre.Text = "Tipo:";
-            // 
-            // comboBox_ubicacion
-            // 
-            this.comboBox_ubicacion.FormattingEnabled = true;
-            this.comboBox_ubicacion.Location = new System.Drawing.Point(86, 34);
-            this.comboBox_ubicacion.Name = "comboBox_ubicacion";
-            this.comboBox_ubicacion.Size = new System.Drawing.Size(121, 21);
-            this.comboBox_ubicacion.TabIndex = 15;
-            // 
-            // comboBox_tipoHabitacion
-            // 
-            this.comboBox_tipoHabitacion.FormattingEnabled = true;
-            this.comboBox_tipoHabitacion.Location = new System.Drawing.Point(86, 66);
-            this.comboBox_tipoHabitacion.Name = "comboBox_tipoHabitacion";
-            this.comboBox_tipoHabitacion.Size = new System.Drawing.Size(121, 21);
-            this.comboBox_tipoHabitacion.TabIndex = 16;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(393, 32);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(120, 23);
-            this.button1.TabIndex = 17;
-            this.button1.Text = "Buscar";
-            this.button1.UseVisualStyleBackColor = true;
             // 
             // boton_modificar
             // 
@@ -211,7 +212,7 @@
         private System.Windows.Forms.Label lblNombre;
         private System.Windows.Forms.ComboBox comboBox_tipoHabitacion;
         private System.Windows.Forms.ComboBox comboBox_ubicacion;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button boton_buscar;
         private System.Windows.Forms.Button boton_modificar;
         private System.Windows.Forms.Button boton_volver;
         private System.Windows.Forms.DataGridView dataGridHabitaciones;
