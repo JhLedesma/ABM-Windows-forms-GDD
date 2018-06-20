@@ -233,6 +233,10 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.newRolPorUsuario','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.newUsuariosPorHotel','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.newUsuariosPorHotel;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getUsuariosFiltradosConInactivos','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getUsuariosFiltradosConInactivos;
+
+
 
 
 /* Dropeo las views si ya existen */
@@ -274,13 +278,13 @@ CREATE TABLE TRAEME_LA_COPA_MESSI.Usuario(
 Username nvarchar(255) PRIMARY KEY,
 Pass nvarchar(255)  NOT NULL,
 Direccion int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Direccion(IdDir) NULL,
-Nombre nvarchar(255) NULL,
-Apellido nvarchar(255) NULL,
+Nombre nvarchar(255) DEFAULT '',
+Apellido nvarchar(255) DEFAULT '',
 TipoDoc int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.TipoDoc(IdTipo),
 NroDocumento numeric(18,0) DEFAULT 0,
-Email nvarchar(255) UNIQUE NULL,
+Email nvarchar(255) UNIQUE DEFAULT '',
 Telefono numeric(18,0) DEFAULT 0,
-FechaNacimiento datetime NULL,
+FechaNacimiento datetime DEFAULT GETDATE(),
 LogsFallidos int NOT NULL DEFAULT 0,
 Estado bit DEFAULT 0
 );
@@ -862,6 +866,26 @@ begin transaction
 			values(@user, @pass, @direccion, @nombre, @apellido, @tipoDoc, @numDoc, @email, @telefono, @FechaNacimiento)
 	end
 commit
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.getUsuariosFiltradosConInactivos
+@Nombre nvarchar(255),
+@Apellido nvarchar(255),
+@Username nvarchar(255),
+@Numero_Identificacion numeric(18,0)
+as
+begin
+	
+	SELECT Username, Nombre, Apellido,
+	  NroDocumento, Telefono, FechaNacimiento,
+	(case Estado when 0 then 'Activo' else 'Inactivo' end) as Estado
+	FROM TRAEME_LA_COPA_MESSI.Usuario
+	WHERE 
+		Nombre LIKE '%' + @Nombre + '%' AND Apellido LIKE '%' + @Apellido + '%' AND Email LIKE '%' + @Username + '%' AND CAST(NroDocumento AS NVARCHAR) LIKE '%' + CAST(@Numero_Identificacion AS NVARCHAR) + '%'
+end
+
+
 
 
 

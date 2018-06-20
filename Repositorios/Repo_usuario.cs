@@ -253,9 +253,27 @@ namespace FrbaHotel.Repositorios
         }
 
 
-        public List<Model.Rol> getRoles()
+        public DataTable getTablaUsuariosFiltradosConInactivos(String nombre, String apellido, String username, decimal NumeroIdentificacion)
         {
-            return null;
+
+            DataTable tablaClientesFiltrados;
+
+            DBhelper.crearConexion();
+
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getUsuariosFiltradosConInactivos");
+            cmd.Parameters.Add("@Nombre", SqlDbType.NVarChar).Value = nombre;
+            cmd.Parameters.Add("@Apellido", SqlDbType.NVarChar).Value = apellido;
+            cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
+            cmd.Parameters.Add("@Numero_Identificacion", SqlDbType.Decimal).Value = NumeroIdentificacion;
+
+            tablaClientesFiltrados = DBhelper.obtenerTabla(cmd);
+
+            DBhelper.cerrarConexion();
+
+            return tablaClientesFiltrados;
+
         }
 
     }
