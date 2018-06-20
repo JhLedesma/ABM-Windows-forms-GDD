@@ -59,7 +59,7 @@ namespace FrbaHotel.AbmHabitacion
                 }
                 catch (NullReferenceException) {
 
-                    controladorModif.idHotel = idSeleccionado;
+                    controladorModif.idHotelFiltrado = idSeleccionado;
                     this.Hide();
                     controladorModif.Show();
                     this.Close();

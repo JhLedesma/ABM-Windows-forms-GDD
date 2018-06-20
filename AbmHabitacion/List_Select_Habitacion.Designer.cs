@@ -141,6 +141,7 @@
             this.boton_modificar.TabIndex = 36;
             this.boton_modificar.Text = "Modificar";
             this.boton_modificar.UseVisualStyleBackColor = true;
+            this.boton_modificar.Click += new System.EventHandler(this.boton_modificar_Click);
             // 
             // boton_volver
             // 
@@ -161,6 +162,7 @@
             this.dataGridHabitaciones.ReadOnly = true;
             this.dataGridHabitaciones.Size = new System.Drawing.Size(531, 274);
             this.dataGridHabitaciones.TabIndex = 34;
+            this.dataGridHabitaciones.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridHabitaciones_CellClick);
             // 
             // label2
             // 
