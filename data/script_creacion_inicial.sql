@@ -95,6 +95,11 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.TipoDoc','U') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Direccion','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.Direccion;
 
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Log_Reserva','U') IS NOT NULL    
+	DROP TABLE TRAEME_LA_COPA_MESSI.Log_Reserva;
+
+
 /* Dropeo de procedures si ya existen */
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarUsuario','P') IS NOT NULL  
@@ -232,12 +237,26 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getTiposHabitaciones','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.crearHabitacion','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.crearHabitacion;
 			
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.newRolPorUsuario','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.newRolPorUsuario;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.newUsuariosPorHotel','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.newUsuariosPorHotel;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getUsuariosFiltradosConInactivos','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getUsuariosFiltradosConInactivos;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarMailUsuario','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.validarMailUsuario;
+
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getHabitacionesFiltradas','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getHabitacionesFiltradas;
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getHabitacion','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getHabitacion;
-	
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.cancelarReserva','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.cancelarReserva;
 
 
 /* Dropeo las views si ya existen */
@@ -257,6 +276,14 @@ GO
 CREATE SCHEMA TRAEME_LA_COPA_MESSI AUTHORIZATION gdHotel2018
 
 GO
+
+Create table TRAEME_LA_COPA_MESSI.Log_Reserva(
+LogId int identity(1,1) Primary key,
+Log_Tipo nvarchar(255),
+Log_UsuarioId nvarchar(255),
+Log_Motivo nvarchar (255),
+Log_Fecha Datetime
+);
 
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.Direccion(
@@ -278,15 +305,15 @@ Descripcion nvarchar(255) NOT NULL
 CREATE TABLE TRAEME_LA_COPA_MESSI.Usuario( 
 Username nvarchar(255) PRIMARY KEY,
 Pass nvarchar(255)  NOT NULL,
-Direccion int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Direccion(IdDir) NULL,
-Nombre nvarchar(255) NULL,
-Apellido nvarchar(255) NULL,
-TipoDoc int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.TipoDoc(IdTipo),
-NroDocumento int NULL,
-Email nvarchar(255) UNIQUE NULL,
-Telefono int NULL,
-FechaNacimiento datetime NULL,
-LogsFallidos int NOT NULL DEFAULT 0,
+Direccion int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Direccion(IdDir) not null,
+Nombre nvarchar(255) not null,
+Apellido nvarchar(255) not null,
+TipoDoc int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.TipoDoc(IdTipo) not null,
+NroDocumento numeric(18,0) not null,
+Email nvarchar(255) UNIQUE not null,
+Telefono numeric(18,0) not null,
+FechaNacimiento datetime not null,
+LogsFallidos int DEFAULT 0,
 Estado bit DEFAULT 0
 );
 
@@ -552,8 +579,11 @@ INSERT INTO TRAEME_LA_COPA_MESSI.Direccion(Calle,NroCalle,Piso,Departamento)
 INSERT INTO TRAEME_LA_COPA_MESSI.TipoDoc(Descripcion) VALUES ('Pasaporte');
 
 -- Usuarios --
-
-INSERT INTO TRAEME_LA_COPA_MESSI.Usuario(Username,Pass) VALUES ('admin','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7'); --Falta agregar su rol con funcionalidades
+declare @tipoDoc int
+set @tipoDoc = (select top 1 IdTipo from TRAEME_LA_COPA_MESSI.TipoDoc)
+declare @direccion int
+set @direccion = (select top 1 IdDir from TRAEME_LA_COPA_MESSI.Direccion)
+INSERT INTO TRAEME_LA_COPA_MESSI.Usuario(Username,Pass, Nombre, Apellido, Email, NroDocumento, Telefono, FechaNacimiento, TipoDoc, Direccion) VALUES ('admin','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', '', '', '', 0, 0, GETDATE(),@tipoDoc,@direccion); --Falta agregar su rol con funcionalidades
 
 -- Roles --
 
@@ -666,6 +696,10 @@ la informacion necesaria para poner un estado correcto y sugerido por el enuncia
 
 INSERT INTO TRAEME_LA_COPA_MESSI.EstadoReserva(DescripEstadoReserva)
 	 VALUES('Reserva sistema anterior') 
+
+INSERT INTO TRAEME_LA_COPA_MESSI.EstadoReserva(DescripEstadoReserva)
+	 VALUES('Reserva Cancelada') 
+
 
 -- Tablas auxiliares creacion de reservas --
 
@@ -811,9 +845,94 @@ END
 
 
 GO
-create procedure TRAEME_LA_COPA_MESSI.newUsuario
-
+create procedure TRAEME_LA_COPA_MESSI.newRolPorUsuario
+@Rol int,
+@username nvarchar(255)
 as
+begin transaction
+	begin
+		insert into TRAEME_LA_COPA_MESSI.RolPorUsuario (Username, IdRol)
+			values(@username, @Rol)
+	end
+commit
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.newUsuariosPorHotel
+@hotelId int,
+@username nvarchar(255),
+@User_desempenio nvarchar(255)
+as
+begin transaction
+	begin
+		insert into TRAEME_LA_COPA_MESSI.UsuariosPorHotel (IdHotel, Username, User_desempenio)
+			values(@hotelId, @username, @User_desempenio)
+	end
+commit
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.newUsuario
+@user nvarchar(255),
+@pass nvarchar(255),
+@email nvarchar(255),
+@nombre nvarchar(255),
+@apellido nvarchar(255),
+@tipoDoc int,
+@numDoc numeric(18,0),
+@telefono numeric(18,0),
+@FechaNacimiento Datetime,
+@ciudad nvarchar(255), 
+@calle nvarchar(255), 
+@nroCalle numeric(18,0),
+@piso numeric(18,0),
+@dpto nvarchar(50),
+@localidad nvarchar(255),
+@pais nvarchar(255)
+as
+begin transaction
+	begin
+		declare @direccion int
+
+		insert into TRAEME_LA_COPA_MESSI.Direccion (Ciudad, Calle, NroCalle, Piso, Departamento, Localidad, Pais)
+			values(@ciudad, @calle, @nroCalle, @piso, @dpto, @localidad, @pais)
+
+		set @direccion = (select IdDir from TRAEME_LA_COPA_MESSI.Direccion where Ciudad=@ciudad and Calle=@calle and NroCalle=@nroCalle and Piso=@piso and Departamento=@dpto and Localidad=@localidad and Pais=@pais)
+
+		insert into TRAEME_LA_COPA_MESSI.Usuario (Username, Pass, Direccion, Nombre, Apellido, TipoDoc, NroDocumento, Email, Telefono, FechaNacimiento)
+			values(@user, @pass, @direccion, @nombre, @apellido, @tipoDoc, @numDoc, @email, @telefono, @FechaNacimiento)
+	end
+commit
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.getUsuariosFiltradosConInactivos
+@Nombre nvarchar(255),
+@Apellido nvarchar(255),
+@Username nvarchar(255),
+@Numero_Identificacion numeric(18,0)
+as
+begin
+	
+	SELECT Username, Nombre, Apellido,
+	  NroDocumento, Telefono, FechaNacimiento,
+	(case Estado when 0 then 'Activo' else 'Inactivo' end) as Estado
+	FROM TRAEME_LA_COPA_MESSI.Usuario
+	WHERE 
+		Nombre LIKE '%' + @Nombre + '%' AND Apellido LIKE '%' + @Apellido + '%' AND Username LIKE '%' + @Username + '%' AND CAST(NroDocumento AS NVARCHAR) LIKE '%' + CAST(@Numero_Identificacion AS NVARCHAR) + '%'
+end
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.validarMailUsuario
+@mail nvarchar(255)
+as
+begin
+	if exists (select 1 from TRAEME_LA_COPA_MESSI.Usuario where Email=@mail)
+		return 1
+	else
+		return 0
+end
+
 
 
 /* Repositorio Regimenes */
@@ -1385,17 +1504,30 @@ GO
 create procedure TRAEME_LA_COPA_MESSI.validarCancelacion
 @idReserva int 
 as begin
-select FechaReserva from TRAEME_LA_COPA_MESSI.Reserva where @idReserva=IdReserva
+select FechaReserva, FechaCheckIn from TRAEME_LA_COPA_MESSI.Reserva where @idReserva=IdReserva 
 end
 
 
 GO
 create procedure TRAEME_LA_COPA_MESSI.validarCancelacionUsuario
-@usuario int
+@usuario nvarchar (255)
 as begin
-return (select 1 from TRAEME_LA_COPA_MESSI.Usuario where @usuario=Username)
+if exists (select 1 from TRAEME_LA_COPA_MESSI.Usuario where @usuario=Username)
+return 1
+else
+return 0
 end
 
+GO
+create procedure TRAEME_LA_COPA_MESSI.cancelarReserva
+@idReserva int,
+@nombreUsuario nvarchar (255),
+@fechaDeCancelacion Datetime,
+@motivo nvarchar(255)
+as begin
+update TRAEME_LA_COPA_MESSI.Reserva set EstadoReserva =  2 where IdReserva = @idReserva   
+insert into TRAEME_LA_COPA_MESSI.Log_Reserva values ('Cancelacion',@nombreUsuario,@motivo,@fechaDeCancelacion)
+end
 
 
 /* Repositorio Tipo Habitacion*/

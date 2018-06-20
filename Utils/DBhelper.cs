@@ -11,7 +11,7 @@ namespace FrbaHotel.Utils
 {
     public class DBhelper
     {
-               private static DBhelper instancia;
+        private static DBhelper instancia;
         private SqlConnection conexion;
 
         public static DBhelper getInstancia() {
@@ -97,6 +97,9 @@ namespace FrbaHotel.Utils
             return tabla;
               
         }
+
+        public SqlConnection getConexion() { return conexion; }
+
 
     }
 }

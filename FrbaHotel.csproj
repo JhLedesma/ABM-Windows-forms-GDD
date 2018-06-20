@@ -208,6 +208,12 @@
     <Compile Include="AbmUsuario\Crear_Usuario.Designer.cs">
       <DependentUpon>Crear_Usuario.cs</DependentUpon>
     </Compile>
+    <Compile Include="AbmUsuario\ListadoModificar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmUsuario\ListadoModificar.Designer.cs">
+      <DependentUpon>ListadoModificar.cs</DependentUpon>
+    </Compile>
     <Compile Include="CancelarReserva\Cancelar_Reserva.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -359,6 +365,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AbmUsuario\Crear_Usuario.resx">
       <DependentUpon>Crear_Usuario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmUsuario\ListadoModificar.resx">
+      <DependentUpon>ListadoModificar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CancelarReserva\Cancelar_Reserva.resx">
       <DependentUpon>Cancelar_Reserva.cs</DependentUpon>

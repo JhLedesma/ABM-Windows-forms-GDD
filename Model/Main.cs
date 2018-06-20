@@ -20,7 +20,8 @@ namespace FrbaHotel.Model
             //Application.Run(new AbmCliente.Abm_Cliente());
             //Application.Run(new AbmHabitacion.Crear_Habitacion());
             //Application.Run(new AbmHabitacion.List_Select_Habitacion());
-
+            //Application.Run(new AbmUsuario.ABM_Usuario());
+            //Application.Run(new AbmHabitacion.List_Select_Habitacion());
         }
     }
 }

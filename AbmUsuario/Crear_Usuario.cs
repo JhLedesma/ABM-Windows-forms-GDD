@@ -21,6 +21,7 @@ namespace FrbaHotel.AbmUsuario
             InitializeComponent();
             configuarComboBoxHotel();
             configuarComboBoxRol();
+            configuarComboBoxTipoDoc();
         }
 
 
@@ -28,16 +29,24 @@ namespace FrbaHotel.AbmUsuario
         {
             this.ListadoRol.ValueMember = "Objeto";
             this.ListadoRol.DisplayMember = "Nombre";
-            this.ListadoRol.DataSource = Repositorios.Repo_Rol.getInstancia().getRoles();//Cambiar por metodo de Repo Roles
+            this.ListadoRol.DataSource = Repositorios.Repo_Rol.getInstancia().getRoles();
             this.ListadoRol.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         public void configuarComboBoxHotel()
         {
-            this.ListadoRol.ValueMember = "Objeto";
-            this.ListadoRol.DisplayMember = "Nombre";
-            this.ListadoRol.DataSource = listaHotelesDisponibles;
-            this.ListadoRol.DropDownStyle = ComboBoxStyle.DropDownList;
+            this.listadoHoteles.ValueMember = "Objeto";
+            this.listadoHoteles.DisplayMember = "IdHotel";
+            this.listadoHoteles.DataSource = listaHotelesDisponibles;
+            this.listadoHoteles.DropDownStyle = ComboBoxStyle.DropDownList;
+        }
+
+        public void configuarComboBoxTipoDoc()
+        {
+            this.listadoTipoIdentificacion.ValueMember = "Objeto";
+            this.listadoTipoIdentificacion.DisplayMember = "Descripcion";
+            this.listadoTipoIdentificacion.DataSource = Repositorios.RepoTipoDocumento.getInstancia().getTipoDocumentos();
+            this.listadoTipoIdentificacion.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         private void btnAgregarHotel_Click(object sender, EventArgs e)
@@ -53,32 +62,68 @@ namespace FrbaHotel.AbmUsuario
             MessageBox.Show("Agregado");
         }
 
-        private void btnCrear_Click(object sender, EventArgs e) //Agregar ComboBox Tipo NumeroDocumento
+        //Comprobar que no exista Username
+        private void btnCrear_Click(object sender, EventArgs e)
         {
-            Model.Usuario usuario = new Model.Usuario();
-            Model.Direccion direccion = new Model.Direccion();
+             if (
+                string.IsNullOrEmpty(tbUsername.Text) ||
+                string.IsNullOrEmpty(tbPass.Text) ||
+               string.IsNullOrWhiteSpace(tbMail.Text) ||
+                string.IsNullOrEmpty(tbNombre.Text) ||
+                string.IsNullOrEmpty(tbApellido.Text) ||
+                numericNumeroIdentificacion.Value == decimal.Zero ||
+                numericTelefono.Value == decimal.Zero ||
+                string.IsNullOrEmpty(textBox1.Text) ||
+                string.IsNullOrEmpty(tbCalle.Text) ||
+                numericNumero.Value == decimal.Zero ||
+                numericPiso.Value == decimal.Zero ||
+                string.IsNullOrWhiteSpace(tbDpto.Text) ||
+                string.IsNullOrEmpty(tbLocalidad.Text) ||
+                string.IsNullOrWhiteSpace(tbPais.Text)
+                 )
+            {
+                MessageBox.Show("Por favor complete todos los campos", "Campos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+             else if(listaHotelesAgregados.Count == 0)
+             {
+                 MessageBox.Show("Por favor Agregue uno o mas hoteles donde se desempeña el Usuario", "Campos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+             }
+             else if (Repositorios.Repo_usuario.getInstancia().validarMail(tbMail.Text) == 1)
+             {
+                 MessageBox.Show("Por favor ingrese un mail que no registrado", "Mail ya existente", MessageBoxButtons.OK, MessageBoxIcon.Error);
+             }
+             else
+             {
+                 Model.Usuario usuario = new Model.Usuario();
+                 Model.Direccion direccion = new Model.Direccion();
+                 Model.TipoDocumento tipoDoc = (Model.TipoDocumento)listadoTipoIdentificacion.SelectedValue;
 
-            usuario.username = tbUsername.Text;
-            usuario.password = Model.Encriptador.getInstancia().encriptar(tbPass.Text);
-            usuario.nombre = tbNombre.Text;
-            usuario.apellido = tbApellido.Text;
-            usuario.email = tbMail.Text;
-            usuario.telefono = numericTelefono.Value;
-            usuario.nroDocumento = numericNumeroIdentificacion.Value;
-            usuario.tipoDoc = "";
-            usuario.fechaDeNacimiento = dtFechaNacimiento.Value;
-            usuario.direccion = direccion;
+                 usuario.username = tbUsername.Text;
+                 usuario.password = Model.Encriptador.getInstancia().encriptar(tbPass.Text);
+                 usuario.nombre = tbNombre.Text;
+                 usuario.apellido = tbApellido.Text;
+                 usuario.email = tbMail.Text;
+                 usuario.telefono = numericTelefono.Value;
+                 usuario.nroDocumento = numericNumeroIdentificacion.Value;
+                 usuario.tipoDoc = tipoDoc.id;
+                 usuario.fechaDeNacimiento = dtFechaNacimiento.Value;
+                 usuario.direccion = direccion;
 
-            direccion.calle = tbCalle.Text;
-            direccion.ciudad = textBox1.Text;
-            direccion.localidad = tbLocalidad.Text;
-            direccion.pais = tbPais.Text;
-            direccion.dpto = tbDpto.Text;
-            direccion.numDomicilio = numericNumero.Value;
-            direccion.piso = numericPiso.Value;
+                 direccion.calle = tbCalle.Text;
+                 direccion.ciudad = textBox1.Text;
+                 direccion.localidad = tbLocalidad.Text;
+                 direccion.pais = tbPais.Text;
+                 direccion.dpto = tbDpto.Text;
+                 direccion.numDomicilio = numericNumero.Value;
+                 direccion.piso = numericPiso.Value;
 
-            Repositorios.Repo_usuario.getInstancia().newUsuario(usuario, (Model.Rol)ListadoRol.SelectedValue, listaHotelesAgregados);
+                 Repositorios.Repo_usuario.getInstancia().newUsuario(usuario, (Model.Rol)ListadoRol.SelectedValue, listaHotelesAgregados);
+
+                 MessageBox.Show("Usuario creado");
+             }
+            
         }
+
 
     }
 }
