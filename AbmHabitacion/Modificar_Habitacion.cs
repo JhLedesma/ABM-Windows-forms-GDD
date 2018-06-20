@@ -14,6 +14,7 @@ namespace FrbaHotel.AbmHabitacion
     {
 
         private Model.Habitacion habitacionSeleccionada;
+        public List<String> ubicaciones = new List<string>();
 
         private Int32 hotelId;
         private Int32 numeroHab;
@@ -22,8 +23,15 @@ namespace FrbaHotel.AbmHabitacion
         {
             hotelId = idHotel;
             numeroHab = numeroHabitacion; //USO ESTAS DOS VARIABLES?
+
             habitacionSeleccionada = Repositorios.Repo_habitacion.getInstancia().getHabitacion(idHotel, numeroHabitacion);
+
             InitializeComponent();
+
+            ubicaciones.Add("S");
+            ubicaciones.Add("N");
+
+            configuarComboBox();
 
             mostrarDatos();
         }
@@ -34,6 +42,22 @@ namespace FrbaHotel.AbmHabitacion
             textBox_idHotel.Text = habitacionSeleccionada.idHotel.ToString();
             numericTextBox_numeroHab.Text = habitacionSeleccionada.numero.ToString();
             numericTextBox_piso.Text = habitacionSeleccionada.piso.ToString();
+
+        }
+
+        public void configuarComboBox()
+        {
+            this.comboBox_ubicacion.DataSource = ubicaciones;
+            this.comboBox_ubicacion.DropDownStyle = ComboBoxStyle.DropDownList;
+
+            if (habitacionSeleccionada.ubicacion == "S")
+            {
+
+                this.comboBox_ubicacion.SelectedIndex = 0;
+
+            }
+
+            else this.comboBox_ubicacion.SelectedIndex = 1;
 
         }
     }
