@@ -255,6 +255,7 @@
     <Compile Include="Login\Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\Habitacion.cs" />
     <Compile Include="Model\ReservaCancelada.cs" />
     <Compile Include="Model\Cliente.cs" />
     <Compile Include="Model\Direccion.cs" />

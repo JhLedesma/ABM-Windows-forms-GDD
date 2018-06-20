@@ -106,6 +106,38 @@ namespace FrbaHotel.Repositorios
 
         }
 
+        public Model.Habitacion getHabitacion(Int32 idHotel, Int32 numeroHab)
+        {
+            DBhelper.crearConexion();
+
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getHabitacion");
+            cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = idHotel;
+            cmd.Parameters.Add("@numero", SqlDbType.Int).Value = numeroHab;
+
+            DataTable tablaHabitacion = DBhelper.obtenerTabla(cmd);
+
+            Model.Habitacion habitacion = new FrbaHotel.Model.Habitacion();
+
+            foreach (DataRow row in tablaHabitacion.Rows)
+            {
+
+                habitacion.idHotel= (Int32)row["IdHotel"];
+                habitacion.numero = (Int32)row["Numero"];
+                habitacion.piso= (Int32)row["Piso"];
+                habitacion.descripcion = (String)row["Descripcion"];
+                habitacion.ubicacion = (String)row["Ubicacion"]; //Esto deberia mostrarlo por combo box, no devolverlo asi
+
+            }
+
+            DBhelper.cerrarConexion();
+
+            return habitacion;
+        }
+
+
+
 
 
     }
