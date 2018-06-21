@@ -13,11 +13,15 @@ namespace FrbaHotel.AbmUsuario
     public partial class ModificarUsuario : Form
     {
         private Model.Usuario usuarioSeleccionado;
+        private List<Model.Hotel> listaHotelesDisponibles = Repositorios.Repo_hotel.getInstancia().getHoteles();
+        private List<Model.Hotel> listaHotelesAgregados = new List<Model.Hotel>();
+        private Model.Hotel hotelSeleccionado;
 
         public ModificarUsuario(String username)
         {
             InitializeComponent();
             usuarioSeleccionado = Repositorios.Repo_usuario.getInstancia().getUsuario(username);
+            listaHotelesAgregados = usuarioSeleccionado.listaHoteles;
             configuarComboBoxTipoDoc();
             configuarComboBoxRol();
             configuarListadoHotelesAgregados();
@@ -38,7 +42,7 @@ namespace FrbaHotel.AbmUsuario
         {
             this.listadoHotelesAgregados.ValueMember = "Objeto";
             this.listadoHotelesAgregados.DisplayMember = "IdHotel";
-            this.listadoHotelesAgregados.DataSource = usuarioSeleccionado.listaHoteles;
+            this.listadoHotelesAgregados.DataSource = listaHotelesAgregados;
             this.listadoHotelesAgregados.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
@@ -46,7 +50,7 @@ namespace FrbaHotel.AbmUsuario
         {
             this.listadoHotelesDisponibles.ValueMember = "Objeto";
             this.listadoHotelesDisponibles.DisplayMember = "IdHotel";
-            this.listadoHotelesDisponibles.DataSource = Repositorios.Repo_hotel.getInstancia().getHoteles();
+            this.listadoHotelesDisponibles.DataSource = listaHotelesDisponibles;
             this.listadoHotelesDisponibles.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
@@ -90,6 +94,37 @@ namespace FrbaHotel.AbmUsuario
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
             this.mostrarDatos();
+        }
+
+        private void btnAgregarHotel_Click(object sender, EventArgs e)
+        {
+            hotelSeleccionado = (Model.Hotel)listadoHotelesDisponibles.SelectedValue;
+
+            listadoHotelesDisponibles.DataSource = null;
+            listadoHotelesAgregados.DataSource = null;
+
+            listaHotelesAgregados.Add(hotelSeleccionado);
+            listaHotelesDisponibles.Remove(hotelSeleccionado);
+
+            configuarListadoHotelesAgregados(); 
+            configuarListadoHotelesDisponibles();
+           
+
+            MessageBox.Show("Agregado");
+        }
+
+        private void btnQuitar_Click(object sender, EventArgs e)
+        {
+            hotelSeleccionado = (Model.Hotel)listadoHotelesAgregados.SelectedValue;
+
+            listadoHotelesDisponibles.DataSource = null;
+            listadoHotelesAgregados.DataSource = null;
+
+            listaHotelesDisponibles.Add(hotelSeleccionado);
+            listaHotelesAgregados.Remove(hotelSeleccionado);
+
+            configuarListadoHotelesAgregados();
+            configuarListadoHotelesDisponibles();
         }
 
 

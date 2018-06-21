@@ -173,12 +173,12 @@ namespace FrbaHotel.Repositorios
                 Model.Hotel hotel = new Model.Hotel();
 
                 hotel.idHotel = row.Field<Int32>("IdHotel");
-                hotel.nombre = row.Field<String>("Nombre");
+                /*hotel.nombre = row.Field<String>("Nombre");
                 hotel.mail = row.Field<String>("Mail");
                 hotel.telefono = row.Field<Int32>("Telefono");
                 hotel.estrellas = row.Field<Int32>("CantEstrellas");
                 hotel.porcEstrella = row.Field<Decimal>("PorcentajeEstrellas");
-                hotel.fechaCreacion = row.Field<DateTime>("FechaCreacion");
+                hotel.fechaCreacion = row.Field<DateTime>("FechaCreacion");*/
 
                 listaHoteles.Add(hotel);
             }

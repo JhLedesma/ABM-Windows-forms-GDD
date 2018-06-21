@@ -102,12 +102,13 @@
             // 
             // btnAgregarHotel
             // 
-            this.btnAgregarHotel.Location = new System.Drawing.Point(288, 39);
+            this.btnAgregarHotel.Location = new System.Drawing.Point(288, 79);
             this.btnAgregarHotel.Name = "btnAgregarHotel";
             this.btnAgregarHotel.Size = new System.Drawing.Size(75, 23);
             this.btnAgregarHotel.TabIndex = 49;
             this.btnAgregarHotel.Text = "Agregar";
             this.btnAgregarHotel.UseVisualStyleBackColor = true;
+            this.btnAgregarHotel.Click += new System.EventHandler(this.btnAgregarHotel_Click);
             // 
             // listadoHotelesAgregados
             // 
@@ -560,12 +561,13 @@
             // 
             // btnQuitar
             // 
-            this.btnQuitar.Location = new System.Drawing.Point(288, 79);
+            this.btnQuitar.Location = new System.Drawing.Point(288, 39);
             this.btnQuitar.Name = "btnQuitar";
             this.btnQuitar.Size = new System.Drawing.Size(75, 23);
             this.btnQuitar.TabIndex = 63;
             this.btnQuitar.Text = "Quitar";
             this.btnQuitar.UseVisualStyleBackColor = true;
+            this.btnQuitar.Click += new System.EventHandler(this.btnQuitar_Click);
             // 
             // ModificarUsuario
             // 
