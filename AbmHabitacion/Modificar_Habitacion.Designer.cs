@@ -38,16 +38,16 @@
             this.lblMail = new System.Windows.Forms.Label();
             this.lblApellido = new System.Windows.Forms.Label();
             this.lblNombre = new System.Windows.Forms.Label();
-            this.textBox_idHotel = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.boton_guardar = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            this.numericTextBox_idHotel = new FrbaHotel.Model.NumericTextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.textBox_idHotel);
+            this.groupBox1.Controls.Add(this.numericTextBox_idHotel);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.textBox_descripcion);
             this.groupBox1.Controls.Add(this.numericTextBox_piso);
@@ -141,21 +141,15 @@
             this.lblNombre.TabIndex = 2;
             this.lblNombre.Text = "Numero de habitacion:";
             // 
-            // textBox_idHotel
+            // boton_guardar
             // 
-            this.textBox_idHotel.Location = new System.Drawing.Point(146, 30);
-            this.textBox_idHotel.Name = "textBox_idHotel";
-            this.textBox_idHotel.Size = new System.Drawing.Size(118, 20);
-            this.textBox_idHotel.TabIndex = 62;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(309, 353);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "Guardar";
-            this.button1.UseVisualStyleBackColor = true;
+            this.boton_guardar.Location = new System.Drawing.Point(309, 353);
+            this.boton_guardar.Name = "boton_guardar";
+            this.boton_guardar.Size = new System.Drawing.Size(75, 23);
+            this.boton_guardar.TabIndex = 3;
+            this.boton_guardar.Text = "Guardar";
+            this.boton_guardar.UseVisualStyleBackColor = true;
+            this.boton_guardar.Click += new System.EventHandler(this.boton_guardar_Click);
             // 
             // button2
             // 
@@ -175,6 +169,14 @@
             this.button3.Text = "Volver";
             this.button3.UseVisualStyleBackColor = true;
             // 
+            // numericTextBox_idHotel
+            // 
+            this.numericTextBox_idHotel.AllowSpace = false;
+            this.numericTextBox_idHotel.Location = new System.Drawing.Point(146, 30);
+            this.numericTextBox_idHotel.Name = "numericTextBox_idHotel";
+            this.numericTextBox_idHotel.Size = new System.Drawing.Size(117, 20);
+            this.numericTextBox_idHotel.TabIndex = 62;
+            // 
             // Modificar_Habitacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -182,7 +184,7 @@
             this.ClientSize = new System.Drawing.Size(411, 402);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.boton_guardar);
             this.Controls.Add(this.groupBox1);
             this.Name = "Modificar_Habitacion";
             this.Text = "Modificar Habitacion";
@@ -195,7 +197,6 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TextBox textBox_idHotel;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.RichTextBox textBox_descripcion;
         private Model.NumericTextBox numericTextBox_piso;
@@ -205,8 +206,9 @@
         private System.Windows.Forms.Label lblMail;
         private System.Windows.Forms.Label lblApellido;
         private System.Windows.Forms.Label lblNombre;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button boton_guardar;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
+        private Model.NumericTextBox numericTextBox_idHotel;
     }
 }

@@ -136,6 +136,31 @@ namespace FrbaHotel.Repositorios
             return habitacion;
         }
 
+        public Int32 modificarHabitacion(Int32 idHotelModificado, Int32 numeroHabModif, Int32 idHotelNuevo, Int32 numeroHabNuevo, Int32 piso, String ubicacion, String descripcion)
+        {
+            DBhelper.crearConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.modificarHabitacion");
+            cmd.Parameters.Add("@hotelIdModif", SqlDbType.Int).Value = idHotelModificado;
+            cmd.Parameters.Add("@numeroHabModif", SqlDbType.Int).Value = numeroHabModif;
+            cmd.Parameters.Add("@hotelIdNuevo", SqlDbType.Int).Value = idHotelNuevo;
+            cmd.Parameters.Add("@numeroHabNuevo", SqlDbType.Int).Value = idHotelNuevo;
+            cmd.Parameters.Add("@piso", SqlDbType.Int).Value = piso;
+            cmd.Parameters.Add("@ubicacion", SqlDbType.NVarChar).Value = ubicacion;
+            cmd.Parameters.Add("@descripcion", SqlDbType.NVarChar).Value = descripcion;
+
+            var valorDeRetorno = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
+            valorDeRetorno.Direction = ParameterDirection.ReturnValue;
+
+            DBhelper.abrirConexion();
+
+            DBhelper.ejecutarProcedure(cmd);
+
+            DBhelper.cerrarConexion();
+
+            return (int)valorDeRetorno.Value;
+        }
+
 
 
 

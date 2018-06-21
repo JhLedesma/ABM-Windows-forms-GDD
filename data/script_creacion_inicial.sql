@@ -255,6 +255,9 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getHabitacionesFiltradas','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getHabitacion','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getHabitacion;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.modificarHabitacion','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.modificarHabitacion;
+
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.cancelarReserva','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.cancelarReserva;
 
@@ -1650,3 +1653,48 @@ BEGIN
 	SELECT * FROM TRAEME_LA_COPA_MESSI.Habitacion WHERE IdHotel = @idHotel AND Numero = @numero
 
 	END
+
+
+	GO
+	CREATE PROCEDURE TRAEME_LA_COPA_MESSI.modificarHabitacion /*A modo de simplificacion, se elimina de las tablas consumiblePorHabitacion y habitacionPorReserva toda referencia a la habitacion modif*/
+	@hotelIdModif int,
+	@numeroHabModif int,
+	@hotelIdNuevo int,
+	@numeroHabNuevo int,
+	@piso int,
+	@ubicacion nvarchar(255),
+	@descripcion nvarchar(255)
+
+	AS
+	BEGIN
+
+	IF NOT EXISTS (SELECT IdHotel,Numero FROM TRAEME_LA_COPA_MESSI.Habitacion WHERE IdHotel = @hotelIdNuevo AND Numero = @numeroHabNuevo)
+
+	BEGIN
+
+		DECLARE @tipoHab int
+
+		SET @tipoHab = (SELECT CodigoTipo FROM TRAEME_LA_COPA_MESSI.Habitacion WHERE IdHotel = @hotelIdModif AND Numero = @numeroHabModif)
+
+		DELETE FROM TRAEME_LA_COPA_MESSI.ConsumiblePorHabitacion WHERE idHotel = @hotelIdModif AND NumeroHabitacion = @numeroHabModif
+
+		DELETE FROM TRAEME_LA_COPA_MESSI.HabitacionPorReserva WHERE IdHotel = @hotelIdModif AND NumeroHabitacion = @numeroHabModif
+
+		DELETE FROM TRAEME_LA_COPA_MESSI.Habitacion WHERE IdHotel = @hotelIdModif AND Numero = @numeroHabModif
+
+		INSERT INTO TRAEME_LA_COPA_MESSI.Habitacion
+		VALUES (@hotelIdNuevo, @numeroHabNuevo, @piso, @ubicacion, @tipoHab, 0, @descripcion)
+
+		RETURN 1
+
+	END
+
+	ELSE
+
+	BEGIN
+
+		RETURN -1
+	
+	END
+
+END
