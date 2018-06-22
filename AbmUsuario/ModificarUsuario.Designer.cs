@@ -48,7 +48,7 @@
             this.lblNumero = new System.Windows.Forms.Label();
             this.tbCalle = new System.Windows.Forms.TextBox();
             this.lblCalle = new System.Windows.Forms.Label();
-            this.btnCrear = new System.Windows.Forms.Button();
+            this.btnModificar = new System.Windows.Forms.Button();
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.ListadoRol = new System.Windows.Forms.ComboBox();
@@ -291,14 +291,15 @@
             this.lblCalle.TabIndex = 42;
             this.lblCalle.Text = "Calle:";
             // 
-            // btnCrear
+            // btnModificar
             // 
-            this.btnCrear.Location = new System.Drawing.Point(307, 731);
-            this.btnCrear.Name = "btnCrear";
-            this.btnCrear.Size = new System.Drawing.Size(75, 23);
-            this.btnCrear.TabIndex = 51;
-            this.btnCrear.Text = "Crear";
-            this.btnCrear.UseVisualStyleBackColor = true;
+            this.btnModificar.Location = new System.Drawing.Point(307, 731);
+            this.btnModificar.Name = "btnModificar";
+            this.btnModificar.Size = new System.Drawing.Size(75, 23);
+            this.btnModificar.TabIndex = 51;
+            this.btnModificar.Text = "Guardar";
+            this.btnModificar.UseVisualStyleBackColor = true;
+            this.btnModificar.Click += new System.EventHandler(this.btnModificar_Click);
             // 
             // btnLimpiar
             // 
@@ -577,7 +578,7 @@
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.btnCrear);
+            this.Controls.Add(this.btnModificar);
             this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.groupBox1);
             this.Name = "ModificarUsuario";
@@ -621,7 +622,7 @@
         private System.Windows.Forms.Label lblNumero;
         private System.Windows.Forms.TextBox tbCalle;
         private System.Windows.Forms.Label lblCalle;
-        private System.Windows.Forms.Button btnCrear;
+        private System.Windows.Forms.Button btnModificar;
         private System.Windows.Forms.Button btnLimpiar;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckBox cbEstado;

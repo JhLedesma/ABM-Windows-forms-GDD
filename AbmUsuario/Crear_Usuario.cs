@@ -62,7 +62,6 @@ namespace FrbaHotel.AbmUsuario
             MessageBox.Show("Agregado");
         }
 
-        //Comprobar que no exista Username
         private void btnCrear_Click(object sender, EventArgs e)
         {
              if (
@@ -120,6 +119,10 @@ namespace FrbaHotel.AbmUsuario
                  Repositorios.Repo_usuario.getInstancia().newUsuario(usuario, (Model.Rol)ListadoRol.SelectedValue, listaHotelesAgregados);
 
                  MessageBox.Show("Usuario creado");
+
+                 this.Hide();
+                 this.Close();
+                 new AbmUsuario.ABM_Usuario().ShowDialog();
              }
             
         }

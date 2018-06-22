@@ -139,22 +139,6 @@ namespace FrbaHotel.Repositorios
         }
 
 
-       /* 
-        Username nvarchar(255) PRIMARY KEY,
-        Pass nvarchar(255)  NOT NULL,
-        Direccion int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Direccion(IdDir) not null,
-        Nombre nvarchar(255) not null,
-        Apellido nvarchar(255) not null,
-        TipoDoc int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.TipoDoc(IdTipo) not null,
-        NroDocumento numeric(18,0) not null,
-        Email nvarchar(255) UNIQUE not null,
-        Telefono numeric(18,0) not null,
-        FechaNacimiento datetime not null,
-        LogsFallidos int DEFAULT 0,
-        Estado bit DEFAULT 0
-        */
-
-
         public List<Model.Hotel> getHotelesDeUsuario(String username)
         {
             List<Model.Hotel> listaHoteles = new List<Model.Hotel>();
@@ -396,6 +380,93 @@ namespace FrbaHotel.Repositorios
         }
 
 
+        public void modificarUsuario(Model.Usuario usuario, Model.Rol rol, List<Model.Hotel> hoteles)
+        {
+            DBhelper.crearConexion();
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.modificarUsuario");
+
+            cmd.Parameters.Add("@user", SqlDbType.NVarChar).Value = usuario.username;
+            cmd.Parameters.Add("@pass", SqlDbType.NVarChar).Value = usuario.password;
+            cmd.Parameters.Add("@email", SqlDbType.NVarChar).Value = usuario.email;
+            cmd.Parameters.Add("@nombre", SqlDbType.NVarChar).Value = usuario.nombre;
+            cmd.Parameters.Add("@apellido", SqlDbType.NVarChar).Value = usuario.apellido;
+            cmd.Parameters.Add("@tipoDoc", SqlDbType.Int).Value = usuario.tipoDoc.id;
+            cmd.Parameters.Add("@numDoc", SqlDbType.Decimal).Value = usuario.nroDocumento;
+            cmd.Parameters.Add("@telefono", SqlDbType.Decimal).Value = usuario.telefono;
+            cmd.Parameters.Add("@FechaNacimiento", SqlDbType.DateTime).Value = usuario.fechaDeNacimiento;
+            cmd.Parameters.Add("@ciudad", SqlDbType.NVarChar).Value = usuario.direccion.ciudad;
+            cmd.Parameters.Add("@calle", SqlDbType.NVarChar).Value = usuario.direccion.calle;
+            cmd.Parameters.Add("@nroCalle", SqlDbType.Decimal).Value = usuario.direccion.numDomicilio;
+            cmd.Parameters.Add("@piso", SqlDbType.Decimal).Value = usuario.direccion.piso;
+            cmd.Parameters.Add("@dpto", SqlDbType.NVarChar).Value = usuario.direccion.dpto;
+            cmd.Parameters.Add("@localidad", SqlDbType.NVarChar).Value = usuario.direccion.localidad;
+            cmd.Parameters.Add("@pais", SqlDbType.NVarChar).Value = usuario.direccion.pais;
+            cmd.Parameters.Add("@idDireccion", SqlDbType.Int).Value = usuario.direccion.id;
+
+            DBhelper.ejecutarProcedure(cmd);
+
+            this.eliminarRolesDeUsuario(usuario.username);
+            this.newRolPorUsuario(rol.idRol, usuario.username);
+
+            this.eliminarHotelesDeUsuario(usuario.username);
+            foreach (Model.Hotel hotel in hoteles)
+            {
+               this.newUsuariosPorHotel(hotel.idHotel, usuario.username, rol.Nombre);
+            }
+            
+            DBhelper.cerrarConexion();
+        }
+
+        private void eliminarRolesDeUsuario(String username)
+        {
+            DBhelper.crearConexion();
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.eliminarRolesDeUsuario");
+
+                cmd.Parameters.Add("@username", SqlDbType.NVarChar).Value = username;
+
+                DBhelper.ejecutarProcedure(cmd);
+
+                DBhelper.cerrarConexion();
+        }
+
+        private void eliminarHotelesDeUsuario(String username)
+        {
+            DBhelper.crearConexion();
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.eliminarHotelesDeUsuario");
+
+            cmd.Parameters.Add("@username", SqlDbType.NVarChar).Value = username;
+
+            DBhelper.ejecutarProcedure(cmd);
+
+            DBhelper.cerrarConexion();
+        }
+
+
+
+        /*
+        Username nvarchar(255) PRIMARY KEY,
+        Pass nvarchar(255)  NOT NULL,
+        Direccion int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Direccion(IdDir) not null,
+        Nombre nvarchar(255) not null,
+        Apellido nvarchar(255) not null,
+        TipoDoc int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.TipoDoc(IdTipo) not null,
+        NroDocumento numeric(18,0) not null,
+        Email nvarchar(255) UNIQUE not null,
+        Telefono numeric(18,0) not null,
+        FechaNacimiento datetime not null,
+        LogsFallidos int DEFAULT 0,
+        Estado bit DEFAULT 0
+        */
+
+
+
+
         public DataTable getTablaUsuariosFiltradosConInactivos(String nombre, String apellido, String username, decimal NumeroIdentificacion)
         {
 
@@ -437,6 +508,7 @@ namespace FrbaHotel.Repositorios
 
             return (int)valorDeRetorno.Value;
         }
+
 
     }
 

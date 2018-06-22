@@ -251,7 +251,18 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.cancelarReserva','P') IS NOT NULL
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getHotelesDeUsuario','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getHotelesDeUsuario;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.modificarUsuario','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.modificarUsuario;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.eliminarRolesDeUsuario','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.eliminarRolesDeUsuario;
 	
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.eliminarHotelesDeUsuario','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.eliminarHotelesDeUsuario;
+
+
+
 
 /* Dropeo las views si ya existen */
 
@@ -933,12 +944,63 @@ create procedure TRAEME_LA_COPA_MESSI.getHotelesDeUsuario
 @Username nvarchar(255)
 as
 begin
-	SELECT h.IdHotel,h.Nombre,h.Mail,h.Telefono,h.CantEstrellas,h.PorcentajeEstrellas,h.FechaCreacion 
-	FROM TRAEME_LA_COPA_MESSI.Hotel h
-		join TRAEME_LA_COPA_MESSI.UsuariosPorHotel uh
-			on uh.Username = @Username
-	where uh.Username = @Username
+	SELECT distinct IdHotel
+	from TRAEME_LA_COPA_MESSI.UsuariosPorHotel
+	where Username = @Username
 end
+
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.modificarUsuario
+@user nvarchar(255),
+@pass nvarchar(255),
+@email nvarchar(255),
+@nombre nvarchar(255),
+@apellido nvarchar(255),
+@tipoDoc int,
+@numDoc numeric(18,0),
+@telefono numeric(18,0),
+@FechaNacimiento Datetime,
+@ciudad nvarchar(255), 
+@calle nvarchar(255), 
+@nroCalle numeric(18,0),
+@piso numeric(18,0),
+@dpto nvarchar(50),
+@localidad nvarchar(255),
+@pais nvarchar(255),
+@idDireccion int
+as
+begin transaction
+	begin
+		update TRAEME_LA_COPA_MESSI.Direccion set Ciudad=@ciudad, Calle=@calle, NroCalle=@nroCalle, Piso=@piso, Departamento=@dpto, Localidad=@localidad, Pais=@pais where IdDir=@idDireccion
+
+		update TRAEME_LA_COPA_MESSI.Usuario set Pass=@pass, Direccion=@idDireccion, Nombre=@nombre, Apellido=@apellido, TipoDoc=@tipoDoc, Email=@email, Telefono=@telefono, FechaNacimiento=@FechaNacimiento where Username=@user
+	end
+commit
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.eliminarRolesDeUsuario
+@username nvarchar(255)
+as
+begin transaction
+	begin
+		delete from TRAEME_LA_COPA_MESSI.RolPorUsuario where Username=@username  
+	end
+commit
+
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.eliminarHotelesDeUsuario
+@username nvarchar(255)
+as
+begin transaction
+	begin
+		delete from TRAEME_LA_COPA_MESSI.UsuariosPorHotel where Username=@username
+	end
+commit
 
 
 /* Repositorio Regimenes */
