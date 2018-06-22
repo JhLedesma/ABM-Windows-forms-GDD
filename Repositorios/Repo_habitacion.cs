@@ -106,6 +106,63 @@ namespace FrbaHotel.Repositorios
 
         }
 
+        public Model.Habitacion getHabitacion(Int32 idHotel, Int32 numeroHab)
+        {
+            DBhelper.crearConexion();
+
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getHabitacion");
+            cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = idHotel;
+            cmd.Parameters.Add("@numero", SqlDbType.Int).Value = numeroHab;
+
+            DataTable tablaHabitacion = DBhelper.obtenerTabla(cmd);
+
+            Model.Habitacion habitacion = new FrbaHotel.Model.Habitacion();
+
+            foreach (DataRow row in tablaHabitacion.Rows)
+            {
+
+                habitacion.idHotel= (Int32)row["IdHotel"];
+                habitacion.numero = (Int32)row["Numero"];
+                habitacion.piso= (Int32)row["Piso"];
+                habitacion.descripcion = (String)row["Descripcion"];
+                habitacion.ubicacion = (String)row["Ubicacion"]; //Esto deberia mostrarlo por combo box, no devolverlo asi
+
+            }
+
+            DBhelper.cerrarConexion();
+
+            return habitacion;
+        }
+
+        public Int32 modificarHabitacion(Int32 idHotelModificado, Int32 numeroHabModif, Int32 idHotelNuevo, Int32 numeroHabNuevo, Int32 piso, String ubicacion, String descripcion)
+        {
+            DBhelper.crearConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.modificarHabitacion");
+            cmd.Parameters.Add("@hotelIdModif", SqlDbType.Int).Value = idHotelModificado;
+            cmd.Parameters.Add("@numeroHabModif", SqlDbType.Int).Value = numeroHabModif;
+            cmd.Parameters.Add("@hotelIdNuevo", SqlDbType.Int).Value = idHotelNuevo;
+            cmd.Parameters.Add("@numeroHabNuevo", SqlDbType.Int).Value = numeroHabNuevo;
+            cmd.Parameters.Add("@piso", SqlDbType.Int).Value = piso;
+            cmd.Parameters.Add("@ubicacion", SqlDbType.NVarChar).Value = ubicacion;
+            cmd.Parameters.Add("@descripcion", SqlDbType.NVarChar).Value = descripcion;
+
+            var valorDeRetorno = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
+            valorDeRetorno.Direction = ParameterDirection.ReturnValue;
+
+            DBhelper.abrirConexion();
+
+            DBhelper.ejecutarProcedure(cmd);
+
+            DBhelper.cerrarConexion();
+
+            return (int)valorDeRetorno.Value;
+        }
+
+
+
 
 
     }

@@ -200,7 +200,7 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getFuncionalidadPorRol','P') IS NOT NULL
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getTipoDocumentos','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getTipoDocumentos;
-	
+
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getTipoDocumento','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getTipoDocumento;	
 
@@ -219,18 +219,28 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.eliminarFuncionalidadesDelRol','P') IS NOT NU
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.eliminarRol','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.eliminarRol;	
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.newUsuario','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.newUsuario;			
+
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarCancelacionUsuario','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.validarCancelacionUsuario;		
 		
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarCancelacion','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.validarCancelacion;			
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.newUsuario','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.newUsuario;
 	
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getTiposHabitaciones','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getTiposHabitaciones;
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.crearHabitacion','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.crearHabitacion;
+<<<<<<< HEAD
 
+=======
+			
+>>>>>>> 553c826f1b843cde4dd6ca0db2fd57c6bec51c08
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.newRolPorUsuario','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.newRolPorUsuario;
 
@@ -246,6 +256,7 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarMailUsuario','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getHabitacionesFiltradas','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getHabitacionesFiltradas;
 
+<<<<<<< HEAD
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.cancelarReserva','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.cancelarReserva;
 
@@ -263,6 +274,17 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.eliminarHotelesDeUsuario','P') IS NOT NULL
 
 
 
+=======
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getHabitacion','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getHabitacion;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.modificarHabitacion','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.modificarHabitacion;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.cancelarReserva','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.cancelarReserva;
+
+>>>>>>> 553c826f1b843cde4dd6ca0db2fd57c6bec51c08
 
 /* Dropeo las views si ya existen */
 
@@ -1090,6 +1112,7 @@ BEGIN
 
 END
 
+
 GO
 CREATE PROCEDURE TRAEME_LA_COPA_MESSI.agregarRegimenHotel
 @regimen nvarchar(255),
@@ -1704,3 +1727,61 @@ BEGIN
 	END
 
 	END
+
+
+	GO
+	CREATE PROCEDURE TRAEME_LA_COPA_MESSI.getHabitacion
+	@idHotel int,
+	@numero int
+
+	AS
+	BEGIN
+
+	SELECT * FROM TRAEME_LA_COPA_MESSI.Habitacion WHERE IdHotel = @idHotel AND Numero = @numero
+
+	END
+
+
+	GO
+	CREATE PROCEDURE TRAEME_LA_COPA_MESSI.modificarHabitacion /*A modo de simplificacion, se elimina de las tablas consumiblePorHabitacion y habitacionPorReserva toda referencia a la habitacion modif*/
+	@hotelIdModif int,
+	@numeroHabModif int,
+	@hotelIdNuevo int,
+	@numeroHabNuevo int,
+	@piso int,
+	@ubicacion nvarchar(255),
+	@descripcion nvarchar(255)
+
+	AS
+	BEGIN
+
+	IF NOT EXISTS (SELECT IdHotel,Numero FROM TRAEME_LA_COPA_MESSI.Habitacion WHERE IdHotel = @hotelIdNuevo AND Numero = @numeroHabNuevo)
+
+	BEGIN
+
+		DECLARE @tipoHab int
+
+		SET @tipoHab = (SELECT CodigoTipo FROM TRAEME_LA_COPA_MESSI.Habitacion WHERE IdHotel = @hotelIdModif AND Numero = @numeroHabModif)
+
+		DELETE FROM TRAEME_LA_COPA_MESSI.ConsumiblePorHabitacion WHERE idHotel = @hotelIdModif AND NumeroHabitacion = @numeroHabModif
+
+		DELETE FROM TRAEME_LA_COPA_MESSI.HabitacionPorReserva WHERE IdHotel = @hotelIdModif AND NumeroHabitacion = @numeroHabModif
+
+		DELETE FROM TRAEME_LA_COPA_MESSI.Habitacion WHERE IdHotel = @hotelIdModif AND Numero = @numeroHabModif
+
+		INSERT INTO TRAEME_LA_COPA_MESSI.Habitacion
+		VALUES (@hotelIdNuevo, @numeroHabNuevo, @piso, @ubicacion, @tipoHab, 0, @descripcion)
+
+		RETURN 1
+
+	END
+
+	ELSE
+
+	BEGIN
+
+		RETURN -1
+	
+	END
+
+END

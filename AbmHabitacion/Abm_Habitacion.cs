@@ -30,15 +30,17 @@ namespace FrbaHotel.AbmHabitacion
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void button3_Click(object sender, EventArgs e)
         {
             this.Hide();
             new Baja_Habitacion().ShowDialog();
+            this.Close();
+        }
+
+        private void boton_modificar_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            new List_Select_Habitacion().ShowDialog();
             this.Close();
         }
     }
