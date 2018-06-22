@@ -236,11 +236,7 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getTiposHabitaciones','P') IS NOT NULL
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.crearHabitacion','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.crearHabitacion;
-<<<<<<< HEAD
 
-=======
-			
->>>>>>> 553c826f1b843cde4dd6ca0db2fd57c6bec51c08
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.newRolPorUsuario','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.newRolPorUsuario;
 
@@ -256,7 +252,6 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarMailUsuario','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getHabitacionesFiltradas','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getHabitacionesFiltradas;
 
-<<<<<<< HEAD
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.cancelarReserva','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.cancelarReserva;
 
@@ -272,9 +267,6 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.eliminarRolesDeUsuario','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.eliminarHotelesDeUsuario','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.eliminarHotelesDeUsuario;
 
-
-
-=======
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getHabitacion','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getHabitacion;
 
@@ -284,7 +276,13 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.modificarHabitacion','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.cancelarReserva','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.cancelarReserva;
 
->>>>>>> 553c826f1b843cde4dd6ca0db2fd57c6bec51c08
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getUsuariosFiltradosSinInactivos','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getUsuariosFiltradosSinInactivos;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.darDeBajaUsuario','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.darDeBajaUsuario;
+
+
 
 /* Dropeo las views si ya existen */
 
@@ -945,8 +943,40 @@ begin
 	(case Estado when 0 then 'Activo' else 'Inactivo' end) as Estado
 	FROM TRAEME_LA_COPA_MESSI.Usuario
 	WHERE 
-		Nombre LIKE '%' + @Nombre + '%' AND Apellido LIKE '%' + @Apellido + '%' AND Username LIKE '%' + @Username + '%' AND CAST(NroDocumento AS NVARCHAR) LIKE '%' + CAST(@Numero_Identificacion AS NVARCHAR) + '%'
+		Nombre LIKE '%' + @Nombre + '%' or Apellido LIKE '%' + @Apellido + '%' or Username LIKE '%' + @Username + '%' or CAST(NroDocumento AS NVARCHAR) LIKE '%' + CAST(@Numero_Identificacion AS NVARCHAR) + '%'
 end
+
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.getUsuariosFiltradosSinInactivos
+@Nombre nvarchar(255),
+@Apellido nvarchar(255),
+@Username nvarchar(255),
+@Numero_Identificacion numeric(18,0)
+as
+begin
+	
+	SELECT Username, Nombre, Apellido,
+	  NroDocumento, Telefono, FechaNacimiento,
+	(case Estado when 0 then 'Activo' else 'Inactivo' end) as Estado
+	FROM TRAEME_LA_COPA_MESSI.Usuario
+	WHERE 
+		(Nombre LIKE '%' + @Nombre + '%' or Apellido LIKE '%' + @Apellido + '%' or Username LIKE '%' + @Username + '%' or CAST(NroDocumento AS NVARCHAR) LIKE '%' + CAST(@Numero_Identificacion AS NVARCHAR) + '%') and Estado = CAST(0 as bit)
+end
+
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.darDeBajaUsuario
+@Username nvarchar(255)
+as
+begin transaction
+	begin
+		update TRAEME_LA_COPA_MESSI.Usuario set Estado=1 where Username=@Username
+	end
+commit
+
 
 
 GO
@@ -991,13 +1021,14 @@ create procedure TRAEME_LA_COPA_MESSI.modificarUsuario
 @dpto nvarchar(50),
 @localidad nvarchar(255),
 @pais nvarchar(255),
-@idDireccion int
+@idDireccion int,
+@estado bit
 as
 begin transaction
 	begin
 		update TRAEME_LA_COPA_MESSI.Direccion set Ciudad=@ciudad, Calle=@calle, NroCalle=@nroCalle, Piso=@piso, Departamento=@dpto, Localidad=@localidad, Pais=@pais where IdDir=@idDireccion
 
-		update TRAEME_LA_COPA_MESSI.Usuario set Pass=@pass, Direccion=@idDireccion, Nombre=@nombre, Apellido=@apellido, TipoDoc=@tipoDoc, Email=@email, Telefono=@telefono, FechaNacimiento=@FechaNacimiento where Username=@user
+		update TRAEME_LA_COPA_MESSI.Usuario set Pass=@pass, Direccion=@idDireccion, Nombre=@nombre, Apellido=@apellido, TipoDoc=@tipoDoc, Email=@email, Telefono=@telefono, FechaNacimiento=@FechaNacimiento, Estado=@estado where Username=@user
 	end
 commit
 

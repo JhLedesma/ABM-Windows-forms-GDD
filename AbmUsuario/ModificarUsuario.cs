@@ -173,6 +173,10 @@ namespace FrbaHotel.AbmUsuario
                  usuario.tipoDoc = tipoDoc;
                  usuario.fechaDeNacimiento = dtFechaNacimiento.Value;
                  usuario.direccion = direccion;
+                 if (cbEstado.Checked)
+                 {usuario.estado = 0;}
+                 else
+                 { usuario.estado = 1; }
 
                  direccion.id = usuarioSeleccionado.direccion.id;
                  direccion.calle = tbCalle.Text;

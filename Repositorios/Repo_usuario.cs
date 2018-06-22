@@ -404,6 +404,8 @@ namespace FrbaHotel.Repositorios
             cmd.Parameters.Add("@localidad", SqlDbType.NVarChar).Value = usuario.direccion.localidad;
             cmd.Parameters.Add("@pais", SqlDbType.NVarChar).Value = usuario.direccion.pais;
             cmd.Parameters.Add("@idDireccion", SqlDbType.Int).Value = usuario.direccion.id;
+            cmd.Parameters.Add("@estado", SqlDbType.Bit).Value = usuario.estado;
+            
 
             DBhelper.ejecutarProcedure(cmd);
 
@@ -490,6 +492,29 @@ namespace FrbaHotel.Repositorios
         }
 
 
+        public DataTable getTablaUsuariosFiltradosSinInactivos(String nombre, String apellido, String username, decimal NumeroIdentificacion)
+        {
+
+            DataTable tablaClientesFiltrados;
+
+            DBhelper.crearConexion();
+
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getUsuariosFiltradosSinInactivos");
+            cmd.Parameters.Add("@Nombre", SqlDbType.NVarChar).Value = nombre;
+            cmd.Parameters.Add("@Apellido", SqlDbType.NVarChar).Value = apellido;
+            cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
+            cmd.Parameters.Add("@Numero_Identificacion", SqlDbType.Decimal).Value = NumeroIdentificacion;
+
+            tablaClientesFiltrados = DBhelper.obtenerTabla(cmd);
+
+            DBhelper.cerrarConexion();
+
+            return tablaClientesFiltrados;
+        }
+
+
         public int validarMail(string mail)
         {
             DBhelper.crearConexion();
@@ -509,6 +534,20 @@ namespace FrbaHotel.Repositorios
             return (int)valorDeRetorno.Value;
         }
 
+
+        public void darBajaUsuario(String username)
+        {
+            DBhelper.crearConexion();
+
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.darDeBajaUsuario");
+            cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
+
+            cmd.ExecuteNonQuery();
+
+            DBhelper.cerrarConexion();
+        }
 
     }
 

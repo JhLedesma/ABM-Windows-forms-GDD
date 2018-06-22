@@ -202,11 +202,23 @@
     <Compile Include="AbmUsuario\ABM_Usuario.Designer.cs">
       <DependentUpon>ABM_Usuario.cs</DependentUpon>
     </Compile>
+    <Compile Include="AbmUsuario\BajaUsuario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmUsuario\BajaUsuario.Designer.cs">
+      <DependentUpon>BajaUsuario.cs</DependentUpon>
+    </Compile>
     <Compile Include="AbmUsuario\Crear_Usuario.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="AbmUsuario\Crear_Usuario.Designer.cs">
       <DependentUpon>Crear_Usuario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmUsuario\ListadoEliminar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmUsuario\ListadoEliminar.Designer.cs">
+      <DependentUpon>ListadoEliminar.cs</DependentUpon>
     </Compile>
     <Compile Include="AbmUsuario\ListadoModificar.cs">
       <SubType>Form</SubType>
@@ -369,8 +381,14 @@
     <EmbeddedResource Include="AbmUsuario\ABM_Usuario.resx">
       <DependentUpon>ABM_Usuario.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AbmUsuario\BajaUsuario.resx">
+      <DependentUpon>BajaUsuario.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AbmUsuario\Crear_Usuario.resx">
       <DependentUpon>Crear_Usuario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmUsuario\ListadoEliminar.resx">
+      <DependentUpon>ListadoEliminar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AbmUsuario\ListadoModificar.resx">
       <DependentUpon>ListadoModificar.cs</DependentUpon>
