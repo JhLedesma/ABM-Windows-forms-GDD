@@ -144,7 +144,7 @@ namespace FrbaHotel.Repositorios
             cmd.Parameters.Add("@hotelIdModif", SqlDbType.Int).Value = idHotelModificado;
             cmd.Parameters.Add("@numeroHabModif", SqlDbType.Int).Value = numeroHabModif;
             cmd.Parameters.Add("@hotelIdNuevo", SqlDbType.Int).Value = idHotelNuevo;
-            cmd.Parameters.Add("@numeroHabNuevo", SqlDbType.Int).Value = idHotelNuevo;
+            cmd.Parameters.Add("@numeroHabNuevo", SqlDbType.Int).Value = numeroHabNuevo;
             cmd.Parameters.Add("@piso", SqlDbType.Int).Value = piso;
             cmd.Parameters.Add("@ubicacion", SqlDbType.NVarChar).Value = ubicacion;
             cmd.Parameters.Add("@descripcion", SqlDbType.NVarChar).Value = descripcion;
