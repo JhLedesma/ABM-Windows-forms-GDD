@@ -20,7 +20,7 @@ namespace FrbaHotel.AbmHabitacion
         private Int32 numeroHabitacion { get; set; }
         private const Int32 VACIO = 0;
 
-        public List_Select_Habitacion()
+        public List_Select_Habitacion(Int32 configuracion)
         {
             ubicaciones.Add("N");
             ubicaciones.Add("S");
@@ -28,6 +28,15 @@ namespace FrbaHotel.AbmHabitacion
             idHotelFiltrado = -1;
             InitializeComponent();
             configuarComboBox();
+
+            if (configuracion == 1) {
+
+                boton_aceptar.Text = "Dar baja";
+                boton_aceptar.Click -= boton_modificar_Click;
+                boton_aceptar.Click += boton_aceptar_baja;
+            
+            }
+
         }
 
         public void configuarComboBox()
@@ -79,6 +88,24 @@ namespace FrbaHotel.AbmHabitacion
                 this.Close();
 
             }
+        }
+
+        private void boton_aceptar_baja(object sender, EventArgs e)
+        {
+
+            if (idHotelSeleccionado <= VACIO)
+            {
+
+                MessageBox.Show("Por favor seleccione una habitacion del filtro de habitaciones", "Seleccione habitacion", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+            else
+            {
+
+                Console.WriteLine("Dar baja");
+
+            }
+
         }
 
         private void dataGridHabitaciones_CellClick(object sender, DataGridViewCellEventArgs e)

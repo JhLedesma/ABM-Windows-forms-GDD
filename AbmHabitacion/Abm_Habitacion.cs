@@ -12,6 +12,10 @@ namespace FrbaHotel.AbmHabitacion
 {
     public partial class Abm_Habitacion : Form
     {
+
+        private const Int32 CODIGO_BAJA = 1;
+        private const Int32 CODIGO_MODIFICACION = 0;
+
         public Abm_Habitacion()
         {
             InitializeComponent();
@@ -31,16 +35,16 @@ namespace FrbaHotel.AbmHabitacion
         }
 
         private void button3_Click(object sender, EventArgs e)
-        {
+        {     
             this.Hide();
-            new Baja_Habitacion().ShowDialog();
+            new List_Select_Habitacion(CODIGO_BAJA).ShowDialog();
             this.Close();
         }
 
         private void boton_modificar_Click(object sender, EventArgs e)
         {
             this.Hide();
-            new List_Select_Habitacion().ShowDialog();
+            new List_Select_Habitacion(CODIGO_MODIFICACION).ShowDialog();
             this.Close();
         }
     }

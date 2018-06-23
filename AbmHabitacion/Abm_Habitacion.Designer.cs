@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button3 = new System.Windows.Forms.Button();
+            this.boton_baja = new System.Windows.Forms.Button();
             this.boton_modificar = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
@@ -37,7 +37,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.button3);
+            this.groupBox1.Controls.Add(this.boton_baja);
             this.groupBox1.Controls.Add(this.boton_modificar);
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
@@ -48,15 +48,15 @@
             this.groupBox1.Text = "Elija  una opcion";
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
-            // button3
+            // boton_baja
             // 
-            this.button3.Location = new System.Drawing.Point(86, 173);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "Dar de baja";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.boton_baja.Location = new System.Drawing.Point(86, 173);
+            this.boton_baja.Name = "boton_baja";
+            this.boton_baja.Size = new System.Drawing.Size(75, 23);
+            this.boton_baja.TabIndex = 2;
+            this.boton_baja.Text = "Dar de baja";
+            this.boton_baja.UseVisualStyleBackColor = true;
+            this.boton_baja.Click += new System.EventHandler(this.button3_Click);
             // 
             // boton_modificar
             // 
@@ -94,7 +94,7 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button boton_baja;
         private System.Windows.Forms.Button boton_modificar;
         private System.Windows.Forms.Button button1;
     }
