@@ -273,6 +273,9 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getHabitacion','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.modificarHabitacion','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.modificarHabitacion;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.darBajaHabitacion','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.darBajaHabitacion;
+
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.cancelarReserva','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.cancelarReserva;
 
@@ -1814,5 +1817,18 @@ BEGIN
 		RETURN -1
 	
 	END
+
+END
+
+
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.darBajaHabitacion
+@idHotel int,
+@numeroHab int
+
+AS
+BEGIN
+
+	UPDATE TRAEME_LA_COPA_MESSI.Habitacion SET Estado = 1 WHERE Numero = @numeroHab AND IdHotel = @idHotel
 
 END

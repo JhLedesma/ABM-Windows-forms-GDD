@@ -102,7 +102,8 @@ namespace FrbaHotel.AbmHabitacion
             else
             {
 
-                Console.WriteLine("Dar baja");
+                Repositorios.Repo_habitacion.getInstancia().darBajaHabitacion(idHotelSeleccionado, numeroHabitacion);
+                MessageBox.Show("Baja realizada con exito", "Baja realizada", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             }
 
