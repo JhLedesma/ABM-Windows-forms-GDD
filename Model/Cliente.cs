@@ -20,6 +20,7 @@ namespace FrbaHotel.Model
         public String paisOrigen { get; set; }
         public Model.Direccion direccion { get; set; }
         public Int16 estado { get; set; }
+        public String descripcionDoc { get; set; }
 
         public Cliente(int id, String nombre, String apellido, String mail, decimal telefono, decimal numDoc, Model.TipoDocumento tipoDoc, String nacionalidad, DateTime fechaNac, String paisOrigen, Model.Direccion direccion, Int16 estado)
         {

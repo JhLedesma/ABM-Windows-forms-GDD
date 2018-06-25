@@ -286,6 +286,9 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.cancelarReserva','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.comprobarNumReserva','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.comprobarNumReserva;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getClienteReserva','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getClienteReserva;
+
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getUsuariosFiltradosSinInactivos','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getUsuariosFiltradosSinInactivos;
 
@@ -1698,7 +1701,18 @@ ELSE
 END
 
 
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.getClienteReserva
+@idHotel int,
+@numReserva int
 
+AS
+BEGIN
+
+	SELECT c.nombre, c.Apellido, c.NumDoc, c.Email, t.Descripcion FROM TRAEME_LA_COPA_MESSI.Cliente c JOIN TRAEME_LA_COPA_MESSI.TipoDoc t ON t.IdTipo = c.TipoDoc
+	WHERE c.IdCliente = (SELECT IdCliente FROM TRAEME_LA_COPA_MESSI.Reserva WHERE IdHotel = @idHotel AND IdReserva = @numReserva)
+
+END
 
 /* Repositorio Tipo Habitacion*/
 

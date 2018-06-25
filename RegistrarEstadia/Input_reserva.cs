@@ -34,7 +34,7 @@ namespace FrbaHotel.RegistrarEstadia
             if (codigo == 1) {
 
                 this.Hide();
-                new Check_In(IDHOTELHARCODEADO,numeric_textBox_reserva).ShowDialog();
+                new Check_In(IDHOTELHARCODEADO,Int32.Parse(numeric_textBox_reserva.Text)).ShowDialog();
                 this.Close();
             
             }
