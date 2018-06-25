@@ -160,12 +160,6 @@
     <Compile Include="AbmHotel\Modificar_Hotel.Designer.cs">
       <DependentUpon>Modificar_Hotel.cs</DependentUpon>
     </Compile>
-    <Compile Include="AbmRegimen\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AbmRegimen\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="AbmRol\AbmRol.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -303,11 +297,29 @@
     <Compile Include="RegistrarConsumible\RegistrarConsumible.Designer.cs">
       <DependentUpon>RegistrarConsumible.cs</DependentUpon>
     </Compile>
-    <Compile Include="RegistrarEstadia\Form1.cs">
+    <Compile Include="RegistrarEstadia\Check_In.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RegistrarEstadia\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="RegistrarEstadia\Check_In.Designer.cs">
+      <DependentUpon>Check_In.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RegistrarEstadia\Check_out.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RegistrarEstadia\Check_out.Designer.cs">
+      <DependentUpon>Check_out.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RegistrarEstadia\Ingreso_Egreso.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RegistrarEstadia\Ingreso_Egreso.Designer.cs">
+      <DependentUpon>Ingreso_Egreso.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RegistrarEstadia\Input_reserva.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RegistrarEstadia\Input_reserva.Designer.cs">
+      <DependentUpon>Input_reserva.cs</DependentUpon>
     </Compile>
     <Compile Include="Repositorios\Repo_Consumible.cs" />
     <Compile Include="Repositorios\Repo_Reserva.cs" />
@@ -434,8 +446,19 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+   
     <EmbeddedResource Include="RegistrarConsumible\RegistrarConsumible.resx">
       <DependentUpon>RegistrarConsumible.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RegistrarEstadia\Check_In.resx">
+      <DependentUpon>Check_In.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RegistrarEstadia\Ingreso_Egreso.resx">
+      <DependentUpon>Ingreso_Egreso.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RegistrarEstadia\Input_reserva.resx">
+      <DependentUpon>Input_reserva.cs</DependentUpon>
+
     </EmbeddedResource>
     <None Include="GD1C2018DataSet.xsc">
       <DependentUpon>GD1C2018DataSet.xsd</DependentUpon>
@@ -463,6 +486,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AbmRegimen\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
