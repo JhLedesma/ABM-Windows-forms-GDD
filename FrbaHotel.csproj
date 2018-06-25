@@ -237,11 +237,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>GD1C2018DataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="GenerarModificacionReserva\GenerarReserva.cs">
+    <Compile Include="GenerarModificacionReserva\Generar_Reserva_Guest.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GenerarModificacionReserva\GenerarReserva.Designer.cs">
-      <DependentUpon>GenerarReserva.cs</DependentUpon>
+    <Compile Include="GenerarModificacionReserva\Generar_Reserva_Guest.Designer.cs">
+      <DependentUpon>Generar_Reserva_Guest.cs</DependentUpon>
     </Compile>
     <Compile Include="ListadoEstadistico\Form1.cs">
       <SubType>Form</SubType>
@@ -413,8 +413,8 @@
     <EmbeddedResource Include="CancelarReserva\Cancelar_Reserva.resx">
       <DependentUpon>Cancelar_Reserva.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GenerarModificacionReserva\GenerarReserva.resx">
-      <DependentUpon>GenerarReserva.cs</DependentUpon>
+    <EmbeddedResource Include="GenerarModificacionReserva\Generar_Reserva_Guest.resx">
+      <DependentUpon>Generar_Reserva_Guest.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login\SeleccionarFuncionalidad.resx">
       <DependentUpon>SeleccionarFuncionalidad.cs</DependentUpon>
@@ -449,7 +449,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-   
     <EmbeddedResource Include="RegistrarConsumible\RegistrarConsumible.resx">
       <DependentUpon>RegistrarConsumible.cs</DependentUpon>
     </EmbeddedResource>
@@ -461,7 +460,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RegistrarEstadia\Input_reserva.resx">
       <DependentUpon>Input_reserva.cs</DependentUpon>
-
     </EmbeddedResource>
     <None Include="GD1C2018DataSet.xsc">
       <DependentUpon>GD1C2018DataSet.xsd</DependentUpon>
