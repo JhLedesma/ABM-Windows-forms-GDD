@@ -285,6 +285,9 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getUsuariosFiltradosSinInactivos','P') IS NOT
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.darDeBajaUsuario','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.darDeBajaUsuario;
 
+	IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getConsumibles','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getConsumibles;
+	
 
 
 /* Dropeo las views si ya existen */
@@ -1831,4 +1834,14 @@ BEGIN
 
 	UPDATE TRAEME_LA_COPA_MESSI.Habitacion SET Estado = 1 WHERE Numero = @numeroHab AND IdHotel = @idHotel
 
+END
+
+
+--RegistrarConsumibles
+
+Go
+Create procedure TRAEME_LA_COPA_MESSI.getConsumibles
+as
+begin
+select * from TRAEME_LA_COPA_MESSI.Consumible
 END
