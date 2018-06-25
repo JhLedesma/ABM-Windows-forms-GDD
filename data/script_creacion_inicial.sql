@@ -99,6 +99,10 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Direccion','U') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Log_Reserva','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.Log_Reserva;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.AcompaniantePorReserva','U') IS NOT NULL    
+	DROP TABLE TRAEME_LA_COPA_MESSI.AcompaniantePorReserva;
+
+
 
 /* Dropeo de procedures si ya existen */
 
@@ -278,6 +282,9 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.darBajaHabitacion','P') IS NOT NULL
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.cancelarReserva','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.cancelarReserva;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.comprobarNumReserva','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.comprobarNumReserva;
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getUsuariosFiltradosSinInactivos','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getUsuariosFiltradosSinInactivos;
@@ -563,6 +570,13 @@ IdConsumible numeric(18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Consumibl
 Cantidad int,
 Monto int
 );
+
+create table traeme_la_copa_messi.AcompaniantePorReserva(
+ClienteId int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente(IdCliente),
+ReservaId numeric(18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Reserva(IdReserva),
+CONSTRAINT IdAcompaniantePorReserva PRIMARY KEY(ClienteId,ReservaId)
+);
+
 -----------------------------------------------------------------------/* Migracion de datos */-------------------------------------------------------------------------- 
 
 -- Tablas auxiliares creacion clientes --
@@ -1623,7 +1637,8 @@ select * from TRAEME_LA_COPA_MESSI.TipoDoc where IdTipo=@id
 
 
 
---Cancelacion reserva
+/* Repositorio Reservas */
+
 GO
 create procedure TRAEME_LA_COPA_MESSI.validarCancelacion
 @idReserva int 
@@ -1642,6 +1657,7 @@ else
 return 0
 end
 
+
 GO
 create procedure TRAEME_LA_COPA_MESSI.cancelarReserva
 @idReserva int,
@@ -1652,6 +1668,33 @@ as begin
 update TRAEME_LA_COPA_MESSI.Reserva set EstadoReserva =  2 where IdReserva = @idReserva   
 insert into TRAEME_LA_COPA_MESSI.Log_Reserva values ('Cancelacion',@nombreUsuario,@motivo,@fechaDeCancelacion)
 end
+
+
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.comprobarNumReserva
+@idReserva int,
+@idHotel int
+
+AS
+BEGIN
+
+IF EXISTS(SELECT * FROM TRAEME_LA_COPA_MESSI.Reserva WHERE IdReserva = @idReserva AND IdHotel = @idHotel AND FechaReserva = GETDATE())
+
+	RETURN 1
+
+ELSE
+
+	IF EXISTS(SELECT * FROM TRAEME_LA_COPA_MESSI.Reserva WHERE IdReserva = @idReserva AND IdHotel = @idHotel AND FechaReserva != GETDATE())
+
+		RETURN 0
+
+	ELSE
+
+		RETURN -1
+
+END
+
+
 
 
 /* Repositorio Tipo Habitacion*/
@@ -1832,3 +1875,4 @@ BEGIN
 	UPDATE TRAEME_LA_COPA_MESSI.Habitacion SET Estado = 1 WHERE Numero = @numeroHab AND IdHotel = @idHotel
 
 END
+
