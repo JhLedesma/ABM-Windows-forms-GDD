@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FrbaHotel.GenerarModificacionReserva
+namespace FrbaHotel.RegistrarEstadia
 {
-    public partial class GenerarReserva : Form
+    public partial class Check_out : Form
     {
-        public GenerarReserva()
+        public Check_out()
         {
             InitializeComponent();
         }

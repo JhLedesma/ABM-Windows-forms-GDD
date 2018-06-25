@@ -162,6 +162,23 @@ namespace FrbaHotel.Repositorios
         }
 
 
+        public void darBajaHabitacion(Int32 idHotel, Int32 numeroHab) {
+
+            DBhelper.crearConexion();
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.darBajaHabitacion");
+            cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = idHotel;
+            cmd.Parameters.Add("@numeroHab", SqlDbType.Int).Value = numeroHab;
+
+            DBhelper.abrirConexion();
+
+            cmd.ExecuteNonQuery();
+
+            DBhelper.cerrarConexion();
+        
+        
+        }
+
+
 
 
 

@@ -10,10 +10,16 @@ using System.Windows.Forms;
 
 namespace FrbaHotel.RegistrarEstadia
 {
-    public partial class Form1 : Form
+    public partial class Check_In : Form
     {
-        public Form1()
+
+        private Int32 idHotel { get; set; }
+        private Int32 numReserva { get; set; }
+
+        public Check_In(Int32 hotel, Int32 reserva)
         {
+            idHotel = hotel;
+            numReserva = reserva;
             InitializeComponent();
         }
     }

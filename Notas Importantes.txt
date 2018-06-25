@@ -7,3 +7,10 @@ Habitaciones
 -El Id es numero de habitacion + Id_Hotel, ya que en los datos existen varias habitacion con el mismo id, pero que pertenecen a distintos hoteles
 
 Nacho puto
+
+
+
+select sum(Item_Factura_Cantidad*Item_Factura_Monto) + ((Regimen_Precio*Habitacion_Tipo_Porcentual + Hotel_Recarga_Estrella)*Reserva_Cant_Noches), Factura_Total 
+from gd_esquema.Maestra
+where Factura_Nro = 2471234
+group by Factura_Total, Regimen_Precio, Hotel_Recarga_Estrella, Habitacion_Tipo_Porcentual, Reserva_Cant_Noches

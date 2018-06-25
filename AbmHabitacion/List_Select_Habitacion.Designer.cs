@@ -37,7 +37,7 @@
             this.lblNumeroIdentificacion = new System.Windows.Forms.Label();
             this.lblApellido = new System.Windows.Forms.Label();
             this.lblNombre = new System.Windows.Forms.Label();
-            this.boton_modificar = new System.Windows.Forms.Button();
+            this.boton_aceptar = new System.Windows.Forms.Button();
             this.boton_volver = new System.Windows.Forms.Button();
             this.dataGridHabitaciones = new System.Windows.Forms.DataGridView();
             this.label2 = new System.Windows.Forms.Label();
@@ -133,15 +133,15 @@
             this.lblNombre.TabIndex = 1;
             this.lblNombre.Text = "Tipo:";
             // 
-            // boton_modificar
+            // boton_aceptar
             // 
-            this.boton_modificar.Location = new System.Drawing.Point(403, 492);
-            this.boton_modificar.Name = "boton_modificar";
-            this.boton_modificar.Size = new System.Drawing.Size(120, 23);
-            this.boton_modificar.TabIndex = 36;
-            this.boton_modificar.Text = "Modificar";
-            this.boton_modificar.UseVisualStyleBackColor = true;
-            this.boton_modificar.Click += new System.EventHandler(this.boton_modificar_Click);
+            this.boton_aceptar.Location = new System.Drawing.Point(403, 492);
+            this.boton_aceptar.Name = "boton_aceptar";
+            this.boton_aceptar.Size = new System.Drawing.Size(120, 23);
+            this.boton_aceptar.TabIndex = 36;
+            this.boton_aceptar.Text = "Modificar";
+            this.boton_aceptar.UseVisualStyleBackColor = true;
+            this.boton_aceptar.Click += new System.EventHandler(this.boton_modificar_Click);
             // 
             // boton_volver
             // 
@@ -188,7 +188,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(555, 532);
-            this.Controls.Add(this.boton_modificar);
+            this.Controls.Add(this.boton_aceptar);
             this.Controls.Add(this.boton_volver);
             this.Controls.Add(this.dataGridHabitaciones);
             this.Controls.Add(this.label2);
@@ -215,7 +215,7 @@
         private System.Windows.Forms.ComboBox comboBox_tipoHabitacion;
         private System.Windows.Forms.ComboBox comboBox_ubicacion;
         private System.Windows.Forms.Button boton_buscar;
-        private System.Windows.Forms.Button boton_modificar;
+        private System.Windows.Forms.Button boton_aceptar;
         private System.Windows.Forms.Button boton_volver;
         private System.Windows.Forms.DataGridView dataGridHabitaciones;
         private System.Windows.Forms.Label label2;
