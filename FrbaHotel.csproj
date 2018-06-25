@@ -444,6 +444,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="RegistrarEstadia\Check_In.resx">
+      <DependentUpon>Check_In.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="RegistrarEstadia\Ingreso_Egreso.resx">
       <DependentUpon>Ingreso_Egreso.cs</DependentUpon>
     </EmbeddedResource>
