@@ -43,7 +43,7 @@ namespace FrbaHotel.Repositorios
             {
                 Model.Consumible consumible = new Model.Consumible();
                 consumible.nombre = (String)row["Descripcion"];
-                consumible.id = (Int32)row["IdConsumible"];
+                consumible.id = (Decimal)row["IdConsumible"];
                 consumible.precio = (Decimal)row["Precio"];
                 consumibles.Add(consumible);
             }
