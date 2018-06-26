@@ -62,5 +62,36 @@ namespace FrbaHotel.Repositorios
         }
 
 
+        public List<Model.Regimen> getRegimenesDeHotel(int idHotel)
+        {
+            List<Model.Regimen> listaDeRegimenes = new List<Model.Regimen>();
+
+            DBhelper.crearConexion();
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getRegimenesHotel");
+            cmd.Parameters.Add("@idHotel", SqlDbType.NVarChar).Value = idHotel;
+
+            DataTable tablaRegimenes = DBhelper.obtenerTabla(cmd);
+
+            foreach (DataRow row in tablaRegimenes.Rows)
+            {
+
+                Model.Regimen regimen = new Model.Regimen();
+
+                regimen.idRegimen = ((Int32)row["IdRegimenEstadia"]);
+                regimen.descripcion = ((String)row["Descripcion"]);
+                regimen.precioBase = ((Int32)row["PrecioBase"]);
+
+                listaDeRegimenes.Add(regimen);
+            }
+
+            DBhelper.cerrarConexion();
+
+            return listaDeRegimenes;
+
+        }
+
+
     }
 }

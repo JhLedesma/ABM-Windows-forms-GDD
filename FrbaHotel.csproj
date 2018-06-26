@@ -237,11 +237,23 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>GD1C2018DataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="GD1C2018DataSet1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GD1C2018DataSet1.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="GenerarModificacionReserva\GenerarReserva.cs" />
     <Compile Include="GenerarModificacionReserva\Generar_Reserva_Guest.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GenerarModificacionReserva\Generar_Reserva_Guest.Designer.cs">
       <DependentUpon>Generar_Reserva_Guest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GenerarModificacionReserva\ListadoRegimenes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GenerarModificacionReserva\ListadoRegimenes.Designer.cs">
+      <DependentUpon>ListadoRegimenes.cs</DependentUpon>
     </Compile>
     <Compile Include="ListadoEstadistico\Form1.cs">
       <SubType>Form</SubType>
@@ -416,6 +428,9 @@
     <EmbeddedResource Include="GenerarModificacionReserva\Generar_Reserva_Guest.resx">
       <DependentUpon>Generar_Reserva_Guest.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GenerarModificacionReserva\ListadoRegimenes.resx">
+      <DependentUpon>ListadoRegimenes.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Login\SeleccionarFuncionalidad.resx">
       <DependentUpon>SeleccionarFuncionalidad.cs</DependentUpon>
     </EmbeddedResource>
@@ -471,6 +486,17 @@
     </None>
     <None Include="GD1C2018DataSet.xss">
       <DependentUpon>GD1C2018DataSet.xsd</DependentUpon>
+    </None>
+    <None Include="GD1C2018DataSet1.xsc">
+      <DependentUpon>GD1C2018DataSet1.xsd</DependentUpon>
+    </None>
+    <None Include="GD1C2018DataSet1.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>GD1C2018DataSet1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="GD1C2018DataSet1.xss">
+      <DependentUpon>GD1C2018DataSet1.xsd</DependentUpon>
     </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
