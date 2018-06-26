@@ -8,6 +8,6 @@ namespace FrbaHotel.GenerarModificacionReserva
 {
     public interface GenerarReserva
     {
-        void actualizarTbRegimen(String nombre);
+        void actualizarRegimen(Model.Regimen regimen);
     }
 }

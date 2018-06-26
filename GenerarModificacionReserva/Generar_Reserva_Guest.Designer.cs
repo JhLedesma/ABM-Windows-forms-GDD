@@ -55,6 +55,8 @@
             this.rbSi = new System.Windows.Forms.RadioButton();
             this.btnTerminar = new System.Windows.Forms.Button();
             this.btnVolver = new System.Windows.Forms.Button();
+            this.lblTipoDeHabitacion = new System.Windows.Forms.Label();
+            this.listadoTipoHabitacion = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -80,14 +82,14 @@
             // 
             // dtDesde
             // 
-            this.dtDesde.Location = new System.Drawing.Point(77, 34);
+            this.dtDesde.Location = new System.Drawing.Point(115, 34);
             this.dtDesde.Name = "dtDesde";
             this.dtDesde.Size = new System.Drawing.Size(200, 20);
             this.dtDesde.TabIndex = 2;
             // 
             // dtHasta
             // 
-            this.dtHasta.Location = new System.Drawing.Point(77, 72);
+            this.dtHasta.Location = new System.Drawing.Point(115, 72);
             this.dtHasta.Name = "dtHasta";
             this.dtHasta.Size = new System.Drawing.Size(200, 20);
             this.dtHasta.TabIndex = 3;
@@ -95,7 +97,7 @@
             // lblRegimen
             // 
             this.lblRegimen.AutoSize = true;
-            this.lblRegimen.Location = new System.Drawing.Point(6, 151);
+            this.lblRegimen.Location = new System.Drawing.Point(6, 193);
             this.lblRegimen.Name = "lblRegimen";
             this.lblRegimen.Size = new System.Drawing.Size(52, 13);
             this.lblRegimen.TabIndex = 4;
@@ -103,6 +105,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.listadoTipoHabitacion);
+            this.groupBox1.Controls.Add(this.lblTipoDeHabitacion);
             this.groupBox1.Controls.Add(this.lblCostoHabitacion);
             this.groupBox1.Controls.Add(this.btnGuardar);
             this.groupBox1.Controls.Add(this.btnModificar);
@@ -118,7 +122,7 @@
             this.groupBox1.Controls.Add(this.dtDesde);
             this.groupBox1.Location = new System.Drawing.Point(19, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(305, 270);
+            this.groupBox1.Size = new System.Drawing.Size(331, 311);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "PASO 1: Ingrese los siguientes datos para generar Reserva";
@@ -127,7 +131,7 @@
             // 
             this.lblCostoHabitacion.AutoSize = true;
             this.lblCostoHabitacion.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCostoHabitacion.Location = new System.Drawing.Point(198, 185);
+            this.lblCostoHabitacion.Location = new System.Drawing.Point(198, 227);
             this.lblCostoHabitacion.Name = "lblCostoHabitacion";
             this.lblCostoHabitacion.Size = new System.Drawing.Size(45, 24);
             this.lblCostoHabitacion.TabIndex = 12;
@@ -135,7 +139,7 @@
             // 
             // btnGuardar
             // 
-            this.btnGuardar.Location = new System.Drawing.Point(222, 237);
+            this.btnGuardar.Location = new System.Drawing.Point(246, 277);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(75, 23);
             this.btnGuardar.TabIndex = 11;
@@ -145,7 +149,7 @@
             // btnModificar
             // 
             this.btnModificar.Enabled = false;
-            this.btnModificar.Location = new System.Drawing.Point(127, 237);
+            this.btnModificar.Location = new System.Drawing.Point(151, 277);
             this.btnModificar.Name = "btnModificar";
             this.btnModificar.Size = new System.Drawing.Size(75, 23);
             this.btnModificar.TabIndex = 10;
@@ -155,7 +159,7 @@
             // lblHabitacionPorDia
             // 
             this.lblHabitacionPorDia.AutoSize = true;
-            this.lblHabitacionPorDia.Location = new System.Drawing.Point(6, 193);
+            this.lblHabitacionPorDia.Location = new System.Drawing.Point(6, 235);
             this.lblHabitacionPorDia.Name = "lblHabitacionPorDia";
             this.lblHabitacionPorDia.Size = new System.Drawing.Size(136, 13);
             this.lblHabitacionPorDia.TabIndex = 9;
@@ -164,7 +168,7 @@
             // listadoHoteles
             // 
             this.listadoHoteles.FormattingEnabled = true;
-            this.listadoHoteles.Location = new System.Drawing.Point(77, 109);
+            this.listadoHoteles.Location = new System.Drawing.Point(115, 109);
             this.listadoHoteles.Name = "listadoHoteles";
             this.listadoHoteles.Size = new System.Drawing.Size(125, 21);
             this.listadoHoteles.TabIndex = 8;
@@ -180,7 +184,7 @@
             // 
             // btnRegimen
             // 
-            this.btnRegimen.Location = new System.Drawing.Point(222, 146);
+            this.btnRegimen.Location = new System.Drawing.Point(246, 188);
             this.btnRegimen.Name = "btnRegimen";
             this.btnRegimen.Size = new System.Drawing.Size(75, 23);
             this.btnRegimen.TabIndex = 6;
@@ -191,7 +195,7 @@
             // tbRegimen
             // 
             this.tbRegimen.Enabled = false;
-            this.tbRegimen.Location = new System.Drawing.Point(77, 148);
+            this.tbRegimen.Location = new System.Drawing.Point(115, 190);
             this.tbRegimen.Name = "tbRegimen";
             this.tbRegimen.Size = new System.Drawing.Size(125, 20);
             this.tbRegimen.TabIndex = 5;
@@ -202,9 +206,10 @@
             this.groupBox2.Controls.Add(this.btnConfirmar);
             this.groupBox2.Controls.Add(this.lblCostoTotal);
             this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Location = new System.Drawing.Point(19, 288);
+            this.groupBox2.Enabled = false;
+            this.groupBox2.Location = new System.Drawing.Point(19, 329);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(305, 127);
+            this.groupBox2.Size = new System.Drawing.Size(331, 127);
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "PASO 2: Confirme la Reserva";
@@ -212,7 +217,7 @@
             // btnCancelar
             // 
             this.btnCancelar.Enabled = false;
-            this.btnCancelar.Location = new System.Drawing.Point(127, 94);
+            this.btnCancelar.Location = new System.Drawing.Point(151, 94);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(75, 23);
             this.btnCancelar.TabIndex = 14;
@@ -221,7 +226,7 @@
             // 
             // btnConfirmar
             // 
-            this.btnConfirmar.Location = new System.Drawing.Point(222, 94);
+            this.btnConfirmar.Location = new System.Drawing.Point(246, 94);
             this.btnConfirmar.Name = "btnConfirmar";
             this.btnConfirmar.Size = new System.Drawing.Size(75, 23);
             this.btnConfirmar.TabIndex = 13;
@@ -254,17 +259,17 @@
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.rbNo);
             this.groupBox3.Controls.Add(this.rbSi);
-            this.groupBox3.Location = new System.Drawing.Point(19, 421);
+            this.groupBox3.Enabled = false;
+            this.groupBox3.Location = new System.Drawing.Point(19, 462);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(305, 139);
+            this.groupBox3.Size = new System.Drawing.Size(331, 139);
             this.groupBox3.TabIndex = 7;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "PASO 3: Ingrese datos de Cliente";
             // 
             // btnRegistrar
             // 
-            this.btnRegistrar.Enabled = false;
-            this.btnRegistrar.Location = new System.Drawing.Point(222, 107);
+            this.btnRegistrar.Location = new System.Drawing.Point(240, 107);
             this.btnRegistrar.Name = "btnRegistrar";
             this.btnRegistrar.Size = new System.Drawing.Size(75, 23);
             this.btnRegistrar.TabIndex = 16;
@@ -274,7 +279,7 @@
             // btnBuscar
             // 
             this.btnBuscar.Enabled = false;
-            this.btnBuscar.Location = new System.Drawing.Point(127, 107);
+            this.btnBuscar.Location = new System.Drawing.Point(145, 107);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(75, 23);
             this.btnBuscar.TabIndex = 15;
@@ -315,7 +320,7 @@
             // btnTerminar
             // 
             this.btnTerminar.Enabled = false;
-            this.btnTerminar.Location = new System.Drawing.Point(241, 576);
+            this.btnTerminar.Location = new System.Drawing.Point(259, 617);
             this.btnTerminar.Name = "btnTerminar";
             this.btnTerminar.Size = new System.Drawing.Size(75, 23);
             this.btnTerminar.TabIndex = 17;
@@ -324,19 +329,35 @@
             // 
             // btnVolver
             // 
-            this.btnVolver.Enabled = false;
-            this.btnVolver.Location = new System.Drawing.Point(28, 576);
+            this.btnVolver.Location = new System.Drawing.Point(28, 617);
             this.btnVolver.Name = "btnVolver";
             this.btnVolver.Size = new System.Drawing.Size(75, 23);
             this.btnVolver.TabIndex = 18;
             this.btnVolver.Text = "Volver";
             this.btnVolver.UseVisualStyleBackColor = true;
             // 
+            // lblTipoDeHabitacion
+            // 
+            this.lblTipoDeHabitacion.AutoSize = true;
+            this.lblTipoDeHabitacion.Location = new System.Drawing.Point(6, 151);
+            this.lblTipoDeHabitacion.Name = "lblTipoDeHabitacion";
+            this.lblTipoDeHabitacion.Size = new System.Drawing.Size(96, 13);
+            this.lblTipoDeHabitacion.TabIndex = 13;
+            this.lblTipoDeHabitacion.Text = "TipoDeHabitacion:";
+            // 
+            // listadoTipoHabitacion
+            // 
+            this.listadoTipoHabitacion.FormattingEnabled = true;
+            this.listadoTipoHabitacion.Location = new System.Drawing.Point(115, 148);
+            this.listadoTipoHabitacion.Name = "listadoTipoHabitacion";
+            this.listadoTipoHabitacion.Size = new System.Drawing.Size(125, 21);
+            this.listadoTipoHabitacion.TabIndex = 14;
+            // 
             // Generar_Reserva_Guest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(344, 611);
+            this.ClientSize = new System.Drawing.Size(370, 650);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.btnTerminar);
             this.Controls.Add(this.groupBox3);
@@ -383,5 +404,7 @@
         private System.Windows.Forms.RadioButton rbSi;
         private System.Windows.Forms.Button btnTerminar;
         private System.Windows.Forms.Button btnVolver;
+        private System.Windows.Forms.ComboBox listadoTipoHabitacion;
+        private System.Windows.Forms.Label lblTipoDeHabitacion;
     }
 }

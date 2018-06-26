@@ -23,7 +23,13 @@ namespace FrbaHotel.GenerarModificacionReserva
 
         private void dataGrid_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            vistaGenerarReserva.actualizarTbRegimen(Convert.ToString(dataGrid.Rows[e.RowIndex].Cells["Descripcion"].Value));
+            Model.Regimen regimen = new Model.Regimen();
+            regimen.descripcion = Convert.ToString(dataGrid.Rows[e.RowIndex].Cells["Descripcion"].Value);
+            regimen.idRegimen = Convert.ToInt32(dataGrid.Rows[e.RowIndex].Cells["IdRegimenEstadia"].Value);
+            regimen.precioBase = Convert.ToInt32(dataGrid.Rows[e.RowIndex].Cells["PrecioBase"].Value);
+
+            vistaGenerarReserva.actualizarRegimen(regimen);
+            
             this.Hide();
             this.Close();
         }
