@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridHoteles = new System.Windows.Forms.DataGridView();
+            this.dataGridClientes = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -38,19 +38,19 @@
             this.boton_volver = new System.Windows.Forms.Button();
             this.boton_confirmar = new System.Windows.Forms.Button();
             this.boton_eliminar = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridHoteles)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridClientes)).BeginInit();
             this.SuspendLayout();
             // 
-            // dataGridHoteles
+            // dataGridClientes
             // 
-            this.dataGridHoteles.AllowUserToAddRows = false;
-            this.dataGridHoteles.AllowUserToDeleteRows = false;
-            this.dataGridHoteles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridHoteles.Location = new System.Drawing.Point(12, 154);
-            this.dataGridHoteles.Name = "dataGridHoteles";
-            this.dataGridHoteles.ReadOnly = true;
-            this.dataGridHoteles.Size = new System.Drawing.Size(531, 274);
-            this.dataGridHoteles.TabIndex = 26;
+            this.dataGridClientes.AllowUserToAddRows = false;
+            this.dataGridClientes.AllowUserToDeleteRows = false;
+            this.dataGridClientes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridClientes.Location = new System.Drawing.Point(12, 154);
+            this.dataGridClientes.Name = "dataGridClientes";
+            this.dataGridClientes.ReadOnly = true;
+            this.dataGridClientes.Size = new System.Drawing.Size(531, 274);
+            this.dataGridClientes.TabIndex = 26;
             // 
             // label1
             // 
@@ -147,10 +147,10 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.dataGridHoteles);
+            this.Controls.Add(this.dataGridClientes);
             this.Name = "Check_In";
             this.Text = "Check_In";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridHoteles)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridClientes)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -158,7 +158,7 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridHoteles;
+        private System.Windows.Forms.DataGridView dataGridClientes;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;

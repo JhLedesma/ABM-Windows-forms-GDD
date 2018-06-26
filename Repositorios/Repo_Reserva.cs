@@ -106,6 +106,37 @@ namespace FrbaHotel.Repositorios
 
         }
 
+        public Model.Cliente getClienteReserva(Int32 idHotel, Int32 numReserva)
+        {
+            DBhelper.crearConexion();
+
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getClienteReserva");
+            cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = idHotel;
+            cmd.Parameters.Add("@numReserva", SqlDbType.Int).Value = numReserva;
+
+
+            DataTable tablaCliente = DBhelper.obtenerTabla(cmd);
+
+            Model.Cliente cliente = new Model.Cliente();
+
+            foreach (DataRow row in tablaCliente.Rows)
+            {
+
+                cliente.nombre = (String)row["Nombre"];
+                cliente.apellido = (String)row["Apellido"];
+                cliente.numDoc = (Int32)row["NumDoc"];
+                cliente.descripcionDoc = (String)row["Descripcion"];
+                cliente.mail = (String)row["Email"];
+
+            }
+
+            DBhelper.cerrarConexion();
+
+            return cliente;
+        }
+
 
     }
 }
