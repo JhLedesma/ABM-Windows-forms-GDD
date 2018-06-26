@@ -19,6 +19,7 @@ namespace FrbaHotel.GenerarModificacionReserva
         {
             InitializeComponent();
             configuarComboBoxHotel();
+            configuarComboBoxTipoHabitacion();
             hotelSeleccionado = (Model.Hotel)listadoHoteles.SelectedValue;
             tipoHabitacionSeleccionado = (Model.TipoHabitacion)listadoTipoHabitacion.SelectedValue;
         }
@@ -36,12 +37,12 @@ namespace FrbaHotel.GenerarModificacionReserva
             this.listadoHoteles.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
-        public void configuarComboBoxHabitacion()
+        public void configuarComboBoxTipoHabitacion()
         {
-            this.listadoHoteles.ValueMember = "Objeto";
-            this.listadoHoteles.DisplayMember = "Descripcion";
-            this.listadoHoteles.DataSource = Repositorios.Repo_habitacion.getInstancia().getTiposHabitaciones();
-            this.listadoHoteles.DropDownStyle = ComboBoxStyle.DropDownList;
+            this.listadoTipoHabitacion.ValueMember = "Objeto";
+            this.listadoTipoHabitacion.DisplayMember = "Descripcion";
+            this.listadoTipoHabitacion.DataSource = Repositorios.Repo_habitacion.getInstancia().getTiposHabitaciones();
+            this.listadoTipoHabitacion.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         public void actualizarRegimen(Model.Regimen regimen)
