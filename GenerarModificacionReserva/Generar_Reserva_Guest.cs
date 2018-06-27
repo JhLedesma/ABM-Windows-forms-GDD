@@ -89,12 +89,21 @@ namespace FrbaHotel.GenerarModificacionReserva
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            this.avanzarPaso1();
+            this.volverPaso1();
         }
 
 
+        private void mostrarCostoTotalReserva()
+        {
+            TimeSpan ts = dtHasta.Value - dtDesde.Value;
+            int diferenciaDeDias = ts.Days + 1;
 
-        private void avanzarPaso1()
+            decimal costoTotal = diferenciaDeDias * Convert.ToDecimal(lblCostoHabitacion.Text);
+            lblCostoTotal.Text = costoTotal.ToString(); 
+        }
+
+
+        private void volverPaso1()
         {
             lblFechaDesde.Enabled = true;
             dtDesde.Enabled = true;
@@ -132,6 +141,8 @@ namespace FrbaHotel.GenerarModificacionReserva
             btnGuardar.Enabled = false;
             btnModificar.Enabled = true;
             groupBox2.Enabled = true;
+
+            this.mostrarCostoTotalReserva();
         }
 
 
