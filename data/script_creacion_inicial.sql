@@ -468,7 +468,7 @@ Descripcion nvarchar(255) NOT NULL
 CREATE TABLE TRAEME_LA_COPA_MESSI.TipoHabitacion(
 Codigo int PRIMARY KEY,
 Descripcion nvarchar(255) NOT NULL,
-Porcentual int NOT NULL
+Porcentual numeric(12,2) NOT NULL
 );
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.Habitacion(
@@ -704,10 +704,9 @@ UPDATE TRAEME_LA_COPA_MESSI.Hotel SET PorcentajeEstrellas =
 
 -- Tipo Habitacion --
 
-INSERT INTO TRAEME_LA_COPA_MESSI.TipoHabitacion
+INSERT INTO TRAEME_LA_COPA_MESSI.TipoHabitacion(Codigo, Descripcion, Porcentual)
 	SELECT DISTINCT Habitacion_Tipo_Codigo, Habitacion_Tipo_Descripcion, Habitacion_Tipo_Porcentual
 	FROM gd_esquema.Maestra
-
 
 -- Habitacion --
 

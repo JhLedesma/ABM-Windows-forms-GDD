@@ -82,7 +82,10 @@ namespace FrbaHotel.GenerarModificacionReserva
             else
             {
                 new GenerarModificacionReserva.ListadoRegimenes(this, hotelSeleccionado.idHotel).ShowDialog();
-                this.avanzarPaso2();
+                if (regimenSeleccionado != null)
+                {
+                    this.avanzarPaso2();
+                }
                 //MessageBox.Show("Por favor seleccione un regimen", "Campos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }  
@@ -162,31 +165,43 @@ namespace FrbaHotel.GenerarModificacionReserva
             btnConfirmar.Enabled = false;
 
             groupBox3.Enabled = true;
+            rbSi.Checked = false;
+            rbNo.Checked = false;
         }
 
         private void volverPaso2()
         {
             btnModificar.Enabled = true;
-            btnCancelar.Enabled = false;
             btnConfirmar.Enabled = true;
 
+            rbSi.Checked = false;
+            rbNo.Checked = false;
             groupBox3.Enabled = false;
+
+            btnCancelar.Enabled = false;
         }
 
         public void actualizarTbCliente(Model.Cliente cliente)
         {
-            tbCliente.Text = cliente.id.ToString();
+            tbCliente.Text = cliente.mail.ToString();
+            btnTerminar.Enabled = true;
         }
 
 
         private void abrirListadoCliente_Click(object sender, EventArgs e)
         {
-            new GenerarModificacionReserva.Listado_Cliente(this).ShowDialog();
+            if (rbSi.Checked == true)
+            {
+                new GenerarModificacionReserva.Listado_Cliente(this).ShowDialog();
+            }
         }
 
         private void abrirCrearCliente_Click(object sender, EventArgs e)
         {
-
+            if (rbNo.Checked == true)
+            {
+                new CrearClienteReserva(this).ShowDialog();
+            }
         }
 
 

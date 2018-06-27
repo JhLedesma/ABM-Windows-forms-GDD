@@ -50,13 +50,13 @@
             this.lblCostoTotal = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.lblCliente = new System.Windows.Forms.Label();
+            this.tbCliente = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.rbNo = new System.Windows.Forms.RadioButton();
             this.rbSi = new System.Windows.Forms.RadioButton();
             this.btnTerminar = new System.Windows.Forms.Button();
             this.btnVolver = new System.Windows.Forms.Button();
-            this.tbCliente = new System.Windows.Forms.TextBox();
-            this.lblCliente = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -290,6 +290,23 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "PASO 3: Ingrese datos de Cliente";
             // 
+            // lblCliente
+            // 
+            this.lblCliente.AutoSize = true;
+            this.lblCliente.Location = new System.Drawing.Point(51, 100);
+            this.lblCliente.Name = "lblCliente";
+            this.lblCliente.Size = new System.Drawing.Size(42, 13);
+            this.lblCliente.TabIndex = 16;
+            this.lblCliente.Text = "Cliente:";
+            // 
+            // tbCliente
+            // 
+            this.tbCliente.Enabled = false;
+            this.tbCliente.Location = new System.Drawing.Point(151, 97);
+            this.tbCliente.Name = "tbCliente";
+            this.tbCliente.Size = new System.Drawing.Size(162, 20);
+            this.tbCliente.TabIndex = 15;
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -302,7 +319,7 @@
             // rbNo
             // 
             this.rbNo.AutoSize = true;
-            this.rbNo.Location = new System.Drawing.Point(238, 51);
+            this.rbNo.Location = new System.Drawing.Point(255, 51);
             this.rbNo.Name = "rbNo";
             this.rbNo.Size = new System.Drawing.Size(39, 17);
             this.rbNo.TabIndex = 1;
@@ -314,7 +331,7 @@
             // rbSi
             // 
             this.rbSi.AutoSize = true;
-            this.rbSi.Location = new System.Drawing.Point(184, 51);
+            this.rbSi.Location = new System.Drawing.Point(192, 51);
             this.rbSi.Name = "rbSi";
             this.rbSi.Size = new System.Drawing.Size(34, 17);
             this.rbSi.TabIndex = 0;
@@ -341,23 +358,6 @@
             this.btnVolver.TabIndex = 18;
             this.btnVolver.Text = "Volver";
             this.btnVolver.UseVisualStyleBackColor = true;
-            // 
-            // tbCliente
-            // 
-            this.tbCliente.Enabled = false;
-            this.tbCliente.Location = new System.Drawing.Point(115, 97);
-            this.tbCliente.Name = "tbCliente";
-            this.tbCliente.Size = new System.Drawing.Size(92, 20);
-            this.tbCliente.TabIndex = 15;
-            // 
-            // lblCliente
-            // 
-            this.lblCliente.AutoSize = true;
-            this.lblCliente.Location = new System.Drawing.Point(16, 100);
-            this.lblCliente.Name = "lblCliente";
-            this.lblCliente.Size = new System.Drawing.Size(42, 13);
-            this.lblCliente.TabIndex = 16;
-            this.lblCliente.Text = "Cliente:";
             // 
             // Generar_Reserva_Guest
             // 
