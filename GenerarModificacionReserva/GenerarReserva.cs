@@ -9,5 +9,6 @@ namespace FrbaHotel.GenerarModificacionReserva
     public interface GenerarReserva
     {
         void actualizarRegimen(Model.Regimen regimen);
+        void actualizarTbCliente(Model.Cliente cliente);
     }
 }

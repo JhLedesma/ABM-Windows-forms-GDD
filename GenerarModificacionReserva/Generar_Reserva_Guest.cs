@@ -173,7 +173,21 @@ namespace FrbaHotel.GenerarModificacionReserva
             groupBox3.Enabled = false;
         }
 
+        public void actualizarTbCliente(Model.Cliente cliente)
+        {
+            tbCliente.Text = cliente.id.ToString();
+        }
 
+
+        private void abrirListadoCliente_Click(object sender, EventArgs e)
+        {
+            new GenerarModificacionReserva.Listado_Cliente(this).ShowDialog();
+        }
+
+        private void abrirCrearCliente_Click(object sender, EventArgs e)
+        {
+
+        }
 
 
     }

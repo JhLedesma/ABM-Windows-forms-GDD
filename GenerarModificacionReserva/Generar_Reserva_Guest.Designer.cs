@@ -50,13 +50,13 @@
             this.lblCostoTotal = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.btnRegistrar = new System.Windows.Forms.Button();
-            this.btnBuscar = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.rbNo = new System.Windows.Forms.RadioButton();
             this.rbSi = new System.Windows.Forms.RadioButton();
             this.btnTerminar = new System.Windows.Forms.Button();
             this.btnVolver = new System.Windows.Forms.Button();
+            this.tbCliente = new System.Windows.Forms.TextBox();
+            this.lblCliente = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -277,8 +277,8 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.btnRegistrar);
-            this.groupBox3.Controls.Add(this.btnBuscar);
+            this.groupBox3.Controls.Add(this.lblCliente);
+            this.groupBox3.Controls.Add(this.tbCliente);
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.rbNo);
             this.groupBox3.Controls.Add(this.rbSi);
@@ -289,25 +289,6 @@
             this.groupBox3.TabIndex = 7;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "PASO 3: Ingrese datos de Cliente";
-            // 
-            // btnRegistrar
-            // 
-            this.btnRegistrar.Location = new System.Drawing.Point(240, 107);
-            this.btnRegistrar.Name = "btnRegistrar";
-            this.btnRegistrar.Size = new System.Drawing.Size(75, 23);
-            this.btnRegistrar.TabIndex = 16;
-            this.btnRegistrar.Text = "Registrar";
-            this.btnRegistrar.UseVisualStyleBackColor = true;
-            // 
-            // btnBuscar
-            // 
-            this.btnBuscar.Enabled = false;
-            this.btnBuscar.Location = new System.Drawing.Point(145, 107);
-            this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(75, 23);
-            this.btnBuscar.TabIndex = 15;
-            this.btnBuscar.Text = "Buscar";
-            this.btnBuscar.UseVisualStyleBackColor = true;
             // 
             // label2
             // 
@@ -328,6 +309,7 @@
             this.rbNo.TabStop = true;
             this.rbNo.Text = "No";
             this.rbNo.UseVisualStyleBackColor = true;
+            this.rbNo.CheckedChanged += new System.EventHandler(this.abrirCrearCliente_Click);
             // 
             // rbSi
             // 
@@ -339,6 +321,7 @@
             this.rbSi.TabStop = true;
             this.rbSi.Text = "Si";
             this.rbSi.UseVisualStyleBackColor = true;
+            this.rbSi.CheckedChanged += new System.EventHandler(this.abrirListadoCliente_Click);
             // 
             // btnTerminar
             // 
@@ -358,6 +341,23 @@
             this.btnVolver.TabIndex = 18;
             this.btnVolver.Text = "Volver";
             this.btnVolver.UseVisualStyleBackColor = true;
+            // 
+            // tbCliente
+            // 
+            this.tbCliente.Enabled = false;
+            this.tbCliente.Location = new System.Drawing.Point(115, 97);
+            this.tbCliente.Name = "tbCliente";
+            this.tbCliente.Size = new System.Drawing.Size(92, 20);
+            this.tbCliente.TabIndex = 15;
+            // 
+            // lblCliente
+            // 
+            this.lblCliente.AutoSize = true;
+            this.lblCliente.Location = new System.Drawing.Point(16, 100);
+            this.lblCliente.Name = "lblCliente";
+            this.lblCliente.Size = new System.Drawing.Size(42, 13);
+            this.lblCliente.TabIndex = 16;
+            this.lblCliente.Text = "Cliente:";
             // 
             // Generar_Reserva_Guest
             // 
@@ -403,8 +403,6 @@
         private System.Windows.Forms.Button btnConfirmar;
         private System.Windows.Forms.Label lblCostoTotal;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnRegistrar;
-        private System.Windows.Forms.Button btnBuscar;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.RadioButton rbNo;
         private System.Windows.Forms.RadioButton rbSi;
@@ -412,5 +410,7 @@
         private System.Windows.Forms.Button btnVolver;
         private System.Windows.Forms.ComboBox listadoTipoHabitacion;
         private System.Windows.Forms.Label lblTipoDeHabitacion;
+        private System.Windows.Forms.Label lblCliente;
+        private System.Windows.Forms.TextBox tbCliente;
     }
 }
