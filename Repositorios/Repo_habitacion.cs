@@ -50,7 +50,7 @@ namespace FrbaHotel.Repositorios
 
                 tipoHabitacion.codigo= row.Field<Int32>("Codigo");
                 tipoHabitacion.descripcion = row.Field<String>("Descripcion");
-                tipoHabitacion.porcentual = row.Field<Int32>("Porcentual");
+                tipoHabitacion.porcentual = row.Field<decimal>("Porcentual");
 
                 listaTipos.Add(tipoHabitacion);
             }

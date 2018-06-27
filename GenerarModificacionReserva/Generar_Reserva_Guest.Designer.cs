@@ -34,6 +34,8 @@
             this.dtHasta = new System.Windows.Forms.DateTimePicker();
             this.lblRegimen = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.listadoTipoHabitacion = new System.Windows.Forms.ComboBox();
+            this.lblTipoDeHabitacion = new System.Windows.Forms.Label();
             this.lblCostoHabitacion = new System.Windows.Forms.Label();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnModificar = new System.Windows.Forms.Button();
@@ -55,8 +57,6 @@
             this.rbSi = new System.Windows.Forms.RadioButton();
             this.btnTerminar = new System.Windows.Forms.Button();
             this.btnVolver = new System.Windows.Forms.Button();
-            this.lblTipoDeHabitacion = new System.Windows.Forms.Label();
-            this.listadoTipoHabitacion = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -126,6 +126,25 @@
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "PASO 1: Ingrese los siguientes datos para generar Reserva";
+            // 
+            // listadoTipoHabitacion
+            // 
+            this.listadoTipoHabitacion.FormattingEnabled = true;
+            this.listadoTipoHabitacion.Location = new System.Drawing.Point(115, 148);
+            this.listadoTipoHabitacion.Name = "listadoTipoHabitacion";
+            this.listadoTipoHabitacion.Size = new System.Drawing.Size(125, 21);
+            this.listadoTipoHabitacion.TabIndex = 14;
+            this.listadoTipoHabitacion.SelectedValueChanged += new System.EventHandler(this.actualizarRegimen_Click);
+            this.listadoTipoHabitacion.Click += new System.EventHandler(this.actualizarRegimen_Click);
+            // 
+            // lblTipoDeHabitacion
+            // 
+            this.lblTipoDeHabitacion.AutoSize = true;
+            this.lblTipoDeHabitacion.Location = new System.Drawing.Point(6, 151);
+            this.lblTipoDeHabitacion.Name = "lblTipoDeHabitacion";
+            this.lblTipoDeHabitacion.Size = new System.Drawing.Size(96, 13);
+            this.lblTipoDeHabitacion.TabIndex = 13;
+            this.lblTipoDeHabitacion.Text = "TipoDeHabitacion:";
             // 
             // lblCostoHabitacion
             // 
@@ -335,23 +354,6 @@
             this.btnVolver.TabIndex = 18;
             this.btnVolver.Text = "Volver";
             this.btnVolver.UseVisualStyleBackColor = true;
-            // 
-            // lblTipoDeHabitacion
-            // 
-            this.lblTipoDeHabitacion.AutoSize = true;
-            this.lblTipoDeHabitacion.Location = new System.Drawing.Point(6, 151);
-            this.lblTipoDeHabitacion.Name = "lblTipoDeHabitacion";
-            this.lblTipoDeHabitacion.Size = new System.Drawing.Size(96, 13);
-            this.lblTipoDeHabitacion.TabIndex = 13;
-            this.lblTipoDeHabitacion.Text = "TipoDeHabitacion:";
-            // 
-            // listadoTipoHabitacion
-            // 
-            this.listadoTipoHabitacion.FormattingEnabled = true;
-            this.listadoTipoHabitacion.Location = new System.Drawing.Point(115, 148);
-            this.listadoTipoHabitacion.Name = "listadoTipoHabitacion";
-            this.listadoTipoHabitacion.Size = new System.Drawing.Size(125, 21);
-            this.listadoTipoHabitacion.TabIndex = 14;
             // 
             // Generar_Reserva_Guest
             // 

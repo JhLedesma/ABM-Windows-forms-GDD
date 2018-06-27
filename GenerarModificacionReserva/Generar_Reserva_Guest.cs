@@ -13,7 +13,7 @@ namespace FrbaHotel.GenerarModificacionReserva
     public partial class Generar_Reserva_Guest : Form, GenerarReserva
     {
         Model.Hotel hotelSeleccionado;
-        Model.TipoHabitacion tipoHabitacionSeleccionado;
+        Model.Regimen regimenSeleccionado;
 
         public Generar_Reserva_Guest()
         {
@@ -21,7 +21,6 @@ namespace FrbaHotel.GenerarModificacionReserva
             configuarComboBoxHotel();
             configuarComboBoxTipoHabitacion();
             hotelSeleccionado = (Model.Hotel)listadoHoteles.SelectedValue;
-            tipoHabitacionSeleccionado = (Model.TipoHabitacion)listadoTipoHabitacion.SelectedValue;
         }
 
         private void btnRegimen_Click(object sender, EventArgs e)
@@ -47,8 +46,11 @@ namespace FrbaHotel.GenerarModificacionReserva
 
         public void actualizarRegimen(Model.Regimen regimen)
         {
+            regimenSeleccionado = regimen;
+
             this.actualizarTbRegimen(regimen.descripcion);
-            
+
+            Model.TipoHabitacion tipoHabitacionSeleccionado = (Model.TipoHabitacion)listadoTipoHabitacion.SelectedValue;
             decimal costoPorDia = (regimen.precioBase * tipoHabitacionSeleccionado.porcentual) + hotelSeleccionado.porcEstrella;
             this.actualizarCostoDeHabitacion(costoPorDia.ToString());
         }
@@ -63,6 +65,13 @@ namespace FrbaHotel.GenerarModificacionReserva
             lblCostoHabitacion.Text = costo;
         }
 
+        private void actualizarRegimen_Click(object sender, EventArgs e)
+        {
+            if (regimenSeleccionado != null)
+            {
+                this.actualizarRegimen(regimenSeleccionado);
+            }
+        }
 
     }
 }

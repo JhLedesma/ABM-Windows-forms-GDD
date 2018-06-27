@@ -10,7 +10,7 @@ namespace FrbaHotel.Model
     {
        public String descripcion { get; set; }
        public Int32 codigo { get; set; }
-       public Int32 porcentual { get; set; }
+       public decimal porcentual { get; set; }
 
 
                public TipoHabitacion(String desc, Int32 cod, Int32 porcent)
