@@ -73,5 +73,68 @@ namespace FrbaHotel.GenerarModificacionReserva
             }
         }
 
+        private void btnGuardar_Click(object sender, EventArgs e)
+        {
+            if (regimenSeleccionado != null)
+            {
+                this.avanzarPaso2();
+            }
+            else
+            {
+                new GenerarModificacionReserva.ListadoRegimenes(this, hotelSeleccionado.idHotel).ShowDialog();
+                this.avanzarPaso2();
+                //MessageBox.Show("Por favor seleccione un regimen", "Campos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }  
+
+        private void btnModificar_Click(object sender, EventArgs e)
+        {
+            this.avanzarPaso1();
+        }
+
+
+
+        private void avanzarPaso1()
+        {
+            lblFechaDesde.Enabled = true;
+            dtDesde.Enabled = true;
+            lblHasta.Enabled = true;
+            dtHasta.Enabled = true;
+            lblHotel.Enabled = true;
+            listadoHoteles.Enabled = true;
+            lblTipoDeHabitacion.Enabled = true;
+            listadoTipoHabitacion.Enabled = true;
+            lblRegimen.Enabled = true;
+            btnRegimen.Enabled = true;
+            lblHabitacionPorDia.Enabled = true;
+            lblCostoHabitacion.Enabled = true;
+
+            btnGuardar.Enabled = true;
+            btnModificar.Enabled = false;
+            groupBox2.Enabled = false;
+        }
+
+        private void avanzarPaso2()
+        {
+            lblFechaDesde.Enabled = false;
+            dtDesde.Enabled = false;
+            lblHasta.Enabled = false;
+            dtHasta.Enabled = false;
+            lblHotel.Enabled = false;
+            listadoHoteles.Enabled = false;
+            lblTipoDeHabitacion.Enabled = false;
+            listadoTipoHabitacion.Enabled = false;
+            lblRegimen.Enabled = false;
+            btnRegimen.Enabled = false;
+            lblHabitacionPorDia.Enabled = false;
+            lblCostoHabitacion.Enabled = false;
+
+            btnGuardar.Enabled = false;
+            btnModificar.Enabled = true;
+            groupBox2.Enabled = true;
+        }
+
+
+
     }
 }
