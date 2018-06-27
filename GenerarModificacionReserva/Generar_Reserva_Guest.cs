@@ -48,8 +48,9 @@ namespace FrbaHotel.GenerarModificacionReserva
         public void actualizarRegimen(Model.Regimen regimen)
         {
             this.actualizarTbRegimen(regimen.descripcion);
-            //decimal costoPorDia = (regimen.precioBase * ) + hotelSeleccionado.porcEstrella;
-            this.actualizarCostoDeHabitacion(regimen.precioBase.ToString());
+            
+            decimal costoPorDia = (regimen.precioBase * tipoHabitacionSeleccionado.porcentual) + hotelSeleccionado.porcEstrella;
+            this.actualizarCostoDeHabitacion(costoPorDia.ToString());
         }
 
         private void actualizarTbRegimen(String regimenDescripcion)
@@ -59,7 +60,7 @@ namespace FrbaHotel.GenerarModificacionReserva
 
         private void actualizarCostoDeHabitacion(String costo)
         {
-            lblHabitacionPorDia.Text = costo;
+            lblCostoHabitacion.Text = costo;
         }
 
 

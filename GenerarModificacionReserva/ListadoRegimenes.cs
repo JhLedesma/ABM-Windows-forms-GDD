@@ -25,7 +25,7 @@ namespace FrbaHotel.GenerarModificacionReserva
         {
             Model.Regimen regimen = new Model.Regimen();
             regimen.descripcion = Convert.ToString(dataGrid.Rows[e.RowIndex].Cells["Descripcion"].Value);
-            regimen.idRegimen = Convert.ToInt32(dataGrid.Rows[e.RowIndex].Cells["IdRegimenEstadia"].Value);
+            //regimen.idRegimen = Convert.ToInt32(dataGrid.Rows[e.RowIndex].Cells["IdRegimenEstadia"].Value);
             regimen.precioBase = Convert.ToInt32(dataGrid.Rows[e.RowIndex].Cells["PrecioBase"].Value);
 
             vistaGenerarReserva.actualizarRegimen(regimen);
