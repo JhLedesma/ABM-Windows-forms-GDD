@@ -145,6 +145,35 @@ namespace FrbaHotel.GenerarModificacionReserva
             this.mostrarCostoTotalReserva();
         }
 
+        private void btnConfirmar_Click(object sender, EventArgs e)
+        {
+            this.avanzarPaso3();
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this.volverPaso2();
+        }
+
+        private void avanzarPaso3()
+        {
+            btnModificar.Enabled = false;
+            btnCancelar.Enabled = true;
+            btnConfirmar.Enabled = false;
+
+            groupBox3.Enabled = true;
+        }
+
+        private void volverPaso2()
+        {
+            btnModificar.Enabled = true;
+            btnCancelar.Enabled = false;
+            btnConfirmar.Enabled = true;
+
+            groupBox3.Enabled = false;
+        }
+
+
 
 
     }
