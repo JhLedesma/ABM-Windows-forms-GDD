@@ -102,6 +102,9 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Log_Reserva','U') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.AcompaniantePorReserva','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.AcompaniantePorReserva;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.fechasFinEstadias','U') IS NOT NULL    
+	DROP TABLE TRAEME_LA_COPA_MESSI.fechasFinEstadias;
+
 
 
 /* Dropeo de procedures si ya existen */
@@ -297,6 +300,8 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.darDeBajaUsuario','P') IS NOT NULL
 
 	IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getConsumibles','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getConsumibles;
+
+
 	
 
 
@@ -489,6 +494,7 @@ DescripEstadoReserva nvarchar(255) not null,
 );
 
 -- IdCliente o IdClienteIncon va a estar en NULL (uno de los dos) porque no se puede referenciar a dos clientes, uno solo hace reserva
+
 create table traeme_la_copa_messi.Reserva(
 IdReserva numeric(18,0) PRIMARY KEY,
 IdCliente int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente(IdCliente) null,
@@ -497,17 +503,15 @@ IdHotel int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Hotel(IdHotel) null, --C
 FechaReserva datetime  NULL,
 FechaCheckIn datetime  NULL,
 CantidadNochesReservadas numeric(18,0)  NULL,
-CantidadNochesUsadas numeric(18,0)  NULL,
 EstadoReserva int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.EstadoReserva(IdEstadoReserva)  null,
 RegimenEstadiaId int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.RegimenEstadia(IdRegimenEstadia)  null
 );
 
-
 create table traeme_la_copa_messi.LogEstadia(
-IdLogEstadia int IDENTITY(1,1) PRIMARY KEY not null,
-Tipo nvarchar not null,
-Autor nvarchar not null,
-FechaInicio datetime not null,
+IdLogEstadia int IDENTITY(1,1) PRIMARY KEY ,
+Tipo nvarchar null,
+Autor nvarchar null,
+FechaInicio datetime null,
 CantidadNocheUsadas int,
 FechaFin datetime,
 ReservaId numeric(18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Reserva(IdReserva)
@@ -582,6 +586,12 @@ ClienteId int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente(IdCliente),
 ReservaId numeric(18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Reserva(IdReserva),
 CONSTRAINT IdAcompaniantePorReserva PRIMARY KEY(ClienteId,ReservaId)
 );
+
+CREATE TABLE TRAEME_LA_COPA_MESSI.fechasFinEstadias(
+Reserva int PRIMARY KEY,
+fechaFin datetime
+);
+
 
 -----------------------------------------------------------------------/* Migracion de datos */-------------------------------------------------------------------------- 
 
@@ -758,12 +768,11 @@ INSERT INTO TRAEME_LA_COPA_MESSI.ReservasDeClientesIncon
 SELECT DISTINCT IdCliente, Reserva_Codigo FROM TRAEME_LA_COPA_MESSI.Cliente_Inconsistente JOIN gd_esquema.Maestra ON NumDoc = Cliente_Pasaporte_Nro AND Email = Cliente_Mail;
 
 
-
 -- Reserva --
 
-INSERT INTO TRAEME_LA_COPA_MESSI.Reserva(IdReserva, IdHotel, FechaReserva, FechaCheckIn, CantidadNochesReservadas, CantidadNochesUsadas,RegimenEstadiaId ,EstadoReserva)
+INSERT INTO TRAEME_LA_COPA_MESSI.Reserva(IdReserva, IdHotel, FechaReserva, CantidadNochesReservadas,RegimenEstadiaId ,EstadoReserva)
 
-	SELECT DISTINCT m.Reserva_Codigo, h.IdHotel, m.Reserva_Fecha_Inicio, m.Estadia_Fecha_Inicio, m.Reserva_Cant_Noches, m.Estadia_Cant_Noches,
+	SELECT DISTINCT m.Reserva_Codigo, h.IdHotel, m.Reserva_Fecha_Inicio, m.Estadia_Cant_Noches,
 	(SELECT IdRegimenEstadia FROM TRAEME_LA_COPA_MESSI.RegimenEstadia WHERE Descripcion = m.Regimen_Descripcion), 1
 
 	FROM
@@ -779,14 +788,33 @@ FechaCheckIn = (SELECT Estadia_Fecha_Inicio FROM gd_esquema.Maestra
 					 WHERE Reserva_Codigo = IdReserva AND Estadia_Fecha_Inicio IS NOT NULL
 					 GROUP BY Estadia_Fecha_Inicio),
 
-CantidadNochesUsadas = (SELECT Estadia_Cant_Noches FROM gd_esquema.Maestra
-							WHERE Reserva_Codigo = IdReserva AND Estadia_Cant_Noches IS NOT NULL
-							GROUP BY Estadia_Cant_Noches),
-
 IdCliente = (SELECT IdClienteAux FROM TRAEME_LA_COPA_MESSI.ReservasDeClientes  WHERE IdReservaAux = IdReserva),
 
 IdClienteInconsistente = (SELECT IdClienteInconAux FROM TRAEME_LA_COPA_MESSI.ReservasDeClientesIncon  WHERE IdReservaAux = IdReserva)
 
+
+-- LogEstadia --
+
+INSERT INTO TRAEME_LA_COPA_MESSI.LogEstadia(ReservaId)
+SELECT IdReserva FROM TRAEME_LA_COPA_MESSI.Reserva
+
+UPDATE TRAEME_LA_COPA_MESSI.LogEstadia SET
+
+CantidadNocheUsadas = (SELECT Estadia_Cant_Noches FROM gd_esquema.Maestra
+							WHERE Reserva_Codigo = ReservaId AND Estadia_Cant_Noches IS NOT NULL
+							GROUP BY Estadia_Cant_Noches),
+
+FechaInicio = (SELECT Estadia_Fecha_Inicio FROM gd_esquema.Maestra
+					 WHERE Reserva_Codigo = ReservaId AND Estadia_Fecha_Inicio IS NOT NULL
+					 GROUP BY Estadia_Fecha_Inicio)
+
+
+INSERT INTO TRAEME_LA_COPA_MESSI.fechasFinEstadias
+SELECT ReservaId, FechaInicio+CantidadNocheUsadas FROM TRAEME_LA_COPA_MESSI.LogEstadia
+
+UPDATE TRAEME_LA_COPA_MESSI.LogEstadia SET
+FechaFin = (SELECT fechaFin FROM TRAEME_LA_COPA_MESSI.fechasFinEstadias f WHERE ReservaId = Reserva)
+							
 
 -- Consumibles --
 
