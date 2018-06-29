@@ -262,6 +262,5 @@ namespace FrbaHotel.Repositorios
         }
 
        
-       
     }
 }

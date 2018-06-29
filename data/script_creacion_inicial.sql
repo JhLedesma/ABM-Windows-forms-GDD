@@ -487,7 +487,6 @@ Descripcion nvarchar(255) DEFAULT '',
 CONSTRAINT IdHabitacion PRIMARY KEY(IdHotel,Numero)
 );
 
-
 create table traeme_la_copa_messi.EstadoReserva(
 IdEstadoReserva int IDENTITY(1,1) PRIMARY KEY not null,
 DescripEstadoReserva nvarchar(255) not null,
@@ -500,6 +499,7 @@ IdReserva numeric(18,0) PRIMARY KEY,
 IdCliente int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente(IdCliente) null,
 IdClienteInconsistente int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente_Inconsistente(IdCliente) null,
 IdHotel int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Hotel(IdHotel) null, --Cambiar a not null
+tipoHabitacion int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.TipoHabitacion(Codigo) null,
 FechaReserva datetime  NULL,
 FechaCheckIn datetime  NULL,
 CantidadNochesReservadas numeric(18,0)  NULL,
@@ -1712,7 +1712,7 @@ CREATE PROCEDURE TRAEME_LA_COPA_MESSI.comprobarNumReserva
 AS
 BEGIN
 
-IF EXISTS(SELECT * FROM TRAEME_LA_COPA_MESSI.Reserva WHERE IdReserva = @idReserva AND IdHotel = @idHotel AND FechaReserva = GETDATE())
+IF EXISTS(SELECT * FROM TRAEME_LA_COPA_MESSI.Reserva WHERE IdReserva = @idReserva AND IdHotel = @idHotel AND YEAR(FechaReserva) = YEAR(GETDATE()) AND MONTH(FechaReserva) = MONTH(GETDATE()) AND DAY(FechaReserva) = DAY(GETDATE()))
 
 	RETURN 1
 
@@ -1727,7 +1727,6 @@ ELSE
 		RETURN -1
 
 END
-
 
 GO
 CREATE PROCEDURE TRAEME_LA_COPA_MESSI.getClienteReserva

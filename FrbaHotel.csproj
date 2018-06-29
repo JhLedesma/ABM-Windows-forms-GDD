@@ -321,6 +321,12 @@
     <Compile Include="RegistrarEstadia\Check_out.Designer.cs">
       <DependentUpon>Check_out.cs</DependentUpon>
     </Compile>
+    <Compile Include="RegistrarEstadia\Filtrar_cliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RegistrarEstadia\Filtrar_cliente.Designer.cs">
+      <DependentUpon>Filtrar_cliente.cs</DependentUpon>
+    </Compile>
     <Compile Include="RegistrarEstadia\Ingreso_Egreso.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -469,6 +475,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RegistrarEstadia\Check_In.resx">
       <DependentUpon>Check_In.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RegistrarEstadia\Filtrar_cliente.resx">
+      <DependentUpon>Filtrar_cliente.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RegistrarEstadia\Ingreso_Egreso.resx">
       <DependentUpon>Ingreso_Egreso.cs</DependentUpon>
