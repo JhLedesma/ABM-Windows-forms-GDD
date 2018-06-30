@@ -126,7 +126,7 @@ namespace FrbaHotel.Repositorios
 
                 cliente.nombre = (String)row["Nombre"];
                 cliente.apellido = (String)row["Apellido"];
-                cliente.numDoc = (Int32)row["NumDoc"];
+                cliente.numDoc = (Decimal)row["NumDoc"];
                 cliente.descripcionDoc = (String)row["Descripcion"];
                 cliente.mail = (String)row["Email"];
 

@@ -13,7 +13,7 @@ namespace FrbaHotel.RegistrarEstadia
     public partial class Input_reserva : Form
     {
 
-        private const Int32 IDHOTELHARCODEADO = 3;
+        private const Int32 IDHOTELHARCODEADO = 3; //DEBE SALIR DEL LOGGIN DEL RECEPCIONISTA
 
         public Input_reserva()
         {

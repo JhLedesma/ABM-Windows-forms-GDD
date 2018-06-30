@@ -96,6 +96,7 @@
             this.boton_buscar.TabIndex = 31;
             this.boton_buscar.Text = "Buscar";
             this.boton_buscar.UseVisualStyleBackColor = true;
+            this.boton_buscar.Click += new System.EventHandler(this.boton_buscar_Click);
             // 
             // boton_crear
             // 
@@ -105,6 +106,7 @@
             this.boton_crear.TabIndex = 32;
             this.boton_crear.Text = "Crear";
             this.boton_crear.UseVisualStyleBackColor = true;
+            this.boton_crear.Click += new System.EventHandler(this.boton_crear_Click);
             // 
             // boton_volver
             // 

@@ -12,9 +12,21 @@ namespace FrbaHotel.AbmCliente
 {
     public partial class Crear_Cliente : Form
     {
+
+        private RegistrarEstadia.Check_In controler;
+
         public Crear_Cliente()
         {
             InitializeComponent();
+            configuarComboBoxTipoDoc();
+        }
+
+        public Crear_Cliente(RegistrarEstadia.Check_In controlerCheckIn)
+        {
+            controler = controlerCheckIn;
+
+            InitializeComponent();
+
             configuarComboBoxTipoDoc();
         }
 
@@ -53,6 +65,8 @@ namespace FrbaHotel.AbmCliente
             }
             else
             {
+
+
                 Model.TipoDocumento tipoDoc = (Model.TipoDocumento)listadoTipoIdentificacion.SelectedValue;
 
                 Repositorios.Repo_Cliente.getInstancia().crearCliente(
