@@ -8,16 +8,11 @@ GO
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.fechasFinEstadias','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.fechasFinEstadias;
 
-<<<<<<< HEAD
-IF OBJECT_ID('TRAEME_LA_COPA_MESSI.AcompaniantePorReserva','U') IS NOT NULL    
-	DROP TABLE TRAEME_LA_COPA_MESSI.AcompaniantePorReserva;
-=======
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.ClienteIncRegistradoPorReserva','U') IS NOT NULL    --2
 	DROP TABLE TRAEME_LA_COPA_MESSI.ClienteIncRegistradoPorReserva;
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.ClienteRegistradoPorReserva','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.ClienteRegistradoPorReserva;
->>>>>>> 6f486da0bf12375f7a392974b44bf60bdfd89971
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Item_Factura','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.Item_Factura;
@@ -111,14 +106,6 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.TipoDoc','U') IS NOT NULL
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Direccion','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.Direccion;
-
-<<<<<<< HEAD
-IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Log_Reserva','U') IS NOT NULL    
-	DROP TABLE TRAEME_LA_COPA_MESSI.Log_Reserva;
-=======
- 
->>>>>>> 6f486da0bf12375f7a392974b44bf60bdfd89971
-
 
 
 
@@ -321,8 +308,8 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.newClienteReturnId','P') IS NOT NULL
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.newClienteReturnId;	
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.hacerCheckIn','P') IS NOT NULL  
-	DROP PROCEDURE TRAEME_LA_COPA_MESSI.hacerCheckIn;	
-	
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.hacerCheckIn;
+
 	
 
 /* Dropeo las views si ya existen */
