@@ -30,23 +30,44 @@ namespace FrbaHotel.GenerarModificacionReserva
         }
 
 
-        private void btnCrear_Click(object sender, EventArgs e) //Configurar ComboBox
+        
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            tbMail.Text = "";
+            tbNombre.Text = "";
+            tbApellido.Text = "";
+            configuarComboBoxTipoDoc();
+            numericNumeroIdentificacion.Value = decimal.Zero;
+            numericTelefono.Value = decimal.Zero;
+            tbPaisOrigen.Text = "";
+            tbNacionalidad.Text = "";
+            textBox1.Text = "";
+            tbCalle.Text = "";
+            numericNumero.Value = decimal.Zero;
+            numericPiso.Value = decimal.Zero;
+            tbDpto.Text = "";
+            tbLocalidad.Text = "";
+            tbPais.Text = "";
+        }
+
+        private void btnCrear_Click(object sender, EventArgs e)
         {
             if (
-                string.IsNullOrWhiteSpace(tbMail.Text) ||
-                string.IsNullOrEmpty(tbNombre.Text) ||
-                string.IsNullOrEmpty(tbApellido.Text) ||
-                numericNumeroIdentificacion.Value == decimal.Zero ||
-                numericTelefono.Value == decimal.Zero ||
-                string.IsNullOrWhiteSpace(tbPaisOrigen.Text) ||
-                string.IsNullOrWhiteSpace(tbNacionalidad.Text) ||
-                string.IsNullOrEmpty(textBox1.Text) ||
-                string.IsNullOrEmpty(tbCalle.Text) ||
-                numericNumero.Value == decimal.Zero ||
-                numericPiso.Value == decimal.Zero ||
-                string.IsNullOrWhiteSpace(tbDpto.Text) ||
-                string.IsNullOrEmpty(tbLocalidad.Text) ||
-                string.IsNullOrWhiteSpace(tbPais.Text))
+    string.IsNullOrWhiteSpace(tbMail.Text) ||
+    string.IsNullOrEmpty(tbNombre.Text) ||
+    string.IsNullOrEmpty(tbApellido.Text) ||
+    numericNumeroIdentificacion.Value == decimal.Zero ||
+    numericTelefono.Value == decimal.Zero ||
+    string.IsNullOrWhiteSpace(tbPaisOrigen.Text) ||
+    string.IsNullOrWhiteSpace(tbNacionalidad.Text) ||
+    string.IsNullOrEmpty(textBox1.Text) ||
+    string.IsNullOrEmpty(tbCalle.Text) ||
+    numericNumero.Value == decimal.Zero ||
+    numericPiso.Value == decimal.Zero ||
+    string.IsNullOrWhiteSpace(tbDpto.Text) ||
+    string.IsNullOrEmpty(tbLocalidad.Text) ||
+    string.IsNullOrWhiteSpace(tbPais.Text))
             {
                 MessageBox.Show("Por favor complete todos los campos", "Campos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -58,7 +79,7 @@ namespace FrbaHotel.GenerarModificacionReserva
             {
                 Model.TipoDocumento tipoDoc = (Model.TipoDocumento)listadoTipoIdentificacion.SelectedValue;
 
-                Repositorios.Repo_Cliente.getInstancia().crearCliente(
+                int idCliente = Repositorios.Repo_Cliente.getInstancia().crearClienteReturnId(
                     tbMail.Text,
                     tbNombre.Text,
                     tbApellido.Text,
@@ -80,28 +101,9 @@ namespace FrbaHotel.GenerarModificacionReserva
 
                 Model.Cliente clienteCreado = new Model.Cliente();
                 clienteCreado.mail = tbMail.Text;
+                clienteCreado.id = idCliente;
                 vistaReserva.actualizarTbCliente(clienteCreado);
             }
-
-        }
-
-        private void btnLimpiar_Click(object sender, EventArgs e)
-        {
-            tbMail.Text = "";
-            tbNombre.Text = "";
-            tbApellido.Text = "";
-            configuarComboBoxTipoDoc();
-            numericNumeroIdentificacion.Value = decimal.Zero;
-            numericTelefono.Value = decimal.Zero;
-            tbPaisOrigen.Text = "";
-            tbNacionalidad.Text = "";
-            textBox1.Text = "";
-            tbCalle.Text = "";
-            numericNumero.Value = decimal.Zero;
-            numericPiso.Value = decimal.Zero;
-            tbDpto.Text = "";
-            tbLocalidad.Text = "";
-            tbPais.Text = "";
         }
 
     }

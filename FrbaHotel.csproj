@@ -298,7 +298,9 @@
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\Consumible.cs" />
+    <Compile Include="Model\EstadoReserva.cs" />
     <Compile Include="Model\Habitacion.cs" />
+    <Compile Include="Model\Reserva.cs" />
     <Compile Include="Model\ReservaCancelada.cs" />
     <Compile Include="Model\Cliente.cs" />
     <Compile Include="Model\Direccion.cs" />

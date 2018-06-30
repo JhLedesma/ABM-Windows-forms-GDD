@@ -75,6 +75,7 @@ namespace FrbaHotel.GenerarModificacionReserva
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
+            /////////////////////////////////////////////////Verificar que No este ocupado ese dia/////////////////////////////
             if (regimenSeleccionado != null)
             {
                 this.avanzarPaso2();
@@ -183,7 +184,7 @@ namespace FrbaHotel.GenerarModificacionReserva
 
         public void actualizarTbCliente(Model.Cliente cliente)
         {
-            tbCliente.Text = cliente.mail.ToString();
+            tbCliente.Text = cliente.id.ToString();
             btnTerminar.Enabled = true;
         }
 
@@ -202,6 +203,12 @@ namespace FrbaHotel.GenerarModificacionReserva
             {
                 new CrearClienteReserva(this).ShowDialog();
             }
+        }
+
+        private void btnTerminar_Click(object sender, EventArgs e)
+        {
+            Model.Reserva reservaCreada = new Model.Reserva();
+            Repositorios.Repo_Reserva.getInstancia().crearReserva(reservaCreada);
         }
 
 

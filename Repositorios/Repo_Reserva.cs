@@ -138,6 +138,17 @@ namespace FrbaHotel.Repositorios
         }
 
 
+        public void crearReserva(Model.Reserva reserva)
+        {
+
+        }
+
+        public Model.Reserva getReserva(decimal id)
+        {
+            return null;
+        }
+
+
     }
 }
     

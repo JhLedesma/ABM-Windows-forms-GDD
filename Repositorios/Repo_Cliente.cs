@@ -77,7 +77,6 @@ namespace FrbaHotel.Repositorios
         }
 
 
-        //Falta hacer validacion para que no meta mail repetido
         public void crearCliente(String email, String nombre, String apellido, int tipoDoc, decimal numDoc, decimal telefono, String paisOrigen, String nacionalidad, DateTime fechaNac, String ciudad, String calle, decimal numCalle, decimal piso, String dpto, String localidad, String pais)
         {
             DBhelper.crearConexion();
@@ -102,9 +101,44 @@ namespace FrbaHotel.Repositorios
             cmd.Parameters.Add("@localidad", SqlDbType.NVarChar).Value = localidad;
             cmd.Parameters.Add("@pais", SqlDbType.NVarChar).Value = pais;
 
-            cmd.ExecuteNonQuery();
+            DBhelper.ejecutarProcedure(cmd);
 
             DBhelper.cerrarConexion();
+        }
+
+
+        public int crearClienteReturnId(String email, String nombre, String apellido, int tipoDoc, decimal numDoc, decimal telefono, String paisOrigen, String nacionalidad, DateTime fechaNac, String ciudad, String calle, decimal numCalle, decimal piso, String dpto, String localidad, String pais)
+        {
+            DBhelper.crearConexion();
+
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.newClienteReturnId");
+            cmd.Parameters.Add("@email", SqlDbType.NVarChar).Value = email;
+            cmd.Parameters.Add("@nombre", SqlDbType.NVarChar).Value = nombre;
+            cmd.Parameters.Add("@apellido", SqlDbType.NVarChar).Value = apellido;
+            cmd.Parameters.Add("@tipoDoc", SqlDbType.Int).Value = tipoDoc;
+            cmd.Parameters.Add("@numDoc", SqlDbType.Decimal).Value = numDoc;
+            cmd.Parameters.Add("@telefono", SqlDbType.Decimal).Value = telefono;
+            cmd.Parameters.Add("@PaisOrigen", SqlDbType.NVarChar).Value = paisOrigen;
+            cmd.Parameters.Add("@Nacionalidad", SqlDbType.NVarChar).Value = nacionalidad;
+            cmd.Parameters.Add("@FechaNacimiento", SqlDbType.DateTime).Value = fechaNac;
+            cmd.Parameters.Add("@ciudad", SqlDbType.NVarChar).Value = ciudad;
+            cmd.Parameters.Add("@calle", SqlDbType.NVarChar).Value = calle;
+            cmd.Parameters.Add("@nroCalle", SqlDbType.Decimal).Value = numCalle;
+            cmd.Parameters.Add("@piso", SqlDbType.Decimal).Value = piso;
+            cmd.Parameters.Add("@dpto", SqlDbType.NVarChar).Value = dpto;
+            cmd.Parameters.Add("@localidad", SqlDbType.NVarChar).Value = localidad;
+            cmd.Parameters.Add("@pais", SqlDbType.NVarChar).Value = pais;
+
+            var valorDeRetorno = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
+            valorDeRetorno.Direction = ParameterDirection.ReturnValue;
+
+            DBhelper.ejecutarProcedure(cmd);
+
+            DBhelper.cerrarConexion();
+
+            return (int)valorDeRetorno.Value;
         }
 
         public Model.Cliente getCliente(int idCliente, string mail)

@@ -295,10 +295,12 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getUsuariosFiltradosSinInactivos','P') IS NOT
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.darDeBajaUsuario','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.darDeBajaUsuario;
 
-	IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getConsumibles','P') IS NOT NULL  
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getConsumibles','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getConsumibles;
-	
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.newClienteReturnId','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.newClienteReturnId;	
+	
 
 /* Dropeo las views si ya existen */
 
@@ -387,7 +389,7 @@ PRIMARY KEY (Fact_Nro)
 CREATE TABLE TRAEME_LA_COPA_MESSI.Cliente(
 IdCliente int IDENTITY(1,1) PRIMARY KEY,
 Email nvarchar(255) UNIQUE,
-Direccion int NULL, --FALTA EN LA MIGRACION ASOCIAR CON LAS DIRECCIONES CORRESPONDIENTES
+Direccion int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Direccion(IdDir) not null, --FALTA EN LA MIGRACION ASOCIAR CON LAS DIRECCIONES CORRESPONDIENTES
 Nombre nvarchar(255) NOT NULL,
 Apellido nvarchar(255) NOT NULL,
 TipoDoc int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.TipoDoc(IdTipo) NOT NULL,
@@ -402,7 +404,7 @@ Estado BIT DEFAULT 0,
 CREATE TABLE TRAEME_LA_COPA_MESSI.Cliente_Inconsistente( --Agrego id porque en esta tabla el email se repite
 IdCliente int IDENTITY(1,1) PRIMARY KEY,
 Email nvarchar(255),
-Direccion int NULL, --FALTA EN LA MIGRACION ASOCIAR CON LAS DIRECCIONES CORRESPONDIENTES
+Direccion int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Direccion(IdDir) not null, --FALTA EN LA MIGRACION ASOCIAR CON LAS DIRECCIONES CORRESPONDIENTES
 Nombre nvarchar(255) NOT NULL,
 Apellido nvarchar(255) NOT NULL,
 TipoDoc int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.TipoDoc(IdTipo) NOT NULL,
@@ -745,7 +747,16 @@ INSERT INTO TRAEME_LA_COPA_MESSI.EstadoReserva(DescripEstadoReserva)
 	 VALUES('Reserva sistema anterior') 
 
 INSERT INTO TRAEME_LA_COPA_MESSI.EstadoReserva(DescripEstadoReserva)
-	 VALUES('Reserva Cancelada') 
+	 VALUES('Reserva Cancelada')
+	 
+INSERT INTO TRAEME_LA_COPA_MESSI.EstadoReserva(DescripEstadoReserva)
+	 VALUES('Reserva Correcta') 
+	 
+INSERT INTO TRAEME_LA_COPA_MESSI.EstadoReserva(DescripEstadoReserva)
+	 VALUES('Reserva Efectivizada') 
+	 
+INSERT INTO TRAEME_LA_COPA_MESSI.EstadoReserva(DescripEstadoReserva)
+	 VALUES('Reserva Modificada')  
 
 
 -- Tablas auxiliares creacion de reservas --
@@ -1462,6 +1473,47 @@ begin transaction
 
 		insert into TRAEME_LA_COPA_MESSI.Cliente (Email, Direccion, Nombre, Apellido, TipoDoc, NumDoc, Telefono, PaisOrigen, Nacionalidad, FechaNacimiento)
 		values(@email, @IdDireccion, @nombre, @apellido, @tipoDoc, @numDoc, @telefono, @PaisOrigen, @Nacionalidad, @FechaNacimiento)
+	end
+commit
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.newClienteReturnId
+@email nvarchar(255),
+@nombre nvarchar(255),
+@apellido nvarchar(255),
+@tipoDoc int,
+@numDoc numeric(18,0),
+@telefono numeric(18,0),
+@PaisOrigen nvarchar(255),
+@Nacionalidad nvarchar(255),
+@FechaNacimiento Datetime,
+@ciudad nvarchar(255), 
+@calle nvarchar(255), 
+@nroCalle numeric(18,0),
+@piso numeric(18,0),
+@dpto nvarchar(50),
+@localidad nvarchar(255),
+@pais nvarchar(255)
+as
+begin transaction
+	begin
+		declare @IdDireccion int
+
+		insert into TRAEME_LA_COPA_MESSI.Direccion (Ciudad, Calle, NroCalle, Piso, Departamento, Localidad, Pais)
+		values(@ciudad, @calle, @nroCalle, @piso, @dpto, @localidad, @pais)
+
+		set @IdDireccion = (select IdDir from TRAEME_LA_COPA_MESSI.Direccion where Ciudad=@ciudad and Calle=@calle and NroCalle=@nroCalle and Piso=@piso and Departamento=@dpto and Localidad=@localidad and Pais=@pais)
+
+		insert into TRAEME_LA_COPA_MESSI.Cliente (Email, Direccion, Nombre, Apellido, TipoDoc, NumDoc, Telefono, PaisOrigen, Nacionalidad, FechaNacimiento)
+		values(@email, @IdDireccion, @nombre, @apellido, @tipoDoc, @numDoc, @telefono, @PaisOrigen, @Nacionalidad, @FechaNacimiento)
+		
+
+		declare @idCliente int
+			
+		set @idCliente = (select IdCliente from TRAEME_LA_COPA_MESSI.Cliente c where c.Email=@email and c.Nombre=@nombre and c.Apellido=@apellido and c.Direccion=@IdDireccion and c.TipoDoc=@tipoDoc and c.NumDoc=@numDoc and c.Telefono=@telefono and c.PaisOrigen=@PaisOrigen and c.Nacionalidad=@Nacionalidad and c.FechaNacimiento=@FechaNacimiento)
+
+		return @idCliente
 	end
 commit
 
