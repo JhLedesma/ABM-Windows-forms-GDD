@@ -1804,7 +1804,7 @@ CREATE PROCEDURE TRAEME_LA_COPA_MESSI.getClienteReserva
 AS
 BEGIN
 
-	SELECT c.nombre, c.Apellido, c.NumDoc, c.Email, t.Descripcion FROM TRAEME_LA_COPA_MESSI.Cliente c JOIN TRAEME_LA_COPA_MESSI.TipoDoc t ON t.IdTipo = c.TipoDoc
+	SELECT c.IdCliente, c.nombre, c.Apellido, c.NumDoc, c.Email, t.Descripcion FROM TRAEME_LA_COPA_MESSI.Cliente c JOIN TRAEME_LA_COPA_MESSI.TipoDoc t ON t.IdTipo = c.TipoDoc
 	WHERE c.IdCliente = (SELECT IdCliente FROM TRAEME_LA_COPA_MESSI.Reserva WHERE IdHotel = @idHotel AND IdReserva = @numReserva)
 
 END
@@ -1833,8 +1833,6 @@ BEGIN
 	VALUES (@idCliente,@idReserva)
 
 	END
-
-	
 
 /* Repositorio Tipo Habitacion*/
 

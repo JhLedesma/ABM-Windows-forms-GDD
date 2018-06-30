@@ -51,6 +51,7 @@
             this.dataGridClientes.ReadOnly = true;
             this.dataGridClientes.Size = new System.Drawing.Size(531, 274);
             this.dataGridClientes.TabIndex = 26;
+            this.dataGridClientes.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridClientes_CellClick);
             // 
             // label1
             // 
@@ -135,6 +136,7 @@
             this.boton_eliminar.TabIndex = 35;
             this.boton_eliminar.Text = "Eliminar";
             this.boton_eliminar.UseVisualStyleBackColor = true;
+            this.boton_eliminar.Click += new System.EventHandler(this.boton_eliminar_Click);
             // 
             // Check_In
             // 

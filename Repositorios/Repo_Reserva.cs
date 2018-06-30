@@ -124,6 +124,7 @@ namespace FrbaHotel.Repositorios
             foreach (DataRow row in tablaCliente.Rows)
             {
 
+                cliente.id = (Int32)row["IdCliente"];
                 cliente.nombre = (String)row["Nombre"];
                 cliente.apellido = (String)row["Apellido"];
                 cliente.numDoc = (Decimal)row["NumDoc"];
@@ -148,7 +149,42 @@ namespace FrbaHotel.Repositorios
             return null;
         }
 
-        public void hacerCheckIn(Model.Cliente cliente) { }
+        public void hacerCheckIn(Model.Cliente cliente, Int32 numReserva) {
+              
+            DBhelper.crearConexion();
+
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.hacerCheckIn");
+            cmd.Parameters.Add("@idCliente", SqlDbType.Int).Value = cliente.id;
+            cmd.Parameters.Add("@mailCliente", SqlDbType.NVarChar).Value = cliente.mail;
+            cmd.Parameters.Add("@numeroDoc", SqlDbType.NVarChar).Value = cliente.numDoc;
+            cmd.Parameters.Add("@idReserva", SqlDbType.Int).Value = numReserva;
+
+            DBhelper.ejecutarProcedure(cmd);
+
+            DBhelper.cerrarConexion();
+        
+        }
+        /*
+        public void generarLogEstadia(Model.Cliente cliente, Int32 numReserva)
+        {
+
+            DBhelper.crearConexion();
+
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.hacerCheckIn");
+            cmd.Parameters.Add("@idCliente", SqlDbType.Int).Value = cliente.id;
+            cmd.Parameters.Add("@mailCliente", SqlDbType.NVarChar).Value = cliente.mail;
+            cmd.Parameters.Add("@numeroDoc", SqlDbType.NVarChar).Value = cliente.numDoc;
+            cmd.Parameters.Add("@idReserva", SqlDbType.Int).Value = numReserva;
+
+            DBhelper.ejecutarProcedure(cmd);
+
+            DBhelper.cerrarConexion();
+
+        }*/
 
     }
 }
