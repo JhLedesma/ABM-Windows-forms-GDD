@@ -1541,7 +1541,6 @@ create procedure TRAEME_LA_COPA_MESSI.newClienteReturnId
 @localidad nvarchar(255),
 @pais nvarchar(255)
 as
-begin transaction
 	begin
 		declare @IdDireccion int
 
@@ -1560,7 +1559,6 @@ begin transaction
 
 		return @idCliente
 	end
-commit
 
 
 GO

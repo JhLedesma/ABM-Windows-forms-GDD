@@ -71,38 +71,45 @@ namespace FrbaHotel.GenerarModificacionReserva
             {
                 MessageBox.Show("Por favor complete todos los campos", "Campos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            else if (Repositorios.Repo_Cliente.getInstancia().validarMail(tbMail.Text) == 1)
-            {
-                MessageBox.Show("Por favor ingrese un mail que no registrado", "Mail ya existente", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
             else
             {
-                Model.TipoDocumento tipoDoc = (Model.TipoDocumento)listadoTipoIdentificacion.SelectedValue;
+                try
+                {
+                    Model.TipoDocumento tipoDoc = (Model.TipoDocumento)listadoTipoIdentificacion.SelectedValue;
 
-                int idCliente = Repositorios.Repo_Cliente.getInstancia().crearClienteReturnId(
-                    tbMail.Text,
-                    tbNombre.Text,
-                    tbApellido.Text,
-                    tipoDoc.id, //combobox
-                    numericNumeroIdentificacion.Value,
-                    numericTelefono.Value,
-                    tbPaisOrigen.Text,
-                    tbNacionalidad.Text,
-                    dtFechaNacimiento.Value,
-                    textBox1.Text,
-                    tbCalle.Text,
-                    numericNumero.Value,
-                    numericPiso.Value,
-                    tbDpto.Text,
-                    tbLocalidad.Text,
-                    tbPais.Text);
+                    int idCliente = Repositorios.Repo_Cliente.getInstancia().crearClienteReturnId(
+                        tbMail.Text,
+                        tbNombre.Text,
+                        tbApellido.Text,
+                        tipoDoc.id, //combobox
+                        numericNumeroIdentificacion.Value,
+                        numericTelefono.Value,
+                        tbPaisOrigen.Text,
+                        tbNacionalidad.Text,
+                        dtFechaNacimiento.Value,
+                        textBox1.Text,
+                        tbCalle.Text,
+                        numericNumero.Value,
+                        numericPiso.Value,
+                        tbDpto.Text,
+                        tbLocalidad.Text,
+                        tbPais.Text);
 
-                MessageBox.Show("Cliente creado correctamente");
+                    MessageBox.Show("Cliente creado correctamente");
 
-                Model.Cliente clienteCreado = new Model.Cliente();
-                clienteCreado.mail = tbMail.Text;
-                clienteCreado.id = idCliente;
-                vistaReserva.actualizarTbCliente(clienteCreado);
+                    Model.Cliente clienteCreado = new Model.Cliente();
+                    clienteCreado.mail = tbMail.Text;
+                    clienteCreado.id = idCliente;
+                    vistaReserva.actualizarTbCliente(clienteCreado);
+
+                    this.Hide();
+                    this.Close();
+                }
+                catch (Exception exec)
+                {
+                    MessageBox.Show("Por favor ingrese un mail que no registrado", "Mail ya existente", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                
             }
         }
 
