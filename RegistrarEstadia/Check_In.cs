@@ -44,5 +44,15 @@ namespace FrbaHotel.RegistrarEstadia
             clientesReserva.Add(clienteFiltrado);
             dataGridClientes.DataSource = clientesReserva;
         }
+
+        private void boton_confirmar_Click(object sender, EventArgs e)
+        {
+            foreach (Model.Cliente cliente in clientesReserva) {
+
+                Repositorios.Repo_Reserva.getInstancia().hacerCheckIn(cliente);
+            
+            
+            }
+        }
     }
 }

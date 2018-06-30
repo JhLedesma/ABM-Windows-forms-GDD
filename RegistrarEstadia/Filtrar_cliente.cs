@@ -22,6 +22,7 @@ namespace FrbaHotel.RegistrarEstadia
         string paisClienteSeleccionado;
         string nacionalidadClienteSeleccionado;
         DateTime fechaNacimientoClienteSeleccionado;
+        String estadoClienteSeleccionado;
 
         private RegistrarEstadia.Check_In controler;
 
@@ -46,13 +47,13 @@ namespace FrbaHotel.RegistrarEstadia
             mailClienteSeleccionado = Convert.ToString(dataGridView1.Rows[e.RowIndex].Cells["Email"].Value);
             nombreClienteSeleccionado = Convert.ToString(dataGridView1.Rows[e.RowIndex].Cells["Nombre"].Value);
             apellidoClienteSeleccionado = Convert.ToString(dataGridView1.Rows[e.RowIndex].Cells["Apellido"].Value);
-            //tipo doc
             numeroDocClienteSeleccionado = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["NumDoc"].Value);
             telefonoClienteSeleccionado = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["Telefono"].Value);
             paisClienteSeleccionado = Convert.ToString(dataGridView1.Rows[e.RowIndex].Cells["PaisOrigen"].Value);
             nacionalidadClienteSeleccionado = Convert.ToString(dataGridView1.Rows[e.RowIndex].Cells["Nacionalidad"].Value);
             fechaNacimientoClienteSeleccionado = Convert.ToDateTime(dataGridView1.Rows[e.RowIndex].Cells["FechaNacimiento"].Value);
-            //estado
+            estadoClienteSeleccionado = Convert.ToString(dataGridView1.Rows[e.RowIndex].Cells["Estado"].Value);
+            
         }
 
 
@@ -77,8 +78,18 @@ namespace FrbaHotel.RegistrarEstadia
 
         private void boton_agregar_Click(object sender, EventArgs e)
         {
-            //FALTA METER TIPO DOC, DIRECCION Y ESTADO, HARCODEADO PARA PROBAR
-            controler.clienteFiltrado = new Model.Cliente(idClienteSeleccionado, nombreClienteSeleccionado, apellidoClienteSeleccionado, mailClienteSeleccionado, telefonoClienteSeleccionado, numeroDocClienteSeleccionado, new Model.TipoDocumento(), nacionalidadClienteSeleccionado, fechaNacimientoClienteSeleccionado,paisClienteSeleccionado, new Model.Direccion(), 1);
+            
+            Model.Cliente cliente = new Model.Cliente();
+            cliente.apellido = apellidoClienteSeleccionado;
+            cliente.nombre = nombreClienteSeleccionado;
+            cliente.id = idClienteSeleccionado;
+            cliente.mail = mailClienteSeleccionado;
+            cliente.nacionalidad = nacionalidadClienteSeleccionado;
+            cliente.fechaNac = fechaNacimientoClienteSeleccionado;
+            cliente.numDoc = numeroDocClienteSeleccionado;
+
+            controler.clienteFiltrado = cliente;
+
             this.Hide();
             controler.Show();
             this.Close();

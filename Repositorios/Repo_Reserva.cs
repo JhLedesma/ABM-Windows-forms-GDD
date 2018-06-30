@@ -148,6 +148,7 @@ namespace FrbaHotel.Repositorios
             return null;
         }
 
+        public void hacerCheckIn(Model.Cliente cliente) { }
 
     }
 }

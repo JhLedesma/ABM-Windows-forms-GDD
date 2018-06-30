@@ -125,6 +125,7 @@
             this.boton_confirmar.TabIndex = 34;
             this.boton_confirmar.Text = "Confirmar";
             this.boton_confirmar.UseVisualStyleBackColor = true;
+            this.boton_confirmar.Click += new System.EventHandler(this.boton_confirmar_Click);
             // 
             // boton_eliminar
             // 

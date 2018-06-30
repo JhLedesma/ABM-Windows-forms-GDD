@@ -8,8 +8,16 @@ GO
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.fechasFinEstadias','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.fechasFinEstadias;
 
+<<<<<<< HEAD
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.AcompaniantePorReserva','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.AcompaniantePorReserva;
+=======
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.ClienteIncRegistradoPorReserva','U') IS NOT NULL    --2
+	DROP TABLE TRAEME_LA_COPA_MESSI.ClienteIncRegistradoPorReserva;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.ClienteRegistradoPorReserva','U') IS NOT NULL    
+	DROP TABLE TRAEME_LA_COPA_MESSI.ClienteRegistradoPorReserva;
+>>>>>>> 6f486da0bf12375f7a392974b44bf60bdfd89971
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Item_Factura','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.Item_Factura;
@@ -40,6 +48,9 @@ IF OBJECT_ID ('traeme_la_copa_messi.Consumible','U') IS NOT NULL
 
 IF OBJECT_ID ('traeme_la_copa_messi.LogEstadia','U') IS NOT NULL
     DROP TABLE traeme_la_copa_messi.LogEstadia;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Log_Reserva','U') IS NOT NULL    --1
+	DROP TABLE TRAEME_LA_COPA_MESSI.Log_Reserva;
 
 IF OBJECT_ID ('traeme_la_copa_messi.Reserva','U') IS NOT NULL
     DROP TABLE traeme_la_copa_messi.Reserva;
@@ -101,8 +112,12 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.TipoDoc','U') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Direccion','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.Direccion;
 
+<<<<<<< HEAD
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Log_Reserva','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.Log_Reserva;
+=======
+ 
+>>>>>>> 6f486da0bf12375f7a392974b44bf60bdfd89971
 
 
 
@@ -304,6 +319,10 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getConsumibles','P') IS NOT NULL
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.newClienteReturnId','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.newClienteReturnId;	
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.hacerCheckIn','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.hacerCheckIn;	
+	
 	
 
 /* Dropeo las views si ya existen */
@@ -324,7 +343,11 @@ CREATE SCHEMA TRAEME_LA_COPA_MESSI AUTHORIZATION gdHotel2018
 
 GO
 
-Create table TRAEME_LA_COPA_MESSI.Log_Reserva(
+
+
+
+
+Create table TRAEME_LA_COPA_MESSI.Log_Reserva( --QUE ES ESTO? NO TIENE REFERENCIA A RESERVA
 LogId int identity(1,1) Primary key,
 Log_Tipo nvarchar(255),
 Log_UsuarioId nvarchar(255),
@@ -582,17 +605,22 @@ Cantidad int,
 Monto int
 );
 
-create table traeme_la_copa_messi.AcompaniantePorReserva(
+create table traeme_la_copa_messi.ClienteRegistradoPorReserva(
 ClienteId int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente(IdCliente),
 ReservaId numeric(18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Reserva(IdReserva),
 CONSTRAINT IdAcompaniantePorReserva PRIMARY KEY(ClienteId,ReservaId)
+);
+
+CREATE TABLE TRAEME_LA_COPA_MESSI.ClienteIncRegistradoPorReserva(
+ClienteId int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente_Inconsistente(IdCliente) ,
+ReservaId numeric(18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Reserva(IdReserva),
+CONSTRAINT IdAcompanianteIncPorReserva PRIMARY KEY(ClienteId,ReservaId)
 );
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.fechasFinEstadias(
 Reserva int PRIMARY KEY,
 fechaFin datetime
 );
-
 
 -----------------------------------------------------------------------/* Migracion de datos */-------------------------------------------------------------------------- 
 
@@ -1790,6 +1818,33 @@ BEGIN
 	WHERE c.IdCliente = (SELECT IdCliente FROM TRAEME_LA_COPA_MESSI.Reserva WHERE IdHotel = @idHotel AND IdReserva = @numReserva)
 
 END
+
+
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.hacerCheckIn
+@idCliente int,
+@mailCliente nvarchar(255),
+@numeroDoc int,
+@idReserva int
+
+AS
+BEGIN
+
+	IF EXISTS (SELECT IdCliente FROM TRAEME_LA_COPA_MESSI.Cliente WHERE IdCliente = @idCliente AND Email = @mailCliente AND NumDoc = @numeroDoc)
+
+	INSERT INTO TRAEME_LA_COPA_MESSI.ClienteRegistradoPorReserva
+	VALUES (@idCliente,@idReserva)
+
+	ELSE
+
+	IF EXISTS (SELECT IdCliente FROM TRAEME_LA_COPA_MESSI.Cliente_Inconsistente WHERE IdCliente = @idCliente AND Email = @mailCliente AND NumDoc = @numeroDoc)
+
+	INSERT INTO TRAEME_LA_COPA_MESSI.ClienteIncRegistradoPorReserva
+	VALUES (@idCliente,@idReserva)
+
+	END
+
+	
 
 /* Repositorio Tipo Habitacion*/
 
