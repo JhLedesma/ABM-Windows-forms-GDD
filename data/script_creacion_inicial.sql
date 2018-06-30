@@ -5,6 +5,12 @@ GO
 
 /* Dropeo de tablas si estas ya existen */
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.fechasFinEstadias','U') IS NOT NULL    
+	DROP TABLE TRAEME_LA_COPA_MESSI.fechasFinEstadias;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.AcompaniantePorReserva','U') IS NOT NULL    
+	DROP TABLE TRAEME_LA_COPA_MESSI.AcompaniantePorReserva;
+
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Item_Factura','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.Item_Factura;
 
@@ -95,15 +101,10 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.TipoDoc','U') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Direccion','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.Direccion;
 
-
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Log_Reserva','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.Log_Reserva;
 
-IF OBJECT_ID('TRAEME_LA_COPA_MESSI.AcompaniantePorReserva','U') IS NOT NULL    
-	DROP TABLE TRAEME_LA_COPA_MESSI.AcompaniantePorReserva;
 
-IF OBJECT_ID('TRAEME_LA_COPA_MESSI.fechasFinEstadias','U') IS NOT NULL    
-	DROP TABLE TRAEME_LA_COPA_MESSI.fechasFinEstadias;
 
 
 
