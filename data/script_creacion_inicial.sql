@@ -312,7 +312,9 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.newClienteReturnId','P') IS NOT NULL
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.hacerCheckIn','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.hacerCheckIn;	
-	
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.generarLogEstadia','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.generarLogEstadia;		
 	
 
 /* Dropeo las views si ya existen */
@@ -1833,6 +1835,18 @@ BEGIN
 	VALUES (@idCliente,@idReserva)
 
 	END
+
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.generarLogEstadia
+@idReserva int
+	
+AS
+BEGIN
+
+INSERT INTO TRAEME_LA_COPA_MESSI.LogEstadia(FechaInicio,ReservaId)
+	VALUES (GETDATE(),@idReserva)
+
+END
 
 /* Repositorio Tipo Habitacion*/
 

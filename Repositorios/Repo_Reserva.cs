@@ -166,25 +166,22 @@ namespace FrbaHotel.Repositorios
             DBhelper.cerrarConexion();
         
         }
-        /*
-        public void generarLogEstadia(Model.Cliente cliente, Int32 numReserva)
+        
+        public void generarLogEstadia(Int32 numReserva)
         {
 
             DBhelper.crearConexion();
 
             DBhelper.abrirConexion();
 
-            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.hacerCheckIn");
-            cmd.Parameters.Add("@idCliente", SqlDbType.Int).Value = cliente.id;
-            cmd.Parameters.Add("@mailCliente", SqlDbType.NVarChar).Value = cliente.mail;
-            cmd.Parameters.Add("@numeroDoc", SqlDbType.NVarChar).Value = cliente.numDoc;
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.generarLogEstadia");
             cmd.Parameters.Add("@idReserva", SqlDbType.Int).Value = numReserva;
 
             DBhelper.ejecutarProcedure(cmd);
 
             DBhelper.cerrarConexion();
 
-        }*/
+        }
 
     }
 }
