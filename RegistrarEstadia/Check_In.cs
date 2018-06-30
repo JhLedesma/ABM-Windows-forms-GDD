@@ -18,6 +18,7 @@ namespace FrbaHotel.RegistrarEstadia
         private List<Model.Cliente> clientesReserva = new List<Model.Cliente>();
         public Model.Cliente clienteCreado { get; set; }
         public Model.Cliente clienteFiltrado { get; set; }
+        public Int32 idSeleccionado { get; set; }
 
         public Check_In(Int32 hotel, Int32 reserva)
         {
@@ -47,12 +48,32 @@ namespace FrbaHotel.RegistrarEstadia
 
         private void boton_confirmar_Click(object sender, EventArgs e)
         {
+
+            Repositorios.Repo_Reserva.getInstancia().generarLogEstadia(numReserva);
+
             foreach (Model.Cliente cliente in clientesReserva) {
 
-                Repositorios.Repo_Reserva.getInstancia().hacerCheckIn(cliente);
-            
-            
+                Repositorios.Repo_Reserva.getInstancia().hacerCheckIn(cliente,numReserva);
+
             }
+
+            MessageBox.Show("Check-In realizado", "Check-In", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void dataGridClientes_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            idSeleccionado = (Int32)(dataGridClientes.Rows[e.RowIndex].Cells["id"].Value);
+        }
+
+        private void boton_eliminar_Click(object sender, EventArgs e)
+        {
+
+            dataGridClientes.DataSource = null;
+
+            clientesReserva.RemoveAll(x => x.id == idSeleccionado);
+
+            dataGridClientes.DataSource = clientesReserva;
+            
         }
     }
 }
