@@ -101,7 +101,7 @@ namespace FrbaHotel.Repositorios
             cmd.Parameters.Add("@localidad", SqlDbType.NVarChar).Value = localidad;
             cmd.Parameters.Add("@pais", SqlDbType.NVarChar).Value = pais;
 
-            DBhelper.ejecutarProcedure(cmd);
+            cmd.ExecuteNonQuery();
 
             DBhelper.cerrarConexion();
         }
@@ -279,14 +279,13 @@ namespace FrbaHotel.Repositorios
         public int validarMail(string mail)
         {
             DBhelper.crearConexion();
+            DBhelper.abrirConexion();
 
-            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.validarMail");
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.validarMailCliente");
             cmd.Parameters.Add("@mail", SqlDbType.NVarChar).Value = mail;
 
             var valorDeRetorno = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
             valorDeRetorno.Direction = ParameterDirection.ReturnValue;
-
-            DBhelper.abrirConexion();
 
             DBhelper.ejecutarProcedure(cmd);
 
