@@ -49,7 +49,7 @@ namespace FrbaHotel.RegistrarEstadia
         private void boton_confirmar_Click(object sender, EventArgs e)
         {
 
-            Repositorios.Repo_Reserva.getInstancia().generarLogEstadia(numReserva);
+            //Repositorios.Repo_Reserva.getInstancia().generarLogEstadia(numReserva);
 
             foreach (Model.Cliente cliente in clientesReserva) {
 
