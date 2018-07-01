@@ -513,7 +513,7 @@ IdClienteInconsistente int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente_I
 IdHotel int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Hotel(IdHotel) null, --Cambiar a not null
 tipoHabitacion int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.TipoHabitacion(Codigo) null,
 FechaReserva datetime  NULL,
-FechaGeneracionReserva datetime NULL,
+FechaGeneracionReserva datetime NOT NULL,
 CantidadNochesReservadas numeric(18,0)  NULL,
 EstadoReserva int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.EstadoReserva(IdEstadoReserva)  null,
 RegimenEstadiaId int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.RegimenEstadia(IdRegimenEstadia)  null
@@ -795,10 +795,11 @@ SELECT DISTINCT IdCliente, Reserva_Codigo FROM TRAEME_LA_COPA_MESSI.Cliente_Inco
 
 -- Reserva --
 
-INSERT INTO TRAEME_LA_COPA_MESSI.Reserva(IdReserva, IdHotel, FechaReserva, CantidadNochesReservadas,RegimenEstadiaId ,EstadoReserva)
+INSERT INTO TRAEME_LA_COPA_MESSI.Reserva(IdReserva, IdHotel, FechaReserva, CantidadNochesReservadas,RegimenEstadiaId ,EstadoReserva, FechaGeneracionReserva)
+
 
 	SELECT DISTINCT m.Reserva_Codigo, h.IdHotel, m.Reserva_Fecha_Inicio, m.Estadia_Cant_Noches,
-	(SELECT IdRegimenEstadia FROM TRAEME_LA_COPA_MESSI.RegimenEstadia WHERE Descripcion = m.Regimen_Descripcion), 1
+	(SELECT IdRegimenEstadia FROM TRAEME_LA_COPA_MESSI.RegimenEstadia WHERE Descripcion = m.Regimen_Descripcion), 1, CAST('1950-10-10 12:35:29.123' AS datetime)
 
 	FROM
 
