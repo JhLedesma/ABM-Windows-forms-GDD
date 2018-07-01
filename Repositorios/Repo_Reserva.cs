@@ -202,7 +202,7 @@ namespace FrbaHotel.Repositorios
 
         }
 
-<<<<<<< HEAD
+
         public int comprobarDisponibilidad(DateTime desde, DateTime hasta)
         {
             DBhelper.crearConexion();
@@ -215,7 +215,10 @@ namespace FrbaHotel.Repositorios
 
             DBhelper.abrirConexion();
 
-=======
+            return (int)valorDeRetorno.Value;
+        }
+
+
         public void hacerCheckOut(Int32 numReserva)
         {
 
@@ -226,15 +229,10 @@ namespace FrbaHotel.Repositorios
             SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.hacerCheckOut");
             cmd.Parameters.Add("@idReserva", SqlDbType.Int).Value = numReserva;
 
->>>>>>> a7596851308382b671b2c14c7ac7df8c8d1cc7e8
             DBhelper.ejecutarProcedure(cmd);
 
             DBhelper.cerrarConexion();
 
-<<<<<<< HEAD
-            return (int)valorDeRetorno.Value;
-=======
->>>>>>> a7596851308382b671b2c14c7ac7df8c8d1cc7e8
         }
 
     }
