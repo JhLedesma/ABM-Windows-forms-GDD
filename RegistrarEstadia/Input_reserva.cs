@@ -41,7 +41,7 @@ namespace FrbaHotel.RegistrarEstadia
 
             else {
 
-                if (codigo == 0) {
+                if (codigo == 2) {
 
                     MessageBox.Show("El check in debe realizarce el mismo dia para el cual se realizo la reserva", "Error en el check-in", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 
@@ -49,7 +49,32 @@ namespace FrbaHotel.RegistrarEstadia
 
                 else {
 
-                    MessageBox.Show("La reserva no existe, compruebe el numero ingresado", "Error en el check-in", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    if (codigo == 3) {
+
+                        MessageBox.Show("Su reserva expiro, la fecha de check in es anterior a la fecha del dia de hoy, si lo desea puede solicitar una nueva", "Error en el check-in", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    
+                    }
+
+                    else
+
+                    {
+                        if (codigo == 4)
+                        {
+
+                            MessageBox.Show("Esta reserva ya fue efectivizada", "Error en el check-in", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                        }
+                        
+                        else
+                        {
+
+                        MessageBox.Show("La reserva no existe, compruebe el numero ingresado", "Error en el check-in", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                        }
+                    }
+
+
+                    
                  
                 }
            
