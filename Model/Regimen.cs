@@ -15,7 +15,7 @@ namespace FrbaHotel.Model
 
         public Regimen() { }
 
-        public string Descripcion //Este metodo es el que usa el selector para mostrar los nombres del objeto,
+      /*  public string Descripcion //Este metodo es el que usa el selector para mostrar los nombres del objeto,
         
         {
 
@@ -24,7 +24,7 @@ namespace FrbaHotel.Model
                 return descripcion;
             }
         }
-
+        */
 
         public Regimen Objeto
         {

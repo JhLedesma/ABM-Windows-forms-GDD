@@ -267,6 +267,12 @@
     <Compile Include="GenerarModificacionReserva\Listado_Cliente.Designer.cs">
       <DependentUpon>Listado_Cliente.cs</DependentUpon>
     </Compile>
+    <Compile Include="GenerarModificacionReserva\MostrarCodigoReserva.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GenerarModificacionReserva\MostrarCodigoReserva.Designer.cs">
+      <DependentUpon>MostrarCodigoReserva.cs</DependentUpon>
+    </Compile>
     <Compile Include="ListadoEstadistico\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -456,6 +462,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GenerarModificacionReserva\Listado_Cliente.resx">
       <DependentUpon>Listado_Cliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GenerarModificacionReserva\MostrarCodigoReserva.resx">
+      <DependentUpon>MostrarCodigoReserva.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login\SeleccionarFuncionalidad.resx">
       <DependentUpon>SeleccionarFuncionalidad.cs</DependentUpon>

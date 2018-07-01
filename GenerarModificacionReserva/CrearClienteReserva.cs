@@ -13,12 +13,20 @@ namespace FrbaHotel.GenerarModificacionReserva
     public partial class CrearClienteReserva : Form
     {
         GenerarReserva vistaReserva;
+        RegistrarEstadia.Check_In controlerCheckIn;
 
         public CrearClienteReserva(GenerarReserva vistaReserva)
         {
             InitializeComponent();
             configuarComboBoxTipoDoc();
             this.vistaReserva = vistaReserva;
+        }
+
+        public CrearClienteReserva(RegistrarEstadia.Check_In controlerCheckIn)
+        {
+            InitializeComponent();
+            configuarComboBoxTipoDoc();
+            this.controlerCheckIn = controlerCheckIn;
         }
 
         public void configuarComboBoxTipoDoc()
@@ -75,28 +83,10 @@ namespace FrbaHotel.GenerarModificacionReserva
             {
                 try
                 {
-                    Model.TipoDocumento tipoDoc = (Model.TipoDocumento)listadoTipoIdentificacion.SelectedValue;
+                    if(vistaReserva != null)
+                    {
 
-                    int idCliente = Repositorios.Repo_Cliente.getInstancia().crearClienteReturnId(
-                        tbMail.Text,
-                        tbNombre.Text,
-                        tbApellido.Text,
-                        tipoDoc.id, //combobox
-                        numericNumeroIdentificacion.Value,
-                        numericTelefono.Value,
-                        tbPaisOrigen.Text,
-                        tbNacionalidad.Text,
-                        dtFechaNacimiento.Value,
-                        textBox1.Text,
-                        tbCalle.Text,
-                        numericNumero.Value,
-                        numericPiso.Value,
-                        tbDpto.Text,
-                        tbLocalidad.Text,
-                        tbPais.Text);
-
-                    MessageBox.Show("Cliente creado correctamente");
-
+                    int idCliente = crearClienteConRetorno();
                     Model.Cliente clienteCreado = new Model.Cliente();
                     clienteCreado.mail = tbMail.Text;
                     clienteCreado.id = idCliente;
@@ -104,13 +94,54 @@ namespace FrbaHotel.GenerarModificacionReserva
 
                     this.Hide();
                     this.Close();
+
+                    }
+
+                    else 
+                    {
+                                    
+                    controlerCheckIn.idClienteCreado = crearClienteConRetorno();
+                    controlerCheckIn.mailClienteCreado = tbMail.Text;
+
+                    this.Hide();
+                    controlerCheckIn.Show();
+                    this.Close();
+                    
+                    }
                 }
+                
                 catch (Exception exec)
                 {
                     MessageBox.Show("Por favor ingrese un mail que no registrado", "Mail ya existente", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 
             }
+        }
+
+        private int crearClienteConRetorno()
+        {
+            Model.TipoDocumento tipoDoc = (Model.TipoDocumento)listadoTipoIdentificacion.SelectedValue;
+
+            int idCliente = Repositorios.Repo_Cliente.getInstancia().crearClienteReturnId(
+                tbMail.Text,
+                tbNombre.Text,
+                tbApellido.Text,
+                tipoDoc.id, //combobox
+                numericNumeroIdentificacion.Value,
+                numericTelefono.Value,
+                tbPaisOrigen.Text,
+                tbNacionalidad.Text,
+                dtFechaNacimiento.Value,
+                textBox1.Text,
+                tbCalle.Text,
+                numericNumero.Value,
+                numericPiso.Value,
+                tbDpto.Text,
+                tbLocalidad.Text,
+                tbPais.Text);
+
+            MessageBox.Show("Cliente creado correctamente");
+            return idCliente;
         }
 
     }

@@ -10,5 +10,13 @@ namespace FrbaHotel.Model
     {
         int id { get; set; }
         String descripcion { get; set; }
+
+        public EstadoReserva(int id, String desc)
+        {
+            this.id = id;
+            this.descripcion = desc;
+        }
     }
+
+
 }

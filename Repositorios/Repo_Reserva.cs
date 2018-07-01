@@ -47,7 +47,7 @@ namespace FrbaHotel.Repositorios
             foreach (DataRow row in fechaRes.Rows)
             {
                 fechaReserva = ((DateTime)row["FechaReserva"]);
-                fechaCheckin = ((DateTime)row["FechaCheckIn"]);
+                fechaCheckin = ((DateTime)row["FechaInicio"]);
 
                 if ((DateTime.Compare(reserva.fechaCancelacion, fechaReserva) >= 0) || string.IsNullOrEmpty(fechaCheckin.ToString()))
                 {
@@ -139,9 +139,28 @@ namespace FrbaHotel.Repositorios
         }
 
 
-        public void crearReserva(Model.Reserva reserva)
+        public int crearReservaReturnId(Model.Reserva reserva)
         {
+            DBhelper.crearConexion();
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.newReservaReturnId");
+            cmd.Parameters.Add("@desde", SqlDbType.DateTime).Value = reserva.fechaDesde;
+            cmd.Parameters.Add("@hasta", SqlDbType.DateTime).Value = reserva.fechaHasta;
+            cmd.Parameters.Add("@mailCliente", SqlDbType.NVarChar).Value = reserva.cliente.mail;
+            cmd.Parameters.Add("@idCliente", SqlDbType.Int).Value = reserva.cliente.id;
+            cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = reserva.hotel.idHotel;
+            cmd.Parameters.Add("@idRegimen", SqlDbType.Int).Value = reserva.regimen.idRegimen;
+            cmd.Parameters.Add("@idTipoHabitacion", SqlDbType.Int).Value = reserva.tipoHabitacion.codigo;
 
+            var valorDeRetorno = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
+            valorDeRetorno.Direction = ParameterDirection.ReturnValue;
+
+            DBhelper.abrirConexion();
+
+            DBhelper.ejecutarProcedure(cmd);
+
+            DBhelper.cerrarConexion();
+
+            return (int)valorDeRetorno.Value;
         }
 
         public Model.Reserva getReserva(decimal id)

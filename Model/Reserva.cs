@@ -8,15 +8,15 @@ namespace FrbaHotel.Model
 {
     public class Reserva
     {
-        int id { get; set; }
-        DateTime fechaEmision { get; set; }
-        DateTime fechaDesde { get; set; }
-        DateTime fechaHasta { get; set; }
-        Model.TipoHabitacion tipoHabitacion { get; set; }
-        Model.Regimen regimen { get; set; }
-        Model.Hotel hotel { get; set; }
-        Model.EstadoReserva estado { get; set; }
-        Model.Cliente cliente { get; set; }
+        public int id { get; set; }
+        public DateTime fechaGeneracion { get; set; }
+        public DateTime fechaDesde { get; set; }
+        public DateTime fechaHasta { get; set; }
+        public Model.TipoHabitacion tipoHabitacion { get; set; }
+        public Model.Regimen regimen { get; set; }
+        public Model.Hotel hotel { get; set; }
+        public Model.EstadoReserva estado { get; set; }
+        public Model.Cliente cliente { get; set; }
 
         public decimal getCostoTotal()
         {

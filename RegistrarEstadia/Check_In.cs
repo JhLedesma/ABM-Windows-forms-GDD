@@ -16,9 +16,10 @@ namespace FrbaHotel.RegistrarEstadia
         private Int32 idHotel { get; set; }
         private Int32 numReserva { get; set; }
         private List<Model.Cliente> clientesReserva = new List<Model.Cliente>();
-        public Model.Cliente clienteCreado { get; set; }
+        public Int32 idClienteCreado { get; set; }
         public Model.Cliente clienteFiltrado { get; set; }
         public Int32 idSeleccionado { get; set; }
+        public String mailClienteCreado { get; set; }
 
         public Check_In(Int32 hotel, Int32 reserva)
         {
@@ -34,7 +35,14 @@ namespace FrbaHotel.RegistrarEstadia
 
         private void boton_crear_Click(object sender, EventArgs e)
         {
-            /*Deberia abrir la vista crear cliente, crearlo y agregarlo a clientesReserva, espero que jesus pushee los procedures que necesito*/
+            this.Hide();
+            new GenerarModificacionReserva.CrearClienteReserva(this).ShowDialog();
+
+            dataGridClientes.DataSource = null;
+
+            clientesReserva.Add(Repositorios.Repo_Cliente.getInstancia().getCliente(idClienteCreado, mailClienteCreado));
+
+            dataGridClientes.DataSource = clientesReserva;
         }
 
         private void boton_buscar_Click(object sender, EventArgs e)
@@ -49,7 +57,7 @@ namespace FrbaHotel.RegistrarEstadia
         private void boton_confirmar_Click(object sender, EventArgs e)
         {
 
-            //Repositorios.Repo_Reserva.getInstancia().generarLogEstadia(numReserva);
+            Repositorios.Repo_Reserva.getInstancia().generarLogEstadia(numReserva);
 
             foreach (Model.Cliente cliente in clientesReserva) {
 

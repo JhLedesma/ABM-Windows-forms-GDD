@@ -302,10 +302,11 @@
             // tbCliente
             // 
             this.tbCliente.Enabled = false;
-            this.tbCliente.Location = new System.Drawing.Point(151, 97);
+            this.tbCliente.Location = new System.Drawing.Point(187, 97);
             this.tbCliente.Name = "tbCliente";
-            this.tbCliente.Size = new System.Drawing.Size(162, 20);
+            this.tbCliente.Size = new System.Drawing.Size(102, 20);
             this.tbCliente.TabIndex = 15;
+            this.tbCliente.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label2
             // 
