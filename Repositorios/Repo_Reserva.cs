@@ -47,7 +47,7 @@ namespace FrbaHotel.Repositorios
             foreach (DataRow row in fechaRes.Rows)
             {
                 fechaReserva = ((DateTime)row["FechaReserva"]);
-                fechaCheckin = ((DateTime)row["FechaCheckIn"]);
+                fechaCheckin = ((DateTime)row["FechaInicio"]);
 
                 if ((DateTime.Compare(reserva.fechaCancelacion, fechaReserva) >= 0) || string.IsNullOrEmpty(fechaCheckin.ToString()))
                 {

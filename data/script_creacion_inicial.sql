@@ -309,7 +309,9 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.hacerCheckIn','P') IS NOT NULL
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.generarLogEstadia','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.generarLogEstadia;		
-
+	
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarMailCliente','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.validarMailCliente;	
 
 /* Dropeo las views si ya existen */
 
@@ -511,7 +513,7 @@ IdClienteInconsistente int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente_I
 IdHotel int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Hotel(IdHotel) null, --Cambiar a not null
 tipoHabitacion int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.TipoHabitacion(Codigo) null,
 FechaReserva datetime  NULL,
-FechaCheckIn datetime  NULL,
+FechaGeneracionReserva datetime NULL,
 CantidadNochesReservadas numeric(18,0)  NULL,
 EstadoReserva int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.EstadoReserva(IdEstadoReserva)  null,
 RegimenEstadiaId int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.RegimenEstadia(IdRegimenEstadia)  null
@@ -806,10 +808,6 @@ INSERT INTO TRAEME_LA_COPA_MESSI.Reserva(IdReserva, IdHotel, FechaReserva, Canti
 
 
 UPDATE TRAEME_LA_COPA_MESSI.Reserva  SET  
-
-FechaCheckIn = (SELECT Estadia_Fecha_Inicio FROM gd_esquema.Maestra
-					 WHERE Reserva_Codigo = IdReserva AND Estadia_Fecha_Inicio IS NOT NULL
-					 GROUP BY Estadia_Fecha_Inicio),
 
 IdCliente = (SELECT IdClienteAux FROM TRAEME_LA_COPA_MESSI.ReservasDeClientes  WHERE IdReservaAux = IdReserva),
 
@@ -1731,7 +1729,7 @@ GO
 create procedure TRAEME_LA_COPA_MESSI.validarCancelacion
 @idReserva int 
 as begin
-select FechaReserva, FechaCheckIn from TRAEME_LA_COPA_MESSI.Reserva where @idReserva=IdReserva 
+select FechaReserva, FechaInicio from TRAEME_LA_COPA_MESSI.Reserva JOIN TRAEME_LA_COPA_MESSI.LogEstadia ON IdReserva = ReservaId where @idReserva=IdReserva 
 end
 
 
