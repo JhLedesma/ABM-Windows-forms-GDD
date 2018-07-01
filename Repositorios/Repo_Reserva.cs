@@ -183,6 +183,25 @@ namespace FrbaHotel.Repositorios
 
         }
 
+        public int comprobarDisponibilidad(DateTime desde, DateTime hasta)
+        {
+            DBhelper.crearConexion();
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.comprobarDisponibilidadReserva");
+            cmd.Parameters.Add("@desde", SqlDbType.DateTime).Value = desde;
+            cmd.Parameters.Add("@hasta", SqlDbType.DateTime).Value = hasta;
+
+            var valorDeRetorno = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
+            valorDeRetorno.Direction = ParameterDirection.ReturnValue;
+
+            DBhelper.abrirConexion();
+
+            DBhelper.ejecutarProcedure(cmd);
+
+            DBhelper.cerrarConexion();
+
+            return (int)valorDeRetorno.Value;
+        }
+
     }
 }
     

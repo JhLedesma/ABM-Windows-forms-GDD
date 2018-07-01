@@ -310,6 +310,13 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.hacerCheckIn','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.generarLogEstadia','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.generarLogEstadia;		
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.comprobarDisponibilidadReserva','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.comprobarDisponibilidadReserva;	
+
+
+
+
+
 
 /* Dropeo las views si ya existen */
 
@@ -1632,6 +1639,7 @@ commit
 
 
 
+
 /* Repositorio Rol*/
 
 
@@ -1831,6 +1839,26 @@ INSERT INTO TRAEME_LA_COPA_MESSI.LogEstadia(FechaInicio,ReservaId)
 	VALUES (GETDATE(),@idReserva)
 
 END
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.comprobarDisponibilidadReserva
+@desde DateTime,
+@hasta DateTime
+as
+begin
+	declare @cantNoches numeric(18,0)
+	set @cantNoches =  CAST((datediff(day,@desde,@hasta)) AS numeric(18,0))
+
+	if not exists (select 1 from Reserva where FechaCheckIn >= @desde and CantidadNochesReservadas <= @cantNoches)
+		return 1
+	else
+		return 0
+end
+
+
+
+
 
 /* Repositorio Tipo Habitacion*/
 
