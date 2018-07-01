@@ -505,6 +505,9 @@
     <EmbeddedResource Include="RegistrarEstadia\Check_In.resx">
       <DependentUpon>Check_In.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="RegistrarEstadia\Check_out.resx">
+      <DependentUpon>Check_out.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="RegistrarEstadia\Filtrar_cliente.resx">
       <DependentUpon>Filtrar_cliente.cs</DependentUpon>
     </EmbeddedResource>

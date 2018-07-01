@@ -12,9 +12,31 @@ namespace FrbaHotel.RegistrarEstadia
 {
     public partial class Check_out : Form
     {
+
+        const Int32 HOTELHARCODEAD = 3;
+
         public Check_out()
         {
             InitializeComponent();
+        }
+
+
+        private void boton_continuar_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(numeric_textBox_reserva.Text))
+            {
+                MessageBox.Show("Por favor ingrese un numero de reserva","Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            else
+
+            {
+
+               /* int codigoRta = Repositorios.Repo_Reserva.getInstancia().comprobarNumReservaCheckout(Int32.Parse(numeric_textBox_reserva.Text));
+                comunicarRta(codigoRta);*/
+                //El codigo tiene que ser de una reserva que se haya hecho el check in y que no tenga fecha fin, lo busco en logestadia
+                Repositorios.Repo_Reserva.getInstancia().hacerCheckOut(Int32.Parse(numeric_textBox_reserva.Text));
+            }
         }
     }
 }

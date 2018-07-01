@@ -316,6 +316,8 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.comprobarDisponibilidadReserva','P') IS NOT N
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.newReservaReturnId','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.newReservaReturnId;	
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.hacerCheckOut','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.hacerCheckOut;
 
 
 /* Dropeo las views si ya existen */
@@ -780,10 +782,10 @@ INSERT INTO TRAEME_LA_COPA_MESSI.EstadoReserva(DescripEstadoReserva)
      VALUES('Reserva Cancelada Por Recepcion')
 
 INSERT INTO TRAEME_LA_COPA_MESSI.EstadoReserva(DescripEstadoReserva)
-     VALUES('Reserva Cancelada Por Cliente')
+	 VALUES('Reserva Cancelada Por Cliente')
 
 INSERT INTO TRAEME_LA_COPA_MESSI.EstadoReserva(DescripEstadoReserva)
-     VALUES('Reserva Cancelada Por No-Show')
+	 VALUES('Reserva Cancelada Por No-Show')
 
 INSERT INTO TRAEME_LA_COPA_MESSI.EstadoReserva(DescripEstadoReserva)
      VALUES('Reserva Correcta') 
@@ -806,11 +808,11 @@ SELECT DISTINCT IdCliente, Reserva_Codigo FROM TRAEME_LA_COPA_MESSI.Cliente_Inco
 
 -- Reserva --
 
-INSERT INTO TRAEME_LA_COPA_MESSI.Reserva(IdReserva, IdHotel, FechaReserva, CantidadNochesReservadas,RegimenEstadiaId ,EstadoReserva, FechaGeneracionReserva)
+INSERT INTO TRAEME_LA_COPA_MESSI.Reserva(IdReserva, IdHotel, FechaReserva, CantidadNochesReservadas,RegimenEstadiaId, FechaGeneracionReserva)
 
 
 	SELECT DISTINCT m.Reserva_Codigo, h.IdHotel, m.Reserva_Fecha_Inicio, m.Estadia_Cant_Noches,
-	(SELECT IdRegimenEstadia FROM TRAEME_LA_COPA_MESSI.RegimenEstadia WHERE Descripcion = m.Regimen_Descripcion), 1, CAST('1950-10-10 12:35:29.123' AS datetime)
+	(SELECT IdRegimenEstadia FROM TRAEME_LA_COPA_MESSI.RegimenEstadia WHERE Descripcion = m.Regimen_Descripcion), CAST('1950-10-10 12:35:29.123' AS datetime)
 
 	FROM
 
@@ -848,6 +850,15 @@ SELECT ReservaId, FechaInicio+CantidadNocheUsadas FROM TRAEME_LA_COPA_MESSI.LogE
 UPDATE TRAEME_LA_COPA_MESSI.LogEstadia SET
 FechaFin = (SELECT fechaFin FROM TRAEME_LA_COPA_MESSI.fechasFinEstadias f WHERE ReservaId = Reserva)
 							
+
+-- Carga de estado de reserva --
+
+UPDATE TRAEME_LA_COPA_MESSI.Reserva SET EstadoReserva = 1 WHERE (SELECT FechaInicio FROM TRAEME_LA_COPA_MESSI.LogEstadia WHERE ReservaId = IdReserva) IS NULL
+
+UPDATE TRAEME_LA_COPA_MESSI.Reserva SET EstadoReserva = 6 WHERE
+(SELECT FechaInicio FROM TRAEME_LA_COPA_MESSI.LogEstadia WHERE ReservaId = IdReserva) IS NOT NULL AND
+(SELECT FechaFin FROM TRAEME_LA_COPA_MESSI.LogEstadia WHERE ReservaId = IdReserva) IS NOT NULL
+
 
 -- Consumibles --
 
@@ -1779,20 +1790,61 @@ AS
 BEGIN
 
 IF EXISTS(SELECT * FROM TRAEME_LA_COPA_MESSI.Reserva WHERE IdReserva = @idReserva AND IdHotel = @idHotel AND YEAR(FechaReserva) = YEAR(GETDATE()) AND MONTH(FechaReserva) = MONTH(GETDATE()) AND DAY(FechaReserva) = DAY(GETDATE()))
+BEGIN
+
+UPDATE TRAEME_LA_COPA_MESSI.Reserva SET EstadoReserva = 5 WHERE IdReserva = @idReserva
 
 	RETURN 1
+END
 
 ELSE
 
-	IF EXISTS(SELECT * FROM TRAEME_LA_COPA_MESSI.Reserva WHERE IdReserva = @idReserva AND IdHotel = @idHotel AND FechaReserva != GETDATE())
+	IF EXISTS(SELECT * FROM TRAEME_LA_COPA_MESSI.Reserva WHERE IdReserva = @idReserva AND IdHotel = @idHotel AND FechaReserva > GETDATE())
+	BEGIN
 
-		RETURN 0
+		RETURN 2
+	
+	END
+
+	ELSE
+	
+	IF EXISTS(SELECT * FROM TRAEME_LA_COPA_MESSI.Reserva WHERE IdReserva = @idReserva AND IdHotel = @idHotel AND FechaReserva < GETDATE() AND EstadoReserva != 6)
+	BEGIN
+
+	UPDATE TRAEME_LA_COPA_MESSI.Reserva SET EstadoReserva = 4 WHERE IdReserva = @idReserva
+
+		RETURN 3
+	
+	END
+
+	ELSE
+
+	IF EXISTS(SELECT * FROM TRAEME_LA_COPA_MESSI.Reserva WHERE IdReserva = @idReserva AND IdHotel = @idHotel AND FechaReserva < GETDATE() AND EstadoReserva = 6)
+
+		RETURN 4
 
 	ELSE
 
 		RETURN -1
 
 END
+
+
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.hacerCheckOut
+@idReserva int
+
+AS
+BEGIN
+
+UPDATE TRAEME_LA_COPA_MESSI.LogEstadia SET FechaFin = GETDATE() WHERE ReservaId = @idReserva
+
+UPDATE TRAEME_LA_COPA_MESSI.Reserva SET EstadoReserva = 6 WHERE IdReserva = @idReserva
+
+UPDATE TRAEME_LA_COPA_MESSI.LogEstadia SET CantidadNocheUsadas =  DATEDIFF(DAY, FechaInicio, FechaFin) WHERE ReservaId = @idReserva
+
+END
+
 
 GO
 CREATE PROCEDURE TRAEME_LA_COPA_MESSI.getClienteReserva
@@ -2040,8 +2092,6 @@ BEGIN
 		SET @tipoHab = (SELECT CodigoTipo FROM TRAEME_LA_COPA_MESSI.Habitacion WHERE IdHotel = @hotelIdModif AND Numero = @numeroHabModif)
 
 		DELETE FROM TRAEME_LA_COPA_MESSI.ConsumiblePorHabitacion WHERE idHotel = @hotelIdModif AND NumeroHabitacion = @numeroHabModif
-
-		DELETE FROM TRAEME_LA_COPA_MESSI.HabitacionPorReserva WHERE IdHotel = @hotelIdModif AND NumeroHabitacion = @numeroHabModif
 
 		DELETE FROM TRAEME_LA_COPA_MESSI.Habitacion WHERE IdHotel = @hotelIdModif AND Numero = @numeroHabModif
 
