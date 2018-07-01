@@ -22,10 +22,19 @@ namespace FrbaHotel.RegistrarEstadia
 
         private void boton_siguiente_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(numeric_textBox_reserva.Text))
+            {
+                MessageBox.Show("Por favor ingrese un numero de reserva","Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            else
+
+            {
             Int32 codigoRespuesta;
             codigoRespuesta = Repositorios.Repo_Reserva.getInstancia().comprobarNumReserva(IDHOTELHARCODEADO, Int32.Parse(numeric_textBox_reserva.Text));
 
             comunicarRespuesta(codigoRespuesta);
+            }
         }
 
         private void comunicarRespuesta(Int32 codigo)

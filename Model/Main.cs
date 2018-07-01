@@ -18,7 +18,7 @@ namespace FrbaHotel.Model
             //Application.Run(new Login.Login());
             //Application.Run(new AbmRol.AbmRol());
             //Application.Run(new AbmCliente.Abm_Cliente());
-            Application.Run(new RegistrarEstadia.Input_reserva());
+            //Application.Run(new RegistrarEstadia.Input_reserva());
             //Application.Run(new RegistrarConsumible.RegistrarConsumible(new Model.Habitacion()));
             //Application.Run(new AbmHabitacion.Crear_Habitacion());
             //Application.Run(new AbmHabitacion.List_Select_Habitacion());
@@ -26,6 +26,7 @@ namespace FrbaHotel.Model
             //Application.Run(new AbmHabitacion.List_Select_Habitacion());
             //Application.Run(new GenerarModificacionReserva.Generar_Reserva_Guest());
             //Application.Run(new AbmCliente.List_Select_Cliente_Eliminar());
+            Application.Run(new RegistrarEstadia.Check_out());
 
             
         }

@@ -311,7 +311,12 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.generarLogEstadia','P') IS NOT NULL
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.generarLogEstadia;		
 	
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarMailCliente','P') IS NOT NULL  
-	DROP PROCEDURE TRAEME_LA_COPA_MESSI.validarMailCliente;	
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.validarMailCliente;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.hacerCheckOut','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.hacerCheckOut;
+
+	
 
 /* Dropeo las views si ya existen */
 
@@ -1819,6 +1824,23 @@ ELSE
 		RETURN -1
 
 END
+
+
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.hacerCheckOut
+@idReserva int
+
+AS
+BEGIN
+
+UPDATE TRAEME_LA_COPA_MESSI.LogEstadia SET FechaFin = GETDATE() WHERE ReservaId = @idReserva
+
+UPDATE TRAEME_LA_COPA_MESSI.Reserva SET EstadoReserva = 6 WHERE IdReserva = @idReserva
+
+UPDATE TRAEME_LA_COPA_MESSI.LogEstadia SET CantidadNocheUsadas =  DATEDIFF(DAY, FechaInicio, FechaFin) WHERE ReservaId = @idReserva
+
+END
+
 
 GO
 CREATE PROCEDURE TRAEME_LA_COPA_MESSI.getClienteReserva
