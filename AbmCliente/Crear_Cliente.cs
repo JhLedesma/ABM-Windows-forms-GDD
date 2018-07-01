@@ -59,35 +59,45 @@ namespace FrbaHotel.AbmCliente
             {
                 MessageBox.Show("Por favor complete todos los campos", "Campos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+                /*
             else if (Repositorios.Repo_Cliente.getInstancia().validarMail(tbMail.Text) == 1)
             {
                 MessageBox.Show("Por favor ingrese un mail que no registrado", "Mail ya existente", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            }*/
             else
             {
+                try
+                {
+                    Model.TipoDocumento tipoDoc = (Model.TipoDocumento)listadoTipoIdentificacion.SelectedValue;
 
+                    Repositorios.Repo_Cliente.getInstancia().crearCliente(
+                        tbMail.Text,
+                        tbNombre.Text,
+                        tbApellido.Text,
+                        tipoDoc.id, //combobox
+                        numericNumeroIdentificacion.Value,
+                        numericTelefono.Value,
+                        tbPaisOrigen.Text,
+                        tbNacionalidad.Text,
+                        dtFechaNacimiento.Value,
+                        textBox1.Text,
+                        tbCalle.Text,
+                        numericNumero.Value,
+                        numericPiso.Value,
+                        tbDpto.Text,
+                        tbLocalidad.Text,
+                        tbPais.Text);
 
-                Model.TipoDocumento tipoDoc = (Model.TipoDocumento)listadoTipoIdentificacion.SelectedValue;
+                    MessageBox.Show("Cliente creado correctamente");
 
-                Repositorios.Repo_Cliente.getInstancia().crearCliente(
-                    tbMail.Text,
-                    tbNombre.Text,
-                    tbApellido.Text,
-                    tipoDoc.id, //combobox
-                    numericNumeroIdentificacion.Value,
-                    numericTelefono.Value,
-                    tbPaisOrigen.Text,
-                    tbNacionalidad.Text,
-                    dtFechaNacimiento.Value,
-                    textBox1.Text,
-                    tbCalle.Text,
-                    numericNumero.Value,
-                    numericPiso.Value,
-                    tbDpto.Text,
-                    tbLocalidad.Text,
-                    tbPais.Text);
-
-                MessageBox.Show("Cliente creado correctamente");
+                    this.Hide();
+                    this.Close();
+                    new AbmCliente.Abm_Cliente().ShowDialog();
+                }
+                catch (Exception exec)
+                {
+                    MessageBox.Show("Por favor ingrese un mail que no registrado", "Mail ya existente", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
 
         }

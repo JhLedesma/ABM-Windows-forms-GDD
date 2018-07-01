@@ -107,9 +107,6 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.TipoDoc','U') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Direccion','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.Direccion;
 
- 
-
-
 
 
 
@@ -193,8 +190,8 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.darDeBajaCliente','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getClientesFiltrados','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getClientesFiltrados;
 
-IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarMail','P') IS NOT NULL  
-	DROP PROCEDURE TRAEME_LA_COPA_MESSI.validarMail;
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarMailCliente','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.validarMailCliente;
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarNombreDeRol','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.validarNombreDeRol;
@@ -315,7 +312,7 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.hacerCheckIn','P') IS NOT NULL
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.generarLogEstadia','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.generarLogEstadia;		
-	
+
 
 /* Dropeo las views si ya existen */
 
@@ -1511,15 +1508,18 @@ create procedure TRAEME_LA_COPA_MESSI.newCliente
 as
 begin transaction
 	begin
-		declare @IdDireccion int
+		--if exists (select 1 from TRAEME_LA_COPA_MESSI.Cliente c, TRAEME_LA_COPA_MESSI.Cliente_Inconsistente ci where c.Email=@email or ci.Email=@email)
+			--begin
+				declare @IdDireccion int
 
-		insert into TRAEME_LA_COPA_MESSI.Direccion (Ciudad, Calle, NroCalle, Piso, Departamento, Localidad, Pais)
-		values(@ciudad, @calle, @nroCalle, @piso, @dpto, @localidad, @pais)
+				insert into TRAEME_LA_COPA_MESSI.Direccion (Ciudad, Calle, NroCalle, Piso, Departamento, Localidad, Pais)
+				values(@ciudad, @calle, @nroCalle, @piso, @dpto, @localidad, @pais)
 
-		set @IdDireccion = (select IdDir from TRAEME_LA_COPA_MESSI.Direccion where Ciudad=@ciudad and Calle=@calle and NroCalle=@nroCalle and Piso=@piso and Departamento=@dpto and Localidad=@localidad and Pais=@pais)
+				set @IdDireccion = (select IdDir from TRAEME_LA_COPA_MESSI.Direccion where Ciudad=@ciudad and Calle=@calle and NroCalle=@nroCalle and Piso=@piso and Departamento=@dpto and Localidad=@localidad and Pais=@pais)
 
-		insert into TRAEME_LA_COPA_MESSI.Cliente (Email, Direccion, Nombre, Apellido, TipoDoc, NumDoc, Telefono, PaisOrigen, Nacionalidad, FechaNacimiento)
-		values(@email, @IdDireccion, @nombre, @apellido, @tipoDoc, @numDoc, @telefono, @PaisOrigen, @Nacionalidad, @FechaNacimiento)
+				insert into TRAEME_LA_COPA_MESSI.Cliente (Email, Direccion, Nombre, Apellido, TipoDoc, NumDoc, Telefono, PaisOrigen, Nacionalidad, FechaNacimiento)
+				values(@email, @IdDireccion, @nombre, @apellido, @tipoDoc, @numDoc, @telefono, @PaisOrigen, @Nacionalidad, @FechaNacimiento)
+			--end
 	end
 commit
 
@@ -1543,7 +1543,6 @@ create procedure TRAEME_LA_COPA_MESSI.newClienteReturnId
 @localidad nvarchar(255),
 @pais nvarchar(255)
 as
-begin transaction
 	begin
 		declare @IdDireccion int
 
@@ -1562,7 +1561,6 @@ begin transaction
 
 		return @idCliente
 	end
-commit
 
 
 GO
@@ -1637,11 +1635,16 @@ commit
 
 
 GO
-create procedure TRAEME_LA_COPA_MESSI.validarMail
+create procedure TRAEME_LA_COPA_MESSI.validarMailCliente
+(
 @mail nvarchar(255)
+)
 as
 begin
-	if exists (select 1 from TRAEME_LA_COPA_MESSI.Cliente c, TRAEME_LA_COPA_MESSI.Cliente_Inconsistente ci where c.Email=@mail or ci.Email=@mail)
+	declare @miMail nvarchar(255)
+	set @miMail = @mail
+
+	if exists (select 1 from TRAEME_LA_COPA_MESSI.Cliente c, TRAEME_LA_COPA_MESSI.Cliente_Inconsistente ci where c.Email=@miMail or ci.Email=@miMail)
 		return 1
 	else
 		return 0
