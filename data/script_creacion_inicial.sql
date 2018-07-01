@@ -190,9 +190,6 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.darDeBajaCliente','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getClientesFiltrados','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getClientesFiltrados;
 
-IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarMailCliente','P') IS NOT NULL  
-	DROP PROCEDURE TRAEME_LA_COPA_MESSI.validarMailCliente;
-
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarNombreDeRol','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.validarNombreDeRol;
 
@@ -1631,22 +1628,6 @@ begin transaction
 	end
 commit
 
-
-GO
-create procedure TRAEME_LA_COPA_MESSI.validarMailCliente
-(
-@mail nvarchar(255)
-)
-as
-begin
-	declare @miMail nvarchar(255)
-	set @miMail = @mail
-
-	if exists (select 1 from TRAEME_LA_COPA_MESSI.Cliente c, TRAEME_LA_COPA_MESSI.Cliente_Inconsistente ci where c.Email=@miMail or ci.Email=@miMail)
-		return 1
-	else
-		return 0
-end
 
 
 /* Repositorio Rol*/
