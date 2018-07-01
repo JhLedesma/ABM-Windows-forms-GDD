@@ -215,6 +215,10 @@ namespace FrbaHotel.Repositorios
 
             DBhelper.abrirConexion();
 
+            DBhelper.ejecutarProcedure(cmd);
+
+            DBhelper.cerrarConexion();
+
             return (int)valorDeRetorno.Value;
         }
 
