@@ -68,7 +68,9 @@ namespace FrbaHotel.CancelarReserva
 
         private void volver_Click(object sender, EventArgs e)
         {
-            //NO SE CUAL ES LA VISTA ANTERIOR
+            this.Hide();
+            new Login.SeleccionarFuncionalidad().ShowDialog();
+            this.Close();
         }
     }
 }

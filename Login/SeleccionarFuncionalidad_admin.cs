@@ -37,5 +37,24 @@ namespace FrbaHotel.Login
             new AbmHabitacion.Abm_Habitacion().ShowDialog();
             this.Close();
         }
+
+        private void boton_abm_rol_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            new AbmRol.AbmRol().ShowDialog();
+            this.Close();
+        }
+
+        private void boton_abm_usuario_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            new AbmUsuario.ABM_Usuario().ShowDialog();
+            this.Close();
+        }
+
+        private void boton_listado_estadistico_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

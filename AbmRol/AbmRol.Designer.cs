@@ -31,6 +31,7 @@
             this.Crear = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            this.boton_volver = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Crear
@@ -63,11 +64,22 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
+            // boton_volver
+            // 
+            this.boton_volver.Location = new System.Drawing.Point(12, 235);
+            this.boton_volver.Name = "boton_volver";
+            this.boton_volver.Size = new System.Drawing.Size(75, 23);
+            this.boton_volver.TabIndex = 3;
+            this.boton_volver.Text = "Volver";
+            this.boton_volver.UseVisualStyleBackColor = true;
+            this.boton_volver.Click += new System.EventHandler(this.boton_volver_Click);
+            // 
             // AbmRol
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(284, 270);
+            this.Controls.Add(this.boton_volver);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.Crear);
@@ -83,6 +95,7 @@
         private System.Windows.Forms.Button Crear;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button boton_volver;
 
     }
 }
