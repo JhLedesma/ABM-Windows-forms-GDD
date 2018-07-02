@@ -37,6 +37,7 @@ namespace FrbaHotel.GenerarModificacionReserva
 
         private void btnRegimen_Click(object sender, EventArgs e)
         {
+            hotelSeleccionado = (Model.Hotel)listadoHoteles.SelectedValue;
             new GenerarModificacionReserva.ListadoRegimenes(this, hotelSeleccionado.idHotel).ShowDialog();
         }
 
@@ -58,7 +59,7 @@ namespace FrbaHotel.GenerarModificacionReserva
 
         private void configurarVistaConUsuario()
         {
-            //listadoHoteles.SelectedItem = usuarioLogueado
+            listadoHoteles.SelectedItem = usuarioLogueado.hotelActivo;
             listadoHoteles.Enabled = false;
         }
 
@@ -69,6 +70,8 @@ namespace FrbaHotel.GenerarModificacionReserva
             this.actualizarTbRegimen(regimen.descripcion);
 
             Model.TipoHabitacion tipoHabitacionSeleccionado = (Model.TipoHabitacion)listadoTipoHabitacion.SelectedValue;
+            hotelSeleccionado = (Model.Hotel)listadoHoteles.SelectedValue;
+
             decimal costoPorDia = (regimen.precioBase * tipoHabitacionSeleccionado.porcentual) + hotelSeleccionado.porcEstrella;
             this.actualizarCostoDeHabitacion(costoPorDia.ToString());
         }
@@ -103,6 +106,8 @@ namespace FrbaHotel.GenerarModificacionReserva
             }
             else
             {
+                hotelSeleccionado = (Model.Hotel)listadoHoteles.SelectedValue;
+
                 new GenerarModificacionReserva.ListadoRegimenes(this, hotelSeleccionado.idHotel).ShowDialog();
                 if (regimenSeleccionado != null)
                 {
