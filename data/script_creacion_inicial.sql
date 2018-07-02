@@ -80,17 +80,17 @@ IF OBJECT_ID ('TRAEME_LA_COPA_MESSI.FuncionalidadPorRol','U') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Funcionalidad','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.Funcionalidad;
 
-IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Cliente_Inconsistente','U') IS NOT NULL    
-	DROP TABLE TRAEME_LA_COPA_MESSI.Cliente_Inconsistente;
-
-IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Cliente','U') IS NOT NULL    
-	DROP TABLE TRAEME_LA_COPA_MESSI.Cliente;
-
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Factura_Inconsistente','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.Factura_Inconsistente;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Cliente_Inconsistente','U') IS NOT NULL    
+	DROP TABLE TRAEME_LA_COPA_MESSI.Cliente_Inconsistente;
+
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Factura','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.Factura;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Cliente','U') IS NOT NULL    
+	DROP TABLE TRAEME_LA_COPA_MESSI.Cliente;
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.RolPorUsuario','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.RolPorUsuario;
@@ -316,8 +316,13 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarMailCliente','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.hacerCheckOut','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.hacerCheckOut;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.crearFactura','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.crearFactura;
 	
-
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.facturarConsumible','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.facturarConsumible;	
+	
+	
 /* Dropeo las views si ya existen */
 
 
@@ -392,20 +397,6 @@ IdRol int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Rol(IdRol),
 CONSTRAINT IdRolPorUsuario PRIMARY KEY(Username,IdRol)
 );
 
-CREATE TABLE TRAEME_LA_COPA_MESSI.Factura(
-Fact_Nro int PRIMARY KEY,
-Fact_Fecha DateTime NOT NULL,
-Fact_Total int NOT NULL
-);
-
-CREATE TABLE TRAEME_LA_COPA_MESSI.Factura_Inconsistente(
-Fact_Nro int,
-Fact_Fecha DateTime,
-Fact_Total numeric (18,2),
-PRIMARY KEY (Fact_Nro)
-);
-
-
 CREATE TABLE TRAEME_LA_COPA_MESSI.Cliente(
 IdCliente int IDENTITY(1,1) PRIMARY KEY,
 Email nvarchar(255) UNIQUE,
@@ -436,6 +427,22 @@ FechaNacimiento Datetime NOT NULL,
 Estado BIT DEFAULT 0,
 );
 
+CREATE TABLE TRAEME_LA_COPA_MESSI.Factura(
+Fact_Nro numeric (18,0) IDENTITY(2483045,1) PRIMARY KEY,
+Fact_Fecha DateTime NOT NULL,
+Fact_Total numeric (18,2) NULL,
+Fact_idCliente int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente(IdCliente),
+Fact_idClienteInc int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente_Inconsistente(IdCliente)
+);
+
+CREATE TABLE TRAEME_LA_COPA_MESSI.Factura_Inconsistente(
+Fact_Nro numeric (18,0),
+Fact_Fecha DateTime,
+Fact_Total numeric (18,2),
+Fact_idCliente int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente(IdCliente),
+Fact_idClienteInc int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente_Inconsistente(IdCliente),
+PRIMARY KEY (Fact_Nro)
+);
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.Funcionalidad(
 IdFunc int IDENTITY (1,1) PRIMARY KEY,
@@ -590,8 +597,8 @@ CONSTRAINT FK_ConsPorHab FOREIGN KEY(IdHotel, NumeroHabitacion) REFERENCES TRAEM
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.Item_Factura(
 Id_item int IDENTITY (1,1) PRIMARY KEY,
-Fac_Numero int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Factura(Fact_Nro),
-Fac_Numero_Inc int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Factura_Inconsistente(Fact_nro),
+Fac_Numero numeric (18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Factura(Fact_Nro) null,
+Fac_Numero_Inc numeric (18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Factura_Inconsistente(Fact_nro) null,
 IdReserva numeric(18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Reserva(IdReserva),
 IdConsumible numeric(18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Consumible(IdConsumible),
 Cantidad int,
@@ -685,21 +692,15 @@ INSERT INTO TRAEME_LA_COPA_MESSI.Funcionalidad(Descripcion)
 INSERT INTO TRAEME_LA_COPA_MESSI.FuncionalidadPorRol
 	VALUES (1,1)
 
--- Facturas inconsistentes --
-
-INSERT INTO TRAEME_LA_COPA_MESSI.Factura_Inconsistente
-	SELECT DISTINCT Factura_Nro,Factura_Fecha,Factura_Total FROM gd_esquema.Maestra
-	WHERE Factura_Nro IS NOT NULL
 
 -- Clientes inconsistentes --
-
-
 
 INSERT INTO TRAEME_LA_COPA_MESSI.Cliente_Inconsistente(Email,Nombre,Apellido,NumDoc, Nacionalidad, FechaNacimiento, TipoDoc, Direccion)
     select distinct Cliente_Mail, Cliente_Nombre, Cliente_Apellido,Cliente_Pasaporte_Nro, Cliente_Nacionalidad, Cliente_Fecha_Nac, 1, IdDir
 from gd_esquema.Maestra m join TRAEME_LA_COPA_MESSI.Direccion d on (d.Calle = m.Cliente_Dom_Calle and m.Cliente_Depto = d.Departamento and 
 m.Cliente_Nro_Calle = d.NroCalle and m.Cliente_Piso = d.Piso)
-where Cliente_Mail in (select mailInconsistente from TRAEME_LA_COPA_MESSI.MailsInconsistentes) 
+where Cliente_Mail in (select mailInconsistente from TRAEME_LA_COPA_MESSI.MailsInconsistentes)
+
 
 -- Clientes --
 
@@ -710,6 +711,16 @@ m.Cliente_Nro_Calle = d.NroCalle and m.Cliente_Piso = d.Piso)
 where Cliente_Mail not in (select mailInconsistente from TRAEME_LA_COPA_MESSI.MailsInconsistentes) 
 
 											
+-- Facturas inconsistentes --
+
+INSERT INTO TRAEME_LA_COPA_MESSI.Factura_Inconsistente
+	SELECT DISTINCT Factura_Nro,Factura_Fecha,Factura_Total,
+	(SELECT DISTINCT IdCliente FROM TRAEME_LA_COPA_MESSI.Cliente c
+	WHERE c.Email = m.Cliente_Mail AND c.NumDoc = m.Cliente_Pasaporte_Nro),
+	(SELECT DISTINCT IdCliente FROM TRAEME_LA_COPA_MESSI.Cliente_Inconsistente ci
+	WHERE ci.Email = m.Cliente_Mail AND ci.NumDoc = m.Cliente_Pasaporte_Nro)
+	FROM gd_esquema.Maestra m
+	WHERE Factura_Nro IS NOT NULL
 
 
 -- Hoteles --
@@ -2073,12 +2084,52 @@ END
 
 
 
---RegistrarConsumibles
+/* Repositorio consumibles */
 
 Go
 Create procedure TRAEME_LA_COPA_MESSI.getConsumibles
+
 as
 begin
+
 select * from TRAEME_LA_COPA_MESSI.Consumible
+
 END
+
+
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.crearFactura
+@numReserva int
+
+AS
+BEGIN
+
+	DECLARE @idCliente int
+	DECLARE @idClienteInc int
+
+	SET @idCliente = (SELECT IdCliente FROM TRAEME_LA_COPA_MESSI.Reserva WHERE IdReserva = @numReserva)
+	SET @idClienteInc = (SELECT IdClienteInconsistente FROM TRAEME_LA_COPA_MESSI.Reserva WHERE IdReserva = @numReserva)
+
+	INSERT INTO TRAEME_LA_COPA_MESSI.Factura(Fact_Fecha,Fact_idCliente,Fact_idClienteInc)
+	VALUES(GETDATE(), @idCliente, @idClienteInc)
+
+	RETURN (SELECT MAX(Fact_Nro) FROM TRAEME_LA_COPA_MESSI.Factura)
+
+END
+
+
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.facturarConsumible
+@idConsumible int,
+--@cantidad int,
+@factNum decimal(18,0)
+
+AS
+BEGIN
+
+	INSERT INTO TRAEME_LA_COPA_MESSI.Item_Factura(Fac_Numero, IdConsumible)
+	VALUES (@factNum,@idConsumible)
+
+END
+
 

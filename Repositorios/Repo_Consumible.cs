@@ -51,5 +51,40 @@ namespace FrbaHotel.Repositorios
 
         }
 
+        public void facturarConsumible(Int32 numFactura, Model.Consumible consumible) {
+
+            DBhelper.crearConexion();
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.facturarConsumible");
+            cmd.Parameters.Add("@idConsumible", SqlDbType.Int).Value = consumible.id;
+            cmd.Parameters.Add("@factNum", SqlDbType.Decimal).Value = (decimal)numFactura;
+
+            DBhelper.abrirConexion();
+
+            cmd.ExecuteNonQuery();
+
+            DBhelper.cerrarConexion();
+        
+        }
+
+        public int crearFactura(Int32 numReserva) {
+
+            DBhelper.crearConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.crearFactura");
+            cmd.Parameters.Add("@numReserva", SqlDbType.Int).Value = numReserva;
+
+            var valorDeRetorno = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
+            valorDeRetorno.Direction = ParameterDirection.ReturnValue;
+
+            DBhelper.abrirConexion();
+
+            DBhelper.ejecutarProcedure(cmd);
+
+            DBhelper.cerrarConexion();
+
+            return (int)valorDeRetorno.Value;
+        
+        }
+
     }
 }
