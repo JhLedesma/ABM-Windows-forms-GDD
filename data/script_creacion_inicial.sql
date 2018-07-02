@@ -324,7 +324,10 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.calcularTotalFactura','P') IS NOT NULL
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.calcularTotalFactura;
 	
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.facturarEstadia','P') IS NOT NULL  
-	DROP PROCEDURE TRAEME_LA_COPA_MESSI.facturarEstadia;		
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.facturarEstadia;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.comprobarNumReservaCheckout','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.comprobarNumReservaCheckout;
 	
 	
 	
@@ -686,17 +689,19 @@ INSERT INTO TRAEME_LA_COPA_MESSI.Rol(Nombre)
 -- Rol por usuario --
 
 INSERT INTO TRAEME_LA_COPA_MESSI.RolPorUsuario(Username,IdRol)
-	VALUES ('admin',1)
+	
+	select u.Username, r.IdRol from TRAEME_LA_COPA_MESSI.Usuario u, TRAEME_LA_COPA_MESSI.Rol r where u.Username = 'admin' and r.Nombre = 'Administrador'
 
 -- Funcionalidades --
 
 INSERT INTO TRAEME_LA_COPA_MESSI.Funcionalidad(Descripcion)
-	VALUES ('ABM Hotel')
+	VALUES ('ABM Hotel'),('ABM Rol'),('ABM Usuario'),('ABM Habitacion'),('Listado Estadistico'),('Reservas'),('Cancelar Reservas'),('Registrar Estadia')
 
 -- Funcionalidad por rol --
 
 INSERT INTO TRAEME_LA_COPA_MESSI.FuncionalidadPorRol
-	VALUES (1,1)
+	select f.IdFunc, rpu.IdRol from TRAEME_LA_COPA_MESSI.Funcionalidad f,
+	TRAEME_LA_COPA_MESSI.RolPorUsuario rpu join TRAEME_LA_COPA_MESSI.Usuario u on (rpu.Username = u.Username) where u.Username = 'admin'
 
 
 -- Clientes inconsistentes --
@@ -2223,9 +2228,8 @@ BEGIN
 
 	INSERT INTO TRAEME_LA_COPA_MESSI.Item_Factura(Fac_Numero, Reserva_descrip, Reserva_diasUsados, Reserva_diasSinUso, Monto)
 	VALUES (@factNum,
-			'Reserva ' +
 			(SELECT Descripcion FROM TRAEME_LA_COPA_MESSI.TipoHabitacion JOIN TRAEME_LA_COPA_MESSI.Reserva r ON
-			r.tipoHabitacion = Codigo WHERE r.IdReserva = @idReserva) +
+			r.tipoHabitacion = Codigo WHERE r.IdReserva = @idReserva) + ' + ' +
 			(SELECT Descripcion FROM TRAEME_LA_COPA_MESSI.RegimenEstadia JOIN TRAEME_LA_COPA_MESSI.Reserva r ON
 			r.RegimenEstadiaId = IdRegimenEstadia WHERE r.IdReserva = @idReserva),
 			@diasUsados,
@@ -2247,6 +2251,55 @@ BEGIN
 	UPDATE TRAEME_LA_COPA_MESSI.Factura SET
 	Fact_Total = (SELECT SUM(Monto) FROM TRAEME_LA_COPA_MESSI.Item_Factura WHERE Fac_Numero = @numFactura)
 	WHERE Fact_Nro = @numFactura
+
+END
+
+
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.comprobarNumReservaCheckout
+@reservaId int
+
+AS
+BEGIN
+
+	IF (EXISTS (SELECT FechaInicio FROM TRAEME_LA_COPA_MESSI.LogEstadia WHERE ReservaId = @reservaId) AND
+	   (SELECT FechaFin FROM TRAEME_LA_COPA_MESSI.LogEstadia WHERE ReservaId = @reservaId) IS NULL)
+
+	BEGIN
+
+	RETURN 1
+
+	END
+
+	ELSE
+
+	IF NOT EXISTS (SELECT IdReserva FROM TRAEME_LA_COPA_MESSI.Reserva WHERE IdReserva = @reservaId)
+
+	BEGIN
+
+	RETURN 4
+
+	END
+
+	IF (EXISTS (SELECT FechaInicio FROM TRAEME_LA_COPA_MESSI.LogEstadia WHERE ReservaId = @reservaId) AND
+	   (SELECT FechaFin FROM TRAEME_LA_COPA_MESSI.LogEstadia WHERE ReservaId = @reservaId) IS NOT NULL)
+
+	BEGIN
+
+	RETURN 3
+
+	END
+
+	ELSE
+
+	IF NOT EXISTS (SELECT FechaInicio FROM TRAEME_LA_COPA_MESSI.LogEstadia WHERE ReservaId = @reservaId)
+
+	BEGIN
+
+	RETURN 2
+
+	END
+
 
 END
 
