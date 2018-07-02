@@ -14,6 +14,7 @@ namespace FrbaHotel.GenerarModificacionReserva
     {
         Model.Hotel hotelSeleccionado;
         Model.Regimen regimenSeleccionado;
+        Model.Cliente cliente;
 
         public Generar_Reserva_Guest()
         {
@@ -75,8 +76,11 @@ namespace FrbaHotel.GenerarModificacionReserva
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            /////////////////////////////////////////////////Verificar que No este ocupado ese dia/////////////////////////////
-            if (regimenSeleccionado != null)
+            if (Repositorios.Repo_Reserva.getInstancia().comprobarDisponibilidad(dtDesde.Value, dtHasta.Value) == 0)
+            {
+                MessageBox.Show("Por favor seleccione otra fecha de reserva", "Fecha de Reserva Ocupada", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if (regimenSeleccionado != null)
             {
                 this.avanzarPaso2();
             }
@@ -177,6 +181,7 @@ namespace FrbaHotel.GenerarModificacionReserva
 
             rbSi.Checked = false;
             rbNo.Checked = false;
+            tbCliente.Text = "";
             groupBox3.Enabled = false;
 
             btnCancelar.Enabled = false;
@@ -184,6 +189,7 @@ namespace FrbaHotel.GenerarModificacionReserva
 
         public void actualizarTbCliente(Model.Cliente cliente)
         {
+            this.cliente = cliente;
             tbCliente.Text = cliente.id.ToString();
             btnTerminar.Enabled = true;
         }
@@ -207,8 +213,25 @@ namespace FrbaHotel.GenerarModificacionReserva
 
         private void btnTerminar_Click(object sender, EventArgs e)
         {
+            Model.TipoHabitacion tipoHabitacionSeleccionado = (Model.TipoHabitacion)listadoTipoHabitacion.SelectedValue;
+            Model.Hotel hotelSeleccionado = (Model.Hotel)listadoHoteles.SelectedValue;
+
             Model.Reserva reservaCreada = new Model.Reserva();
-            Repositorios.Repo_Reserva.getInstancia().crearReserva(reservaCreada);
+            reservaCreada.fechaDesde = dtDesde.Value;
+            reservaCreada.fechaHasta = dtHasta.Value;
+            reservaCreada.hotel = hotelSeleccionado;
+            reservaCreada.regimen = regimenSeleccionado;
+            reservaCreada.tipoHabitacion = tipoHabitacionSeleccionado;
+            reservaCreada.cliente = cliente;
+
+            int idReserva = Repositorios.Repo_Reserva.getInstancia().crearReservaReturnId(reservaCreada);
+
+            new MostrarCodigoReserva(idReserva).ShowDialog();
+
+            this.Hide();
+            this.Close();
+
+            //Eliminar reservas de dias anteriores de este cliente, que no fueron efectivizadas
         }
 
 
