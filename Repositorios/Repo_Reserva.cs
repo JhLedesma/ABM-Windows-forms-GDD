@@ -255,6 +255,26 @@ namespace FrbaHotel.Repositorios
         
         }
 
+        public int comprobarNumReservaCheckout(Int32 numReserva)
+        {
+            
+         DBhelper.crearConexion();
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.comprobarNumReservaCheckout");
+            cmd.Parameters.Add("@reservaId", SqlDbType.Int).Value = numReserva;
+
+            var valorDeRetorno = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
+            valorDeRetorno.Direction = ParameterDirection.ReturnValue;
+
+            DBhelper.abrirConexion();
+
+            DBhelper.ejecutarProcedure(cmd);
+
+            DBhelper.cerrarConexion();
+
+            return (int)valorDeRetorno.Value;
+        
+        }
+
     }
 }
     
