@@ -42,7 +42,16 @@ namespace FrbaHotel.Login
         {  
             this.Hide();
             Repositorios.Repo_usuario.getInstancia().getUsuarioIngresado().rolActivo = rolSeleccionado;
-            //new Seleccion_funcionalidades().ShowDialog();
+            if (Repositorios.Repo_usuario.getInstancia().usuarioIngresado.listaHoteles.Count() > 1)
+            {
+                new SeleccionDeHotel().ShowDialog();
+            }
+            else 
+            {
+                Repositorios.Repo_usuario.getInstancia().usuarioIngresado.hotelActivo = Repositorios.Repo_usuario.getInstancia().usuarioIngresado.listaHoteles.First();
+                new SeleccionarFuncionalidad().ShowDialog();
+            }
+
             Console.WriteLine(rolSeleccionado.nombreRol);
             this.Close();
         }

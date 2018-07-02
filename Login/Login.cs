@@ -67,6 +67,7 @@ namespace FrbaHotel.Login
                 this.Hide();
                 repo_usuario.getUsuarioLogeado(textBoxUsuario.Text);
                 cantidadRolesDelUsuario = repo_usuario.usuarioIngresado.listaDeRoles.Count();
+                
 
                 if(cantidadRolesDelUsuario > 1)
                 {
@@ -75,17 +76,21 @@ namespace FrbaHotel.Login
                 this.Close();
 
                 }
-
-                else {
-
+                else 
+                {
                     Console.WriteLine("TIENE 1 SOLO ROL");
                     repo_usuario.usuarioIngresado.rolActivo = repo_usuario.usuarioIngresado.listaDeRoles.First();
                     this.Hide();
-                    new SeleccionarFuncionalidad().ShowDialog();
+                    new SeleccionDeHotel().ShowDialog();
                     this.Close();
                     Console.WriteLine(repo_usuario.usuarioIngresado.rolActivo.nombreRol);
-                
-                } 
+                }
+
+
+
+
+
+
            }
 
            else {

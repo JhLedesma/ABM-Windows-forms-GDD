@@ -74,7 +74,6 @@ namespace FrbaHotel.Repositorios
 
         public Model.Usuario getUsuarioLogeado(String nombre) 
         {
-
             DataTable tablaUsuario;
 
             DBhelper.crearConexion();
@@ -86,16 +85,25 @@ namespace FrbaHotel.Repositorios
 
             tablaUsuario = DBhelper.obtenerTabla(cmd);
 
-            foreach (DataRow row in tablaUsuario.Rows) {
+            foreach (DataRow row in tablaUsuario.Rows)
+            {
 
                 usuarioIngresado.username = ((String)row["Username"]);
-                //usuarioIngresado.nombre = ((String)row["Nombre_Usuario"]);
-                //usuarioIngresado.setEstado(Convert.ToInt16(row["Estado_Usuario"]));
-                usuarioIngresado.logsFallidos = ((Int32)row["LogsFallidos"]); 
-            
-            }
+                usuarioIngresado.password = ((String)row["Pass"]);
+                usuarioIngresado.nombre = ((String)row["Nombre"]);
+                usuarioIngresado.apellido = ((String)row["Apellido"]);
+                usuarioIngresado.email = ((String)row["Email"]);
+                usuarioIngresado.nroDocumento = ((decimal)row["NroDocumento"]);
+                usuarioIngresado.telefono = ((decimal)row["Telefono"]);
+                usuarioIngresado.fechaDeNacimiento = (DateTime)row["FechaNacimiento"];
+                usuarioIngresado.estado = (Convert.ToInt16(row["Estado"]));
+                usuarioIngresado.logsFallidos = ((Int32)row["LogsFallidos"]);
+                usuarioIngresado.direccion = this.getDireccion((Int32)row["Direccion"]);
+                usuarioIngresado.tipoDoc = this.getTipoDocumento((Int32)row["TipoDoc"]);
+                usuarioIngresado.listaDeRoles = this.getRolesUsuario((String)row["Username"]);
+                usuarioIngresado.listaHoteles = this.getHotelesDeUsuario((String)row["Username"]);
 
-            usuarioIngresado.setListaDeRoles(getRolesUsuario(usuarioIngresado.username));
+            }
 
             DBhelper.cerrarConexion();
 

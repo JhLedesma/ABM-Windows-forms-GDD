@@ -25,6 +25,7 @@ namespace FrbaHotel.Model
         public Rol rolActivo {get;set;}
         public List<Hotel> listaHoteles { get; set; }
         public Int16 estado { get; set; }
+        public Model.Hotel hotelActivo { get; set; }
 
         public Usuario()
         {
