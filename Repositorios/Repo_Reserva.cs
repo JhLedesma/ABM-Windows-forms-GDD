@@ -163,7 +163,7 @@ namespace FrbaHotel.Repositorios
             return (int)valorDeRetorno.Value;
         }
 
-        public Model.Reserva getReserva(decimal id)
+        public Model.Reserva getReserva(Int32 idReserva)
         {
             return null;
         }
@@ -237,6 +237,22 @@ namespace FrbaHotel.Repositorios
 
             DBhelper.cerrarConexion();
 
+        }
+
+        public void calcularTotalFactura(Int32 numFactura) 
+        {
+
+            DBhelper.crearConexion();
+
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.calcularTotalFactura");
+            cmd.Parameters.Add("@numFactura", SqlDbType.Int).Value = numFactura;
+
+            DBhelper.ejecutarProcedure(cmd);
+
+            DBhelper.cerrarConexion();
+        
         }
 
     }

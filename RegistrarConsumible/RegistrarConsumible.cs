@@ -95,6 +95,10 @@ namespace FrbaHotel.RegistrarConsumible
 
                 }
 
+                Repositorios.Repo_Consumible.getInstancia().facturarEstadia(numReserva, numFactura);
+
+                Repositorios.Repo_Consumible.getInstancia().calcularTotalFactura(numFactura);
+
             }
             //La llista consumibleSeleccionado contiene todos los objetos Consumible que aparecen en el griud actualizados con sus cantidades. Listos para facturar.
         }

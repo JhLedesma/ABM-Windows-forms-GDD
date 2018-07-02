@@ -56,6 +56,7 @@ namespace FrbaHotel.Repositorios
             DBhelper.crearConexion();
             SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.facturarConsumible");
             cmd.Parameters.Add("@idConsumible", SqlDbType.Int).Value = consumible.id;
+            cmd.Parameters.Add("@cantidad", SqlDbType.Int).Value = consumible.cantidad;
             cmd.Parameters.Add("@factNum", SqlDbType.Decimal).Value = (decimal)numFactura;
 
             DBhelper.abrirConexion();
@@ -84,6 +85,37 @@ namespace FrbaHotel.Repositorios
 
             return (int)valorDeRetorno.Value;
         
+        }
+
+        public void facturarEstadia(Int32 idReserva, Int32 numFact)
+        {
+
+            DBhelper.crearConexion();
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.facturarEstadia");
+            cmd.Parameters.Add("@idReserva", SqlDbType.Int).Value = idReserva;
+            cmd.Parameters.Add("@factNum", SqlDbType.Int).Value = numFact;
+
+            DBhelper.abrirConexion();
+
+            cmd.ExecuteNonQuery();
+
+            DBhelper.cerrarConexion();
+
+        }
+
+        public void calcularTotalFactura(Int32 numFactura)
+        {
+
+            DBhelper.crearConexion();
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.calcularTotalFactura");
+            cmd.Parameters.Add("@numFactura", SqlDbType.Int).Value = numFactura;
+
+            DBhelper.abrirConexion();
+
+            cmd.ExecuteNonQuery();
+
+            DBhelper.cerrarConexion();
+
         }
 
     }
