@@ -689,17 +689,19 @@ INSERT INTO TRAEME_LA_COPA_MESSI.Rol(Nombre)
 -- Rol por usuario --
 
 INSERT INTO TRAEME_LA_COPA_MESSI.RolPorUsuario(Username,IdRol)
-	VALUES ('admin',1)
+	
+	select u.Username, r.IdRol from TRAEME_LA_COPA_MESSI.Usuario u, TRAEME_LA_COPA_MESSI.Rol r where u.Username = 'admin' and r.Nombre = 'Administrador'
 
 -- Funcionalidades --
 
 INSERT INTO TRAEME_LA_COPA_MESSI.Funcionalidad(Descripcion)
-	VALUES ('ABM Hotel')
+	VALUES ('ABM Hotel'),('ABM Rol'),('ABM Usuario'),('ABM Habitacion'),('Listado Estadistico'),('Reservas'),('Cancelar Reservas'),('Registrar Estadia')
 
 -- Funcionalidad por rol --
 
 INSERT INTO TRAEME_LA_COPA_MESSI.FuncionalidadPorRol
-	VALUES (1,1)
+	select f.IdFunc, rpu.IdRol from TRAEME_LA_COPA_MESSI.Funcionalidad f,
+	TRAEME_LA_COPA_MESSI.RolPorUsuario rpu join TRAEME_LA_COPA_MESSI.Usuario u on (rpu.Username = u.Username) where u.Username = 'admin'
 
 
 -- Clientes inconsistentes --
