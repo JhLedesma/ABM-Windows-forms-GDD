@@ -15,6 +15,7 @@ namespace FrbaHotel.GenerarModificacionReserva
         Model.Hotel hotelSeleccionado;
         Model.Regimen regimenSeleccionado;
         Model.Cliente cliente;
+        Model.Usuario usuarioLogueado;
 
         public Generar_Reserva_Guest()
         {
@@ -22,6 +23,16 @@ namespace FrbaHotel.GenerarModificacionReserva
             configuarComboBoxHotel();
             configuarComboBoxTipoHabitacion();
             hotelSeleccionado = (Model.Hotel)listadoHoteles.SelectedValue;
+        }
+
+        public Generar_Reserva_Guest(Model.Usuario usuario)
+        {
+            InitializeComponent();
+            configuarComboBoxHotel();
+            configuarComboBoxTipoHabitacion();
+            hotelSeleccionado = (Model.Hotel)listadoHoteles.SelectedValue;
+            this.usuarioLogueado = usuario;
+            this.configurarVistaConUsuario();
         }
 
         private void btnRegimen_Click(object sender, EventArgs e)
@@ -43,6 +54,12 @@ namespace FrbaHotel.GenerarModificacionReserva
             this.listadoTipoHabitacion.DisplayMember = "Descripcion";
             this.listadoTipoHabitacion.DataSource = Repositorios.Repo_habitacion.getInstancia().getTiposHabitaciones();
             this.listadoTipoHabitacion.DropDownStyle = ComboBoxStyle.DropDownList;
+        }
+
+        private void configurarVistaConUsuario()
+        {
+            //listadoHoteles.SelectedItem = usuarioLogueado
+            listadoHoteles.Enabled = false;
         }
 
         public void actualizarRegimen(Model.Regimen regimen)
@@ -118,7 +135,10 @@ namespace FrbaHotel.GenerarModificacionReserva
             lblHasta.Enabled = true;
             dtHasta.Enabled = true;
             lblHotel.Enabled = true;
-            listadoHoteles.Enabled = true;
+            if (usuarioLogueado == null)
+            {
+                listadoHoteles.Enabled = true;
+            }
             lblTipoDeHabitacion.Enabled = true;
             listadoTipoHabitacion.Enabled = true;
             lblRegimen.Enabled = true;
@@ -138,7 +158,10 @@ namespace FrbaHotel.GenerarModificacionReserva
             lblHasta.Enabled = false;
             dtHasta.Enabled = false;
             lblHotel.Enabled = false;
-            listadoHoteles.Enabled = false;
+            if (usuarioLogueado == null)
+            {
+                listadoHoteles.Enabled = false;
+            }
             lblTipoDeHabitacion.Enabled = false;
             listadoTipoHabitacion.Enabled = false;
             lblRegimen.Enabled = false;
@@ -233,6 +256,7 @@ namespace FrbaHotel.GenerarModificacionReserva
 
             //Eliminar reservas de dias anteriores de este cliente, que no fueron efectivizadas
         }
+
 
 
     }
