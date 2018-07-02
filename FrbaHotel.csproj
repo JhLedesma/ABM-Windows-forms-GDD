@@ -297,6 +297,12 @@
     <Compile Include="Login\SeleccionDeHotel.Designer.cs">
       <DependentUpon>SeleccionDeHotel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Login\SeleccionarFuncionalidad_invitado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login\SeleccionarFuncionalidad_invitado.Designer.cs">
+      <DependentUpon>SeleccionarFuncionalidad_invitado.cs</DependentUpon>
+    </Compile>
     <Compile Include="Login\SeleccionDeRol.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -492,6 +498,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Login\SeleccionDeHotel.resx">
       <DependentUpon>SeleccionDeHotel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login\SeleccionarFuncionalidad_invitado.resx">
+      <DependentUpon>SeleccionarFuncionalidad_invitado.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login\SeleccionDeRol.resx">
       <DependentUpon>SeleccionDeRol.cs</DependentUpon>

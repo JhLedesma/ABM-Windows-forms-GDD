@@ -360,6 +360,7 @@
             this.btnVolver.TabIndex = 18;
             this.btnVolver.Text = "Volver";
             this.btnVolver.UseVisualStyleBackColor = true;
+            this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
             // 
             // Generar_Reserva_Guest
             // 

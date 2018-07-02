@@ -33,7 +33,7 @@
             this.textBoxPassword = new System.Windows.Forms.TextBox();
             this.textBoxUsuario = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.boton_guest = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // aceptarLogin
@@ -87,24 +87,24 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "Usuario:";
             // 
-            // button1
+            // boton_guest
             // 
-            this.button1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.button1.Enabled = false;
-            this.button1.Location = new System.Drawing.Point(73, 202);
-            this.button1.Margin = new System.Windows.Forms.Padding(2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(141, 29);
-            this.button1.TabIndex = 10;
-            this.button1.Text = "Ingresar como Huesped";
-            this.button1.UseVisualStyleBackColor = false;
+            this.boton_guest.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.boton_guest.Location = new System.Drawing.Point(73, 202);
+            this.boton_guest.Margin = new System.Windows.Forms.Padding(2);
+            this.boton_guest.Name = "boton_guest";
+            this.boton_guest.Size = new System.Drawing.Size(141, 29);
+            this.boton_guest.TabIndex = 10;
+            this.boton_guest.Text = "Ingresar como Invitado";
+            this.boton_guest.UseVisualStyleBackColor = false;
+            this.boton_guest.Click += new System.EventHandler(this.boton_guest_Click);
             // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 251);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.boton_guest);
             this.Controls.Add(this.aceptarLogin);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.textBoxPassword);
@@ -124,6 +124,6 @@
         private System.Windows.Forms.TextBox textBoxPassword;
         private System.Windows.Forms.TextBox textBoxUsuario;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button boton_guest;
     }
 }
