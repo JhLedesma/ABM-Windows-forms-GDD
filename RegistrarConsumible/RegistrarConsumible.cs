@@ -12,15 +12,15 @@ namespace FrbaHotel.RegistrarConsumible
 {
     public partial class RegistrarConsumible : Form
     {
-        Model.Habitacion habitacion; // AL FINAL CREO QUE NO REQUIERE UNA HABITACION SINO UNA ESTADIA
+        Int32 numReserva; 
         List<Model.Consumible> consumiblesYServicios = Repositorios.Repo_Consumible.getInstancia().getConsumibles();
         List<Model.Consumible> consumibleSeleccionado = new List<Model.Consumible>();
         DataTable dt = new DataTable();
 
-        public RegistrarConsumible(Model.Habitacion habitacion)
+        public RegistrarConsumible(Int32 reserva)
         {
             InitializeComponent();
-            this.habitacion = habitacion;
+            numReserva = reserva;
             this.configurarListBox();
         }
 
@@ -83,6 +83,23 @@ namespace FrbaHotel.RegistrarConsumible
 
         private void button3_Click(object sender, EventArgs e)
         {
+            Int32 numFactura = Repositorios.Repo_Consumible.getInstancia().crearFactura(numReserva);
+
+            if(consumibleSeleccionado.Count != 0)
+            {
+
+                foreach(Model.Consumible c in consumibleSeleccionado)
+                {
+
+                Repositorios.Repo_Consumible.getInstancia().facturarConsumible(numFactura, c);
+
+                }
+
+                Repositorios.Repo_Consumible.getInstancia().facturarEstadia(numReserva, numFactura);
+
+                Repositorios.Repo_Consumible.getInstancia().calcularTotalFactura(numFactura);
+
+            }
             //La llista consumibleSeleccionado contiene todos los objetos Consumible que aparecen en el griud actualizados con sus cantidades. Listos para facturar.
         }
     }

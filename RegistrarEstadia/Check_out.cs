@@ -36,7 +36,18 @@ namespace FrbaHotel.RegistrarEstadia
                 comunicarRta(codigoRta);*/
                 //El codigo tiene que ser de una reserva que se haya hecho el check in y que no tenga fecha fin, lo busco en logestadia
                 Repositorios.Repo_Reserva.getInstancia().hacerCheckOut(Int32.Parse(numeric_textBox_reserva.Text));
+                MessageBox.Show("Check-Out realizado con exito, se procede a la facturacion", "Check-Out ok", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Hide();
+                new RegistrarConsumible.RegistrarConsumible(Int32.Parse(numeric_textBox_reserva.Text)).ShowDialog();
+                this.Close();
             }
+        }
+
+        private void boton_volver_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            new Ingreso_Egreso().ShowDialog();
+            this.Close();
         }
     }
 }

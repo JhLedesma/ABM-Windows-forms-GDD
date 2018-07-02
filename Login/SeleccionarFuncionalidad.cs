@@ -57,5 +57,19 @@ namespace FrbaHotel.Login
             new AbmCliente.Abm_Cliente().ShowDialog();
             this.Close();
         }
+
+        private void boton_cancelar_reservas_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            new CancelarReserva.Form1().ShowDialog();
+            this.Close();
+        }
+
+        private void boton_registrar_estadia_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            new RegistrarEstadia.Ingreso_Egreso().ShowDialog();
+            this.Close();
+        }
     }
 }

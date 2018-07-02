@@ -37,5 +37,12 @@ namespace FrbaHotel.AbmUsuario
             new AbmUsuario.ListadoEliminar().ShowDialog();
             this.Close();
         }
+
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            new Login.SeleccionarFuncionalidad_admin().ShowDialog();
+            this.Close();
+        }
     }
 }

@@ -83,5 +83,12 @@ namespace FrbaHotel.RegistrarEstadia
             dataGridClientes.DataSource = clientesReserva;
             
         }
+
+        private void boton_volver_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            new Ingreso_Egreso().ShowDialog();
+            this.Close();
+        }
     }
 }

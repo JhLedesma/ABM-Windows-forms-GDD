@@ -37,11 +37,13 @@
             this.boton_abm_usuario = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.boton_abm_habitacion = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.boton_listado_estadistico = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // boton_volver
             // 
-            this.boton_volver.Location = new System.Drawing.Point(28, 396);
+            this.boton_volver.Location = new System.Drawing.Point(34, 476);
             this.boton_volver.Name = "boton_volver";
             this.boton_volver.Size = new System.Drawing.Size(75, 23);
             this.boton_volver.TabIndex = 11;
@@ -89,6 +91,7 @@
             this.boton_abm_rol.TabIndex = 13;
             this.boton_abm_rol.Text = "ABM Rol";
             this.boton_abm_rol.UseVisualStyleBackColor = true;
+            this.boton_abm_rol.Click += new System.EventHandler(this.boton_abm_rol_Click);
             // 
             // label3
             // 
@@ -109,6 +112,7 @@
             this.boton_abm_usuario.TabIndex = 15;
             this.boton_abm_usuario.Text = "ABM Usuario";
             this.boton_abm_usuario.UseVisualStyleBackColor = true;
+            this.boton_abm_usuario.Click += new System.EventHandler(this.boton_abm_usuario_Click);
             // 
             // label4
             // 
@@ -131,11 +135,34 @@
             this.boton_abm_habitacion.UseVisualStyleBackColor = true;
             this.boton_abm_habitacion.Click += new System.EventHandler(this.boton_abm_habitacion_Click);
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(57, 368);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(158, 13);
+            this.label5.TabIndex = 18;
+            this.label5.Text = "Consultar estadisticas generales";
+            // 
+            // boton_listado_estadistico
+            // 
+            this.boton_listado_estadistico.Location = new System.Drawing.Point(73, 409);
+            this.boton_listado_estadistico.Margin = new System.Windows.Forms.Padding(2);
+            this.boton_listado_estadistico.Name = "boton_listado_estadistico";
+            this.boton_listado_estadistico.Size = new System.Drawing.Size(125, 23);
+            this.boton_listado_estadistico.TabIndex = 19;
+            this.boton_listado_estadistico.Text = "Listado Estadistico";
+            this.boton_listado_estadistico.UseVisualStyleBackColor = true;
+            this.boton_listado_estadistico.Click += new System.EventHandler(this.boton_listado_estadistico_Click);
+            // 
             // SeleccionarFuncionalidad_admin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 431);
+            this.ClientSize = new System.Drawing.Size(284, 517);
+            this.Controls.Add(this.boton_listado_estadistico);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.boton_abm_habitacion);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.boton_abm_usuario);
@@ -163,5 +190,7 @@
         private System.Windows.Forms.Button boton_abm_usuario;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button boton_abm_habitacion;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button boton_listado_estadistico;
     }
 }

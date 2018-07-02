@@ -69,6 +69,7 @@
             this.boton_volver.TabIndex = 3;
             this.boton_volver.Text = "Volver";
             this.boton_volver.UseVisualStyleBackColor = true;
+            this.boton_volver.Click += new System.EventHandler(this.boton_volver_Click);
             // 
             // Input_reserva
             // 

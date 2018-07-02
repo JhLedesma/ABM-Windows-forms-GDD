@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.boton_baja = new System.Windows.Forms.Button();
             this.boton_modificar = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.boton_volver = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -54,6 +54,33 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Elija  una opcion";
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(39, 207);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(180, 13);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "De de baja una habitacion existente:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(39, 119);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(174, 13);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Modifique una habitacion existente:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(60, 40);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(138, 13);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Cree una nueva habitacion:";
             // 
             // boton_baja
             // 
@@ -85,33 +112,6 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(60, 40);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(138, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Cree una nueva habitacion:";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(39, 119);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(174, 13);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Modifique una habitacion existente:";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(39, 207);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(180, 13);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "De de baja una habitacion existente:";
-            // 
             // boton_volver
             // 
             this.boton_volver.Location = new System.Drawing.Point(24, 315);
@@ -120,6 +120,7 @@
             this.boton_volver.TabIndex = 3;
             this.boton_volver.Text = "Volver";
             this.boton_volver.UseVisualStyleBackColor = true;
+            this.boton_volver.Click += new System.EventHandler(this.boton_volver_Click);
             // 
             // Abm_Habitacion
             // 
