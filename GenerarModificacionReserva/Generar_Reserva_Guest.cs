@@ -234,6 +234,13 @@ namespace FrbaHotel.GenerarModificacionReserva
             //Eliminar reservas de dias anteriores de este cliente, que no fueron efectivizadas
         }
 
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            new Login.SeleccionarFuncionalidad_invitado().ShowDialog();
+            this.Close();
+        }
+
 
     }
 }

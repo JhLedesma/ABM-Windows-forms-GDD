@@ -137,6 +137,13 @@ namespace FrbaHotel.Login
 
         }
 
+       private void boton_guest_Click(object sender, EventArgs e)
+       {
+           this.Hide();
+           new SeleccionarFuncionalidad_invitado().ShowDialog();
+           this.Close();
+       }
+
     }
 }
 
