@@ -332,8 +332,13 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.comprobarNumReservaCheckout','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.obtenerFuncionalidadesCompletasPorRol','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.obtenerFuncionalidadesCompletasPorRol;
 
-	
-	
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.DescontarConsumibles','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.DescontarConsumibles;
+
+
+	IF OBJECT_ID('TRAEME_LA_COPA_MESSI.verificarAllInclusive','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.verificarAllInclusive;
+
 	
 	
 /* Dropeo las views si ya existen */
@@ -2338,3 +2343,21 @@ BEGIN
 END
 
 
+Go
+Create procedure TRAEME_LA_COPA_MESSI.verificarAllInclusive
+@numReserva int
+as begin 
+if (exists (select re.Descripcion from TRAEME_LA_COPA_MESSI.Reserva r join TRAEME_LA_COPA_MESSI.RegimenEstadia re on r.RegimenEstadiaId = re.IdRegimenEstadia
+ where r.IdReserva= @numReserva and re.Descripcion= 'All inclusive'))
+ return 1
+ else 
+ return 2
+ End
+
+ Go
+ Create Procedure TRAEME_LA_COPA_MESSI.DescontarConsumibles
+ @numFactura int
+ as begin
+ insert into TRAEME_LA_COPA_MESSI.Item_Factura (Fac_Numero,Cantidad,Reserva_descrip,IdConsumible,Monto)
+ values (@numFactura,1,'Descuento por regimen de estadia',(select sum(monto) from TRAEME_LA_COPA_MESSI.Item_Factura where @numFactura=Fac_Numero and IdConsumible!=null))
+ end
