@@ -57,7 +57,12 @@ namespace FrbaHotel.RegistrarEstadia
         private void boton_confirmar_Click(object sender, EventArgs e)
         {
 
-            Repositorios.Repo_Reserva.getInstancia().generarLogEstadia(numReserva);
+            Console.WriteLine("--------------------");
+            Console.WriteLine(Repositorios.Repo_usuario.getInstancia().usuarioIngresado.username);
+            Console.WriteLine("--------------------");
+
+
+            Repositorios.Repo_Reserva.getInstancia().generarLogEstadia(Repositorios.Repo_usuario.getInstancia().usuarioIngresado.username ,numReserva);
 
             foreach (Model.Cliente cliente in clientesReserva) {
 

@@ -186,7 +186,7 @@ namespace FrbaHotel.Repositorios
         
         }
         
-        public void generarLogEstadia(Int32 numReserva)
+        public void generarLogEstadia(String username, Int32 numReserva)
         {
 
             DBhelper.crearConexion();
@@ -195,6 +195,7 @@ namespace FrbaHotel.Repositorios
 
             SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.generarLogEstadia");
             cmd.Parameters.Add("@idReserva", SqlDbType.Int).Value = numReserva;
+            cmd.Parameters.Add("@usuario", SqlDbType.NVarChar).Value = username;
 
             DBhelper.ejecutarProcedure(cmd);
 
@@ -223,7 +224,7 @@ namespace FrbaHotel.Repositorios
         }
 
 
-        public void hacerCheckOut(Int32 numReserva)
+        public void hacerCheckOut(String usuario ,Int32 numReserva)
         {
 
             DBhelper.crearConexion();
@@ -232,6 +233,7 @@ namespace FrbaHotel.Repositorios
 
             SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.hacerCheckOut");
             cmd.Parameters.Add("@idReserva", SqlDbType.Int).Value = numReserva;
+            cmd.Parameters.Add("@username", SqlDbType.NVarChar).Value = usuario;
 
             DBhelper.ejecutarProcedure(cmd);
 

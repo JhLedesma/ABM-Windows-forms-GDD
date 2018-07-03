@@ -546,7 +546,8 @@ RegimenEstadiaId int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.RegimenEstadia(
 create table traeme_la_copa_messi.LogEstadia(
 IdLogEstadia int IDENTITY(1,1) PRIMARY KEY ,
 Tipo nvarchar null,
-Autor nvarchar null,
+Autor_check_in nvarchar(255) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Usuario(Username),
+Autor_check_out nvarchar(255) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Usuario(Username),
 FechaInicio datetime null,
 CantidadNocheUsadas int,
 FechaFin datetime,
@@ -1883,6 +1884,7 @@ END
 
 GO
 CREATE PROCEDURE TRAEME_LA_COPA_MESSI.hacerCheckOut
+@username nvarchar(255),
 @idReserva int
 
 AS
@@ -1893,6 +1895,8 @@ UPDATE TRAEME_LA_COPA_MESSI.LogEstadia SET FechaFin = GETDATE() WHERE ReservaId 
 UPDATE TRAEME_LA_COPA_MESSI.Reserva SET EstadoReserva = 6 WHERE IdReserva = @idReserva
 
 UPDATE TRAEME_LA_COPA_MESSI.LogEstadia SET CantidadNocheUsadas =  DATEDIFF(DAY, FechaInicio, FechaFin) WHERE ReservaId = @idReserva
+
+UPDATE TRAEME_LA_COPA_MESSI.LogEstadia SET Autor_check_out = @username
 
 END
 
@@ -1937,13 +1941,16 @@ BEGIN
 
 GO
 CREATE PROCEDURE TRAEME_LA_COPA_MESSI.generarLogEstadia
-@idReserva int
+@idReserva int,
+@usuario nvarchar(255)
 	
 AS
 BEGIN
 
 INSERT INTO TRAEME_LA_COPA_MESSI.LogEstadia(FechaInicio,ReservaId)
 	VALUES (GETDATE(),@idReserva)
+
+UPDATE TRAEME_LA_COPA_MESSI.LogEstadia SET Autor_check_in = @usuario WHERE ReservaId = @idReserva
 
 END
 

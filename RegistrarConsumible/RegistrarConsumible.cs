@@ -100,7 +100,15 @@ namespace FrbaHotel.RegistrarConsumible
                 Repositorios.Repo_Consumible.getInstancia().calcularTotalFactura(numFactura);
 
             }
+
+            MessageBox.Show("Factura creada correctamente", "Factura creada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            this.Hide();
+            new Login.SeleccionarFuncionalidad().ShowDialog();
+            this.Close();
+
             //La llista consumibleSeleccionado contiene todos los objetos Consumible que aparecen en el griud actualizados con sus cantidades. Listos para facturar.
         }
+
     }
 }
