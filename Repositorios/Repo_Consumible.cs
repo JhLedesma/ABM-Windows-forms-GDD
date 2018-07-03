@@ -118,9 +118,34 @@ namespace FrbaHotel.Repositorios
 
         }
 
-        public bool condicionAllInclusive(Int32 numReserva)
+        public Int32 condicionAllInclusive(Int32 numReserva)
         {
+            DBhelper.crearConexion();
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.verificarAllInclusive");
+            cmd.Parameters.Add("@numReserva", SqlDbType.Int).Value = numReserva;
 
+            var valorDeRetorno = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
+            valorDeRetorno.Direction = ParameterDirection.ReturnValue;
+            DBhelper.abrirConexion();
+
+            DBhelper.ejecutarProcedure(cmd);
+
+            DBhelper.cerrarConexion();
+
+            return (int)valorDeRetorno.Value;
+        }
+
+        public void descontarConsumibles(Int32 numFactura)
+        {
+            DBhelper.crearConexion();
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.DescontarConsumibles");
+            cmd.Parameters.Add("@numFactura", SqlDbType.Int).Value = numFactura;
+
+            DBhelper.abrirConexion();
+
+            cmd.ExecuteNonQuery();
+
+            DBhelper.cerrarConexion();
 
         }
 

@@ -94,9 +94,9 @@ namespace FrbaHotel.RegistrarConsumible
                 Repositorios.Repo_Consumible.getInstancia().facturarConsumible(numFactura, c);
 
                 }
-                if (Repositorios.Repo_Consumible.getInstancia().condicionAllInclusive(numReserva))
+                if (Repositorios.Repo_Consumible.getInstancia().condicionAllInclusive(numReserva)==1)
                 {
-                    Repositorios.Repo_Consumible.getInstancia().descontarConsumibles();
+                    Repositorios.Repo_Consumible.getInstancia().descontarConsumibles(numFactura);
                 }
 
 
