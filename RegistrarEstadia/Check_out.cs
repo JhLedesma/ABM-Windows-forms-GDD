@@ -23,6 +23,7 @@ namespace FrbaHotel.RegistrarEstadia
 
         private void boton_continuar_Click(object sender, EventArgs e)
         {
+
             if (string.IsNullOrWhiteSpace(numeric_textBox_reserva.Text))
             {
                 MessageBox.Show("Por favor ingrese un numero de reserva","Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
