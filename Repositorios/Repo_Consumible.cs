@@ -118,5 +118,11 @@ namespace FrbaHotel.Repositorios
 
         }
 
+        public bool condicionAllInclusive(Int32 numReserva)
+        {
+
+
+        }
+
     }
 }

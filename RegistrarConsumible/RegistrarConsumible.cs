@@ -94,6 +94,11 @@ namespace FrbaHotel.RegistrarConsumible
                 Repositorios.Repo_Consumible.getInstancia().facturarConsumible(numFactura, c);
 
                 }
+                if (Repositorios.Repo_Consumible.getInstancia().condicionAllInclusive(numReserva))
+                {
+                    Repositorios.Repo_Consumible.getInstancia().descontarConsumibles();
+                }
+
 
                 Repositorios.Repo_Consumible.getInstancia().facturarEstadia(numReserva, numFactura);
 
