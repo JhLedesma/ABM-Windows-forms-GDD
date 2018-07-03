@@ -2358,6 +2358,6 @@ if (exists (select re.Descripcion from TRAEME_LA_COPA_MESSI.Reserva r join TRAEM
  Create Procedure TRAEME_LA_COPA_MESSI.DescontarConsumibles
  @numFactura int
  as begin
- insert into TRAEME_LA_COPA_MESSI.Item_Factura (Fac_Numero,Cantidad,Reserva_descrip,IdConsumible,Monto)
- values (@numFactura,1,'Descuento por regimen de estadia',(select sum(monto) from TRAEME_LA_COPA_MESSI.Item_Factura where @numFactura=Fac_Numero and IdConsumible!=null))
+ insert into TRAEME_LA_COPA_MESSI.Item_Factura (Fac_Numero,Cantidad,Reserva_descrip,Monto)
+ values (@numFactura,1,'Descuento por regimen de estadia',(select -sum(monto) from TRAEME_LA_COPA_MESSI.Item_Factura where @numFactura=Fac_Numero and IdConsumible IS NOT NULL))
  end
