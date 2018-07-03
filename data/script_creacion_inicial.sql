@@ -328,6 +328,11 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.facturarEstadia','P') IS NOT NULL
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.comprobarNumReservaCheckout','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.comprobarNumReservaCheckout;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.obtenerFuncionalidadesCompletasPorRol','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.obtenerFuncionalidadesCompletasPorRol;
+
+	
 	
 	
 	
@@ -695,7 +700,7 @@ INSERT INTO TRAEME_LA_COPA_MESSI.RolPorUsuario(Username,IdRol)
 -- Funcionalidades --
 
 INSERT INTO TRAEME_LA_COPA_MESSI.Funcionalidad(Descripcion)
-	VALUES ('ABM Hotel'),('ABM Rol'),('ABM Usuario'),('ABM Habitacion'),('Listado Estadistico'),('Reservas'),('Cancelar Reservas'),('Registrar Estadia')
+	VALUES ('ABM Hotel'),('ABM Cliente'),('ABM Rol'),('ABM Usuario'),('ABM Habitacion'),('Listado Estadistico'),('Reservas'),('Cancelar Reservas'),('Registrar Estadia')
 
 -- Funcionalidad por rol --
 
@@ -703,6 +708,17 @@ INSERT INTO TRAEME_LA_COPA_MESSI.FuncionalidadPorRol
 	select f.IdFunc, rpu.IdRol from TRAEME_LA_COPA_MESSI.Funcionalidad f,
 	TRAEME_LA_COPA_MESSI.RolPorUsuario rpu join TRAEME_LA_COPA_MESSI.Usuario u on (rpu.Username = u.Username) where u.Username = 'admin'
 
+INSERT INTO TRAEME_LA_COPA_MESSI.FuncionalidadPorRol(IdRol,IdFunc)
+	VALUES (2,9)
+
+INSERT INTO TRAEME_LA_COPA_MESSI.FuncionalidadPorRol(IdRol,IdFunc)
+	VALUES (2,7)
+	
+INSERT INTO TRAEME_LA_COPA_MESSI.FuncionalidadPorRol(IdRol,IdFunc)
+	VALUES (2,8)
+
+INSERT INTO TRAEME_LA_COPA_MESSI.FuncionalidadPorRol(IdRol,IdFunc)
+	VALUES (2,2)
 
 -- Clientes inconsistentes --
 
@@ -1175,6 +1191,17 @@ begin transaction
 	end
 commit
 
+
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.obtenerFuncionalidadesCompletasPorRol
+@idRol int
+
+AS
+BEGIN
+
+	SELECT f.IdFunc, Descripcion, Estado FROM TRAEME_LA_COPA_MESSI.Funcionalidad f JOIN TRAEME_LA_COPA_MESSI.FuncionalidadPorRol fr ON f.IdFunc = fr.IdFunc WHERE fr.IdRol = @idRol
+
+END
 
 /* Repositorio Regimenes */
 

@@ -252,7 +252,8 @@ namespace FrbaHotel.Repositorios
         {
 
             DataTable tablaRoles;
-            List<Model.Rol> listaDeRoles = new List<Model.Rol>();
+            List<Model.Rol> listaDeRolesSinFunc = new List<Model.Rol>();
+            List<Model.Rol> listaDeRolesConFunc = new List<Model.Rol>();
 
             DBhelper.crearConexion();
 
@@ -272,13 +273,50 @@ namespace FrbaHotel.Repositorios
                 rol.idRol = ((Int32)row["IdRol"]);
                 rol.estado = (Convert.ToInt16(row["Estado"]));
 
-                listaDeRoles.Add(rol);
+                listaDeRolesSinFunc.Add(rol);
+            }
+
+            foreach (Model.Rol rol in listaDeRolesSinFunc)
+            {
+
+                listaDeRolesConFunc.Add(obtenerFuncionalidadesRol(rol));
+            
             }
 
             DBhelper.cerrarConexion();
 
-            return listaDeRoles;
+            return listaDeRolesConFunc;
 
+        }
+
+        public Model.Rol obtenerFuncionalidadesRol(Model.Rol rol)
+        {
+
+            DBhelper.crearConexion();
+
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.obtenerFuncionalidadesCompletasPorRol");
+            cmd.Parameters.Add("@idRol", SqlDbType.Int).Value = rol.idRol;
+
+            DataTable tablaFunc = DBhelper.obtenerTabla(cmd);
+
+            foreach (DataRow row in tablaFunc.Rows)
+            {
+
+                Model.Funcionalidad funcionalidad = new Model.Funcionalidad();
+
+                funcionalidad.idFunc = (Int32)row["IdFunc"];
+                funcionalidad.descripcion = (String)row["Descripcion"];
+                funcionalidad.estado = Convert.ToInt16(row["Estado"]);
+
+                rol.funcionalidades.Add(funcionalidad);
+
+            }
+
+            DBhelper.cerrarConexion();
+
+            return rol;
         }
 
 

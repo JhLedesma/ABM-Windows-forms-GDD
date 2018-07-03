@@ -13,12 +13,65 @@ namespace FrbaHotel.Login
     public partial class SeleccionarFuncionalidad : Form
     {
 
-        const int IDADMIN = 1;
+        
+        private List<String> funcionalidadesUsuario = new List<string>();
+        private List<String> funcionalidadesSistema = new List<string>();
 
         public SeleccionarFuncionalidad()
         {
+
+            obtenerFuncionalidadesUsuario();
+            
             InitializeComponent();
 
+            obtenerFuncionalidadesBotones();
+
+            comprobarFuncionalidades();
+
+        }
+
+        private void obtenerFuncionalidadesUsuario()
+        {
+            foreach (Model.Funcionalidad func in Repositorios.Repo_usuario.getInstancia().usuarioIngresado.rolActivo.funcionalidades)
+            {
+
+                funcionalidadesUsuario.Add(func.descripcion);
+
+            }
+        }
+
+        private void obtenerFuncionalidadesBotones() {
+            
+            funcionalidadesSistema.Add(boton_abm_cliente.Text);
+            funcionalidadesSistema.Add(boton_cancelar_reservas.Text);
+            funcionalidadesSistema.Add(boton_reservas.Text);
+            funcionalidadesSistema.Add(boton_registrar_estadia.Text);  
+        
+        }
+
+        private void comprobarFuncionalidades() {
+        
+            List<Button> botonesFuncionalidades = new List<Button>();
+
+            botonesFuncionalidades.Add(boton_abm_cliente);
+            botonesFuncionalidades.Add(boton_reservas);
+            botonesFuncionalidades.Add(boton_registrar_estadia);
+            botonesFuncionalidades.Add(boton_cancelar_reservas);
+
+            foreach (String func in funcionalidadesSistema) {
+
+
+
+                if (funcionalidadesUsuario.Contains(func))
+                {
+
+                    botonesFuncionalidades.Find(boton => boton.Text == func).Enabled = true;
+                
+                }
+            
+            }
+            
+        
         }
 
         private void linkLabelFuncAdmin_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -26,22 +79,6 @@ namespace FrbaHotel.Login
             this.Hide();
             new SeleccionarFuncionalidad_admin().ShowDialog();
             this.Close();
-        }
-
-        public void determinarHabilitacionFuncionesAdmin() {
-
-            if (Repositorios.Repo_usuario.getInstancia().getUsuarioIngresado().rolActivo.idRol == IDADMIN) {
-
-                linkLabelFuncAdmin.Enabled = true;
-            
-            }
-
-            else {
-
-                linkLabelFuncAdmin.Enabled = false;
-            
-            }
-
         }
 
         private void boton_volver_Click(object sender, EventArgs e)

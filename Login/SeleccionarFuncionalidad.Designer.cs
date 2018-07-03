@@ -42,6 +42,7 @@
             // 
             // boton_registrar_estadia
             // 
+            this.boton_registrar_estadia.Enabled = false;
             this.boton_registrar_estadia.Location = new System.Drawing.Point(187, 320);
             this.boton_registrar_estadia.Name = "boton_registrar_estadia";
             this.boton_registrar_estadia.Size = new System.Drawing.Size(130, 23);
@@ -71,6 +72,7 @@
             // 
             // boton_cancelar_reservas
             // 
+            this.boton_cancelar_reservas.Enabled = false;
             this.boton_cancelar_reservas.Location = new System.Drawing.Point(187, 232);
             this.boton_cancelar_reservas.Name = "boton_cancelar_reservas";
             this.boton_cancelar_reservas.Size = new System.Drawing.Size(130, 23);
@@ -90,6 +92,7 @@
             // 
             // boton_reservas
             // 
+            this.boton_reservas.Enabled = false;
             this.boton_reservas.Location = new System.Drawing.Point(187, 145);
             this.boton_reservas.Name = "boton_reservas";
             this.boton_reservas.Size = new System.Drawing.Size(130, 23);
@@ -117,6 +120,7 @@
             // 
             // boton_abm_cliente
             // 
+            this.boton_abm_cliente.Enabled = false;
             this.boton_abm_cliente.Location = new System.Drawing.Point(187, 59);
             this.boton_abm_cliente.Name = "boton_abm_cliente";
             this.boton_abm_cliente.Size = new System.Drawing.Size(130, 23);

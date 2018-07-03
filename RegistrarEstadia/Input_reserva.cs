@@ -13,7 +13,7 @@ namespace FrbaHotel.RegistrarEstadia
     public partial class Input_reserva : Form
     {
 
-        private const Int32 IDHOTELHARCODEADO = 3; //DEBE SALIR DEL LOGGIN DEL RECEPCIONISTA
+        private Int32 hotel = Repositorios.Repo_usuario.getInstancia().usuarioIngresado.hotelActivo.idHotel;
 
         public Input_reserva()
         {
@@ -31,7 +31,7 @@ namespace FrbaHotel.RegistrarEstadia
 
             {
             Int32 codigoRespuesta;
-            codigoRespuesta = Repositorios.Repo_Reserva.getInstancia().comprobarNumReserva(IDHOTELHARCODEADO, Int32.Parse(numeric_textBox_reserva.Text));
+            codigoRespuesta = Repositorios.Repo_Reserva.getInstancia().comprobarNumReserva(hotel, Int32.Parse(numeric_textBox_reserva.Text));
 
             comunicarRespuesta(codigoRespuesta);
             }
@@ -43,7 +43,7 @@ namespace FrbaHotel.RegistrarEstadia
             if (codigo == 1) {
 
                 this.Hide();
-                new Check_In(IDHOTELHARCODEADO,Int32.Parse(numeric_textBox_reserva.Text)).ShowDialog();
+                new Check_In(hotel,Int32.Parse(numeric_textBox_reserva.Text)).ShowDialog();
                 this.Close();
             
             }

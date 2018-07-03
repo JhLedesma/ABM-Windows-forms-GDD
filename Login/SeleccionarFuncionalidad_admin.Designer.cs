@@ -53,6 +53,7 @@
             // 
             // boton_abm_hotel
             // 
+            this.boton_abm_hotel.Enabled = false;
             this.boton_abm_hotel.Location = new System.Drawing.Point(73, 54);
             this.boton_abm_hotel.Margin = new System.Windows.Forms.Padding(2);
             this.boton_abm_hotel.Name = "boton_abm_hotel";
@@ -84,6 +85,7 @@
             // 
             // boton_abm_rol
             // 
+            this.boton_abm_rol.Enabled = false;
             this.boton_abm_rol.Location = new System.Drawing.Point(73, 138);
             this.boton_abm_rol.Margin = new System.Windows.Forms.Padding(2);
             this.boton_abm_rol.Name = "boton_abm_rol";
@@ -105,6 +107,7 @@
             // 
             // boton_abm_usuario
             // 
+            this.boton_abm_usuario.Enabled = false;
             this.boton_abm_usuario.Location = new System.Drawing.Point(73, 224);
             this.boton_abm_usuario.Margin = new System.Windows.Forms.Padding(2);
             this.boton_abm_usuario.Name = "boton_abm_usuario";
@@ -126,6 +129,7 @@
             // 
             // boton_abm_habitacion
             // 
+            this.boton_abm_habitacion.Enabled = false;
             this.boton_abm_habitacion.Location = new System.Drawing.Point(73, 312);
             this.boton_abm_habitacion.Margin = new System.Windows.Forms.Padding(2);
             this.boton_abm_habitacion.Name = "boton_abm_habitacion";
@@ -147,6 +151,7 @@
             // 
             // boton_listado_estadistico
             // 
+            this.boton_listado_estadistico.Enabled = false;
             this.boton_listado_estadistico.Location = new System.Drawing.Point(73, 409);
             this.boton_listado_estadistico.Margin = new System.Windows.Forms.Padding(2);
             this.boton_listado_estadistico.Name = "boton_listado_estadistico";
