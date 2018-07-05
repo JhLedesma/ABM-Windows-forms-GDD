@@ -273,6 +273,12 @@
     <Compile Include="GenerarModificacionReserva\MostrarCodigoReserva.Designer.cs">
       <DependentUpon>MostrarCodigoReserva.cs</DependentUpon>
     </Compile>
+    <Compile Include="GenerarModificacionReserva\ValidarReserva.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GenerarModificacionReserva\ValidarReserva.Designer.cs">
+      <DependentUpon>ValidarReserva.cs</DependentUpon>
+    </Compile>
     <Compile Include="ListadoEstadistico\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -477,6 +483,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GenerarModificacionReserva\MostrarCodigoReserva.resx">
       <DependentUpon>MostrarCodigoReserva.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GenerarModificacionReserva\ValidarReserva.resx">
+      <DependentUpon>ValidarReserva.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login\SeleccionarFuncionalidad.resx">
       <DependentUpon>SeleccionarFuncionalidad.cs</DependentUpon>

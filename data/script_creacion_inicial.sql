@@ -335,9 +335,11 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.obtenerFuncionalidadesCompletasPorRol','P') I
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.DescontarConsumibles','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.DescontarConsumibles;
 
-
-	IF OBJECT_ID('TRAEME_LA_COPA_MESSI.verificarAllInclusive','P') IS NOT NULL  
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.verificarAllInclusive','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.verificarAllInclusive;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.comprobarReservaNoPasoFecha','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.comprobarReservaNoPasoFecha;
 
 	
 	
@@ -2009,6 +2011,23 @@ begin
 			return @idReserva
 		end
 end
+
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.comprobarReservaNoPasoFecha
+@idReserva decimal(18, 0)
+as
+begin
+	if exists (select 1 from TRAEME_LA_COPA_MESSI.Reserva where IdReserva=@idReserva and day(FechaReserva) < day(GETDATE()) and EstadoReserva != 2 and EstadoReserva != 3 and EstadoReserva != 4 and EstadoReserva != 6)
+		return 1
+	else if exists (select 1 from TRAEME_LA_COPA_MESSI.Reserva where IdReserva=@idReserva and day(FechaReserva) >= day(GETDATE()) and EstadoReserva != 2 and EstadoReserva != 3 and EstadoReserva != 4 and EstadoReserva != 6)
+		return 2
+	else if exists (select 1 from TRAEME_LA_COPA_MESSI.Reserva where IdReserva=@idReserva and EstadoReserva != 2 and EstadoReserva != 3 and EstadoReserva != 4 and EstadoReserva != 6)
+		return 0
+end
+
+
 
 
 /* Repositorio Tipo Habitacion*/

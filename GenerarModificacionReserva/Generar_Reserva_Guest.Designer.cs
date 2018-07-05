@@ -57,6 +57,8 @@
             this.rbSi = new System.Windows.Forms.RadioButton();
             this.btnTerminar = new System.Windows.Forms.Button();
             this.btnVolver = new System.Windows.Forms.Button();
+            this.btnAgregarHabitacion = new System.Windows.Forms.Button();
+            this.btnQuitarHotel = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -105,6 +107,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnQuitarHotel);
+            this.groupBox1.Controls.Add(this.btnAgregarHabitacion);
             this.groupBox1.Controls.Add(this.listadoTipoHabitacion);
             this.groupBox1.Controls.Add(this.lblTipoDeHabitacion);
             this.groupBox1.Controls.Add(this.lblCostoHabitacion);
@@ -142,9 +146,9 @@
             this.lblTipoDeHabitacion.AutoSize = true;
             this.lblTipoDeHabitacion.Location = new System.Drawing.Point(6, 151);
             this.lblTipoDeHabitacion.Name = "lblTipoDeHabitacion";
-            this.lblTipoDeHabitacion.Size = new System.Drawing.Size(96, 13);
+            this.lblTipoDeHabitacion.Size = new System.Drawing.Size(72, 13);
             this.lblTipoDeHabitacion.TabIndex = 13;
-            this.lblTipoDeHabitacion.Text = "TipoDeHabitacion:";
+            this.lblTipoDeHabitacion.Text = "Habitaciones:";
             // 
             // lblCostoHabitacion
             // 
@@ -362,6 +366,26 @@
             this.btnVolver.UseVisualStyleBackColor = true;
             this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
             // 
+            // btnAgregarHabitacion
+            // 
+            this.btnAgregarHabitacion.Enabled = false;
+            this.btnAgregarHabitacion.Location = new System.Drawing.Point(246, 147);
+            this.btnAgregarHabitacion.Name = "btnAgregarHabitacion";
+            this.btnAgregarHabitacion.Size = new System.Drawing.Size(33, 23);
+            this.btnAgregarHabitacion.TabIndex = 15;
+            this.btnAgregarHabitacion.Text = "+";
+            this.btnAgregarHabitacion.UseVisualStyleBackColor = true;
+            // 
+            // btnQuitarHotel
+            // 
+            this.btnQuitarHotel.Enabled = false;
+            this.btnQuitarHotel.Location = new System.Drawing.Point(288, 147);
+            this.btnQuitarHotel.Name = "btnQuitarHotel";
+            this.btnQuitarHotel.Size = new System.Drawing.Size(33, 23);
+            this.btnQuitarHotel.TabIndex = 16;
+            this.btnQuitarHotel.Text = "-";
+            this.btnQuitarHotel.UseVisualStyleBackColor = true;
+            // 
             // Generar_Reserva_Guest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -415,5 +439,7 @@
         private System.Windows.Forms.Label lblTipoDeHabitacion;
         private System.Windows.Forms.Label lblCliente;
         private System.Windows.Forms.TextBox tbCliente;
+        private System.Windows.Forms.Button btnQuitarHotel;
+        private System.Windows.Forms.Button btnAgregarHabitacion;
     }
 }
