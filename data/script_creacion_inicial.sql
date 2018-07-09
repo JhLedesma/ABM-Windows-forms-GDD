@@ -20,6 +20,9 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Item_Factura','U') IS NOT NULL
 if OBJECT_ID('TRAEME_LA_COPA_MESSI.ConsumiblePorHabitacion','U') is not null
 	drop table TRAEME_LA_COPA_MESSI.ConsumiblePorHabitacion;
 
+if OBJECT_ID('Traeme_la_Copa_messi.HabitacionPorReserva','U') is not null
+	drop table Traeme_la_Copa_messi.HabitacionPorReserva;
+
 if OBJECT_ID('Traeme_la_Copa_messi.ReservasDeClientesIncon','U') is not null
 	drop table Traeme_la_Copa_messi.ReservasDeClientesIncon;
 
@@ -600,14 +603,15 @@ IdClienteInconAux int,
 IdReservaAux int,
 CONSTRAINT IdReservasDeClientesIncon PRIMARY KEY(IdClienteInconAux, IdReservaAux)
 );
-/*
+
 CREATE TABLE TRAEME_LA_COPA_MESSI.HabitacionPorReserva(
 IdHotel int,
 NumeroHabitacion int,
 IdReserva numeric(18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Reserva(IdReserva),
 CONSTRAINT FK_Habitacion FOREIGN KEY(IdHotel, NumeroHabitacion) REFERENCES TRAEME_LA_COPA_MESSI.Habitacion(IdHotel, Numero)
 );
-*/
+
+
 Create Table TRAEME_LA_COPA_MESSI.ConsumiblePorHabitacion(
 idHotel int,
 NumeroHabitacion int,
@@ -918,7 +922,7 @@ SELECT DISTINCT Consumible_Codigo, Consumible_Descripcion, Consumible_Precio FRO
 INSERT INTO TRAEME_LA_COPA_MESSI.ConsumiblePorReserva
 SELECT Consumible_Codigo, Reserva_Codigo, SUM(Item_Factura_Cantidad) FROM gd_esquema.Maestra WHERE Consumible_Codigo IS NOT NULL GROUP BY Consumible_Codigo,Reserva_Codigo
 
-/*
+
 -- Habitacion por reserva --
 
 -- FALTA PRIMARY KEY EN TABLA
@@ -927,7 +931,7 @@ SELECT DISTINCT IdHotel, Habitacion_Numero, Reserva_Codigo FROM
 TRAEME_LA_COPA_MESSI.Hotel h JOIN TRAEME_LA_COPA_MESSI.Direcciones_Hoteles d
 ON h.Direccion = d.IdDir_Hotel, gd_esquema.Maestra m
 WHERE m.Hotel_Calle = d.Calle AND m.Hotel_Ciudad = d.Ciudad AND m.Hotel_Nro_Calle = d.NroCalle
-*/
+
 
 -- Consumible por habitacion
 Insert into TRAEME_LA_COPA_MESSI.ConsumiblePorHabitacion
