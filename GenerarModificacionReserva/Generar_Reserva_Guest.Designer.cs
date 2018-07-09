@@ -58,7 +58,6 @@
             this.btnTerminar = new System.Windows.Forms.Button();
             this.btnVolver = new System.Windows.Forms.Button();
             this.btnAgregarHabitacion = new System.Windows.Forms.Button();
-            this.btnQuitarHotel = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -107,7 +106,6 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.btnQuitarHotel);
             this.groupBox1.Controls.Add(this.btnAgregarHabitacion);
             this.groupBox1.Controls.Add(this.listadoTipoHabitacion);
             this.groupBox1.Controls.Add(this.lblTipoDeHabitacion);
@@ -368,23 +366,13 @@
             // 
             // btnAgregarHabitacion
             // 
-            this.btnAgregarHabitacion.Enabled = false;
             this.btnAgregarHabitacion.Location = new System.Drawing.Point(246, 147);
             this.btnAgregarHabitacion.Name = "btnAgregarHabitacion";
-            this.btnAgregarHabitacion.Size = new System.Drawing.Size(33, 23);
-            this.btnAgregarHabitacion.TabIndex = 15;
-            this.btnAgregarHabitacion.Text = "+";
+            this.btnAgregarHabitacion.Size = new System.Drawing.Size(75, 23);
+            this.btnAgregarHabitacion.TabIndex = 50;
+            this.btnAgregarHabitacion.Text = "Agregar";
             this.btnAgregarHabitacion.UseVisualStyleBackColor = true;
-            // 
-            // btnQuitarHotel
-            // 
-            this.btnQuitarHotel.Enabled = false;
-            this.btnQuitarHotel.Location = new System.Drawing.Point(288, 147);
-            this.btnQuitarHotel.Name = "btnQuitarHotel";
-            this.btnQuitarHotel.Size = new System.Drawing.Size(33, 23);
-            this.btnQuitarHotel.TabIndex = 16;
-            this.btnQuitarHotel.Text = "-";
-            this.btnQuitarHotel.UseVisualStyleBackColor = true;
+            this.btnAgregarHabitacion.Click += new System.EventHandler(this.btnAgregarHabitacion_Click);
             // 
             // Generar_Reserva_Guest
             // 
@@ -439,7 +427,6 @@
         private System.Windows.Forms.Label lblTipoDeHabitacion;
         private System.Windows.Forms.Label lblCliente;
         private System.Windows.Forms.TextBox tbCliente;
-        private System.Windows.Forms.Button btnQuitarHotel;
         private System.Windows.Forms.Button btnAgregarHabitacion;
     }
 }
