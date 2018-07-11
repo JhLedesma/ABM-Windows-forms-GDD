@@ -67,12 +67,13 @@ namespace FrbaHotel.Repositorios
         
         }
 
-        public int crearFactura(Int32 numReserva) {
+        public int crearFactura(Int32 numReserva, Int32 idHotel) {
 
             DBhelper.crearConexion();
 
             SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.crearFactura");
             cmd.Parameters.Add("@numReserva", SqlDbType.Int).Value = numReserva;
+            cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = idHotel;
 
             var valorDeRetorno = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
             valorDeRetorno.Direction = ParameterDirection.ReturnValue;

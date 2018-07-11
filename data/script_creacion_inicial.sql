@@ -104,6 +104,8 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Direccion','U') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Log_Reserva','U') IS NOT NULL 
 	DROP TABLE TRAEME_LA_COPA_MESSI.Log_Reserva;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.puntosClientes','U') IS NOT NULL 
+	DROP TABLE TRAEME_LA_COPA_MESSI.puntosClientes;
 
 /* Dropeo de procedures si ya existen */
 
@@ -335,10 +337,25 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.obtenerFuncionalidadesCompletasPorRol','P') I
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.DescontarConsumibles','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.DescontarConsumibles;
 
-
-	IF OBJECT_ID('TRAEME_LA_COPA_MESSI.verificarAllInclusive','P') IS NOT NULL  
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.verificarAllInclusive','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.verificarAllInclusive;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.topReservasCanceladas','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.topReservasCanceladas;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.topConsumiblesFacturados','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.topConsumiblesFacturados;
+	
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.topDiasFueraDeServicio','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.topDiasFueraDeServicio;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getTrimestre','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getTrimestre;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.topCliente','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.topCliente;
+
+	
 	
 	
 /* Dropeo las views si ya existen */
@@ -415,7 +432,7 @@ CONSTRAINT IdRolPorUsuario PRIMARY KEY(Username,IdRol)
 );
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.Cliente(
-IdCliente int IDENTITY(1,1) PRIMARY KEY,
+IdCliente int IDENTITY(23422,1) PRIMARY KEY,
 Email nvarchar(255) UNIQUE,
 Direccion int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Direccion(IdDir) not null, --FALTA EN LA MIGRACION ASOCIAR CON LAS DIRECCIONES CORRESPONDIENTES
 Nombre nvarchar(255) NOT NULL,
@@ -444,12 +461,24 @@ FechaNacimiento Datetime NOT NULL,
 Estado BIT DEFAULT 0,
 );
 
+CREATE TABLE TRAEME_LA_COPA_MESSI.Hotel(
+IdHotel int IDENTITY(1,1) PRIMARY KEY,
+Nombre nvarchar(255) DEFAULT '',
+Mail nvarchar(255) DEFAULT '',
+Telefono int DEFAULT -1,
+Direccion int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Direccion(IdDir),
+CantEstrellas int  NULL,
+PorcentajeEstrellas numeric(18,0) NULL,
+FechaCreacion datetime DEFAULT GETDATE()
+);
+
 CREATE TABLE TRAEME_LA_COPA_MESSI.Factura(
 Fact_Nro numeric (18,0) IDENTITY(2483045,1) PRIMARY KEY,
 Fact_Fecha DateTime NOT NULL,
 Fact_Total numeric (18,2) NULL,
 Fact_idCliente int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente(IdCliente),
-Fact_idClienteInc int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente_Inconsistente(IdCliente)
+Fact_idClienteInc int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente_Inconsistente(IdCliente),
+Fact_idHotel int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Hotel(IdHotel) null
 );
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.Factura_Inconsistente(
@@ -458,6 +487,7 @@ Fact_Fecha DateTime,
 Fact_Total numeric (18,2),
 Fact_idCliente int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente(IdCliente),
 Fact_idClienteInc int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente_Inconsistente(IdCliente),
+Fact_idHotel int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Hotel(IdHotel) null
 PRIMARY KEY (Fact_Nro)
 );
 
@@ -478,17 +508,6 @@ IdRegimenEstadia int IDENTITY(1,1) PRIMARY KEY,
 Descripcion nvarchar(255) NOT NULL,
 PrecioBase int NOT NULL,
 EstadoRegimenEstadia BIT DEFAULT 0,
-);
-
-CREATE TABLE TRAEME_LA_COPA_MESSI.Hotel(
-IdHotel int IDENTITY(1,1) PRIMARY KEY,
-Nombre nvarchar(255) DEFAULT '',
-Mail nvarchar(255) DEFAULT '',
-Telefono int DEFAULT -1,
-Direccion int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Direccion(IdDir),
-CantEstrellas int  NULL,
-PorcentajeEstrellas numeric(18,0) NULL,
-FechaCreacion datetime DEFAULT GETDATE()
 );
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.UsuariosPorHotel(
@@ -642,6 +661,11 @@ Reserva int PRIMARY KEY,
 fechaFin datetime
 );
 
+CREATE TABLE TRAEME_LA_COPA_MESSI.puntosClientes( 
+idCliente int PRIMARY KEY,
+puntos int
+);
+
 -----------------------------------------------------------------------/* Migracion de datos */-------------------------------------------------------------------------- 
 
 -- Tablas auxiliares creacion clientes --
@@ -742,20 +766,7 @@ INSERT INTO TRAEME_LA_COPA_MESSI.Cliente(Email,Nombre,Apellido,NumDoc, Nacionali
 from gd_esquema.Maestra m join TRAEME_LA_COPA_MESSI.Direccion d on (d.Calle = m.Cliente_Dom_Calle and m.Cliente_Depto = d.Departamento and 
 m.Cliente_Nro_Calle = d.NroCalle and m.Cliente_Piso = d.Piso)
 where Cliente_Mail not in (select mailInconsistente from TRAEME_LA_COPA_MESSI.MailsInconsistentes) 
-
 											
--- Facturas inconsistentes --
-
-INSERT INTO TRAEME_LA_COPA_MESSI.Factura_Inconsistente
-	SELECT DISTINCT Factura_Nro,Factura_Fecha,Factura_Total,
-	(SELECT DISTINCT IdCliente FROM TRAEME_LA_COPA_MESSI.Cliente c
-	WHERE c.Email = m.Cliente_Mail AND c.NumDoc = m.Cliente_Pasaporte_Nro),
-	(SELECT DISTINCT IdCliente FROM TRAEME_LA_COPA_MESSI.Cliente_Inconsistente ci
-	WHERE ci.Email = m.Cliente_Mail AND ci.NumDoc = m.Cliente_Pasaporte_Nro)
-	FROM gd_esquema.Maestra m
-	WHERE Factura_Nro IS NOT NULL
-
-
 -- Hoteles --
 
 INSERT INTO TRAEME_LA_COPA_MESSI.Hotel(Direccion) 
@@ -777,6 +788,18 @@ UPDATE TRAEME_LA_COPA_MESSI.Hotel SET PorcentajeEstrellas =
  m.Hotel_Nro_Calle = (SELECT NroCalle FROM TRAEME_LA_COPA_MESSI.Direcciones_Hoteles WHERE IdDir_Hotel = Hotel.Direccion)
  )
 
+-- Facturas inconsistentes --
+
+INSERT INTO TRAEME_LA_COPA_MESSI.Factura_Inconsistente
+	SELECT DISTINCT Factura_Nro,Factura_Fecha,Factura_Total,
+	(SELECT DISTINCT IdCliente FROM TRAEME_LA_COPA_MESSI.Cliente c
+	WHERE c.Email = m.Cliente_Mail AND c.NumDoc = m.Cliente_Pasaporte_Nro),
+	(SELECT DISTINCT IdCliente FROM TRAEME_LA_COPA_MESSI.Cliente_Inconsistente ci
+	WHERE ci.Email = m.Cliente_Mail AND ci.NumDoc = m.Cliente_Pasaporte_Nro),
+	(SELECT DISTINCT IdHotel FROM TRAEME_LA_COPA_MESSI.Hotel h JOIN TRAEME_LA_COPA_MESSI.Direccion d ON h.Direccion = d.IdDir
+	WHERE d.Ciudad = m.Hotel_Ciudad AND d.Calle = m.Hotel_Calle AND d.NroCalle = m.Hotel_Nro_Calle)
+	FROM gd_esquema.Maestra m
+	WHERE Factura_Nro IS NOT NULL
 
 -- Tipo Habitacion --
 
@@ -2205,7 +2228,8 @@ END
 
 GO
 CREATE PROCEDURE TRAEME_LA_COPA_MESSI.crearFactura
-@numReserva int
+@numReserva int,
+@idHotel int
 
 AS
 BEGIN
@@ -2216,8 +2240,8 @@ BEGIN
 	SET @idCliente = (SELECT IdCliente FROM TRAEME_LA_COPA_MESSI.Reserva WHERE IdReserva = @numReserva)
 	SET @idClienteInc = (SELECT IdClienteInconsistente FROM TRAEME_LA_COPA_MESSI.Reserva WHERE IdReserva = @numReserva)
 
-	INSERT INTO TRAEME_LA_COPA_MESSI.Factura(Fact_Fecha,Fact_idCliente,Fact_idClienteInc)
-	VALUES(GETDATE(), @idCliente, @idClienteInc)
+	INSERT INTO TRAEME_LA_COPA_MESSI.Factura(Fact_Fecha,Fact_idCliente,Fact_idClienteInc,Fact_idHotel)
+	VALUES(GETDATE(), @idCliente, @idClienteInc, @idHotel)
 
 	RETURN (SELECT MAX(Fact_Nro) FROM TRAEME_LA_COPA_MESSI.Factura)
 
@@ -2361,3 +2385,202 @@ if (exists (select re.Descripcion from TRAEME_LA_COPA_MESSI.Reserva r join TRAEM
  insert into TRAEME_LA_COPA_MESSI.Item_Factura (Fac_Numero,Cantidad,Reserva_descrip,Monto)
  values (@numFactura,1,'Descuento por regimen de estadia',(select -sum(monto) from TRAEME_LA_COPA_MESSI.Item_Factura where @numFactura=Fac_Numero and IdConsumible IS NOT NULL))
  end
+
+
+ /* Repo listado estadistico */
+
+
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.topConsumiblesFacturados
+AS
+BEGIN
+	
+
+
+	SELECT TOP 5 f.Fact_idHotel, SUM(f.Cantidad_consumibles)  FROM (
+
+	SELECT f.Fact_idHotel, SUM(i.cantidad) Cantidad_consumibles FROM
+	TRAEME_LA_COPA_MESSI.Factura f
+	JOIN TRAEME_LA_COPA_MESSI.Item_Factura i ON i.Fac_Numero = f.Fact_Nro 
+	WHERE i.IdConsumible IS NOT NULL
+
+	GROUP BY f.Fact_idHotel
+	
+	union
+
+	SELECT f.Fact_idHotel, SUM(i.cantidad) Cantidad_consumibles FROM
+	TRAEME_LA_COPA_MESSI.Factura_Inconsistente f
+	JOIN TRAEME_LA_COPA_MESSI.Item_Factura i ON i.Fac_Numero_Inc = f.Fact_Nro 
+	WHERE i.IdConsumible IS NOT NULL
+
+	GROUP BY f.Fact_idHotel
+	
+	) f
+
+	GROUP BY f.Fact_idHotel
+	ORDER BY 2 DESC
+	
+
+END
+
+
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.topReservasCanceladas
+@trimestre int,
+@anio int
+
+AS
+BEGIN
+
+	SELECT TOP 5 r.IdHotel, COUNT(r.IdHotel) AS Cantidad_cancelaciones FROM TRAEME_LA_COPA_MESSI.Reserva r WHERE r.EstadoReserva IN (2,3,4) GROUP BY r.IdHotel ORDER BY 2 DESC
+
+END
+
+
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.topDiasFueraDeServicio
+AS
+BEGIN
+
+	SELECT TOP 5 IdHotel, SUM(DAY(FechaFin) - DAY(FechaInicio)) AS Dias_fuera_servicio FROM TRAEME_LA_COPA_MESSI.InhabilitacionesHotel GROUP BY IdHotel ORDER BY 2 DESC
+
+END
+
+
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.topCliente
+@trimestre int,
+@anio int
+
+AS
+BEGIN
+
+	DECLARE @mesInicioTri int
+	DECLARE @mesFinTri int	
+
+		
+	IF @trimestre = 1
+	BEGIN
+
+	SET @mesInicioTri = 1
+	SET @mesFinTri = 3
+
+	END
+
+	ELSE
+		BEGIN
+
+		IF @trimestre = 2
+
+		BEGIN
+
+		SET @mesInicioTri = 4
+		SET @mesFinTri = 6
+
+		END
+
+		ELSE
+			BEGIN
+
+			IF @trimestre = 3
+
+			BEGIN
+
+			SET @mesInicioTri = 7
+			SET @mesFinTri = 9
+
+			END
+
+			ELSE
+				BEGIN
+
+				IF @trimestre = 3
+
+				BEGIN
+
+				SET @mesInicioTri = 10
+				SET @mesFinTri = 12
+				
+				END
+
+				END
+
+END
+END
+
+	
+	TRUNCATE TABLE TRAEME_LA_COPA_MESSI.puntosClientes
+
+	INSERT INTO TRAEME_LA_COPA_MESSI.puntosClientes(idCliente,puntos)
+
+	(SELECT IdCliente, SUM(Monto)/10 FROM TRAEME_LA_COPA_MESSI.Item_Factura i
+	LEFT JOIN TRAEME_LA_COPA_MESSI.Factura f ON f.Fact_Nro = i.Fac_Numero
+	LEFT JOIN TRAEME_LA_COPA_MESSI.Factura_Inconsistente fi ON fi.Fact_Nro = i.Fac_Numero_Inc
+	JOIN TRAEME_LA_COPA_MESSI.Cliente c ON c.IdCliente = f.Fact_idCliente OR c.IdCliente = fi.Fact_idCliente
+	WHERE
+
+	i.IdConsumible IS NOT NULL  AND YEAR(fi.Fact_Fecha) = @anio AND
+	YEAR(f.Fact_Fecha) = @anio AND
+	MONTH(fi.Fact_Fecha) > @mesInicioTri AND
+	MONTH(fi.Fact_Fecha) < @mesFinTri AND
+	MONTH(f.Fact_Fecha) > @mesInicioTri AND
+	MONTH(f.Fact_Fecha) < @mesFinTri
+
+	GROUP BY IdCliente
+
+	UNION
+	
+	SELECT IdCliente, SUM(Monto)/20 FROM TRAEME_LA_COPA_MESSI.Item_Factura i
+	LEFT JOIN TRAEME_LA_COPA_MESSI.Factura f ON f.Fact_Nro = i.Fac_Numero
+	LEFT JOIN TRAEME_LA_COPA_MESSI.Factura_Inconsistente fi ON fi.Fact_Nro = i.Fac_Numero_Inc
+	JOIN TRAEME_LA_COPA_MESSI.Cliente c ON c.IdCliente = f.Fact_idCliente OR c.IdCliente = fi.Fact_idCliente
+	WHERE
+	
+	i.IdConsumible IS NULL AND YEAR(fi.Fact_Fecha) = @anio AND
+	YEAR(f.Fact_Fecha) = @anio AND
+	MONTH(fi.Fact_Fecha) > @mesInicioTri AND
+	MONTH(fi.Fact_Fecha) < @mesFinTri AND
+	MONTH(f.Fact_Fecha) > @mesInicioTri AND
+	MONTH(f.Fact_Fecha) < @mesFinTri
+
+	GROUP BY IdCliente)
+
+	
+	INSERT INTO TRAEME_LA_COPA_MESSI.puntosClientes(idCliente,puntos)
+
+	(SELECT IdCliente, SUM(Monto)/10 FROM TRAEME_LA_COPA_MESSI.Item_Factura i
+	LEFT JOIN TRAEME_LA_COPA_MESSI.Factura f ON f.Fact_Nro = i.Fac_Numero
+	LEFT JOIN TRAEME_LA_COPA_MESSI.Factura_Inconsistente fi ON fi.Fact_Nro = i.Fac_Numero_Inc
+	JOIN TRAEME_LA_COPA_MESSI.Cliente_Inconsistente c ON c.IdCliente = f.Fact_idClienteInc OR c.IdCliente = fi.Fact_idClienteInc
+	WHERE
+
+	i.IdConsumible IS NOT NULL AND YEAR(fi.Fact_Fecha) = @anio AND
+	YEAR(f.Fact_Fecha) = @anio AND
+	MONTH(fi.Fact_Fecha) > @mesInicioTri AND
+	MONTH(fi.Fact_Fecha) < @mesFinTri AND
+	MONTH(f.Fact_Fecha) > @mesInicioTri AND
+	MONTH(f.Fact_Fecha) < @mesFinTri
+
+	GROUP BY IdCliente
+
+	UNION
+	
+	SELECT IdCliente, SUM(Monto)/20 FROM TRAEME_LA_COPA_MESSI.Item_Factura i
+	LEFT JOIN TRAEME_LA_COPA_MESSI.Factura f ON f.Fact_Nro = i.Fac_Numero
+	LEFT JOIN TRAEME_LA_COPA_MESSI.Factura_Inconsistente fi ON fi.Fact_Nro = i.Fac_Numero_Inc
+	JOIN TRAEME_LA_COPA_MESSI.Cliente_Inconsistente c ON c.IdCliente = f.Fact_idClienteInc OR c.IdCliente = fi.Fact_idClienteInc
+	WHERE
+	
+	i.IdConsumible IS NULL AND YEAR(fi.Fact_Fecha) = @anio AND
+	YEAR(f.Fact_Fecha) = @anio AND
+	MONTH(fi.Fact_Fecha) > @mesInicioTri AND
+	MONTH(fi.Fact_Fecha) < @mesFinTri AND
+	MONTH(f.Fact_Fecha) > @mesInicioTri AND
+	MONTH(f.Fact_Fecha) < @mesFinTri
+
+	GROUP BY IdCliente)
+
+	SELECT TOP 5 * FROM TRAEME_LA_COPA_MESSI.puntosClientes
+	ORDER BY puntos DESC
+
+END

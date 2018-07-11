@@ -99,6 +99,7 @@
             this.boton_reservas.TabIndex = 15;
             this.boton_reservas.Text = "Reservas";
             this.boton_reservas.UseVisualStyleBackColor = true;
+            this.boton_reservas.Click += new System.EventHandler(this.boton_reservas_Click);
             // 
             // label2
             // 
