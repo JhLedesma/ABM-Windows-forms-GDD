@@ -65,6 +65,7 @@ namespace FrbaHotel.GenerarModificacionReserva
             this.listadoTipoHabitacion.DisplayMember = "Descripcion";
             this.listadoTipoHabitacion.DataSource = listaTipoHabitacionesAgregadas;
             this.listadoTipoHabitacion.DropDownStyle = ComboBoxStyle.DropDownList;
+            //if (listaHabitacionesAgregadas.Count > 0) { listadoTipoHabitacion.SelectedItem = listaHabitacionesAgregadas.First(); };
         }
 
         private void configurarVistaConUsuario()
@@ -79,11 +80,12 @@ namespace FrbaHotel.GenerarModificacionReserva
 
             this.actualizarTbRegimen(regimen.descripcion);
 
-            Model.TipoHabitacion tipoHabitacionSeleccionado = (Model.TipoHabitacion)listadoTipoHabitacion.SelectedValue;
+            decimal sumatoriaPorcentualHabitacion = listaHabitacionesAgregadas.Sum(x => x.tipoHab.porcentual);
             hotelSeleccionado = (Model.Hotel)listadoHoteles.SelectedValue;
 
-            decimal costoPorDia = (regimen.precioBase * tipoHabitacionSeleccionado.porcentual) + hotelSeleccionado.porcEstrella;
-            this.actualizarCostoDeHabitacion(costoPorDia.ToString());
+            decimal costoPorDia = (regimen.precioBase * sumatoriaPorcentualHabitacion) + hotelSeleccionado.porcEstrella;
+
+            this.actualizarTbCostoDeHabitacion(costoPorDia.ToString());
         }
 
         private void actualizarTbRegimen(String regimenDescripcion)
@@ -91,12 +93,31 @@ namespace FrbaHotel.GenerarModificacionReserva
             tbRegimen.Text = regimenDescripcion;
         }
 
-        private void actualizarCostoDeHabitacion(String costo)
+        private void actualizarTbCostoDeHabitacion(String costo)
         {
             lblCostoHabitacion.Text = costo;
         }
 
         private void actualizarRegimen_Click(object sender, EventArgs e)
+        {
+            if (regimenSeleccionado != null)
+            {
+                this.actualizarRegimen(regimenSeleccionado);
+            }
+        }
+
+        private void resetearPorCambioDeHotel(object sender, EventArgs e)
+        {
+            listaTipoHabitacionesAgregadas.Clear();
+            listaHabitacionesDisponibles = new List<Model.Habitacion>();
+            listaHabitacionesAgregadas = new List<Model.Habitacion>();
+
+            configuarComboBoxTipoHabitacion();
+
+            lblCostoHabitacion.Text = "0.00";
+        }
+
+        public void actualizarCostoHabitacion()
         {
             if (regimenSeleccionado != null)
             {
@@ -133,16 +154,6 @@ namespace FrbaHotel.GenerarModificacionReserva
         }
 
 
-        private void mostrarCostoTotalReserva()
-        {
-            TimeSpan ts = dtHasta.Value - dtDesde.Value;
-            int diferenciaDeDias = ts.Days + 1;
-
-            decimal costoTotal = diferenciaDeDias * Convert.ToDecimal(lblCostoHabitacion.Text);
-            lblCostoTotal.Text = costoTotal.ToString(); 
-        }
-
-
         private void volverPaso1()
         {
             lblFechaDesde.Enabled = true;
@@ -161,6 +172,8 @@ namespace FrbaHotel.GenerarModificacionReserva
             lblHabitacionPorDia.Enabled = true;
             lblCostoHabitacion.Enabled = true;
 
+            btnAgregarHabitacion.Enabled = true;
+            btnQuitarHabitacion.Enabled = true;
             btnGuardar.Enabled = true;
             btnModificar.Enabled = false;
             groupBox2.Enabled = false;
@@ -184,11 +197,22 @@ namespace FrbaHotel.GenerarModificacionReserva
             lblHabitacionPorDia.Enabled = false;
             lblCostoHabitacion.Enabled = false;
 
+            btnAgregarHabitacion.Enabled = false;
+            btnQuitarHabitacion.Enabled = false;
             btnGuardar.Enabled = false;
             btnModificar.Enabled = true;
             groupBox2.Enabled = true;
 
             this.mostrarCostoTotalReserva();
+        }
+
+        private void mostrarCostoTotalReserva()
+        {
+            TimeSpan ts = dtHasta.Value - dtDesde.Value;
+            int diferenciaDeDias = ts.Days + 1;
+
+            decimal costoTotal = diferenciaDeDias * Convert.ToDecimal(lblCostoHabitacion.Text);
+            lblCostoTotal.Text = costoTotal.ToString();
         }
 
         private void btnConfirmar_Click(object sender, EventArgs e)
@@ -251,7 +275,6 @@ namespace FrbaHotel.GenerarModificacionReserva
 
         private void btnTerminar_Click(object sender, EventArgs e)
         {
-            Model.TipoHabitacion tipoHabitacionSeleccionado = (Model.TipoHabitacion)listadoTipoHabitacion.SelectedValue;
             Model.Hotel hotelSeleccionado = (Model.Hotel)listadoHoteles.SelectedValue;
 
             Model.Reserva reservaCreada = new Model.Reserva();
@@ -259,8 +282,8 @@ namespace FrbaHotel.GenerarModificacionReserva
             reservaCreada.fechaHasta = dtHasta.Value;
             reservaCreada.hotel = hotelSeleccionado;
             reservaCreada.regimen = regimenSeleccionado;
-            reservaCreada.tipoHabitacion = tipoHabitacionSeleccionado;
             reservaCreada.cliente = cliente;
+            reservaCreada.habitaciones = listaHabitacionesAgregadas;
 
             int idReserva = Repositorios.Repo_Reserva.getInstancia().crearReservaReturnId(reservaCreada);
 

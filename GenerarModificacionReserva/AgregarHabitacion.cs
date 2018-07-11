@@ -50,7 +50,6 @@ namespace FrbaHotel.GenerarModificacionReserva
         {
             Model.TipoHabitacion tipoHabitacionSeleccionada = (Model.TipoHabitacion)listadoTipoHabitacion.SelectedValue;
 
-            //List<Model.Habitacion> habitaciones = vista.listaHabitacionesDisponibles;
             Model.Habitacion habEliminar = new Model.Habitacion();
 
             foreach (Model.Habitacion h in vista.listaHabitacionesDisponibles)
@@ -68,6 +67,8 @@ namespace FrbaHotel.GenerarModificacionReserva
             }
 
             vista.listaHabitacionesDisponibles.Remove(habEliminar);
+
+            vista.actualizarCostoHabitacion();
 
             MessageBox.Show("Agregado");
 

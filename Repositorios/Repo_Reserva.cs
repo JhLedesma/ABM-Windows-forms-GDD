@@ -149,7 +149,6 @@ namespace FrbaHotel.Repositorios
             cmd.Parameters.Add("@idCliente", SqlDbType.Int).Value = reserva.cliente.id;
             cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = reserva.hotel.idHotel;
             cmd.Parameters.Add("@idRegimen", SqlDbType.Int).Value = reserva.regimen.idRegimen;
-            cmd.Parameters.Add("@idTipoHabitacion", SqlDbType.Int).Value = reserva.tipoHabitacion.codigo;
 
             var valorDeRetorno = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
             valorDeRetorno.Direction = ParameterDirection.ReturnValue;
@@ -158,10 +157,33 @@ namespace FrbaHotel.Repositorios
 
             DBhelper.ejecutarProcedure(cmd);
 
+            foreach (Model.Habitacion hab in reserva.habitaciones)
+            {
+                this.crearHabitacionPorReserva(hab.idHotel, hab.numero, (int)valorDeRetorno.Value);
+            }
+
             DBhelper.cerrarConexion();
 
             return (int)valorDeRetorno.Value;
         }
+
+
+        public void crearHabitacionPorReserva(int idHotel, int numHab, int idReserva)
+        {
+            DBhelper.crearConexion();
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.newHabitacionPorReserva");
+            cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = idHotel;
+            cmd.Parameters.Add("@numero", SqlDbType.Int).Value = numHab;
+            cmd.Parameters.Add("@idReserva", SqlDbType.Int).Value = idReserva;
+
+            DBhelper.ejecutarProcedure(cmd);
+
+            DBhelper.cerrarConexion();
+
+        }
+
 
         public Model.Reserva getReserva(Int32 idReserva)
         {

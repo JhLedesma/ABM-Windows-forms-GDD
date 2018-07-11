@@ -34,6 +34,7 @@
             this.dtHasta = new System.Windows.Forms.DateTimePicker();
             this.lblRegimen = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnQuitarHabitacion = new System.Windows.Forms.Button();
             this.btnAgregarHabitacion = new System.Windows.Forms.Button();
             this.listadoTipoHabitacion = new System.Windows.Forms.ComboBox();
             this.lblTipoDeHabitacion = new System.Windows.Forms.Label();
@@ -58,7 +59,6 @@
             this.rbSi = new System.Windows.Forms.RadioButton();
             this.btnTerminar = new System.Windows.Forms.Button();
             this.btnVolver = new System.Windows.Forms.Button();
-            this.btnQuitarHabitacion = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -133,6 +133,15 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "PASO 1: Ingrese los siguientes datos para generar Reserva";
             // 
+            // btnQuitarHabitacion
+            // 
+            this.btnQuitarHabitacion.Location = new System.Drawing.Point(309, 147);
+            this.btnQuitarHabitacion.Name = "btnQuitarHabitacion";
+            this.btnQuitarHabitacion.Size = new System.Drawing.Size(32, 23);
+            this.btnQuitarHabitacion.TabIndex = 51;
+            this.btnQuitarHabitacion.Text = "-";
+            this.btnQuitarHabitacion.UseVisualStyleBackColor = true;
+            // 
             // btnAgregarHabitacion
             // 
             this.btnAgregarHabitacion.Location = new System.Drawing.Point(266, 147);
@@ -151,7 +160,6 @@
             this.listadoTipoHabitacion.Size = new System.Drawing.Size(125, 21);
             this.listadoTipoHabitacion.TabIndex = 14;
             this.listadoTipoHabitacion.SelectedValueChanged += new System.EventHandler(this.actualizarRegimen_Click);
-            this.listadoTipoHabitacion.Click += new System.EventHandler(this.actualizarRegimen_Click);
             // 
             // lblTipoDeHabitacion
             // 
@@ -198,9 +206,9 @@
             this.lblHabitacionPorDia.AutoSize = true;
             this.lblHabitacionPorDia.Location = new System.Drawing.Point(6, 235);
             this.lblHabitacionPorDia.Name = "lblHabitacionPorDia";
-            this.lblHabitacionPorDia.Size = new System.Drawing.Size(136, 13);
+            this.lblHabitacionPorDia.Size = new System.Drawing.Size(152, 13);
             this.lblHabitacionPorDia.TabIndex = 9;
-            this.lblHabitacionPorDia.Text = "Valor de habitacion por dia:";
+            this.lblHabitacionPorDia.Text = "Valor de habitacion/es por dia:";
             // 
             // listadoHoteles
             // 
@@ -209,6 +217,7 @@
             this.listadoHoteles.Name = "listadoHoteles";
             this.listadoHoteles.Size = new System.Drawing.Size(125, 21);
             this.listadoHoteles.TabIndex = 8;
+            this.listadoHoteles.Click += new System.EventHandler(this.resetearPorCambioDeHotel);
             // 
             // lblHotel
             // 
@@ -377,15 +386,6 @@
             this.btnVolver.Text = "Volver";
             this.btnVolver.UseVisualStyleBackColor = true;
             this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
-            // 
-            // btnQuitarHabitacion
-            // 
-            this.btnQuitarHabitacion.Location = new System.Drawing.Point(309, 147);
-            this.btnQuitarHabitacion.Name = "btnQuitarHabitacion";
-            this.btnQuitarHabitacion.Size = new System.Drawing.Size(32, 23);
-            this.btnQuitarHabitacion.TabIndex = 51;
-            this.btnQuitarHabitacion.Text = "-";
-            this.btnQuitarHabitacion.UseVisualStyleBackColor = true;
             // 
             // Generar_Reserva_Guest
             // 
