@@ -83,7 +83,11 @@ namespace FrbaHotel.RegistrarConsumible
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Int32 numFactura = Repositorios.Repo_Consumible.getInstancia().crearFactura(numReserva);
+            Console.WriteLine("ARRANCA");
+            Console.WriteLine(Repositorios.Repo_usuario.getInstancia().getUsuarioIngresado().hotelActivo.idHotel);
+            Console.WriteLine("TERMINA");
+
+            Int32 numFactura = Repositorios.Repo_Consumible.getInstancia().crearFactura(numReserva, Repositorios.Repo_usuario.getInstancia().getUsuarioIngresado().hotelActivo.idHotel);
 
             if(consumibleSeleccionado.Count != 0)
             {

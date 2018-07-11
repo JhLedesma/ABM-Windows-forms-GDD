@@ -108,5 +108,12 @@ namespace FrbaHotel.Login
             new RegistrarEstadia.Ingreso_Egreso().ShowDialog();
             this.Close();
         }
+
+        private void boton_reservas_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+
+            this.Close();
+        }
     }
 }
