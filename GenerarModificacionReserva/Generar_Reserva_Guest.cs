@@ -117,6 +117,11 @@ namespace FrbaHotel.GenerarModificacionReserva
             lblCostoHabitacion.Text = "0.00";
         }
 
+        public void ponerPrimerElementoEnSelector()
+        {
+            listadoTipoHabitacion.SelectedItem = listaTipoHabitacionesAgregadas.First();
+        }
+
         public void actualizarCostoHabitacion()
         {
             if (regimenSeleccionado != null)
@@ -127,11 +132,7 @@ namespace FrbaHotel.GenerarModificacionReserva
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            if (Repositorios.Repo_Reserva.getInstancia().comprobarDisponibilidad(dtDesde.Value, dtHasta.Value) == 0)
-            {
-                MessageBox.Show("Por favor seleccione otra fecha de reserva", "Fecha de Reserva Ocupada", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else if (regimenSeleccionado != null)
+            if (regimenSeleccionado != null)
             {
                 this.avanzarPaso2();
             }
@@ -321,6 +322,17 @@ namespace FrbaHotel.GenerarModificacionReserva
             {
                 new AgregarHabitacion(this).ShowDialog();   
             }
+        }
+
+        private void btnQuitarHabitacion_Click(object sender, EventArgs e)
+        {
+            listaTipoHabitacionesAgregadas.Clear();
+            listaHabitacionesDisponibles = new List<Model.Habitacion>();
+            listaHabitacionesAgregadas = new List<Model.Habitacion>();
+
+            configuarComboBoxTipoHabitacion();
+
+            lblCostoHabitacion.Text = "0.00";
         }
 
 

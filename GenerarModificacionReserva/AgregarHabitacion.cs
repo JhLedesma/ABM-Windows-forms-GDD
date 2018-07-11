@@ -70,6 +70,8 @@ namespace FrbaHotel.GenerarModificacionReserva
 
             vista.actualizarCostoHabitacion();
 
+            vista.ponerPrimerElementoEnSelector();
+
             MessageBox.Show("Agregado");
 
             this.Hide();

@@ -89,6 +89,7 @@
             this.dtDesde.Size = new System.Drawing.Size(200, 20);
             this.dtDesde.TabIndex = 2;
             this.dtDesde.Value = new System.DateTime(2021, 1, 1, 0, 0, 0, 0);
+            this.dtDesde.ValueChanged += new System.EventHandler(this.resetearPorCambioDeHotel);
             // 
             // dtHasta
             // 
@@ -97,6 +98,7 @@
             this.dtHasta.Size = new System.Drawing.Size(200, 20);
             this.dtHasta.TabIndex = 3;
             this.dtHasta.Value = new System.DateTime(2021, 1, 2, 0, 0, 0, 0);
+            this.dtHasta.ValueChanged += new System.EventHandler(this.resetearPorCambioDeHotel);
             // 
             // lblRegimen
             // 
@@ -139,8 +141,9 @@
             this.btnQuitarHabitacion.Name = "btnQuitarHabitacion";
             this.btnQuitarHabitacion.Size = new System.Drawing.Size(32, 23);
             this.btnQuitarHabitacion.TabIndex = 51;
-            this.btnQuitarHabitacion.Text = "-";
+            this.btnQuitarHabitacion.Text = "AC";
             this.btnQuitarHabitacion.UseVisualStyleBackColor = true;
+            this.btnQuitarHabitacion.Click += new System.EventHandler(this.btnQuitarHabitacion_Click);
             // 
             // btnAgregarHabitacion
             // 
@@ -391,6 +394,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(390, 650);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.btnTerminar);
