@@ -5,10 +5,13 @@ GO
 
 /* Dropeo de tablas si estas ya existen */
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.puntosClientes','U') IS NOT NULL 
+	DROP TABLE TRAEME_LA_COPA_MESSI.puntosClientes;
+
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.fechasFinEstadias','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.fechasFinEstadias;
 
-IF OBJECT_ID('TRAEME_LA_COPA_MESSI.ClienteIncRegistradoPorReserva','U') IS NOT NULL    --2
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.ClienteIncRegistradoPorReserva','U') IS NOT NULL
 	DROP TABLE TRAEME_LA_COPA_MESSI.ClienteIncRegistradoPorReserva;
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.ClienteRegistradoPorReserva','U') IS NOT NULL    
@@ -62,9 +65,6 @@ IF OBJECT_ID ('TRAEME_LA_COPA_MESSI.RegimenPorHotel','U') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.UsuariosPorHotel','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.UsuariosPorHotel;
 
-IF OBJECT_ID ('TRAEME_LA_COPA_MESSI.Hotel','U') IS NOT NULL
-    DROP TABLE TRAEME_LA_COPA_MESSI.Hotel;
-
 IF OBJECT_ID ('TRAEME_LA_COPA_MESSI.RegimenEstadia','U') IS NOT NULL
     DROP TABLE TRAEME_LA_COPA_MESSI.RegimenEstadia;
 
@@ -79,6 +79,9 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Factura_Inconsistente','U') IS NOT NULL
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Factura','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.Factura;
+
+IF OBJECT_ID ('TRAEME_LA_COPA_MESSI.Hotel','U') IS NOT NULL
+    DROP TABLE TRAEME_LA_COPA_MESSI.Hotel;
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Cliente_Inconsistente','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.Cliente_Inconsistente;
@@ -103,9 +106,6 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Direccion','U') IS NOT NULL
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Log_Reserva','U') IS NOT NULL 
 	DROP TABLE TRAEME_LA_COPA_MESSI.Log_Reserva;
-
-IF OBJECT_ID('TRAEME_LA_COPA_MESSI.puntosClientes','U') IS NOT NULL 
-	DROP TABLE TRAEME_LA_COPA_MESSI.puntosClientes;
 
 /* Dropeo de procedures si ya existen */
 
@@ -2392,73 +2392,15 @@ if (exists (select re.Descripcion from TRAEME_LA_COPA_MESSI.Reserva r join TRAEM
 
 GO
 CREATE PROCEDURE TRAEME_LA_COPA_MESSI.topConsumiblesFacturados
-AS
-BEGIN
-	
-
-
-	SELECT TOP 5 f.Fact_idHotel, SUM(f.Cantidad_consumibles)  FROM (
-
-	SELECT f.Fact_idHotel, SUM(i.cantidad) Cantidad_consumibles FROM
-	TRAEME_LA_COPA_MESSI.Factura f
-	JOIN TRAEME_LA_COPA_MESSI.Item_Factura i ON i.Fac_Numero = f.Fact_Nro 
-	WHERE i.IdConsumible IS NOT NULL
-
-	GROUP BY f.Fact_idHotel
-	
-	union
-
-	SELECT f.Fact_idHotel, SUM(i.cantidad) Cantidad_consumibles FROM
-	TRAEME_LA_COPA_MESSI.Factura_Inconsistente f
-	JOIN TRAEME_LA_COPA_MESSI.Item_Factura i ON i.Fac_Numero_Inc = f.Fact_Nro 
-	WHERE i.IdConsumible IS NOT NULL
-
-	GROUP BY f.Fact_idHotel
-	
-	) f
-
-	GROUP BY f.Fact_idHotel
-	ORDER BY 2 DESC
-	
-
-END
-
-
-GO
-CREATE PROCEDURE TRAEME_LA_COPA_MESSI.topReservasCanceladas
-@trimestre int,
-@anio int
+@anio int,
+@trimestre int
 
 AS
 BEGIN
-
-	SELECT TOP 5 r.IdHotel, COUNT(r.IdHotel) AS Cantidad_cancelaciones FROM TRAEME_LA_COPA_MESSI.Reserva r WHERE r.EstadoReserva IN (2,3,4) GROUP BY r.IdHotel ORDER BY 2 DESC
-
-END
-
-
-GO
-CREATE PROCEDURE TRAEME_LA_COPA_MESSI.topDiasFueraDeServicio
-AS
-BEGIN
-
-	SELECT TOP 5 IdHotel, SUM(DAY(FechaFin) - DAY(FechaInicio)) AS Dias_fuera_servicio FROM TRAEME_LA_COPA_MESSI.InhabilitacionesHotel GROUP BY IdHotel ORDER BY 2 DESC
-
-END
-
-
-GO
-CREATE PROCEDURE TRAEME_LA_COPA_MESSI.topCliente
-@trimestre int,
-@anio int
-
-AS
-BEGIN
-
+	
 	DECLARE @mesInicioTri int
-	DECLARE @mesFinTri int	
-
-		
+	DECLARE @mesFinTri int
+				
 	IF @trimestre = 1
 	BEGIN
 
@@ -2478,6 +2420,7 @@ BEGIN
 		SET @mesFinTri = 6
 
 		END
+		
 
 		ELSE
 			BEGIN
@@ -2503,10 +2446,194 @@ BEGIN
 				
 				END
 
-				END
+			END
+
+		END
+	END
+
+
+	SELECT TOP 5 f.Fact_idHotel, SUM(f.Cantidad_consumibles) Cantidad_consumibles  FROM (
+
+	SELECT f.Fact_idHotel, SUM(i.cantidad) Cantidad_consumibles FROM
+	TRAEME_LA_COPA_MESSI.Factura f
+	JOIN TRAEME_LA_COPA_MESSI.Item_Factura i ON i.Fac_Numero = f.Fact_Nro 
+	WHERE i.IdConsumible IS NOT NULL AND
+	YEAR(f.Fact_Fecha) = @anio AND
+	(MONTH(f.Fact_Fecha) >= @mesInicioTri AND
+	MONTH(f.Fact_Fecha) <= @mesFinTri)
+
+	GROUP BY f.Fact_idHotel
+	
+	union
+
+	SELECT f.Fact_idHotel, SUM(i.cantidad) Cantidad_consumibles FROM
+	TRAEME_LA_COPA_MESSI.Factura_Inconsistente f
+	JOIN TRAEME_LA_COPA_MESSI.Item_Factura i ON i.Fac_Numero_Inc = f.Fact_Nro 
+	WHERE i.IdConsumible IS NOT NULL AND
+	YEAR(f.Fact_Fecha) = @anio AND
+	(MONTH(f.Fact_Fecha) <= @mesInicioTri AND
+	MONTH(f.Fact_Fecha) >= @mesFinTri)
+
+	GROUP BY f.Fact_idHotel
+	
+	) f
+
+	GROUP BY f.Fact_idHotel
+	ORDER BY 2 DESC
+	
 
 END
+
+
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.topReservasCanceladas
+@trimestre int,
+@anio int
+
+AS
+BEGIN
+
+	SELECT TOP 5 r.IdHotel, COUNT(r.IdHotel) AS Cantidad_cancelaciones FROM
+	TRAEME_LA_COPA_MESSI.Reserva r
+	WHERE r.EstadoReserva IN (2,3,4)
+	GROUP BY r.IdHotel ORDER BY 2 DESC
+
 END
+
+
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.topDiasFueraDeServicio
+@anio int,
+@trimestre int
+
+AS
+BEGIN
+
+	DECLARE @mesInicioTri int
+	DECLARE @mesFinTri int
+				
+	IF @trimestre = 1
+	BEGIN
+
+	SET @mesInicioTri = 1
+	SET @mesFinTri = 3
+
+	END
+
+	ELSE
+		BEGIN
+
+		IF @trimestre = 2
+
+		BEGIN
+
+		SET @mesInicioTri = 4
+		SET @mesFinTri = 6
+
+		END
+		
+
+		ELSE
+			BEGIN
+
+			IF @trimestre = 3
+
+			BEGIN
+
+			SET @mesInicioTri = 7
+			SET @mesFinTri = 9
+
+			END
+
+			ELSE
+				BEGIN
+
+				IF @trimestre = 3
+
+				BEGIN
+
+				SET @mesInicioTri = 10
+				SET @mesFinTri = 12
+				
+				END
+
+			END
+
+		END
+	END
+
+	SELECT TOP 5 IdHotel, SUM(DAY(FechaFin) - DAY(FechaInicio)) AS Dias_fuera_servicio FROM
+	TRAEME_LA_COPA_MESSI.InhabilitacionesHotel
+	WHERE
+	YEAR(FechaInicio) = @anio AND
+	YEAR(FechaFin) = @anio AND
+	MONTH(FechaInicio) >= @mesInicioTri AND
+	MONTH(FechaFin) <= @mesFinTri
+	GROUP BY IdHotel ORDER BY 2 DESC
+
+END
+
+
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.topCliente
+@trimestre int,
+@anio int
+
+AS
+BEGIN
+
+	DECLARE @mesInicioTri int
+	DECLARE @mesFinTri int
+				
+	IF @trimestre = 1
+	BEGIN
+
+	SET @mesInicioTri = 1
+	SET @mesFinTri = 3
+
+	END
+
+	ELSE
+		BEGIN
+
+		IF @trimestre = 2
+
+		BEGIN
+
+		SET @mesInicioTri = 4
+		SET @mesFinTri = 6
+
+		END
+		
+
+		ELSE
+			BEGIN
+
+			IF @trimestre = 3
+
+			BEGIN
+
+			SET @mesInicioTri = 7
+			SET @mesFinTri = 9
+
+			END
+
+			ELSE
+				BEGIN
+
+				IF @trimestre = 3
+
+				BEGIN
+
+				SET @mesInicioTri = 10
+				SET @mesFinTri = 12
+				
+				END
+
+			END
+
+		END
+	END
 
 	
 	TRUNCATE TABLE TRAEME_LA_COPA_MESSI.puntosClientes
@@ -2519,15 +2646,16 @@ END
 	JOIN TRAEME_LA_COPA_MESSI.Cliente c ON c.IdCliente = f.Fact_idCliente OR c.IdCliente = fi.Fact_idCliente
 	WHERE
 
-	i.IdConsumible IS NOT NULL  AND YEAR(fi.Fact_Fecha) = @anio AND
-	YEAR(f.Fact_Fecha) = @anio AND
-	MONTH(fi.Fact_Fecha) > @mesInicioTri AND
-	MONTH(fi.Fact_Fecha) < @mesFinTri AND
-	MONTH(f.Fact_Fecha) > @mesInicioTri AND
-	MONTH(f.Fact_Fecha) < @mesFinTri
+	i.IdConsumible IS NOT NULL  AND
+	(YEAR(fi.Fact_Fecha) = @anio OR
+	YEAR(f.Fact_Fecha) = @anio) AND
+	((MONTH(fi.Fact_Fecha) > @mesInicioTri AND
+	MONTH(fi.Fact_Fecha) < @mesFinTri) OR
+	(MONTH(f.Fact_Fecha) > @mesInicioTri AND
+	MONTH(f.Fact_Fecha) < @mesFinTri))
 
 	GROUP BY IdCliente
-
+	
 	UNION
 	
 	SELECT IdCliente, SUM(Monto)/20 FROM TRAEME_LA_COPA_MESSI.Item_Factura i
@@ -2536,14 +2664,16 @@ END
 	JOIN TRAEME_LA_COPA_MESSI.Cliente c ON c.IdCliente = f.Fact_idCliente OR c.IdCliente = fi.Fact_idCliente
 	WHERE
 	
-	i.IdConsumible IS NULL AND YEAR(fi.Fact_Fecha) = @anio AND
-	YEAR(f.Fact_Fecha) = @anio AND
-	MONTH(fi.Fact_Fecha) > @mesInicioTri AND
-	MONTH(fi.Fact_Fecha) < @mesFinTri AND
-	MONTH(f.Fact_Fecha) > @mesInicioTri AND
-	MONTH(f.Fact_Fecha) < @mesFinTri
+	i.IdConsumible IS NULL AND
+	(YEAR(fi.Fact_Fecha) = @anio OR
+	YEAR(f.Fact_Fecha) = @anio) AND
+	((MONTH(fi.Fact_Fecha) > @mesInicioTri AND
+	MONTH(fi.Fact_Fecha) < @mesFinTri) OR
+	(MONTH(f.Fact_Fecha) > @mesInicioTri AND
+	MONTH(f.Fact_Fecha) < @mesFinTri))
 
-	GROUP BY IdCliente)
+	GROUP BY IdCliente
+	)
 
 	
 	INSERT INTO TRAEME_LA_COPA_MESSI.puntosClientes(idCliente,puntos)
@@ -2554,12 +2684,13 @@ END
 	JOIN TRAEME_LA_COPA_MESSI.Cliente_Inconsistente c ON c.IdCliente = f.Fact_idClienteInc OR c.IdCliente = fi.Fact_idClienteInc
 	WHERE
 
-	i.IdConsumible IS NOT NULL AND YEAR(fi.Fact_Fecha) = @anio AND
-	YEAR(f.Fact_Fecha) = @anio AND
-	MONTH(fi.Fact_Fecha) > @mesInicioTri AND
-	MONTH(fi.Fact_Fecha) < @mesFinTri AND
-	MONTH(f.Fact_Fecha) > @mesInicioTri AND
-	MONTH(f.Fact_Fecha) < @mesFinTri
+	i.IdConsumible IS NOT NULL AND
+	(YEAR(fi.Fact_Fecha) = @anio OR
+	YEAR(f.Fact_Fecha) = @anio) AND
+	((MONTH(fi.Fact_Fecha) > @mesInicioTri AND
+	MONTH(fi.Fact_Fecha) < @mesFinTri) OR
+	(MONTH(f.Fact_Fecha) > @mesInicioTri AND
+	MONTH(f.Fact_Fecha) < @mesFinTri))
 
 	GROUP BY IdCliente
 
@@ -2571,16 +2702,20 @@ END
 	JOIN TRAEME_LA_COPA_MESSI.Cliente_Inconsistente c ON c.IdCliente = f.Fact_idClienteInc OR c.IdCliente = fi.Fact_idClienteInc
 	WHERE
 	
-	i.IdConsumible IS NULL AND YEAR(fi.Fact_Fecha) = @anio AND
-	YEAR(f.Fact_Fecha) = @anio AND
-	MONTH(fi.Fact_Fecha) > @mesInicioTri AND
-	MONTH(fi.Fact_Fecha) < @mesFinTri AND
-	MONTH(f.Fact_Fecha) > @mesInicioTri AND
-	MONTH(f.Fact_Fecha) < @mesFinTri
+	i.IdConsumible IS NULL AND
+	(YEAR(fi.Fact_Fecha) = @anio OR
+	YEAR(f.Fact_Fecha) = @anio) AND
+	((MONTH(fi.Fact_Fecha) > @mesInicioTri AND
+	MONTH(fi.Fact_Fecha) < @mesFinTri) OR
+	(MONTH(f.Fact_Fecha) > @mesInicioTri AND
+	MONTH(f.Fact_Fecha) < @mesFinTri))
 
-	GROUP BY IdCliente)
+	GROUP BY IdCliente
+	)
 
 	SELECT TOP 5 * FROM TRAEME_LA_COPA_MESSI.puntosClientes
 	ORDER BY puntos DESC
 
 END
+
+EXEC TRAEME_LA_COPA_MESSI.topCliente 1, 2017
