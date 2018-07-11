@@ -281,15 +281,23 @@ namespace FrbaHotel.GenerarModificacionReserva
 
         private void btnAgregarHabitacion_Click(object sender, EventArgs e)
         {
+            int var = 0;
 
             Model.Hotel hotelSeleccionado = (Model.Hotel)listadoHoteles.SelectedValue;
 
             if (listaHabitacionesDisponibles.Count == 0)
             {
                 listaHabitacionesDisponibles = Repositorios.Repo_Reserva.getInstancia().getHabitacionesEnFecha(dtDesde.Value, dtHasta.Value, hotelSeleccionado.idHotel);
+                if (listaHabitacionesDisponibles.Count == 0)
+                {
+                    var = 1;
+                    MessageBox.Show("Por favor seleccione otra fecha de reserva", "No hay Habitaciones Disponibles", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-
-            new AgregarHabitacion(this).ShowDialog();
+            if (var != 1)
+            {
+                new AgregarHabitacion(this).ShowDialog();   
+            }
         }
 
 
