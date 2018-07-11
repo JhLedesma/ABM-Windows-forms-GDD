@@ -297,6 +297,44 @@ namespace FrbaHotel.Repositorios
 
         }
 
+
+        public List<Model.Habitacion> getHabitacionesEnFecha(DateTime desde, DateTime hasta, int idHotel)
+        {
+            DBhelper.crearConexion();
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getHabitacionesEnFecha");
+            cmd.Parameters.Add("@desde", SqlDbType.DateTime).Value = desde;
+            cmd.Parameters.Add("@hasta", SqlDbType.DateTime).Value = hasta;
+            cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = idHotel;
+            
+            DataTable tabla = DBhelper.obtenerTabla(cmd);
+
+            List<Model.Habitacion> habitaciones = new List<Model.Habitacion>();
+
+            foreach (DataRow row in tabla.Rows)
+            {
+                Model.Habitacion habitacion = new Model.Habitacion();
+
+                habitacion.idHotel = ((Int32)row["IdHotel"]);
+                habitacion.numero = ((Int32)row["Numero"]);
+                habitacion.piso = ((Int32)row["Piso"]);
+                habitacion.ubicacion = ((String)row["Ubicacion"]);
+                habitacion.estado = (Convert.ToInt16(row["Estado"]));
+                habitacion.ubicacion = ((String)row["Descripcion"]);
+
+                habitacion.tipoHab = Repo_habitacion.getInstancia().getTipoHabitacion(((Int32)row["CodigoTipo"]));
+
+                habitaciones.Add(habitacion);
+            }
+
+            DBhelper.cerrarConexion();
+
+            return habitaciones;
+        }
+
+
+
     }
 }
     

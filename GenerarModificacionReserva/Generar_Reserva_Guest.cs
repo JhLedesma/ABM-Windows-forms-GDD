@@ -16,7 +16,9 @@ namespace FrbaHotel.GenerarModificacionReserva
         Model.Regimen regimenSeleccionado;
         Model.Cliente cliente;
         Model.Usuario usuarioLogueado;
-        public List<Model.TipoHabitacion> listaHabitacionesAgregados { get; set; }
+        public List<Model.TipoHabitacion> listaTipoHabitacionesAgregadas { get; set; }
+        public List<Model.Habitacion> listaHabitacionesAgregadas { get; set; }
+        public List<Model.Habitacion> listaHabitacionesDisponibles { get; set; }
 
         public Generar_Reserva_Guest()
         {
@@ -24,7 +26,8 @@ namespace FrbaHotel.GenerarModificacionReserva
             configuarComboBoxHotel();
             configuarComboBoxTipoHabitacion();
             hotelSeleccionado = (Model.Hotel)listadoHoteles.SelectedValue;
-            listaHabitacionesAgregados = new List<Model.TipoHabitacion>();
+            listaTipoHabitacionesAgregadas = new List<Model.TipoHabitacion>();
+            listaHabitacionesDisponibles = new List<Model.Habitacion>();
         }
 
         public Generar_Reserva_Guest(Model.Usuario usuario)
@@ -33,6 +36,8 @@ namespace FrbaHotel.GenerarModificacionReserva
             configuarComboBoxHotel();
             configuarComboBoxTipoHabitacion();
             hotelSeleccionado = (Model.Hotel)listadoHoteles.SelectedValue;
+            listaTipoHabitacionesAgregadas = new List<Model.TipoHabitacion>();
+            listaHabitacionesDisponibles = new List<Model.Habitacion>();
             this.usuarioLogueado = usuario;
             this.configurarVistaConUsuario();
         }
@@ -56,7 +61,7 @@ namespace FrbaHotel.GenerarModificacionReserva
             listadoTipoHabitacion.DataSource = null;
             this.listadoTipoHabitacion.ValueMember = "Objeto";
             this.listadoTipoHabitacion.DisplayMember = "Descripcion";
-            this.listadoTipoHabitacion.DataSource = listaHabitacionesAgregados;
+            this.listadoTipoHabitacion.DataSource = listaTipoHabitacionesAgregadas;
             this.listadoTipoHabitacion.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
@@ -274,9 +279,12 @@ namespace FrbaHotel.GenerarModificacionReserva
 
         private void btnAgregarHabitacion_Click(object sender, EventArgs e)
         {
-            Model.TipoHabitacion habitacionSeleccionada = (Model.TipoHabitacion)listadoTipoHabitacion.SelectedValue;
 
-            new AgregarHabitacion(habitacionSeleccionada, this).ShowDialog();
+            Model.Hotel hotelSeleccionado = (Model.Hotel)listadoHoteles.SelectedValue;
+            
+            listaHabitacionesDisponibles = Repositorios.Repo_Reserva.getInstancia().getHabitacionesEnFecha(dtDesde.Value, dtHasta.Value, hotelSeleccionado.idHotel);
+
+            new AgregarHabitacion(this).ShowDialog();
         }
 
 

@@ -88,6 +88,7 @@
             this.dtDesde.Name = "dtDesde";
             this.dtDesde.Size = new System.Drawing.Size(200, 20);
             this.dtDesde.TabIndex = 2;
+            this.dtDesde.Value = new System.DateTime(2021, 1, 1, 0, 0, 0, 0);
             // 
             // dtHasta
             // 
@@ -95,6 +96,7 @@
             this.dtHasta.Name = "dtHasta";
             this.dtHasta.Size = new System.Drawing.Size(200, 20);
             this.dtHasta.TabIndex = 3;
+            this.dtHasta.Value = new System.DateTime(2021, 1, 2, 0, 0, 0, 0);
             // 
             // lblRegimen
             // 
@@ -164,7 +166,7 @@
             // 
             this.lblCostoHabitacion.AutoSize = true;
             this.lblCostoHabitacion.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCostoHabitacion.Location = new System.Drawing.Point(218, 227);
+            this.lblCostoHabitacion.Location = new System.Drawing.Point(233, 229);
             this.lblCostoHabitacion.Name = "lblCostoHabitacion";
             this.lblCostoHabitacion.Size = new System.Drawing.Size(45, 24);
             this.lblCostoHabitacion.TabIndex = 12;

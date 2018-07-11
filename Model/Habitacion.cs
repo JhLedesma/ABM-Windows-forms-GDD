@@ -14,6 +14,8 @@ namespace FrbaHotel.Model
         public String descripcion { get; set; }
         public Int32 piso { get; set; }
         public Int32 numero { get; set; }
+        public Int16 estado { get; set; }
+        public Model.TipoHabitacion tipoHab { get; set; }
 
 
         public Habitacion() { }

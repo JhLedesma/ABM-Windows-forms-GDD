@@ -12,22 +12,37 @@ namespace FrbaHotel.GenerarModificacionReserva
 {
     public partial class AgregarHabitacion : Form
     {
-        Model.TipoHabitacion habitacion;
+        Model.TipoHabitacion tipoHabitacion;
         Generar_Reserva_Guest vista;
 
-        public AgregarHabitacion(Model.TipoHabitacion tipoHabitacion, Generar_Reserva_Guest vista)
+
+        public AgregarHabitacion(Generar_Reserva_Guest vista)
         {
             InitializeComponent();
-            habitacion = tipoHabitacion;
             this.vista = vista;
             configuarComboBoxTipoHabitacion();
         }
 
         public void configuarComboBoxTipoHabitacion()
         {
+            List<Model.TipoHabitacion> listaTipoHab = vista.listaHabitacionesDisponibles.Select(x => x.tipoHab).ToList();
+
+            List<Model.TipoHabitacion> listaSinRepetidos = 
+                (from t in listaTipoHab
+                 group t by new { t.Codigo, t.Descripcion, t.porcentual } into grupo
+                 where grupo.Count() > 1
+                 select new Model.TipoHabitacion()
+                 {
+                    codigo = grupo.Key.Codigo,
+                    descripcion = grupo.Key.Descripcion,
+                    porcentual = grupo.Key.porcentual
+                 }
+                ).OrderBy(x=>x.codigo).ToList();
+
+
             this.listadoTipoHabitacion.ValueMember = "Objeto";
             this.listadoTipoHabitacion.DisplayMember = "Descripcion";
-            this.listadoTipoHabitacion.DataSource = Repositorios.Repo_habitacion.getInstancia().getTiposHabitaciones();
+            this.listadoTipoHabitacion.DataSource = listaSinRepetidos;
             this.listadoTipoHabitacion.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
@@ -35,7 +50,7 @@ namespace FrbaHotel.GenerarModificacionReserva
         {
             Model.TipoHabitacion habitacionSeleccionada = (Model.TipoHabitacion)listadoTipoHabitacion.SelectedValue;
 
-            vista.listaHabitacionesAgregados.Add(habitacionSeleccionada);
+            vista.listaTipoHabitacionesAgregadas.Add(habitacionSeleccionada);
             vista.configuarComboBoxTipoHabitacion();
 
             MessageBox.Show("Agregado");

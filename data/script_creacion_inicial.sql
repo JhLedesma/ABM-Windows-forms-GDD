@@ -344,6 +344,10 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.verificarAllInclusive','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.comprobarReservaNoPasoFecha','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.comprobarReservaNoPasoFecha;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getHabitacionesEnFecha','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getHabitacionesEnFecha;
+
+
 	
 	
 /* Dropeo las views si ya existen */
@@ -1983,6 +1987,34 @@ end
 
 
 GO
+create procedure TRAEME_LA_COPA_MESSI.getHabitacionesEnFecha
+@desde DateTime,
+@hasta DateTime,
+@idHotel int
+as
+begin
+	declare @cantNoches numeric(18,0)
+	set @cantNoches =  CAST((datediff(day,@desde,@hasta)) AS numeric(18,0))
+
+	select * 
+	from TRAEME_LA_COPA_MESSI.Habitacion hab
+	where hab.IdHotel = @idHotel
+	and hab.Numero not in
+	(
+	select distinct h.Numero
+	from TRAEME_LA_COPA_MESSI.Habitacion h
+	join TRAEME_LA_COPA_MESSI.HabitacionPorReserva hr
+		on h.Numero = hr.NumeroHabitacion
+		and h.IdHotel = hr.IdHotel
+	join TRAEME_LA_COPA_MESSI.Reserva r
+		on hr.IdReserva = r.IdReserva
+	where r.FechaReserva >= @desde and r.CantidadNochesReservadas <= @hasta
+	)
+	
+end
+
+
+GO
 create procedure TRAEME_LA_COPA_MESSI.newReservaReturnId
 @desde dateTime,
 @hasta dateTime,
@@ -2030,6 +2062,9 @@ begin
 	else if exists (select 1 from TRAEME_LA_COPA_MESSI.Reserva where IdReserva=@idReserva and EstadoReserva != 2 and EstadoReserva != 3 and EstadoReserva != 4 and EstadoReserva != 6)
 		return 0
 end
+
+
+
 
 
 
@@ -2212,10 +2247,16 @@ BEGIN
 END
 
 
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.getTipoHabitacion
+@idTipoHab int
+AS
+	select * from TRAEME_LA_COPA_MESSI.TipoHabitacion where Codigo=@idTipoHab
+
 
 /* Repositorio consumibles */
 
-Go
+GO
 Create procedure TRAEME_LA_COPA_MESSI.getConsumibles
 
 as
@@ -2384,3 +2425,5 @@ if (exists (select re.Descripcion from TRAEME_LA_COPA_MESSI.Reserva r join TRAEM
  insert into TRAEME_LA_COPA_MESSI.Item_Factura (Fac_Numero,Cantidad,Reserva_descrip,Monto)
  values (@numFactura,1,'Descuento por regimen de estadia',(select -sum(monto) from TRAEME_LA_COPA_MESSI.Item_Factura where @numFactura=Fac_Numero and IdConsumible IS NOT NULL))
  end
+
+
