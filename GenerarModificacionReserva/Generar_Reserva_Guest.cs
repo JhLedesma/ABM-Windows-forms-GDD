@@ -28,6 +28,7 @@ namespace FrbaHotel.GenerarModificacionReserva
             hotelSeleccionado = (Model.Hotel)listadoHoteles.SelectedValue;
             listaTipoHabitacionesAgregadas = new List<Model.TipoHabitacion>();
             listaHabitacionesDisponibles = new List<Model.Habitacion>();
+            listaHabitacionesAgregadas = new List<Model.Habitacion>();
         }
 
         public Generar_Reserva_Guest(Model.Usuario usuario)
@@ -38,6 +39,7 @@ namespace FrbaHotel.GenerarModificacionReserva
             hotelSeleccionado = (Model.Hotel)listadoHoteles.SelectedValue;
             listaTipoHabitacionesAgregadas = new List<Model.TipoHabitacion>();
             listaHabitacionesDisponibles = new List<Model.Habitacion>();
+            listaHabitacionesAgregadas = new List<Model.Habitacion>();
             this.usuarioLogueado = usuario;
             this.configurarVistaConUsuario();
         }
@@ -281,8 +283,11 @@ namespace FrbaHotel.GenerarModificacionReserva
         {
 
             Model.Hotel hotelSeleccionado = (Model.Hotel)listadoHoteles.SelectedValue;
-            
-            listaHabitacionesDisponibles = Repositorios.Repo_Reserva.getInstancia().getHabitacionesEnFecha(dtDesde.Value, dtHasta.Value, hotelSeleccionado.idHotel);
+
+            if (listaHabitacionesDisponibles.Count == 0)
+            {
+                listaHabitacionesDisponibles = Repositorios.Repo_Reserva.getInstancia().getHabitacionesEnFecha(dtDesde.Value, dtHasta.Value, hotelSeleccionado.idHotel);
+            }
 
             new AgregarHabitacion(this).ShowDialog();
         }

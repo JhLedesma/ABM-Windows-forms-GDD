@@ -48,10 +48,26 @@ namespace FrbaHotel.GenerarModificacionReserva
 
         private void btnAgregarHabitacion_Click(object sender, EventArgs e)
         {
-            Model.TipoHabitacion habitacionSeleccionada = (Model.TipoHabitacion)listadoTipoHabitacion.SelectedValue;
+            Model.TipoHabitacion tipoHabitacionSeleccionada = (Model.TipoHabitacion)listadoTipoHabitacion.SelectedValue;
 
-            vista.listaTipoHabitacionesAgregadas.Add(habitacionSeleccionada);
-            vista.configuarComboBoxTipoHabitacion();
+            //List<Model.Habitacion> habitaciones = vista.listaHabitacionesDisponibles;
+            Model.Habitacion habEliminar = new Model.Habitacion();
+
+            foreach (Model.Habitacion h in vista.listaHabitacionesDisponibles)
+            {
+                if (h.tipoHab.codigo == tipoHabitacionSeleccionada.codigo)
+                {
+                    vista.listaTipoHabitacionesAgregadas.Add(tipoHabitacionSeleccionada);
+                    vista.configuarComboBoxTipoHabitacion();
+
+                    vista.listaHabitacionesAgregadas.Add(h);
+                    habEliminar = h;
+
+                    break;
+                }
+            }
+
+            vista.listaHabitacionesDisponibles.Remove(habEliminar);
 
             MessageBox.Show("Agregado");
 
