@@ -531,7 +531,6 @@ IdHotel int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Hotel(IdHotel),
 Numero int,
 Piso int NOT NULL,
 Ubicacion nvarchar(255) NOT NULL,
-CodigoTipo int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.TipoHabitacion(Codigo),
 Estado BIT DEFAULT 0,
 Descripcion nvarchar(255) DEFAULT '',
 CONSTRAINT IdHabitacion PRIMARY KEY(IdHotel,Numero)
@@ -796,8 +795,8 @@ INSERT INTO TRAEME_LA_COPA_MESSI.TipoHabitacion(Codigo, Descripcion, Porcentual)
 
 -- Habitacion --
 
-INSERT INTO TRAEME_LA_COPA_MESSI.Habitacion(IdHotel,Numero,Piso,Ubicacion,CodigoTipo)
-	SELECT DISTINCT h.IdHotel, m.Habitacion_Numero, m.Habitacion_Piso, m.Habitacion_Frente, m.Habitacion_Tipo_Codigo
+INSERT INTO TRAEME_LA_COPA_MESSI.Habitacion(IdHotel,Numero,Piso,Ubicacion)
+	SELECT DISTINCT h.IdHotel, m.Habitacion_Numero, m.Habitacion_Piso, m.Habitacion_Frente
 	FROM TRAEME_LA_COPA_MESSI.Hotel h, gd_esquema.Maestra m
 	WHERE h.Direccion =
 		(SELECT IdDir_Hotel FROM TRAEME_LA_COPA_MESSI.Direcciones_Hoteles
@@ -2020,11 +2019,10 @@ create procedure TRAEME_LA_COPA_MESSI.newReservaReturnId
 @hasta dateTime,
 @idHotel int,
 @idRegimen int,
-@idTipoHabitacion int,
 @mailCliente nvarchar(255),
 @idCliente int
 as
-begin
+begin transaction
 	declare @cantNoches numeric(18,0)
 	set @cantNoches =  CAST((datediff(day,@desde,@hasta)) AS numeric(18,0))
 
@@ -2032,21 +2030,34 @@ begin
 
 	if exists(select 1 from TRAEME_LA_COPA_MESSI.Cliente where IdCliente=@idCliente and Email=@mailCliente)
 		begin
-			insert into TRAEME_LA_COPA_MESSI.Reserva(IdCliente, IdHotel, FechaReserva, FechaGeneracionReserva, CantidadNochesReservadas, EstadoReserva, RegimenEstadiaId, tipoHabitacion)
-				values(@idCliente, @idHotel, @desde, getdate(), @cantNoches, 5, @idRegimen, @idTipoHabitacion)
+			insert into TRAEME_LA_COPA_MESSI.Reserva(IdCliente, IdHotel, FechaReserva, FechaGeneracionReserva, CantidadNochesReservadas, EstadoReserva, RegimenEstadiaId)
+				values(@idCliente, @idHotel, @desde, getdate(), @cantNoches, 5, @idRegimen)
 			
 			set @idReserva = (select IdReserva from TRAEME_LA_COPA_MESSI.Reserva where IdHotel=@idHotel and IdCliente=@idCliente and FechaReserva=@desde and CantidadNochesReservadas=@cantNoches and EstadoReserva=5 and RegimenEstadiaId=@idRegimen)
 			return @idReserva
 		end
 	else
 		begin
-			insert into TRAEME_LA_COPA_MESSI.Reserva(IdClienteInconsistente, IdHotel, FechaReserva, FechaGeneracionReserva, CantidadNochesReservadas, EstadoReserva, RegimenEstadiaId, tipoHabitacion)
-				values(@idCliente, @idHotel, @desde, getdate(), @cantNoches, 5, @idRegimen, @idTipoHabitacion)
+			insert into TRAEME_LA_COPA_MESSI.Reserva(IdClienteInconsistente, IdHotel, FechaReserva, FechaGeneracionReserva, CantidadNochesReservadas, EstadoReserva, RegimenEstadiaId)
+				values(@idCliente, @idHotel, @desde, getdate(), @cantNoches, 5, @idRegimen)
 			
 			set @idReserva = (select IdReserva from TRAEME_LA_COPA_MESSI.Reserva where IdHotel=@idHotel and IdClienteInconsistente=@idCliente and FechaReserva=@desde and CantidadNochesReservadas=@cantNoches and EstadoReserva=5 and RegimenEstadiaId=@idRegimen)
 			return @idReserva
 		end
-end
+commit
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.newHabitacionPorReserva
+@idHotel int,
+@numero int,
+@idReserva numeric(18,0)
+as
+begin transaction
+	insert into TRAEME_LA_COPA_MESSI.HabitacionPorReserva (IdHotel, NumeroHabitacion, IdReserva)
+		values(@idHotel, @numero, @idReserva)
+commit
+
 
 
 
