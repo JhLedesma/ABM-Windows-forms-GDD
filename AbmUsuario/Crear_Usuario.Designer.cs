@@ -506,7 +506,7 @@
             this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.groupBox1);
             this.Name = "Crear_Usuario";
-            this.Text = "Crear Cliente";
+            this.Text = "Crear Usuario";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericTelefono)).EndInit();

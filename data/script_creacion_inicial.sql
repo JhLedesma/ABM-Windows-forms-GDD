@@ -23,6 +23,9 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Item_Factura','U') IS NOT NULL
 if OBJECT_ID('TRAEME_LA_COPA_MESSI.ConsumiblePorHabitacion','U') is not null
 	drop table TRAEME_LA_COPA_MESSI.ConsumiblePorHabitacion;
 
+if OBJECT_ID('Traeme_la_Copa_messi.HabitacionPorReserva','U') is not null
+	drop table Traeme_la_Copa_messi.HabitacionPorReserva;
+
 if OBJECT_ID('Traeme_la_Copa_messi.ReservasDeClientesIncon','U') is not null
 	drop table Traeme_la_Copa_messi.ReservasDeClientesIncon;
 
@@ -65,6 +68,12 @@ IF OBJECT_ID ('TRAEME_LA_COPA_MESSI.RegimenPorHotel','U') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.UsuariosPorHotel','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.UsuariosPorHotel;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Log_Reserva','U') IS NOT NULL 
+	DROP TABLE TRAEME_LA_COPA_MESSI.Log_Reserva;
+
+IF OBJECT_ID ('TRAEME_LA_COPA_MESSI.Hotel','U') IS NOT NULL
+    DROP TABLE TRAEME_LA_COPA_MESSI.Hotel;
+
 IF OBJECT_ID ('TRAEME_LA_COPA_MESSI.RegimenEstadia','U') IS NOT NULL
     DROP TABLE TRAEME_LA_COPA_MESSI.RegimenEstadia;
 
@@ -104,8 +113,6 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.TipoDoc','U') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Direccion','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.Direccion;
 
-IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Log_Reserva','U') IS NOT NULL 
-	DROP TABLE TRAEME_LA_COPA_MESSI.Log_Reserva;
 
 /* Dropeo de procedures si ya existen */
 
@@ -340,6 +347,18 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.DescontarConsumibles','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.verificarAllInclusive','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.verificarAllInclusive;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.comprobarReservaNoPasoFecha','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.comprobarReservaNoPasoFecha;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getHabitacionesEnFecha','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getHabitacionesEnFecha;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.newHabitacionPorReserva','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.newHabitacionPorReserva;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getTipoHabitacion','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getTipoHabitacion;
+
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.topReservasCanceladas','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.topReservasCanceladas;
 
@@ -355,7 +374,7 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getTrimestre','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.topCliente','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.topCliente;
 
-	
+
 	
 	
 /* Dropeo las views si ya existen */
@@ -559,7 +578,6 @@ IdReserva numeric(18,0) IDENTITY(1,1) PRIMARY KEY,
 IdCliente int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente(IdCliente) null,
 IdClienteInconsistente int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Cliente_Inconsistente(IdCliente) null,
 IdHotel int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Hotel(IdHotel) null, --Cambiar a not null
-tipoHabitacion int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.TipoHabitacion(Codigo) null,
 FechaReserva datetime  NULL,
 FechaGeneracionReserva datetime NOT NULL,
 CantidadNochesReservadas numeric(18,0)  NULL,
@@ -617,14 +635,15 @@ IdClienteInconAux int,
 IdReservaAux int,
 CONSTRAINT IdReservasDeClientesIncon PRIMARY KEY(IdClienteInconAux, IdReservaAux)
 );
-/*
+
 CREATE TABLE TRAEME_LA_COPA_MESSI.HabitacionPorReserva(
 IdHotel int,
 NumeroHabitacion int,
 IdReserva numeric(18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Reserva(IdReserva),
 CONSTRAINT FK_Habitacion FOREIGN KEY(IdHotel, NumeroHabitacion) REFERENCES TRAEME_LA_COPA_MESSI.Habitacion(IdHotel, Numero)
 );
-*/
+
+
 Create Table TRAEME_LA_COPA_MESSI.ConsumiblePorHabitacion(
 idHotel int,
 NumeroHabitacion int,
@@ -875,12 +894,11 @@ SELECT DISTINCT IdCliente, Reserva_Codigo FROM TRAEME_LA_COPA_MESSI.Cliente_Inco
 
 SET IDENTITY_INSERT TRAEME_LA_COPA_MESSI.Reserva ON
 
-INSERT INTO TRAEME_LA_COPA_MESSI.Reserva(IdReserva, IdHotel, FechaReserva, CantidadNochesReservadas,RegimenEstadiaId, FechaGeneracionReserva, tipoHabitacion)
+INSERT INTO TRAEME_LA_COPA_MESSI.Reserva(IdReserva, IdHotel, FechaReserva, CantidadNochesReservadas,RegimenEstadiaId, FechaGeneracionReserva)
 
 
 	SELECT DISTINCT m.Reserva_Codigo, h.IdHotel, m.Reserva_Fecha_Inicio, m.Reserva_Cant_Noches,
-	(SELECT IdRegimenEstadia FROM TRAEME_LA_COPA_MESSI.RegimenEstadia WHERE Descripcion = m.Regimen_Descripcion), CAST('1950-10-10 12:35:29.123' AS datetime),
-	(SELECT Codigo FROM TRAEME_LA_COPA_MESSI.TipoHabitacion WHERE Descripcion = m.Habitacion_Tipo_Descripcion)
+	(SELECT IdRegimenEstadia FROM TRAEME_LA_COPA_MESSI.RegimenEstadia WHERE Descripcion = m.Regimen_Descripcion), CAST('1950-10-10 12:35:29.123' AS datetime)
 
 	FROM
 
@@ -939,7 +957,7 @@ SELECT DISTINCT Consumible_Codigo, Consumible_Descripcion, Consumible_Precio FRO
 INSERT INTO TRAEME_LA_COPA_MESSI.ConsumiblePorReserva
 SELECT Consumible_Codigo, Reserva_Codigo, SUM(Item_Factura_Cantidad) FROM gd_esquema.Maestra WHERE Consumible_Codigo IS NOT NULL GROUP BY Consumible_Codigo,Reserva_Codigo
 
-/*
+
 -- Habitacion por reserva --
 
 -- FALTA PRIMARY KEY EN TABLA
@@ -948,7 +966,7 @@ SELECT DISTINCT IdHotel, Habitacion_Numero, Reserva_Codigo FROM
 TRAEME_LA_COPA_MESSI.Hotel h JOIN TRAEME_LA_COPA_MESSI.Direcciones_Hoteles d
 ON h.Direccion = d.IdDir_Hotel, gd_esquema.Maestra m
 WHERE m.Hotel_Calle = d.Calle AND m.Hotel_Ciudad = d.Ciudad AND m.Hotel_Nro_Calle = d.NroCalle
-*/
+
 
 -- Consumible por habitacion
 Insert into TRAEME_LA_COPA_MESSI.ConsumiblePorHabitacion
@@ -2000,16 +2018,43 @@ end
 
 
 GO
+create procedure TRAEME_LA_COPA_MESSI.getHabitacionesEnFecha
+@desde DateTime,
+@hasta DateTime,
+@idHotel int
+as
+begin
+	declare @cantNoches numeric(18,0)
+	set @cantNoches =  CAST((datediff(day,@desde,@hasta)) AS numeric(18,0))
+
+	select * 
+	from TRAEME_LA_COPA_MESSI.Habitacion hab
+	where hab.IdHotel = @idHotel
+	and hab.Numero not in
+	(
+	select distinct h.Numero
+	from TRAEME_LA_COPA_MESSI.Habitacion h
+	join TRAEME_LA_COPA_MESSI.HabitacionPorReserva hr
+		on h.Numero = hr.NumeroHabitacion
+		and h.IdHotel = hr.IdHotel
+	join TRAEME_LA_COPA_MESSI.Reserva r
+		on hr.IdReserva = r.IdReserva
+	where r.FechaReserva >= @desde and r.CantidadNochesReservadas <= @hasta
+	)
+	
+end
+
+
+GO
 create procedure TRAEME_LA_COPA_MESSI.newReservaReturnId
 @desde dateTime,
 @hasta dateTime,
 @idHotel int,
 @idRegimen int,
-@idTipoHabitacion int,
 @mailCliente nvarchar(255),
 @idCliente int
 as
-begin
+begin --transaction
 	declare @cantNoches numeric(18,0)
 	set @cantNoches =  CAST((datediff(day,@desde,@hasta)) AS numeric(18,0))
 
@@ -2017,21 +2062,57 @@ begin
 
 	if exists(select 1 from TRAEME_LA_COPA_MESSI.Cliente where IdCliente=@idCliente and Email=@mailCliente)
 		begin
-			insert into TRAEME_LA_COPA_MESSI.Reserva(IdCliente, IdHotel, FechaReserva, FechaGeneracionReserva, CantidadNochesReservadas, EstadoReserva, RegimenEstadiaId, tipoHabitacion)
-				values(@idCliente, @idHotel, @desde, getdate(), @cantNoches, 5, @idRegimen, @idTipoHabitacion)
+			insert into TRAEME_LA_COPA_MESSI.Reserva(IdCliente, IdHotel, FechaReserva, FechaGeneracionReserva, CantidadNochesReservadas, EstadoReserva, RegimenEstadiaId)
+				values(@idCliente, @idHotel, @desde, getdate(), @cantNoches, 5, @idRegimen)
 			
 			set @idReserva = (select IdReserva from TRAEME_LA_COPA_MESSI.Reserva where IdHotel=@idHotel and IdCliente=@idCliente and FechaReserva=@desde and CantidadNochesReservadas=@cantNoches and EstadoReserva=5 and RegimenEstadiaId=@idRegimen)
 			return @idReserva
 		end
 	else
 		begin
-			insert into TRAEME_LA_COPA_MESSI.Reserva(IdClienteInconsistente, IdHotel, FechaReserva, FechaGeneracionReserva, CantidadNochesReservadas, EstadoReserva, RegimenEstadiaId, tipoHabitacion)
-				values(@idCliente, @idHotel, @desde, getdate(), @cantNoches, 5, @idRegimen, @idTipoHabitacion)
+			insert into TRAEME_LA_COPA_MESSI.Reserva(IdClienteInconsistente, IdHotel, FechaReserva, FechaGeneracionReserva, CantidadNochesReservadas, EstadoReserva, RegimenEstadiaId)
+				values(@idCliente, @idHotel, @desde, getdate(), @cantNoches, 5, @idRegimen)
 			
 			set @idReserva = (select IdReserva from TRAEME_LA_COPA_MESSI.Reserva where IdHotel=@idHotel and IdClienteInconsistente=@idCliente and FechaReserva=@desde and CantidadNochesReservadas=@cantNoches and EstadoReserva=5 and RegimenEstadiaId=@idRegimen)
 			return @idReserva
 		end
 end
+--commit
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.newHabitacionPorReserva
+@idHotel int,
+@numero int,
+@idReserva numeric(18,0)
+as
+begin --transaction
+	insert into TRAEME_LA_COPA_MESSI.HabitacionPorReserva (IdHotel, NumeroHabitacion, IdReserva)
+		values(@idHotel, @numero, @idReserva)
+end
+--commit
+
+
+
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.comprobarReservaNoPasoFecha
+@idReserva decimal(18, 0)
+as
+begin
+	if exists (select 1 from TRAEME_LA_COPA_MESSI.Reserva where IdReserva=@idReserva and day(FechaReserva) < day(GETDATE()) and EstadoReserva != 2 and EstadoReserva != 3 and EstadoReserva != 4 and EstadoReserva != 6)
+		return 1
+	else if exists (select 1 from TRAEME_LA_COPA_MESSI.Reserva where IdReserva=@idReserva and day(FechaReserva) >= day(GETDATE()) and EstadoReserva != 2 and EstadoReserva != 3 and EstadoReserva != 4 and EstadoReserva != 6)
+		return 2
+	else if exists (select 1 from TRAEME_LA_COPA_MESSI.Reserva where IdReserva=@idReserva and EstadoReserva != 2 and EstadoReserva != 3 and EstadoReserva != 4 and EstadoReserva != 6)
+		return 0
+end
+
+
+
+
+
 
 
 /* Repositorio Tipo Habitacion*/
@@ -2212,10 +2293,16 @@ BEGIN
 END
 
 
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.getTipoHabitacion
+@idTipoHab int
+AS
+	select * from TRAEME_LA_COPA_MESSI.TipoHabitacion where Codigo=@idTipoHab
+
 
 /* Repositorio consumibles */
 
-Go
+GO
 Create procedure TRAEME_LA_COPA_MESSI.getConsumibles
 
 as
@@ -2263,7 +2350,7 @@ BEGIN
 
 END
 
-
+/*
 GO
 CREATE PROCEDURE TRAEME_LA_COPA_MESSI.facturarEstadia
 @factNum decimal(18,0),
@@ -2302,7 +2389,7 @@ BEGIN
 
 
 END
-
+*/
 
 GO
 CREATE PROCEDURE TRAEME_LA_COPA_MESSI.calcularTotalFactura
@@ -2385,6 +2472,7 @@ if (exists (select re.Descripcion from TRAEME_LA_COPA_MESSI.Reserva r join TRAEM
  insert into TRAEME_LA_COPA_MESSI.Item_Factura (Fac_Numero,Cantidad,Reserva_descrip,Monto)
  values (@numFactura,1,'Descuento por regimen de estadia',(select -sum(monto) from TRAEME_LA_COPA_MESSI.Item_Factura where @numFactura=Fac_Numero and IdConsumible IS NOT NULL))
  end
+
 
 
  /* Repo listado estadistico */
@@ -2718,4 +2806,3 @@ BEGIN
 
 END
 
-EXEC TRAEME_LA_COPA_MESSI.topCliente 1, 2017

@@ -178,6 +178,31 @@ namespace FrbaHotel.Repositorios
         
         }
 
+        public Model.TipoHabitacion getTipoHabitacion(int idTipoHab)
+        {
+            DBhelper.crearConexion();
+
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getTipoHabitacion");
+            cmd.Parameters.Add("@idTipoHab", SqlDbType.Int).Value = idTipoHab;
+
+            DataTable tabla = DBhelper.obtenerTabla(cmd);
+
+            Model.TipoHabitacion tipoHabitacion = new Model.TipoHabitacion();
+
+            foreach (DataRow row in tabla.Rows)
+            {
+                tipoHabitacion.codigo = row.Field<Int32>("Codigo");
+                tipoHabitacion.descripcion = row.Field<String>("Descripcion");
+                tipoHabitacion.porcentual = row.Field<decimal>("Porcentual");
+            }
+
+            DBhelper.cerrarConexion();
+
+            return tipoHabitacion;
+        }
+
 
 
 

@@ -16,6 +16,9 @@ namespace FrbaHotel.GenerarModificacionReserva
         Model.Regimen regimenSeleccionado;
         Model.Cliente cliente;
         Model.Usuario usuarioLogueado;
+        public List<Model.TipoHabitacion> listaTipoHabitacionesAgregadas { get; set; }
+        public List<Model.Habitacion> listaHabitacionesAgregadas { get; set; }
+        public List<Model.Habitacion> listaHabitacionesDisponibles { get; set; }
 
         public Generar_Reserva_Guest()
         {
@@ -23,6 +26,9 @@ namespace FrbaHotel.GenerarModificacionReserva
             configuarComboBoxHotel();
             configuarComboBoxTipoHabitacion();
             hotelSeleccionado = (Model.Hotel)listadoHoteles.SelectedValue;
+            listaTipoHabitacionesAgregadas = new List<Model.TipoHabitacion>();
+            listaHabitacionesDisponibles = new List<Model.Habitacion>();
+            listaHabitacionesAgregadas = new List<Model.Habitacion>();
         }
 
         public Generar_Reserva_Guest(Model.Usuario usuario)
@@ -31,6 +37,9 @@ namespace FrbaHotel.GenerarModificacionReserva
             configuarComboBoxHotel();
             configuarComboBoxTipoHabitacion();
             hotelSeleccionado = (Model.Hotel)listadoHoteles.SelectedValue;
+            listaTipoHabitacionesAgregadas = new List<Model.TipoHabitacion>();
+            listaHabitacionesDisponibles = new List<Model.Habitacion>();
+            listaHabitacionesAgregadas = new List<Model.Habitacion>();
             this.usuarioLogueado = usuario;
             this.configurarVistaConUsuario();
         }
@@ -51,10 +60,12 @@ namespace FrbaHotel.GenerarModificacionReserva
 
         public void configuarComboBoxTipoHabitacion()
         {
+            listadoTipoHabitacion.DataSource = null;
             this.listadoTipoHabitacion.ValueMember = "Objeto";
             this.listadoTipoHabitacion.DisplayMember = "Descripcion";
-            this.listadoTipoHabitacion.DataSource = Repositorios.Repo_habitacion.getInstancia().getTiposHabitaciones();
+            this.listadoTipoHabitacion.DataSource = listaTipoHabitacionesAgregadas;
             this.listadoTipoHabitacion.DropDownStyle = ComboBoxStyle.DropDownList;
+            //if (listaHabitacionesAgregadas.Count > 0) { listadoTipoHabitacion.SelectedItem = listaHabitacionesAgregadas.First(); };
         }
 
         private void configurarVistaConUsuario()
@@ -69,11 +80,12 @@ namespace FrbaHotel.GenerarModificacionReserva
 
             this.actualizarTbRegimen(regimen.descripcion);
 
-            Model.TipoHabitacion tipoHabitacionSeleccionado = (Model.TipoHabitacion)listadoTipoHabitacion.SelectedValue;
+            decimal sumatoriaPorcentualHabitacion = listaHabitacionesAgregadas.Sum(x => x.tipoHab.porcentual);
             hotelSeleccionado = (Model.Hotel)listadoHoteles.SelectedValue;
 
-            decimal costoPorDia = (regimen.precioBase * tipoHabitacionSeleccionado.porcentual) + hotelSeleccionado.porcEstrella;
-            this.actualizarCostoDeHabitacion(costoPorDia.ToString());
+            decimal costoPorDia = (regimen.precioBase * sumatoriaPorcentualHabitacion) + hotelSeleccionado.porcEstrella;
+
+            this.actualizarTbCostoDeHabitacion(costoPorDia.ToString());
         }
 
         private void actualizarTbRegimen(String regimenDescripcion)
@@ -81,7 +93,7 @@ namespace FrbaHotel.GenerarModificacionReserva
             tbRegimen.Text = regimenDescripcion;
         }
 
-        private void actualizarCostoDeHabitacion(String costo)
+        private void actualizarTbCostoDeHabitacion(String costo)
         {
             lblCostoHabitacion.Text = costo;
         }
@@ -94,13 +106,33 @@ namespace FrbaHotel.GenerarModificacionReserva
             }
         }
 
+        private void resetearPorCambioDeHotel(object sender, EventArgs e)
+        {
+            listaTipoHabitacionesAgregadas.Clear();
+            listaHabitacionesDisponibles = new List<Model.Habitacion>();
+            listaHabitacionesAgregadas = new List<Model.Habitacion>();
+
+            configuarComboBoxTipoHabitacion();
+
+            lblCostoHabitacion.Text = "0.00";
+        }
+
+        public void ponerPrimerElementoEnSelector()
+        {
+            listadoTipoHabitacion.SelectedItem = listaTipoHabitacionesAgregadas.First();
+        }
+
+        public void actualizarCostoHabitacion()
+        {
+            if (regimenSeleccionado != null)
+            {
+                this.actualizarRegimen(regimenSeleccionado);
+            }
+        }
+
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            if (Repositorios.Repo_Reserva.getInstancia().comprobarDisponibilidad(dtDesde.Value, dtHasta.Value) == 0)
-            {
-                MessageBox.Show("Por favor seleccione otra fecha de reserva", "Fecha de Reserva Ocupada", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else if (regimenSeleccionado != null)
+            if (regimenSeleccionado != null)
             {
                 this.avanzarPaso2();
             }
@@ -123,16 +155,6 @@ namespace FrbaHotel.GenerarModificacionReserva
         }
 
 
-        private void mostrarCostoTotalReserva()
-        {
-            TimeSpan ts = dtHasta.Value - dtDesde.Value;
-            int diferenciaDeDias = ts.Days + 1;
-
-            decimal costoTotal = diferenciaDeDias * Convert.ToDecimal(lblCostoHabitacion.Text);
-            lblCostoTotal.Text = costoTotal.ToString(); 
-        }
-
-
         private void volverPaso1()
         {
             lblFechaDesde.Enabled = true;
@@ -151,6 +173,8 @@ namespace FrbaHotel.GenerarModificacionReserva
             lblHabitacionPorDia.Enabled = true;
             lblCostoHabitacion.Enabled = true;
 
+            btnAgregarHabitacion.Enabled = true;
+            btnQuitarHabitacion.Enabled = true;
             btnGuardar.Enabled = true;
             btnModificar.Enabled = false;
             groupBox2.Enabled = false;
@@ -174,11 +198,22 @@ namespace FrbaHotel.GenerarModificacionReserva
             lblHabitacionPorDia.Enabled = false;
             lblCostoHabitacion.Enabled = false;
 
+            btnAgregarHabitacion.Enabled = false;
+            btnQuitarHabitacion.Enabled = false;
             btnGuardar.Enabled = false;
             btnModificar.Enabled = true;
             groupBox2.Enabled = true;
 
             this.mostrarCostoTotalReserva();
+        }
+
+        private void mostrarCostoTotalReserva()
+        {
+            TimeSpan ts = dtHasta.Value - dtDesde.Value;
+            int diferenciaDeDias = ts.Days + 1;
+
+            decimal costoTotal = diferenciaDeDias * Convert.ToDecimal(lblCostoHabitacion.Text);
+            lblCostoTotal.Text = costoTotal.ToString();
         }
 
         private void btnConfirmar_Click(object sender, EventArgs e)
@@ -241,7 +276,6 @@ namespace FrbaHotel.GenerarModificacionReserva
 
         private void btnTerminar_Click(object sender, EventArgs e)
         {
-            Model.TipoHabitacion tipoHabitacionSeleccionado = (Model.TipoHabitacion)listadoTipoHabitacion.SelectedValue;
             Model.Hotel hotelSeleccionado = (Model.Hotel)listadoHoteles.SelectedValue;
 
             Model.Reserva reservaCreada = new Model.Reserva();
@@ -249,8 +283,8 @@ namespace FrbaHotel.GenerarModificacionReserva
             reservaCreada.fechaHasta = dtHasta.Value;
             reservaCreada.hotel = hotelSeleccionado;
             reservaCreada.regimen = regimenSeleccionado;
-            reservaCreada.tipoHabitacion = tipoHabitacionSeleccionado;
             reservaCreada.cliente = cliente;
+            reservaCreada.habitaciones = listaHabitacionesAgregadas;
 
             int idReserva = Repositorios.Repo_Reserva.getInstancia().crearReservaReturnId(reservaCreada);
 
@@ -267,6 +301,38 @@ namespace FrbaHotel.GenerarModificacionReserva
             this.Hide();
             new Login.SeleccionarFuncionalidad_invitado().ShowDialog();
             this.Close();
+        }
+
+        private void btnAgregarHabitacion_Click(object sender, EventArgs e)
+        {
+            int var = 0;
+
+            Model.Hotel hotelSeleccionado = (Model.Hotel)listadoHoteles.SelectedValue;
+
+            if (listaHabitacionesDisponibles.Count == 0)
+            {
+                listaHabitacionesDisponibles = Repositorios.Repo_Reserva.getInstancia().getHabitacionesEnFecha(dtDesde.Value, dtHasta.Value, hotelSeleccionado.idHotel);
+                if (listaHabitacionesDisponibles.Count == 0)
+                {
+                    var = 1;
+                    MessageBox.Show("Por favor seleccione otra fecha de reserva", "No hay Habitaciones Disponibles", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            if (var != 1)
+            {
+                new AgregarHabitacion(this).ShowDialog();   
+            }
+        }
+
+        private void btnQuitarHabitacion_Click(object sender, EventArgs e)
+        {
+            listaTipoHabitacionesAgregadas.Clear();
+            listaHabitacionesDisponibles = new List<Model.Habitacion>();
+            listaHabitacionesAgregadas = new List<Model.Habitacion>();
+
+            configuarComboBoxTipoHabitacion();
+
+            lblCostoHabitacion.Text = "0.00";
         }
 
 

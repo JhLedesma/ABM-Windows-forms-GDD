@@ -27,7 +27,9 @@ namespace FrbaHotel.Model
             //Application.Run(new GenerarModificacionReserva.Generar_Reserva_Guest());
             //Application.Run(new AbmCliente.List_Select_Cliente_Eliminar());
             //Application.Run(new RegistrarEstadia.Check_out());
+
             Application.Run(new ListadoEstadistico.Listado());
+
            
             
         }
