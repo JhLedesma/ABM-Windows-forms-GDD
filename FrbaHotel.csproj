@@ -329,6 +329,7 @@
     </Compile>
     <Compile Include="Model\Consumible.cs" />
     <Compile Include="Model\Consumibles_hotel.cs" />
+    <Compile Include="Model\Datos_hab.cs" />
     <Compile Include="Model\DiasFueraServ_hotel.cs" />
     <Compile Include="Model\EstadoReserva.cs" />
     <Compile Include="Model\Habitacion.cs" />

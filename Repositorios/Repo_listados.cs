@@ -89,8 +89,8 @@ namespace FrbaHotel.Repositorios
             {
                 Model.Consumibles_hotel consumible = new Model.Consumibles_hotel();
 
-                consumible.idHotel = row.Field<Int32>("Fact_idHotel");
-                consumible.cant_consumibles = row.Field<Int32>("Cantidad_consumibles");
+                consumible.idHotel = row.Field<Int32>("idHotel");
+                consumible.cant_consumibles = row.Field<Int32>("cantidad");
 
                 listaDeConsumibles.Add(consumible);
             }
@@ -130,6 +130,78 @@ namespace FrbaHotel.Repositorios
             }
 
             return listaDiasFueraServ;
+
+        }
+
+
+        public List<Model.Consumibles_hotel> topReservasCanceladas(Int32 trimestre, Int32 anio)
+        {
+
+            DataTable TablaReservasCanc;
+
+            List<Model.Consumibles_hotel> listaReservasCanc = new List<Model.Consumibles_hotel>();
+
+            DBhelper.crearConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.topReservasCanceladas");
+            cmd.Parameters.Add("@trimestre", SqlDbType.Int).Value = trimestre;
+            cmd.Parameters.Add("@anio", SqlDbType.Int).Value = anio;
+            cmd.CommandTimeout = 0;
+
+            DBhelper.abrirConexion();
+
+            TablaReservasCanc = DBhelper.obtenerTabla(cmd);
+
+            DBhelper.cerrarConexion();
+
+            foreach (DataRow row in TablaReservasCanc.Rows)
+            {
+                Model.Consumibles_hotel reservasCancelados = new Model.Consumibles_hotel();
+
+                reservasCancelados.idHotel = row.Field<Int32>("IdHotel");
+                reservasCancelados.cant_consumibles= row.Field<Int32>("Cantidad_cancelaciones");
+
+                listaReservasCanc.Add(reservasCancelados);
+            }
+
+            return listaReservasCanc;
+
+        }
+
+
+        public List<Model.Datos_hab> topHabitaciones(Int32 trimestre, Int32 anio)
+        {
+
+            DataTable TablaDatosHab;
+
+            List<Model.Datos_hab> listaDatosHab = new List<Model.Datos_hab>();
+
+            DBhelper.crearConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.topHabitacionesOcupadas");
+            cmd.Parameters.Add("@trimestre", SqlDbType.Int).Value = trimestre;
+            cmd.Parameters.Add("@anio", SqlDbType.Int).Value = anio;
+            cmd.CommandTimeout = 0;
+
+            DBhelper.abrirConexion();
+
+            TablaDatosHab = DBhelper.obtenerTabla(cmd);
+
+            DBhelper.cerrarConexion();
+
+            foreach (DataRow row in TablaDatosHab.Rows)
+            {
+                Model.Datos_hab datosHab = new Model.Datos_hab();
+
+                datosHab.IdHotel = row.Field<Int32>("IdHotel");
+                datosHab.NumHabitacion = row.Field<Int32>("NumeroHabitacion");
+                datosHab.VecesReservada = row.Field<Int32>("Cantidad_veces_reservada");
+                datosHab.NochesOcupada = row.Field<Int32>("Cantidad_noches_ocupada");
+
+                listaDatosHab.Add(datosHab);
+            }
+
+            return listaDatosHab;
 
         }
 

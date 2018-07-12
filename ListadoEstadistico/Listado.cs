@@ -56,7 +56,8 @@ namespace FrbaHotel.ListadoEstadistico
                 {
                     case 0:
                         {
-                            Console.WriteLine("Hoteles con mayor cantidad de reservas canceladas");
+                            dataGrid_estadisticas.DataSource = null;
+                            dataGrid_estadisticas.DataSource = Repositorios.Repo_listados.getInstancia().topReservasCanceladas((Int32)numeric_trimestre.Value, (Int32)numeric_anio.Value);
                         }
 
                         break;
@@ -79,7 +80,8 @@ namespace FrbaHotel.ListadoEstadistico
 
                     case 3:
                         {
-                            Console.WriteLine("Hoteles con mayor cantidad de reservas canceladas");
+                            dataGrid_estadisticas.DataSource = null;
+                            dataGrid_estadisticas.DataSource = Repositorios.Repo_listados.getInstancia().topHabitaciones((Int32)numeric_trimestre.Value, (Int32)numeric_anio.Value);
                         }
 
                         break;
