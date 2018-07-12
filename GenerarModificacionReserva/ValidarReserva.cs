@@ -12,9 +12,17 @@ namespace FrbaHotel.GenerarModificacionReserva
 {
     public partial class ValidarReserva : Form
     {
+        Model.Usuario usuarioIngresado;
+
         public ValidarReserva()
         {
             InitializeComponent();
+        }
+
+        public ValidarReserva(Model.Usuario usuario)
+        {
+            InitializeComponent();
+            this.usuarioIngresado = usuario;
         }
 
         private void btnValidar_Click(object sender, EventArgs e)
@@ -23,7 +31,15 @@ namespace FrbaHotel.GenerarModificacionReserva
             
             if (retorno == 1)
             {
-                new Generar_Reserva_Guest().ShowDialog();
+                if (usuarioIngresado == null)
+                {
+                    new Generar_Reserva_Guest(numReserva.Value).ShowDialog();
+                }
+                else
+                {
+                    new Generar_Reserva_Guest(usuarioIngresado,numReserva.Value).ShowDialog();
+                }
+           
             }
             else if (retorno == 2)
             {
