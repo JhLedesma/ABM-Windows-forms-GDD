@@ -12,7 +12,7 @@ namespace FrbaHotel.GenerarModificacionReserva
 {
     public partial class Generar_Reserva_Guest : Form, GenerarReserva
     {
-        decimal idReservaModidicacion;
+        decimal idReservaModidicacion = 0;
         Model.Hotel hotelSeleccionado;
         Model.Regimen regimenSeleccionado;
         Model.Cliente cliente;
@@ -313,7 +313,7 @@ namespace FrbaHotel.GenerarModificacionReserva
             reservaCreada.cliente = cliente;
             reservaCreada.habitaciones = listaHabitacionesAgregadas;
 
-            if (idReservaModidicacion == null)//Creacion
+            if (idReservaModidicacion == 0)//Creacion
             {
                 int idReserva = Repositorios.Repo_Reserva.getInstancia().crearReservaReturnId(reservaCreada);
 

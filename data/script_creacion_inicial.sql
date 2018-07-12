@@ -604,7 +604,7 @@ RegimenEstadiaId int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.RegimenEstadia(
 Create table TRAEME_LA_COPA_MESSI.Log_Reserva( --QUE ES ESTO? NO TIENE REFERENCIA A RESERVA
 LogId int identity(1,1) Primary key,
 Log_Tipo nvarchar(255),
-Log_UsuarioId nvarchar(255),
+Log_UsuarioId nvarchar(255) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Usuario(Username),
 Log_Motivo nvarchar (255),
 Log_Fecha Datetime,
 Log_idReserva numeric(18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Reserva(IdReserva)
@@ -1913,10 +1913,23 @@ create procedure TRAEME_LA_COPA_MESSI.cancelarReserva
 @fechaDeCancelacion Datetime,
 @motivo nvarchar(255)
 as begin
+
+IF (@idUsuario = 'admin')
+BEGIN
+
 update TRAEME_LA_COPA_MESSI.Reserva set EstadoReserva =  2 where IdReserva = @idReserva   
 insert into TRAEME_LA_COPA_MESSI.Log_Reserva(Log_Tipo,Log_UsuarioId,Log_Motivo,Log_Fecha,Log_idReserva)
 values ('Cancelacion',@idUsuario,@motivo,@fechaDeCancelacion,@idReserva)
-end
+
+END
+
+ELSE
+
+update TRAEME_LA_COPA_MESSI.Reserva set EstadoReserva =  3 where IdReserva = @idReserva   
+insert into TRAEME_LA_COPA_MESSI.Log_Reserva(Log_Tipo,Log_UsuarioId,Log_Motivo,Log_Fecha,Log_idReserva)
+values ('Cancelacion',@idUsuario,@motivo,@fechaDeCancelacion,@idReserva)
+
+END
 
 
 GO
@@ -2167,9 +2180,6 @@ as
 begin
 	delete TRAEME_LA_COPA_MESSI.HabitacionPorReserva where IdHotel=@idHotel and NumeroHabitacion=@numero and IdReserva=@idReserva
 end
-
-
-
 
 
 GO

@@ -145,6 +145,7 @@ namespace FrbaHotel.Login
        private void boton_guest_Click(object sender, EventArgs e)
        {
            this.Hide();
+           Repositorios.Repo_usuario.getInstancia().getUsuarioIngresado().username = "guest";
            new SeleccionarFuncionalidad_invitado().ShowDialog();
            this.Close();
        }
