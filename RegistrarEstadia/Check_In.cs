@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Configuration;
+
 
 namespace FrbaHotel.RegistrarEstadia
 {
@@ -62,7 +64,7 @@ namespace FrbaHotel.RegistrarEstadia
             Console.WriteLine("--------------------");
 
 
-            Repositorios.Repo_Reserva.getInstancia().generarLogEstadia(Repositorios.Repo_usuario.getInstancia().usuarioIngresado.username ,numReserva);
+            Repositorios.Repo_Reserva.getInstancia().generarLogEstadia(Repositorios.Repo_usuario.getInstancia().usuarioIngresado.username, numReserva, ConfigurationManager.AppSettings["fecha"]);
 
             foreach (Model.Cliente cliente in clientesReserva) {
 

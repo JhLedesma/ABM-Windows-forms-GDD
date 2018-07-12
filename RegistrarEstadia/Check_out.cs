@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Configuration;
+
 
 namespace FrbaHotel.RegistrarEstadia
 {
@@ -52,7 +54,7 @@ namespace FrbaHotel.RegistrarEstadia
 
             if (codigoRta == 1) {
 
-                Repositorios.Repo_Reserva.getInstancia().hacerCheckOut(Repositorios.Repo_usuario.getInstancia().usuarioIngresado.username ,Int32.Parse(numeric_textBox_reserva.Text));
+                Repositorios.Repo_Reserva.getInstancia().hacerCheckOut(Repositorios.Repo_usuario.getInstancia().usuarioIngresado.username, Int32.Parse(numeric_textBox_reserva.Text), ConfigurationManager.AppSettings["fecha"]);
                 MessageBox.Show("Check-Out realizado con exito, se procede a la facturacion", "Check-Out ok", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Hide();
                 new RegistrarConsumible.RegistrarConsumible(Int32.Parse(numeric_textBox_reserva.Text)).ShowDialog();

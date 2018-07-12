@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Configuration;
 
 namespace FrbaHotel.AbmHotel
 {
@@ -116,7 +117,7 @@ namespace FrbaHotel.AbmHotel
 
             else {
 
-                if (Repositorios.Repo_hotel.getInstancia().comprobarRegimen(idHotel, regimenSeleccionado.idRegimen) == 0) {
+                if (Repositorios.Repo_hotel.getInstancia().comprobarRegimen(idHotel, regimenSeleccionado.idRegimen, ConfigurationManager.AppSettings["fecha"]) == 0) {
 
                     MessageBox.Show("Hay reservas futuras o actuales bajo el regimen seleccionado", "Error al quitar regimen", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 

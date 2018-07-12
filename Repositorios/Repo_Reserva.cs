@@ -70,13 +70,14 @@ namespace FrbaHotel.Repositorios
             DBhelper.cerrarConexion();
         }
 
-        public Int32 comprobarNumReserva(Int32 idHotel, Int32 numeroRes)
+        public Int32 comprobarNumReserva(Int32 idHotel, Int32 numeroRes, String fecha)
         {
 
             DBhelper.crearConexion();
             SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.comprobarNumReserva");
             cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = idHotel;
             cmd.Parameters.Add("@idReserva", SqlDbType.Int).Value = numeroRes;
+            cmd.Parameters.Add("@fecha", SqlDbType.NVarChar).Value = fecha;
 
             var valorDeRetorno = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
             valorDeRetorno.Direction = ParameterDirection.ReturnValue;
@@ -124,7 +125,7 @@ namespace FrbaHotel.Repositorios
         }
 
 
-        public int crearReservaReturnId(Model.Reserva reserva)
+        public int crearReservaReturnId(Model.Reserva reserva, String fecha)
         {
             DBhelper.crearConexion();
             SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.newReservaReturnId");
@@ -134,6 +135,7 @@ namespace FrbaHotel.Repositorios
             cmd.Parameters.Add("@idCliente", SqlDbType.Int).Value = reserva.cliente.id;
             cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = reserva.hotel.idHotel;
             cmd.Parameters.Add("@idRegimen", SqlDbType.Int).Value = reserva.regimen.idRegimen;
+            cmd.Parameters.Add("@fecha", SqlDbType.NVarChar).Value = fecha;
 
             var valorDeRetorno = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
             valorDeRetorno.Direction = ParameterDirection.ReturnValue;
@@ -170,7 +172,7 @@ namespace FrbaHotel.Repositorios
         }
 
 
-        public void modificarReserva(Model.Reserva reserva)
+        public void modificarReserva(Model.Reserva reserva, String fecha)
         {
             DBhelper.crearConexion();
             DBhelper.abrirConexion();
@@ -183,6 +185,7 @@ namespace FrbaHotel.Repositorios
             cmd.Parameters.Add("@idCliente", SqlDbType.Int).Value = reserva.cliente.id;
             cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = reserva.hotel.idHotel;
             cmd.Parameters.Add("@idRegimen", SqlDbType.Int).Value = reserva.regimen.idRegimen;
+            cmd.Parameters.Add("@fecha", SqlDbType.NVarChar).Value = fecha;
 
             DBhelper.ejecutarProcedure(cmd);
 
@@ -240,7 +243,7 @@ namespace FrbaHotel.Repositorios
         
         }
         
-        public void generarLogEstadia(String username, Int32 numReserva)
+        public void generarLogEstadia(String username, Int32 numReserva, String fecha)
         {
 
             DBhelper.crearConexion();
@@ -250,6 +253,7 @@ namespace FrbaHotel.Repositorios
             SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.generarLogEstadia");
             cmd.Parameters.Add("@idReserva", SqlDbType.Int).Value = numReserva;
             cmd.Parameters.Add("@usuario", SqlDbType.NVarChar).Value = username;
+            cmd.Parameters.Add("@fecha", SqlDbType.NVarChar).Value = fecha;
 
             DBhelper.ejecutarProcedure(cmd);
 
@@ -278,7 +282,7 @@ namespace FrbaHotel.Repositorios
         }
 
 
-        public void hacerCheckOut(String usuario ,Int32 numReserva)
+        public void hacerCheckOut(String usuario ,Int32 numReserva, String fecha)
         {
 
             DBhelper.crearConexion();
@@ -288,6 +292,7 @@ namespace FrbaHotel.Repositorios
             SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.hacerCheckOut");
             cmd.Parameters.Add("@idReserva", SqlDbType.Int).Value = numReserva;
             cmd.Parameters.Add("@username", SqlDbType.NVarChar).Value = usuario;
+            cmd.Parameters.Add("@fecha", SqlDbType.NVarChar).Value = fecha;
 
             DBhelper.ejecutarProcedure(cmd);
 
@@ -331,12 +336,13 @@ namespace FrbaHotel.Repositorios
         
         }
 
-        public int comprobarSiReservaNoPasoFecha(decimal numReserva)
+        public int comprobarSiReservaNoPasoFecha(decimal numReserva, String fecha)
         {
 
             DBhelper.crearConexion();
             SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.comprobarReservaNoPasoFecha");
             cmd.Parameters.Add("@idReserva", SqlDbType.Decimal).Value = numReserva;
+            cmd.Parameters.Add("@fecha", SqlDbType.NVarChar).Value = fecha;
 
             var valorDeRetorno = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
             valorDeRetorno.Direction = ParameterDirection.ReturnValue;
@@ -387,7 +393,7 @@ namespace FrbaHotel.Repositorios
             return habitaciones;
         }
 
-        public void registrarCreacion(Model.Usuario usuario, int idReserva)
+        public void registrarCreacion(Model.Usuario usuario, int idReserva, String fecha)
         {
             DBhelper.crearConexion();
             DBhelper.abrirConexion();
@@ -398,12 +404,14 @@ namespace FrbaHotel.Repositorios
             {
                 cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.registrarCreacionReservaConGuest");
                 cmd.Parameters.Add("@idReserva", SqlDbType.Decimal).Value = Convert.ToDecimal(idReserva);
+                cmd.Parameters.Add("@fecha", SqlDbType.NVarChar).Value = fecha;
             }
             else
             {
                 cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.registrarCreacionReserva");
                 cmd.Parameters.Add("@user", SqlDbType.NVarChar).Value = usuario.username;
                 cmd.Parameters.Add("@idReserva", SqlDbType.Decimal).Value = Convert.ToDecimal(idReserva);
+                cmd.Parameters.Add("@fecha", SqlDbType.NVarChar).Value = fecha;
             }
 
 
@@ -413,7 +421,7 @@ namespace FrbaHotel.Repositorios
         }
 
 
-        public void registrarModificacion(Model.Usuario usuario, int idReserva)
+        public void registrarModificacion(Model.Usuario usuario, int idReserva, String fecha)
         {
             DBhelper.crearConexion();
             DBhelper.abrirConexion();
@@ -424,12 +432,14 @@ namespace FrbaHotel.Repositorios
             {
                 cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.registrarModificacionReservaConGuest");
                 cmd.Parameters.Add("@idReserva", SqlDbType.Decimal).Value = Convert.ToDecimal(idReserva);
+                cmd.Parameters.Add("@fecha", SqlDbType.NVarChar).Value = fecha;
             }
             else
             {
                 cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.registrarModificacionReserva");
                 cmd.Parameters.Add("@user", SqlDbType.NVarChar).Value = usuario.username;
                 cmd.Parameters.Add("@idReserva", SqlDbType.Decimal).Value = Convert.ToDecimal(idReserva);
+                cmd.Parameters.Add("@fecha", SqlDbType.NVarChar).Value = fecha;
             }
 
 

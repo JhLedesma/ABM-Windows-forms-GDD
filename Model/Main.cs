@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Configuration;
 
 namespace FrbaHotel.Model
 {
@@ -30,6 +31,7 @@ namespace FrbaHotel.Model
             //Application.Run(new GenerarModificacionReserva.ValidarReserva());
             //Application.Run(new GenerarModificacionReserva.ValidarReserva());
             //Application.Run(new ListadoEstadistico.Listado());
+            //Console.WriteLine(ConfigurationManager.AppSettings["fecha"]);
 
             
             
