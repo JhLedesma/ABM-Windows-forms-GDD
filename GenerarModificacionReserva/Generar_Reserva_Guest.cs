@@ -317,13 +317,16 @@ namespace FrbaHotel.GenerarModificacionReserva
             {
                 int idReserva = Repositorios.Repo_Reserva.getInstancia().crearReservaReturnId(reservaCreada);
 
-                Repositorios.Repo_Reserva.getInstancia().registrarCreacion(usuarioLogueado);
+                Repositorios.Repo_Reserva.getInstancia().registrarCreacion(usuarioLogueado, idReserva);
 
                 new MostrarCodigoReserva(idReserva).ShowDialog();
             }
             else//Modificacion
             {
                 reservaCreada.id = Convert.ToInt32(idReservaModidicacion);
+
+                Repositorios.Repo_Reserva.getInstancia().registrarModificacion(usuarioLogueado, reservaCreada.id);
+
                 MessageBox.Show("Reserva " + reservaCreada.id.ToString() + " Modificada Correctamente");
             }
 

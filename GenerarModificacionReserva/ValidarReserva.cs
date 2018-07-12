@@ -43,7 +43,7 @@ namespace FrbaHotel.GenerarModificacionReserva
             }
             else if (retorno == 2)
             {
-                MessageBox.Show("Ya no se puede modificar la reserva, es tiempo maximo es hasta un dia antes de la fecha elegida", "Fecha de modificacion de Reserva superada", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ya no se puede modificar la reserva, el tiempo maximo es hasta un dia antes de la fecha elegida", "Fecha de modificacion de Reserva superada", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
