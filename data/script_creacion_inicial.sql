@@ -371,8 +371,18 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getTrimestre','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.topCliente','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.topCliente;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.registrarCreacionReservaConGuest','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.registrarCreacionReservaConGuest;
 
-	
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.registrarCreacionReserva','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.registrarCreacionReserva;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.registrarModificacionReservaConGuest','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.registrarModificacionReservaConGuest;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.registrarModificacionReserva','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.registrarModificacionReserva;
+
 	
 /* Dropeo las views si ya existen */
 
@@ -2113,7 +2123,42 @@ begin
 end
 
 
+GO
+create procedure TRAEME_LA_COPA_MESSI.registrarCreacionReservaConGuest
+as
+begin
+	insert into TRAEME_LA_COPA_MESSI.Log_Reserva (Log_Tipo, Log_UsuarioId, Log_Motivo, Log_Fecha)
+		select 'creacion', Username, '', GETDATE() from TRAEME_LA_COPA_MESSI.Usuario where Username='guest'
+end
 
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.registrarCreacionReserva
+@user nvarchar(255)
+as
+begin
+	insert into TRAEME_LA_COPA_MESSI.Log_Reserva (Log_Tipo, Log_UsuarioId, Log_Motivo, Log_Fecha)
+		values ('creacion', @user, '', GETDATE())
+end
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.registrarModificacionReservaConGuest
+as
+begin
+	insert into TRAEME_LA_COPA_MESSI.Log_Reserva (Log_Tipo, Log_UsuarioId, Log_Motivo, Log_Fecha)
+		select 'modificacion', Username, '', GETDATE() from TRAEME_LA_COPA_MESSI.Usuario where Username='guest'
+end
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.registrarModificacionReserva
+@user nvarchar(255)
+as
+begin
+	insert into TRAEME_LA_COPA_MESSI.Log_Reserva (Log_Tipo, Log_UsuarioId, Log_Motivo, Log_Fecha)
+		values ('modificacion', @user, '', GETDATE())
+end
 
 
 
