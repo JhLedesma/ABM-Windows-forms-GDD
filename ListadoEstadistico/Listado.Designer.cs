@@ -29,18 +29,18 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.numeric_anio = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
-            this.numeric_trimestre = new System.Windows.Forms.NumericUpDown();
-            this.comboBox_tipo = new System.Windows.Forms.ComboBox();
+            this.boton_buscar = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
+            this.comboBox_tipo = new System.Windows.Forms.ComboBox();
+            this.numeric_trimestre = new System.Windows.Forms.NumericUpDown();
+            this.label2 = new System.Windows.Forms.Label();
+            this.numeric_anio = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
             this.dataGrid_estadisticas = new System.Windows.Forms.DataGridView();
             this.boton_volver = new System.Windows.Forms.Button();
-            this.boton_buscar = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numeric_anio)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numeric_trimestre)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numeric_anio)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid_estadisticas)).BeginInit();
             this.SuspendLayout();
             // 
@@ -60,21 +60,39 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Seleccion";
             // 
-            // label1
+            // boton_buscar
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 33);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(29, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Año:";
+            this.boton_buscar.Location = new System.Drawing.Point(41, 80);
+            this.boton_buscar.Name = "boton_buscar";
+            this.boton_buscar.Size = new System.Drawing.Size(87, 23);
+            this.boton_buscar.TabIndex = 6;
+            this.boton_buscar.Text = "Buscar";
+            this.boton_buscar.UseVisualStyleBackColor = true;
+            this.boton_buscar.Click += new System.EventHandler(this.boton_buscar_Click);
             // 
-            // numeric_anio
+            // label3
             // 
-            this.numeric_anio.Location = new System.Drawing.Point(41, 31);
-            this.numeric_anio.Name = "numeric_anio";
-            this.numeric_anio.Size = new System.Drawing.Size(87, 20);
-            this.numeric_anio.TabIndex = 1;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(324, 33);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(79, 13);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Tipo de listado:";
+            // 
+            // comboBox_tipo
+            // 
+            this.comboBox_tipo.FormattingEnabled = true;
+            this.comboBox_tipo.Location = new System.Drawing.Point(409, 30);
+            this.comboBox_tipo.Name = "comboBox_tipo";
+            this.comboBox_tipo.Size = new System.Drawing.Size(199, 21);
+            this.comboBox_tipo.TabIndex = 4;
+            // 
+            // numeric_trimestre
+            // 
+            this.numeric_trimestre.Location = new System.Drawing.Point(212, 31);
+            this.numeric_trimestre.Name = "numeric_trimestre";
+            this.numeric_trimestre.Size = new System.Drawing.Size(87, 20);
+            this.numeric_trimestre.TabIndex = 3;
             // 
             // label2
             // 
@@ -85,29 +103,21 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "Trimestre:";
             // 
-            // numeric_trimestre
+            // numeric_anio
             // 
-            this.numeric_trimestre.Location = new System.Drawing.Point(212, 31);
-            this.numeric_trimestre.Name = "numeric_trimestre";
-            this.numeric_trimestre.Size = new System.Drawing.Size(87, 20);
-            this.numeric_trimestre.TabIndex = 3;
+            this.numeric_anio.Location = new System.Drawing.Point(41, 31);
+            this.numeric_anio.Name = "numeric_anio";
+            this.numeric_anio.Size = new System.Drawing.Size(87, 20);
+            this.numeric_anio.TabIndex = 1;
             // 
-            // comboBox_tipo
+            // label1
             // 
-            this.comboBox_tipo.FormattingEnabled = true;
-            this.comboBox_tipo.Location = new System.Drawing.Point(409, 30);
-            this.comboBox_tipo.Name = "comboBox_tipo";
-            this.comboBox_tipo.Size = new System.Drawing.Size(199, 21);
-            this.comboBox_tipo.TabIndex = 4;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(324, 33);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(79, 13);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Tipo de listado:";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 33);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(29, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Año:";
             // 
             // dataGrid_estadisticas
             // 
@@ -125,16 +135,7 @@
             this.boton_volver.TabIndex = 2;
             this.boton_volver.Text = "Volver";
             this.boton_volver.UseVisualStyleBackColor = true;
-            // 
-            // boton_buscar
-            // 
-            this.boton_buscar.Location = new System.Drawing.Point(41, 80);
-            this.boton_buscar.Name = "boton_buscar";
-            this.boton_buscar.Size = new System.Drawing.Size(87, 23);
-            this.boton_buscar.TabIndex = 6;
-            this.boton_buscar.Text = "Buscar";
-            this.boton_buscar.UseVisualStyleBackColor = true;
-            this.boton_buscar.Click += new System.EventHandler(this.boton_buscar_Click);
+            this.boton_volver.Click += new System.EventHandler(this.boton_volver_Click);
             // 
             // Listado
             // 
@@ -148,8 +149,8 @@
             this.Text = "Listados de estadisticas";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numeric_anio)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numeric_trimestre)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numeric_anio)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid_estadisticas)).EndInit();
             this.ResumeLayout(false);
 

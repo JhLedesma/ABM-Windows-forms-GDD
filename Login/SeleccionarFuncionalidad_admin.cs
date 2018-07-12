@@ -118,7 +118,9 @@ namespace FrbaHotel.Login
 
         private void boton_listado_estadistico_Click(object sender, EventArgs e)
         {
-
+            this.Hide();
+            new ListadoEstadistico.Listado().ShowDialog();
+            this.Close();
         }
     }
 }
