@@ -12,7 +12,7 @@ namespace FrbaHotel.GenerarModificacionReserva
 {
     public partial class Generar_Reserva_Guest : Form, GenerarReserva
     {
-        decimal idReservaModidicacion;
+        decimal idReservaModidicacion = 0;
         Model.Hotel hotelSeleccionado;
         Model.Regimen regimenSeleccionado;
         Model.Cliente cliente;
@@ -313,17 +313,20 @@ namespace FrbaHotel.GenerarModificacionReserva
             reservaCreada.cliente = cliente;
             reservaCreada.habitaciones = listaHabitacionesAgregadas;
 
-            if (idReservaModidicacion == null)//Creacion
+            if (idReservaModidicacion == 0)//Creacion
             {
                 int idReserva = Repositorios.Repo_Reserva.getInstancia().crearReservaReturnId(reservaCreada);
 
-                Repositorios.Repo_Reserva.getInstancia().registrarCreacion(usuarioLogueado);
+                Repositorios.Repo_Reserva.getInstancia().registrarCreacion(usuarioLogueado, idReserva);
 
                 new MostrarCodigoReserva(idReserva).ShowDialog();
             }
             else//Modificacion
             {
                 reservaCreada.id = Convert.ToInt32(idReservaModidicacion);
+
+                Repositorios.Repo_Reserva.getInstancia().registrarModificacion(usuarioLogueado, reservaCreada.id);
+
                 MessageBox.Show("Reserva " + reservaCreada.id.ToString() + " Modificada Correctamente");
             }
 

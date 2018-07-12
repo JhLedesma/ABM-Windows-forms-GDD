@@ -402,7 +402,7 @@ namespace FrbaHotel.Repositorios
             return habitaciones;
         }
 
-        public void registrarCreacion(Model.Usuario usuario)
+        public void registrarCreacion(Model.Usuario usuario, int idReserva)
         {
             DBhelper.crearConexion();
             DBhelper.abrirConexion();
@@ -412,11 +412,13 @@ namespace FrbaHotel.Repositorios
             if (usuario == null)
             {
                 cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.registrarCreacionReservaConGuest");
+                cmd.Parameters.Add("@idReserva", SqlDbType.Decimal).Value = Convert.ToDecimal(idReserva);
             }
             else
             {
                 cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.registrarCreacionReserva");
                 cmd.Parameters.Add("@user", SqlDbType.NVarChar).Value = usuario.username;
+                cmd.Parameters.Add("@idReserva", SqlDbType.Decimal).Value = Convert.ToDecimal(idReserva);
             }
 
 
@@ -426,7 +428,7 @@ namespace FrbaHotel.Repositorios
         }
 
 
-        public void registrarModificacion(Model.Usuario usuario)
+        public void registrarModificacion(Model.Usuario usuario, int idReserva)
         {
             DBhelper.crearConexion();
             DBhelper.abrirConexion();
@@ -436,11 +438,13 @@ namespace FrbaHotel.Repositorios
             if (usuario == null)
             {
                 cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.registrarModificacionReservaConGuest");
+                cmd.Parameters.Add("@idReserva", SqlDbType.Decimal).Value = Convert.ToDecimal(idReserva);
             }
             else
             {
                 cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.registrarModificacionReserva");
                 cmd.Parameters.Add("@user", SqlDbType.NVarChar).Value = usuario.username;
+                cmd.Parameters.Add("@idReserva", SqlDbType.Decimal).Value = Convert.ToDecimal(idReserva);
             }
 
 

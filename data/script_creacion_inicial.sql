@@ -2188,39 +2188,43 @@ end
 
 GO
 create procedure TRAEME_LA_COPA_MESSI.registrarCreacionReservaConGuest
+@idReserva decimal(18, 0)
 as
 begin
-	insert into TRAEME_LA_COPA_MESSI.Log_Reserva (Log_Tipo, Log_UsuarioId, Log_Motivo, Log_Fecha)
-		select 'creacion', Username, '', GETDATE() from TRAEME_LA_COPA_MESSI.Usuario where Username='guest'
+	insert into TRAEME_LA_COPA_MESSI.Log_Reserva (Log_Tipo, Log_UsuarioId, Log_Motivo, Log_Fecha, Log_idReserva)
+		select 'creacion', Username, '', GETDATE(), @idReserva from TRAEME_LA_COPA_MESSI.Usuario where Username='guest'
 end
 
 
 GO
 create procedure TRAEME_LA_COPA_MESSI.registrarCreacionReserva
+@idReserva decimal(18, 0),
 @user nvarchar(255)
 as
 begin
-	insert into TRAEME_LA_COPA_MESSI.Log_Reserva (Log_Tipo, Log_UsuarioId, Log_Motivo, Log_Fecha)
-		values ('creacion', @user, '', GETDATE())
+	insert into TRAEME_LA_COPA_MESSI.Log_Reserva (Log_Tipo, Log_UsuarioId, Log_Motivo, Log_Fecha, Log_idReserva)
+		values ('creacion', @user, '', GETDATE(), @idReserva)
 end
 
 
 GO
 create procedure TRAEME_LA_COPA_MESSI.registrarModificacionReservaConGuest
+@idReserva decimal(18, 0)
 as
 begin
-	insert into TRAEME_LA_COPA_MESSI.Log_Reserva (Log_Tipo, Log_UsuarioId, Log_Motivo, Log_Fecha)
-		select 'modificacion', Username, '', GETDATE() from TRAEME_LA_COPA_MESSI.Usuario where Username='guest'
+	insert into TRAEME_LA_COPA_MESSI.Log_Reserva (Log_Tipo, Log_UsuarioId, Log_Motivo, Log_Fecha, Log_idReserva)
+		select 'modificacion', Username, '', GETDATE(), @idReserva from TRAEME_LA_COPA_MESSI.Usuario where Username='guest'
 end
 
 
 GO
 create procedure TRAEME_LA_COPA_MESSI.registrarModificacionReserva
+@idReserva decimal(18, 0),
 @user nvarchar(255)
 as
 begin
-	insert into TRAEME_LA_COPA_MESSI.Log_Reserva (Log_Tipo, Log_UsuarioId, Log_Motivo, Log_Fecha)
-		values ('modificacion', @user, '', GETDATE())
+	insert into TRAEME_LA_COPA_MESSI.Log_Reserva (Log_Tipo, Log_UsuarioId, Log_Motivo, Log_Fecha, Log_idReserva)
+		values ('modificacion', @user, '', GETDATE(), @idReserva)
 end
 
 
