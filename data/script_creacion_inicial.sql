@@ -114,11 +114,8 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.TipoDoc','U') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Direccion','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.Direccion;
 
-<<<<<<< HEAD
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.puntosClientes','U') IS NOT NULL 
 	DROP TABLE TRAEME_LA_COPA_MESSI.puntosClientes;
-=======
->>>>>>> 643bb405851a3ddd436e874909d6ed1e8546b37b
 
 /* Dropeo de procedures si ya existen */
 
