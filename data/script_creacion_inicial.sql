@@ -114,11 +114,8 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.TipoDoc','U') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Direccion','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.Direccion;
 
-<<<<<<< HEAD
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.puntosClientes','U') IS NOT NULL 
 	DROP TABLE TRAEME_LA_COPA_MESSI.puntosClientes;
-=======
->>>>>>> 643bb405851a3ddd436e874909d6ed1e8546b37b
 
 /* Dropeo de procedures si ya existen */
 
@@ -380,7 +377,6 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getTrimestre','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.topCliente','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.topCliente;
 
-<<<<<<< HEAD
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.registrarCreacionReservaConGuest','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.registrarCreacionReservaConGuest;
 
@@ -398,12 +394,9 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.modificarReserva','P') IS NOT NULL
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.eliminarHabitacionPorReserva','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.eliminarHabitacionPorReserva;
-=======
+
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.topHabitacionesOcupadas','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.topHabitacionesOcupadas;
-	
-
->>>>>>> 643bb405851a3ddd436e874909d6ed1e8546b37b
 
 	
 /* Dropeo las views si ya existen */
