@@ -30,7 +30,6 @@ namespace FrbaHotel.Repositorios
         public int validarCancelacion(Model.ReservaCancelada reserva)
         {
             DateTime fechaReserva;
-            DateTime fechaCheckin;
             DBhelper.crearConexion();
             DBhelper.abrirConexion();
             SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.validarCancelacion");
@@ -47,38 +46,23 @@ namespace FrbaHotel.Repositorios
             foreach (DataRow row in fechaRes.Rows)
             {
                 fechaReserva = ((DateTime)row["FechaReserva"]);
-                fechaCheckin = ((DateTime)row["FechaInicio"]);
-
-                if ((DateTime.Compare(reserva.fechaCancelacion, fechaReserva) >= 0) || string.IsNullOrEmpty(fechaCheckin.ToString()))
+                
+                if ((DateTime.Compare(reserva.fechaCancelacion, fechaReserva) >= 0))
                 {
                     return 2; // La cancelacion es demasiado cercana a la fecha de la reserva
                 }
+                
             }
-            
-                DBhelper.crearConexion();
-                DBhelper.abrirConexion();
-                SqlCommand cmd2 = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.validarCancelacionUsuario");
-                cmd2.Parameters.Add("@usuario", SqlDbType.NVarChar).Value = reserva.usuario;
-                var retorno = cmd2.Parameters.Add("@ReturnVal", SqlDbType.Int);
-                retorno.Direction = ParameterDirection.ReturnValue;
-                DBhelper.ejecutarProcedure(cmd2);
-                DBhelper.cerrarConexion();
-                if ((int)retorno.Value == 1)
-                {
-                    return 0; // todo correcto
-                }
-                else { 
-                    return 3; //no existe el usuario
-                }
-                        
+
+            return 0; // todo correcto
+                               
         }
 
         public void cancelarReserva(Model.ReservaCancelada reserva){
-             DBhelper.crearConexion();
+            DBhelper.crearConexion();
             DBhelper.abrirConexion();
             SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.cancelarReserva");
             cmd.Parameters.Add("@idReserva", SqlDbType.Int).Value = reserva.numeroreserva;
-            cmd.Parameters.Add("@nombreUsuario", SqlDbType.NVarChar).Value = reserva.usuario;
             cmd.Parameters.Add("@fechaDeCancelacion", SqlDbType.DateTime).Value = reserva.fechaCancelacion;
             cmd.Parameters.Add("@motivo", SqlDbType.NVarChar).Value = reserva.motivo;
             cmd.Parameters.Add("@username", SqlDbType.NVarChar).Value = Repositorios.Repo_usuario.getInstancia().getUsuarioIngresado().username;

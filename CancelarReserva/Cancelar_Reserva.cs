@@ -40,10 +40,7 @@ namespace FrbaHotel.CancelarReserva
                         break;
                     case 2:
                         MessageBox.Show("La reserva no puede ser cancelada debido a que ya fue utilizada o falta menos de un dia para que sea activa", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        break;
-                    case 3:
-                        MessageBox.Show("El usuario no existe", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        break;
+                        break;               
                     case 0:
                         Repositorios.Repo_Reserva.getInstancia().cancelarReserva(reserva);
                         MessageBox.Show("Reserva cancelada correctamente", "Operacion completada", MessageBoxButtons.OK, MessageBoxIcon.Information);

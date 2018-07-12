@@ -1884,14 +1884,19 @@ as
 select * from TRAEME_LA_COPA_MESSI.TipoDoc where IdTipo=@id
 
 
-
 /* Repositorio Reservas */
 
 GO
 create procedure TRAEME_LA_COPA_MESSI.validarCancelacion
 @idReserva int 
 as begin
-select FechaReserva, FechaInicio from TRAEME_LA_COPA_MESSI.Reserva JOIN TRAEME_LA_COPA_MESSI.LogEstadia ON IdReserva = ReservaId where @idReserva=IdReserva 
+
+select FechaReserva from TRAEME_LA_COPA_MESSI.Reserva
+
+where
+@idReserva=IdReserva AND
+@idReserva NOT IN (SELECT ReservaId FROM TRAEME_LA_COPA_MESSI.LogEstadia)
+
 end
 
 
@@ -1909,27 +1914,34 @@ end
 GO
 create procedure TRAEME_LA_COPA_MESSI.cancelarReserva
 @idReserva int,
-@idUsuario int,
+@username nvarchar(255),
 @fechaDeCancelacion Datetime,
 @motivo nvarchar(255)
 as begin
 
-IF (@idUsuario = 'admin')
+IF (@username = 'admin')
 BEGIN
 
 update TRAEME_LA_COPA_MESSI.Reserva set EstadoReserva =  2 where IdReserva = @idReserva   
 insert into TRAEME_LA_COPA_MESSI.Log_Reserva(Log_Tipo,Log_UsuarioId,Log_Motivo,Log_Fecha,Log_idReserva)
-values ('Cancelacion',@idUsuario,@motivo,@fechaDeCancelacion,@idReserva)
+values ('Cancelacion',@username,@motivo,@fechaDeCancelacion,@idReserva)
 
 END
 
-ELSE
+
+
+IF(@username = 'guest')
+BEGIN
 
 update TRAEME_LA_COPA_MESSI.Reserva set EstadoReserva =  3 where IdReserva = @idReserva   
 insert into TRAEME_LA_COPA_MESSI.Log_Reserva(Log_Tipo,Log_UsuarioId,Log_Motivo,Log_Fecha,Log_idReserva)
-values ('Cancelacion',@idUsuario,@motivo,@fechaDeCancelacion,@idReserva)
+values ('Cancelacion',@username,@motivo,@fechaDeCancelacion,@idReserva)
 
 END
+
+END
+
+
 
 
 GO
