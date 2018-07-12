@@ -30,16 +30,14 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.usuario = new System.Windows.Forms.TextBox();
+            this.numericTextBox1 = new FrbaHotel.Model.NumericTextBox();
             this.fechacancelacion = new System.Windows.Forms.DateTimePicker();
             this.motivo = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.aceptar = new System.Windows.Forms.Button();
             this.volver = new System.Windows.Forms.Button();
             this.limpiar = new System.Windows.Forms.Button();
-            this.numericTextBox1 = new FrbaHotel.Model.NumericTextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -56,25 +54,25 @@
             // 
             this.groupBox1.Controls.Add(this.numericTextBox1);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.usuario);
             this.groupBox1.Controls.Add(this.fechacancelacion);
             this.groupBox1.Controls.Add(this.motivo);
-            this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(370, 274);
+            this.groupBox1.Size = new System.Drawing.Size(370, 213);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Complete los siguientes campos";
             // 
-            // usuario
+            // numericTextBox1
             // 
-            this.usuario.Location = new System.Drawing.Point(148, 211);
-            this.usuario.Name = "usuario";
-            this.usuario.Size = new System.Drawing.Size(100, 20);
-            this.usuario.TabIndex = 6;
+            this.numericTextBox1.AllowSpace = false;
+            this.numericTextBox1.Location = new System.Drawing.Point(148, 38);
+            this.numericTextBox1.Name = "numericTextBox1";
+            this.numericTextBox1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.numericTextBox1.Size = new System.Drawing.Size(100, 20);
+            this.numericTextBox1.TabIndex = 7;
             // 
             // fechacancelacion
             // 
@@ -90,15 +88,6 @@
             this.motivo.Name = "motivo";
             this.motivo.Size = new System.Drawing.Size(100, 20);
             this.motivo.TabIndex = 4;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(30, 214);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(48, 13);
-            this.label4.TabIndex = 2;
-            this.label4.Text = "Ususario";
             // 
             // label3
             // 
@@ -120,7 +109,7 @@
             // 
             // aceptar
             // 
-            this.aceptar.Location = new System.Drawing.Point(306, 293);
+            this.aceptar.Location = new System.Drawing.Point(305, 249);
             this.aceptar.Name = "aceptar";
             this.aceptar.Size = new System.Drawing.Size(75, 23);
             this.aceptar.TabIndex = 2;
@@ -130,7 +119,7 @@
             // 
             // volver
             // 
-            this.volver.Location = new System.Drawing.Point(13, 292);
+            this.volver.Location = new System.Drawing.Point(12, 249);
             this.volver.Name = "volver";
             this.volver.Size = new System.Drawing.Size(75, 23);
             this.volver.TabIndex = 3;
@@ -140,7 +129,7 @@
             // 
             // limpiar
             // 
-            this.limpiar.Location = new System.Drawing.Point(161, 292);
+            this.limpiar.Location = new System.Drawing.Point(160, 249);
             this.limpiar.Name = "limpiar";
             this.limpiar.Size = new System.Drawing.Size(75, 23);
             this.limpiar.TabIndex = 4;
@@ -148,20 +137,11 @@
             this.limpiar.UseVisualStyleBackColor = true;
             this.limpiar.Click += new System.EventHandler(this.limpiar_Click);
             // 
-            // numericTextBox1
-            // 
-            this.numericTextBox1.AllowSpace = false;
-            this.numericTextBox1.Location = new System.Drawing.Point(148, 38);
-            this.numericTextBox1.Name = "numericTextBox1";
-            this.numericTextBox1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.numericTextBox1.Size = new System.Drawing.Size(100, 20);
-            this.numericTextBox1.TabIndex = 7;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(392, 334);
+            this.ClientSize = new System.Drawing.Size(392, 300);
             this.Controls.Add(this.limpiar);
             this.Controls.Add(this.volver);
             this.Controls.Add(this.aceptar);
@@ -178,10 +158,8 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TextBox usuario;
         private System.Windows.Forms.DateTimePicker fechacancelacion;
         private System.Windows.Forms.TextBox motivo;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button aceptar;

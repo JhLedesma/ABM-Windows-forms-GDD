@@ -81,6 +81,7 @@ namespace FrbaHotel.Repositorios
             cmd.Parameters.Add("@nombreUsuario", SqlDbType.NVarChar).Value = reserva.usuario;
             cmd.Parameters.Add("@fechaDeCancelacion", SqlDbType.DateTime).Value = reserva.fechaCancelacion;
             cmd.Parameters.Add("@motivo", SqlDbType.NVarChar).Value = reserva.motivo;
+            cmd.Parameters.Add("@idUsuario", SqlDbType.Int).Value = Repositorios.Repo_usuario.getInstancia().getUsuarioIngresado().id;
             DBhelper.ejecutarProcedure(cmd);
             DBhelper.cerrarConexion();
         }

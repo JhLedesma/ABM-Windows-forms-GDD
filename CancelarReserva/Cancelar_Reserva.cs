@@ -31,7 +31,6 @@ namespace FrbaHotel.CancelarReserva
                 reserva.numeroreserva = numericTextBox1.IntValue;
                 reserva.motivo = motivo.Text;
                 reserva.fechaCancelacion = fechacancelacion.Value;
-                reserva.usuario = usuario.Text;
 
                 int resultadoValidacion = Repositorios.Repo_Reserva.getInstancia().validarCancelacion(reserva);
                 switch (resultadoValidacion)
@@ -62,7 +61,6 @@ namespace FrbaHotel.CancelarReserva
         {
             motivo.ResetText();
             fechacancelacion.ResetText();
-            usuario.ResetText();
             numericTextBox1.ResetText();
         }
 
