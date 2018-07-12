@@ -385,6 +385,9 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.registrarModificacionReserva','P') IS NOT NUL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.modificarReserva','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.modificarReserva;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.eliminarHabitacionPorReserva','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.eliminarHabitacionPorReserva;
+
 	
 /* Dropeo las views si ya existen */
 
@@ -2133,7 +2136,17 @@ begin --transaction
 	insert into TRAEME_LA_COPA_MESSI.HabitacionPorReserva (IdHotel, NumeroHabitacion, IdReserva)
 		values(@idHotel, @numero, @idReserva)
 end
---commit
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.eliminarHabitacionPorReserva
+@idHotel int,
+@numero int,
+@idReserva numeric(18,0)
+as
+begin
+	delete TRAEME_LA_COPA_MESSI.HabitacionPorReserva where IdHotel=@idHotel and NumeroHabitacion=@numero and IdReserva=@idReserva
+end
 
 
 
