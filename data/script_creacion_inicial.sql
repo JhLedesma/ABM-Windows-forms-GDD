@@ -382,6 +382,9 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.registrarModificacionReservaConGuest','P') IS
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.registrarModificacionReserva','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.registrarModificacionReserva;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.modificarReserva','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.modificarReserva;
+
 	
 /* Dropeo las views si ya existen */
 
@@ -2092,6 +2095,32 @@ begin --transaction
 		end
 end
 --commit
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.modificarReserva
+@id numeric(18,0),
+@idCliente int,
+@mailCliente nvarchar(255),
+@idHotel int,
+@desde dateTime,
+@hasta dateTime,
+@idRegimen int
+as
+begin
+	declare @cantNoches numeric(18,0)
+	set @cantNoches =  CAST((datediff(day,@desde,@hasta)) AS numeric(18,0))
+
+	if exists(select 1 from TRAEME_LA_COPA_MESSI.Cliente where IdCliente=@idCliente and Email=@mailCliente)
+		update TRAEME_LA_COPA_MESSI.Reserva
+			set IdCliente=@idCliente, IdHotel=@idHotel, FechaReserva=@desde, FechaGeneracionReserva=getdate(), CantidadNochesReservadas=@cantNoches, EstadoReserva=7, RegimenEstadiaId=@idRegimen
+		where IdReserva=@id
+	else
+		update TRAEME_LA_COPA_MESSI.Reserva
+			set IdClienteInconsistente=@idCliente, IdHotel=@idHotel, FechaReserva=@desde, FechaGeneracionReserva=getdate(), CantidadNochesReservadas=@cantNoches, EstadoReserva=7, RegimenEstadiaId=@idRegimen
+		where IdReserva=@id
+end
+
 
 
 GO
