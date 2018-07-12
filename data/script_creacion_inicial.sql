@@ -1909,13 +1909,13 @@ end
 GO
 create procedure TRAEME_LA_COPA_MESSI.cancelarReserva
 @idReserva int,
-@nombreUsuario nvarchar (255),
+@idUsuario int,
 @fechaDeCancelacion Datetime,
 @motivo nvarchar(255)
 as begin
 update TRAEME_LA_COPA_MESSI.Reserva set EstadoReserva =  2 where IdReserva = @idReserva   
-insert into TRAEME_LA_COPA_MESSI.Log_Reserva(Log_Tipo,Log_UsuarioId,Log_Motivo,Log_Fecha)
-values ('Cancelacion',@nombreUsuario,@motivo,@fechaDeCancelacion)
+insert into TRAEME_LA_COPA_MESSI.Log_Reserva(Log_Tipo,Log_UsuarioId,Log_Motivo,Log_Fecha,Log_idReserva)
+values ('Cancelacion',@idUsuario,@motivo,@fechaDeCancelacion,@idReserva)
 end
 
 

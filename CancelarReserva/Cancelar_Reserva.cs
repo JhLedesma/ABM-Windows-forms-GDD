@@ -21,7 +21,7 @@ namespace FrbaHotel.CancelarReserva
 
         private void aceptar_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(numericTextBox1.Text) || string.IsNullOrWhiteSpace(motivo.Text) || (fechacancelacion.Value==null) || string.IsNullOrWhiteSpace(usuario.Text))
+            if (string.IsNullOrWhiteSpace(numericTextBox1.Text) || string.IsNullOrWhiteSpace(motivo.Text) || (fechacancelacion.Value==null))
             {
                 MessageBox.Show("Complete todos los campos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -31,7 +31,6 @@ namespace FrbaHotel.CancelarReserva
                 reserva.numeroreserva = numericTextBox1.IntValue;
                 reserva.motivo = motivo.Text;
                 reserva.fechaCancelacion = fechacancelacion.Value;
-                reserva.usuario = usuario.Text;
 
                 int resultadoValidacion = Repositorios.Repo_Reserva.getInstancia().validarCancelacion(reserva);
                 switch (resultadoValidacion)
@@ -62,7 +61,6 @@ namespace FrbaHotel.CancelarReserva
         {
             motivo.ResetText();
             fechacancelacion.ResetText();
-            usuario.ResetText();
             numericTextBox1.ResetText();
         }
 
