@@ -46,6 +46,13 @@ namespace FrbaHotel.AbmUsuario
             dataGridModificar.DataSource = Repositorios.Repo_usuario.getInstancia().getTablaUsuariosFiltradosConInactivos(filtroNombre.Text, filtroApellido.Text, filtroUsername.Text, numericUpDown1.Value);
         }
 
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            new Login.SeleccionarFuncionalidad_admin().ShowDialog();
+            this.Close();
+        }
+
 
     }
 }

@@ -285,11 +285,11 @@
     <Compile Include="GenerarModificacionReserva\ValidarReserva.Designer.cs">
       <DependentUpon>ValidarReserva.cs</DependentUpon>
     </Compile>
-    <Compile Include="ListadoEstadistico\Form1.cs">
+    <Compile Include="ListadoEstadistico\Listado.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ListadoEstadistico\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="ListadoEstadistico\Listado.Designer.cs">
+      <DependentUpon>Listado.cs</DependentUpon>
     </Compile>
     <Compile Include="Login\SeleccionarFuncionalidad.cs">
       <SubType>Form</SubType>
@@ -328,8 +328,12 @@
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\Consumible.cs" />
+    <Compile Include="Model\Consumibles_hotel.cs" />
+    <Compile Include="Model\Datos_hab.cs" />
+    <Compile Include="Model\DiasFueraServ_hotel.cs" />
     <Compile Include="Model\EstadoReserva.cs" />
     <Compile Include="Model\Habitacion.cs" />
+    <Compile Include="Model\Puntaje_cliente.cs" />
     <Compile Include="Model\Reserva.cs" />
     <Compile Include="Model\ReservaCancelada.cs" />
     <Compile Include="Model\Cliente.cs" />
@@ -384,6 +388,7 @@
       <DependentUpon>Input_reserva.cs</DependentUpon>
     </Compile>
     <Compile Include="Repositorios\Repo_Consumible.cs" />
+    <Compile Include="Repositorios\Repo_listados.cs" />
     <Compile Include="Repositorios\Repo_Reserva.cs" />
     <Compile Include="Repositorios\RepoTipoDocumento.cs" />
     <Compile Include="Repositorios\Repo_Funcionalidad.cs" />
@@ -492,6 +497,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GenerarModificacionReserva\MostrarCodigoReserva.resx">
       <DependentUpon>MostrarCodigoReserva.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListadoEstadistico\Listado.resx">
+      <DependentUpon>Listado.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GenerarModificacionReserva\ValidarReserva.resx">
       <DependentUpon>ValidarReserva.cs</DependentUpon>
