@@ -186,6 +186,53 @@ namespace FrbaHotel.Repositorios
         }
 
 
+        public void modificarReserva(Model.Reserva reserva)
+        {
+            DBhelper.crearConexion();
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.modificarReserva");
+            cmd.Parameters.Add("@id", SqlDbType.Decimal).Value = Convert.ToDecimal(reserva.id);
+            cmd.Parameters.Add("@desde", SqlDbType.DateTime).Value = reserva.fechaDesde;
+            cmd.Parameters.Add("@hasta", SqlDbType.DateTime).Value = reserva.fechaHasta;
+            cmd.Parameters.Add("@mailCliente", SqlDbType.NVarChar).Value = reserva.cliente.mail;
+            cmd.Parameters.Add("@idCliente", SqlDbType.Int).Value = reserva.cliente.id;
+            cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = reserva.hotel.idHotel;
+            cmd.Parameters.Add("@idRegimen", SqlDbType.Int).Value = reserva.regimen.idRegimen;
+
+            DBhelper.ejecutarProcedure(cmd);
+
+            foreach (Model.Habitacion hab in reserva.habitaciones)
+            {
+                this.eliminarHabitacionPorReserva(hab.idHotel, hab.numero, reserva.id);
+            }
+
+            foreach (Model.Habitacion hab in reserva.habitaciones)
+            {
+                this.crearHabitacionPorReserva(hab.idHotel, hab.numero, reserva.id);
+            }
+
+            DBhelper.cerrarConexion();
+        }
+
+
+        public void eliminarHabitacionPorReserva(int idHotel, int numHab, int idReserva)
+        {
+            DBhelper.crearConexion();
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.eliminarHabitacionPorReserva");
+            cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = idHotel;
+            cmd.Parameters.Add("@numero", SqlDbType.Int).Value = numHab;
+            cmd.Parameters.Add("@idReserva", SqlDbType.Int).Value = idReserva;
+
+            DBhelper.ejecutarProcedure(cmd);
+
+            DBhelper.cerrarConexion();
+
+        }
+
+
         public Model.Reserva getReserva(Int32 idReserva)
         {
             return null;
@@ -356,7 +403,52 @@ namespace FrbaHotel.Repositorios
             return habitaciones;
         }
 
+        public void registrarCreacion(Model.Usuario usuario)
+        {
+            DBhelper.crearConexion();
+            DBhelper.abrirConexion();
 
+            SqlCommand cmd = new SqlCommand();
+
+            if (usuario == null)
+            {
+                cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.registrarCreacionReservaConGuest");
+            }
+            else
+            {
+                cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.registrarCreacionReserva");
+                cmd.Parameters.Add("@user", SqlDbType.NVarChar).Value = usuario.username;
+            }
+
+
+            DBhelper.ejecutarProcedure(cmd);
+
+            DBhelper.cerrarConexion();
+        }
+
+
+        public void registrarModificacion(Model.Usuario usuario)
+        {
+            DBhelper.crearConexion();
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = new SqlCommand();
+
+            if (usuario == null)
+            {
+                cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.registrarModificacionReservaConGuest");
+            }
+            else
+            {
+                cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.registrarModificacionReserva");
+                cmd.Parameters.Add("@user", SqlDbType.NVarChar).Value = usuario.username;
+            }
+
+
+            DBhelper.ejecutarProcedure(cmd);
+
+            DBhelper.cerrarConexion();
+        }
 
     }
 }

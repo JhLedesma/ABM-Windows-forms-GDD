@@ -114,6 +114,11 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.TipoDoc','U') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Direccion','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.Direccion;
 
+<<<<<<< HEAD
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.puntosClientes','U') IS NOT NULL 
+	DROP TABLE TRAEME_LA_COPA_MESSI.puntosClientes;
+=======
+>>>>>>> 643bb405851a3ddd436e874909d6ed1e8546b37b
 
 /* Dropeo de procedures si ya existen */
 
@@ -375,12 +380,31 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getTrimestre','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.topCliente','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.topCliente;
 
+<<<<<<< HEAD
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.registrarCreacionReservaConGuest','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.registrarCreacionReservaConGuest;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.registrarCreacionReserva','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.registrarCreacionReserva;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.registrarModificacionReservaConGuest','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.registrarModificacionReservaConGuest;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.registrarModificacionReserva','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.registrarModificacionReserva;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.modificarReserva','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.modificarReserva;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.eliminarHabitacionPorReserva','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.eliminarHabitacionPorReserva;
+=======
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.topHabitacionesOcupadas','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.topHabitacionesOcupadas;
 	
 
+>>>>>>> 643bb405851a3ddd436e874909d6ed1e8546b37b
 
-	
 	
 /* Dropeo las views si ya existen */
 
@@ -743,11 +767,19 @@ INSERT INTO TRAEME_LA_COPA_MESSI.Direccion(Calle,NroCalle,Piso,Departamento)
 INSERT INTO TRAEME_LA_COPA_MESSI.TipoDoc(Descripcion) VALUES ('Pasaporte');
 
 -- Usuarios --
+
 declare @tipoDoc int
 set @tipoDoc = (select top 1 IdTipo from TRAEME_LA_COPA_MESSI.TipoDoc)
 declare @direccion int
 set @direccion = (select top 1 IdDir from TRAEME_LA_COPA_MESSI.Direccion)
-INSERT INTO TRAEME_LA_COPA_MESSI.Usuario(Username,Pass, Nombre, Apellido, Email, NroDocumento, Telefono, FechaNacimiento, TipoDoc, Direccion) VALUES ('admin','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', '', '', '', 0, 0, GETDATE(),@tipoDoc,@direccion); --Falta agregar su rol con funcionalidades
+
+INSERT INTO TRAEME_LA_COPA_MESSI.Usuario(Username,Pass, Nombre, Apellido, Email, NroDocumento, Telefono, FechaNacimiento, TipoDoc, Direccion) 
+	VALUES ('admin','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', '', '', '', 0, 0, GETDATE(),@tipoDoc,@direccion); 
+
+insert into TRAEME_LA_COPA_MESSI.Usuario(Username,Pass, Nombre, Apellido, Email, NroDocumento, Telefono, FechaNacimiento, TipoDoc, Direccion)
+	VALUES ('guest','', '', '', 'guest', 0, 0, GETDATE(),@tipoDoc,@direccion); 
+
+
 
 -- Roles --
 
@@ -2096,6 +2128,32 @@ end
 
 
 GO
+create procedure TRAEME_LA_COPA_MESSI.modificarReserva
+@id numeric(18,0),
+@idCliente int,
+@mailCliente nvarchar(255),
+@idHotel int,
+@desde dateTime,
+@hasta dateTime,
+@idRegimen int
+as
+begin
+	declare @cantNoches numeric(18,0)
+	set @cantNoches =  CAST((datediff(day,@desde,@hasta)) AS numeric(18,0))
+
+	if exists(select 1 from TRAEME_LA_COPA_MESSI.Cliente where IdCliente=@idCliente and Email=@mailCliente)
+		update TRAEME_LA_COPA_MESSI.Reserva
+			set IdCliente=@idCliente, IdHotel=@idHotel, FechaReserva=@desde, FechaGeneracionReserva=getdate(), CantidadNochesReservadas=@cantNoches, EstadoReserva=7, RegimenEstadiaId=@idRegimen
+		where IdReserva=@id
+	else
+		update TRAEME_LA_COPA_MESSI.Reserva
+			set IdClienteInconsistente=@idCliente, IdHotel=@idHotel, FechaReserva=@desde, FechaGeneracionReserva=getdate(), CantidadNochesReservadas=@cantNoches, EstadoReserva=7, RegimenEstadiaId=@idRegimen
+		where IdReserva=@id
+end
+
+
+
+GO
 create procedure TRAEME_LA_COPA_MESSI.newHabitacionPorReserva
 @idHotel int,
 @numero int,
@@ -2105,7 +2163,17 @@ begin --transaction
 	insert into TRAEME_LA_COPA_MESSI.HabitacionPorReserva (IdHotel, NumeroHabitacion, IdReserva)
 		values(@idHotel, @numero, @idReserva)
 end
---commit
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.eliminarHabitacionPorReserva
+@idHotel int,
+@numero int,
+@idReserva numeric(18,0)
+as
+begin
+	delete TRAEME_LA_COPA_MESSI.HabitacionPorReserva where IdHotel=@idHotel and NumeroHabitacion=@numero and IdReserva=@idReserva
+end
 
 
 
@@ -2125,7 +2193,42 @@ begin
 end
 
 
+GO
+create procedure TRAEME_LA_COPA_MESSI.registrarCreacionReservaConGuest
+as
+begin
+	insert into TRAEME_LA_COPA_MESSI.Log_Reserva (Log_Tipo, Log_UsuarioId, Log_Motivo, Log_Fecha)
+		select 'creacion', Username, '', GETDATE() from TRAEME_LA_COPA_MESSI.Usuario where Username='guest'
+end
 
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.registrarCreacionReserva
+@user nvarchar(255)
+as
+begin
+	insert into TRAEME_LA_COPA_MESSI.Log_Reserva (Log_Tipo, Log_UsuarioId, Log_Motivo, Log_Fecha)
+		values ('creacion', @user, '', GETDATE())
+end
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.registrarModificacionReservaConGuest
+as
+begin
+	insert into TRAEME_LA_COPA_MESSI.Log_Reserva (Log_Tipo, Log_UsuarioId, Log_Motivo, Log_Fecha)
+		select 'modificacion', Username, '', GETDATE() from TRAEME_LA_COPA_MESSI.Usuario where Username='guest'
+end
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.registrarModificacionReserva
+@user nvarchar(255)
+as
+begin
+	insert into TRAEME_LA_COPA_MESSI.Log_Reserva (Log_Tipo, Log_UsuarioId, Log_Motivo, Log_Fecha)
+		values ('modificacion', @user, '', GETDATE())
+end
 
 
 
