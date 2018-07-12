@@ -288,6 +288,8 @@ namespace FrbaHotel.GenerarModificacionReserva
 
             int idReserva = Repositorios.Repo_Reserva.getInstancia().crearReservaReturnId(reservaCreada);
 
+            Repositorios.Repo_Reserva.getInstancia().registrarCreacion(usuarioLogueado);
+
             new MostrarCodigoReserva(idReserva).ShowDialog();
 
             this.Hide();

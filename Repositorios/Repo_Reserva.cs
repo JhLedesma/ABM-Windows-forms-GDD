@@ -355,6 +355,28 @@ namespace FrbaHotel.Repositorios
             return habitaciones;
         }
 
+        public void registrarCreacion(Model.Usuario usuario)
+        {
+            DBhelper.crearConexion();
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = new SqlCommand();
+
+            if (usuario == null)
+            {
+                cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.registrarCreacionReservaConGuest");
+            }
+            else
+            {
+                cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.registrarCreacionReserva");
+                cmd.Parameters.Add("@user", SqlDbType.NVarChar).Value = usuario.username;
+            }
+
+
+            DBhelper.ejecutarProcedure(cmd);
+
+            DBhelper.cerrarConexion();
+        }
 
 
     }
