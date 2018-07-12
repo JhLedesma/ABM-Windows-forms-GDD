@@ -730,7 +730,13 @@ declare @tipoDoc int
 set @tipoDoc = (select top 1 IdTipo from TRAEME_LA_COPA_MESSI.TipoDoc)
 declare @direccion int
 set @direccion = (select top 1 IdDir from TRAEME_LA_COPA_MESSI.Direccion)
-INSERT INTO TRAEME_LA_COPA_MESSI.Usuario(Username,Pass, Nombre, Apellido, Email, NroDocumento, Telefono, FechaNacimiento, TipoDoc, Direccion) VALUES ('admin','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', '', '', '', 0, 0, GETDATE(),@tipoDoc,@direccion); --Falta agregar su rol con funcionalidades
+INSERT INTO TRAEME_LA_COPA_MESSI.Usuario(Username,Pass, Nombre, Apellido, Email, NroDocumento, Telefono, FechaNacimiento, TipoDoc, Direccion) 
+	VALUES ('admin','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', '', '', '', 0, 0, GETDATE(),@tipoDoc,@direccion); 
+
+insert into TRAEME_LA_COPA_MESSI.Usuario(Username,Pass, Nombre, Apellido, Email, NroDocumento, Telefono, FechaNacimiento, TipoDoc, Direccion)
+	VALUES ('guest','', '', '', '', 0, 0, GETDATE(),@tipoDoc,@direccion); 
+
+
 
 -- Roles --
 
