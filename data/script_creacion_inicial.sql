@@ -2244,11 +2244,11 @@ create procedure TRAEME_LA_COPA_MESSI.comprobarReservaNoPasoFecha
 
 as
 begin
-	if exists (select 1 from TRAEME_LA_COPA_MESSI.Reserva where IdReserva=@idReserva and day(FechaReserva) < day(CONVERT(datetime,@fecha,121)) and EstadoReserva != 2 and EstadoReserva != 3 and EstadoReserva != 4 and EstadoReserva != 6)
+	if exists (select 1 from TRAEME_LA_COPA_MESSI.Reserva where IdReserva=@idReserva and FechaReserva > CONVERT(datetime,@fecha,121) and EstadoReserva != 2 and EstadoReserva != 3 and EstadoReserva != 4 and EstadoReserva != 6)
 		return 1
-	else if exists (select 1 from TRAEME_LA_COPA_MESSI.Reserva where IdReserva=@idReserva and day(FechaReserva) >= day(CONVERT(datetime,@fecha,121)) and EstadoReserva != 2 and EstadoReserva != 3 and EstadoReserva != 4 and EstadoReserva != 6)
+	else if exists (select 2 from TRAEME_LA_COPA_MESSI.Reserva where IdReserva=@idReserva and FechaReserva <= CONVERT(datetime,@fecha,121) and EstadoReserva != 2 and EstadoReserva != 3 and EstadoReserva != 4 and EstadoReserva != 6)
 		return 2
-	else if exists (select 1 from TRAEME_LA_COPA_MESSI.Reserva where IdReserva=@idReserva and EstadoReserva != 2 and EstadoReserva != 3 and EstadoReserva != 4 and EstadoReserva != 6)
+	else if not exists (select 0 from TRAEME_LA_COPA_MESSI.Reserva where IdReserva=@idReserva and EstadoReserva != 2 and EstadoReserva != 3 and EstadoReserva != 4 and EstadoReserva != 6)
 		return 0
 end
 
