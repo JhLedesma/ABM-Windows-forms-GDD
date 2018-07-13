@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Configuration;
+
 
 namespace FrbaHotel.RegistrarEstadia
 {
@@ -31,7 +33,7 @@ namespace FrbaHotel.RegistrarEstadia
 
             {
             Int32 codigoRespuesta;
-            codigoRespuesta = Repositorios.Repo_Reserva.getInstancia().comprobarNumReserva(hotel, Int32.Parse(numeric_textBox_reserva.Text));
+            codigoRespuesta = Repositorios.Repo_Reserva.getInstancia().comprobarNumReserva(hotel, Int32.Parse(numeric_textBox_reserva.Text), ConfigurationManager.AppSettings["fecha"]);
 
             comunicarRespuesta(codigoRespuesta);
             }

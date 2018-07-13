@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Configuration;
 
 namespace FrbaHotel.GenerarModificacionReserva
 {
@@ -27,7 +28,7 @@ namespace FrbaHotel.GenerarModificacionReserva
 
         private void btnValidar_Click(object sender, EventArgs e)
         {
-            int retorno = Repositorios.Repo_Reserva.getInstancia().comprobarSiReservaNoPasoFecha(numReserva.Value);
+            int retorno = Repositorios.Repo_Reserva.getInstancia().comprobarSiReservaNoPasoFecha(numReserva.Value, ConfigurationManager.AppSettings["fecha"]);
             
             if (retorno == 1)
             {

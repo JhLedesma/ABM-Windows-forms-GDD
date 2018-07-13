@@ -511,7 +511,7 @@ Telefono int DEFAULT -1,
 Direccion int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Direccion(IdDir),
 CantEstrellas int  NULL,
 PorcentajeEstrellas numeric(18,0) NULL,
-FechaCreacion datetime DEFAULT GETDATE()
+FechaCreacion datetime DEFAULT CONVERT(datetime,'2021/01/01 00:00:00',121)
 );
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.Factura(
@@ -553,10 +553,10 @@ EstadoRegimenEstadia BIT DEFAULT 0,
 );
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.UsuariosPorHotel(
+Id_usPorHotel int IDENTITY(1,1) PRIMARY KEY,
 IdHotel int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Hotel(IdHotel),
 Username nvarchar(255) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Usuario(Username),
 User_desempenio nvarchar(255) NOT NULL
-CONSTRAINT IdUsuariosPorHotel PRIMARY KEY(IdHotel,Username)
 );
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.RegimenPorHotel(
@@ -611,7 +611,7 @@ RegimenEstadiaId int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.RegimenEstadia(
 Create table TRAEME_LA_COPA_MESSI.Log_Reserva( --QUE ES ESTO? NO TIENE REFERENCIA A RESERVA
 LogId int identity(1,1) Primary key,
 Log_Tipo nvarchar(255),
-Log_UsuarioId nvarchar(255),
+Log_UsuarioId nvarchar(255) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Usuario(Username),
 Log_Motivo nvarchar (255),
 Log_Fecha Datetime,
 Log_idReserva numeric(18,0) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Reserva(IdReserva)
@@ -774,10 +774,10 @@ declare @direccion int
 set @direccion = (select top 1 IdDir from TRAEME_LA_COPA_MESSI.Direccion)
 
 INSERT INTO TRAEME_LA_COPA_MESSI.Usuario(Username,Pass, Nombre, Apellido, Email, NroDocumento, Telefono, FechaNacimiento, TipoDoc, Direccion) 
-	VALUES ('admin','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', '', '', '', 0, 0, GETDATE(),@tipoDoc,@direccion); 
+	VALUES ('admin','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', '', '', '', 0, 0, CONVERT(datetime,'2021/01/01 00:00:00',121),@tipoDoc,@direccion); 
 
 insert into TRAEME_LA_COPA_MESSI.Usuario(Username,Pass, Nombre, Apellido, Email, NroDocumento, Telefono, FechaNacimiento, TipoDoc, Direccion)
-	VALUES ('guest','', '', '', 'guest', 0, 0, GETDATE(),@tipoDoc,@direccion); 
+	VALUES ('guest','', '', '', 'guest', 0, 0, CONVERT(datetime,'2021/01/01 00:00:00',121),@tipoDoc,@direccion); 
 
 
 
@@ -944,7 +944,7 @@ INSERT INTO TRAEME_LA_COPA_MESSI.Reserva(IdReserva, IdHotel, FechaReserva, Canti
 
 
 	SELECT DISTINCT m.Reserva_Codigo, h.IdHotel, m.Reserva_Fecha_Inicio, m.Reserva_Cant_Noches,
-	(SELECT IdRegimenEstadia FROM TRAEME_LA_COPA_MESSI.RegimenEstadia WHERE Descripcion = m.Regimen_Descripcion), CAST('1950-10-10 12:35:29.123' AS datetime)
+	(SELECT IdRegimenEstadia FROM TRAEME_LA_COPA_MESSI.RegimenEstadia WHERE Descripcion = m.Regimen_Descripcion), CONVERT(datetime,'1950/10/10 12:35:29.123',121)
 
 	FROM
 
@@ -991,7 +991,6 @@ UPDATE TRAEME_LA_COPA_MESSI.Reserva SET EstadoReserva = 1 WHERE (SELECT FechaIni
 UPDATE TRAEME_LA_COPA_MESSI.Reserva SET EstadoReserva = 6 WHERE
 (SELECT FechaInicio FROM TRAEME_LA_COPA_MESSI.LogEstadia WHERE ReservaId = IdReserva) IS NOT NULL AND
 (SELECT FechaFin FROM TRAEME_LA_COPA_MESSI.LogEstadia WHERE ReservaId = IdReserva) IS NOT NULL
-
 
 -- Consumibles --
 
@@ -1355,7 +1354,8 @@ CREATE PROCEDURE TRAEME_LA_COPA_MESSI.crearHotel
 @calle nvarchar(255),
 @nroCalle int,
 @ciudad nvarchar(255),
-@pais nvarchar(255)
+@pais nvarchar(255),
+@fecha nvarchar(255)
 
 AS
 BEGIN
@@ -1367,7 +1367,7 @@ BEGIN
 	SET @direccion_id = (SELECT d.IdDir FROM TRAEME_LA_COPA_MESSI.Direccion d WHERE d.Calle = @calle AND d.NroCalle = @nroCalle AND d.Ciudad = @ciudad AND d.Pais = @pais)
 
 	INSERT INTO TRAEME_LA_COPA_MESSI.Hotel (Nombre, Mail,Telefono,CantEstrellas,PorcentajeEstrellas,Direccion,FechaCreacion)
-	VALUES (@nombre, @mail, @telefono, @estrellas, @porcEstrellas,@direccion_id,GETDATE())
+	VALUES (@nombre, @mail, @telefono, @estrellas, @porcEstrellas,@direccion_id,CONVERT(datetime,@fecha,121))
 
 END
 
@@ -1516,12 +1516,13 @@ END
 GO
 CREATE PROCEDURE TRAEME_LA_COPA_MESSI.comprobarRegimen
 @idHotel int,
-@regimenEstadiaId int
+@regimenEstadiaId int,
+@fecha nvarchar(255)
 
 AS
 BEGIN
 	
-	IF EXISTS (SELECT * FROM TRAEME_LA_COPA_MESSI.Reserva WHERE RegimenEstadiaId = @regimenEstadiaId AND IdHotel = @idHotel AND (FechaReserva <= GETDATE()))
+	IF EXISTS (SELECT * FROM TRAEME_LA_COPA_MESSI.Reserva WHERE RegimenEstadiaId = @regimenEstadiaId AND IdHotel = @idHotel AND (FechaReserva <= CONVERT(datetime,@fecha,121)))
 	
 		RETURN 0
 
@@ -1581,8 +1582,6 @@ BEGIN
 	SELECT IdHotel,Nombre,Mail,Telefono,CantEstrellas,PorcentajeEstrellas,FechaCreacion FROM TRAEME_LA_COPA_MESSI.Hotel
 
 END
-
-
 
 /* Repositorio Clientes */
 
@@ -1891,14 +1890,19 @@ as
 select * from TRAEME_LA_COPA_MESSI.TipoDoc where IdTipo=@id
 
 
-
 /* Repositorio Reservas */
 
 GO
 create procedure TRAEME_LA_COPA_MESSI.validarCancelacion
 @idReserva int 
 as begin
-select FechaReserva, FechaInicio from TRAEME_LA_COPA_MESSI.Reserva JOIN TRAEME_LA_COPA_MESSI.LogEstadia ON IdReserva = ReservaId where @idReserva=IdReserva 
+
+select FechaReserva from TRAEME_LA_COPA_MESSI.Reserva
+
+where
+@idReserva=IdReserva AND
+@idReserva NOT IN (SELECT ReservaId FROM TRAEME_LA_COPA_MESSI.LogEstadia)
+
 end
 
 
@@ -1916,25 +1920,46 @@ end
 GO
 create procedure TRAEME_LA_COPA_MESSI.cancelarReserva
 @idReserva int,
-@idUsuario int,
+@username nvarchar(255),
 @fechaDeCancelacion Datetime,
 @motivo nvarchar(255)
 as begin
+
+IF (@username = 'admin')
+BEGIN
+
 update TRAEME_LA_COPA_MESSI.Reserva set EstadoReserva =  2 where IdReserva = @idReserva   
 insert into TRAEME_LA_COPA_MESSI.Log_Reserva(Log_Tipo,Log_UsuarioId,Log_Motivo,Log_Fecha,Log_idReserva)
-values ('Cancelacion',@idUsuario,@motivo,@fechaDeCancelacion,@idReserva)
-end
+values ('Cancelacion',@username,@motivo,@fechaDeCancelacion,@idReserva)
+
+END
+
+
+
+IF(@username = 'guest')
+BEGIN
+
+update TRAEME_LA_COPA_MESSI.Reserva set EstadoReserva =  3 where IdReserva = @idReserva   
+insert into TRAEME_LA_COPA_MESSI.Log_Reserva(Log_Tipo,Log_UsuarioId,Log_Motivo,Log_Fecha,Log_idReserva)
+values ('Cancelacion',@username,@motivo,@fechaDeCancelacion,@idReserva)
+
+END
+
+END
+
+
 
 
 GO
 CREATE PROCEDURE TRAEME_LA_COPA_MESSI.comprobarNumReserva
 @idReserva int,
-@idHotel int
+@idHotel int,
+@fecha nvarchar(255)
 
 AS
 BEGIN
 
-IF EXISTS(SELECT * FROM TRAEME_LA_COPA_MESSI.Reserva WHERE IdReserva = @idReserva AND IdHotel = @idHotel AND YEAR(FechaReserva) = YEAR(GETDATE()) AND MONTH(FechaReserva) = MONTH(GETDATE()) AND DAY(FechaReserva) = DAY(GETDATE()))
+IF EXISTS(SELECT * FROM TRAEME_LA_COPA_MESSI.Reserva WHERE IdReserva = @idReserva AND IdHotel = @idHotel AND YEAR(FechaReserva) = YEAR(CONVERT(datetime,@fecha,121)) AND MONTH(FechaReserva) = MONTH(CONVERT(datetime,@fecha,121)) AND DAY(FechaReserva) = DAY(CONVERT(datetime,@fecha,121)))
 BEGIN
 
 UPDATE TRAEME_LA_COPA_MESSI.Reserva SET EstadoReserva = 5 WHERE IdReserva = @idReserva
@@ -1944,7 +1969,7 @@ END
 
 ELSE
 
-	IF EXISTS(SELECT * FROM TRAEME_LA_COPA_MESSI.Reserva WHERE IdReserva = @idReserva AND IdHotel = @idHotel AND FechaReserva > GETDATE())
+	IF EXISTS(SELECT * FROM TRAEME_LA_COPA_MESSI.Reserva WHERE IdReserva = @idReserva AND IdHotel = @idHotel AND FechaReserva > CONVERT(datetime,@fecha,121))
 	BEGIN
 
 		RETURN 2
@@ -1953,7 +1978,7 @@ ELSE
 
 	ELSE
 	
-	IF EXISTS(SELECT * FROM TRAEME_LA_COPA_MESSI.Reserva WHERE IdReserva = @idReserva AND IdHotel = @idHotel AND FechaReserva < GETDATE() AND EstadoReserva != 6)
+	IF EXISTS(SELECT * FROM TRAEME_LA_COPA_MESSI.Reserva WHERE IdReserva = @idReserva AND IdHotel = @idHotel AND FechaReserva < CONVERT(datetime,@fecha,121) AND EstadoReserva != 6)
 	BEGIN
 
 	UPDATE TRAEME_LA_COPA_MESSI.Reserva SET EstadoReserva = 4 WHERE IdReserva = @idReserva
@@ -1964,7 +1989,7 @@ ELSE
 
 	ELSE
 
-	IF EXISTS(SELECT * FROM TRAEME_LA_COPA_MESSI.Reserva WHERE IdReserva = @idReserva AND IdHotel = @idHotel AND FechaReserva < GETDATE() AND EstadoReserva = 6)
+	IF EXISTS(SELECT * FROM TRAEME_LA_COPA_MESSI.Reserva WHERE IdReserva = @idReserva AND IdHotel = @idHotel AND FechaReserva < CONVERT(datetime,@fecha,121) AND EstadoReserva = 6)
 
 		RETURN 4
 
@@ -1978,12 +2003,13 @@ END
 GO
 CREATE PROCEDURE TRAEME_LA_COPA_MESSI.hacerCheckOut
 @username nvarchar(255),
-@idReserva int
+@idReserva int,
+@fecha nvarchar(255)
 
 AS
 BEGIN
 
-UPDATE TRAEME_LA_COPA_MESSI.LogEstadia SET FechaFin = GETDATE() WHERE ReservaId = @idReserva
+UPDATE TRAEME_LA_COPA_MESSI.LogEstadia SET FechaFin = CONVERT(datetime,@fecha,121) WHERE ReservaId = @idReserva
 
 UPDATE TRAEME_LA_COPA_MESSI.Reserva SET EstadoReserva = 6 WHERE IdReserva = @idReserva
 
@@ -2035,13 +2061,14 @@ BEGIN
 GO
 CREATE PROCEDURE TRAEME_LA_COPA_MESSI.generarLogEstadia
 @idReserva int,
-@usuario nvarchar(255)
+@usuario nvarchar(255),
+@fecha nvarchar(255)
 	
 AS
 BEGIN
 
 INSERT INTO TRAEME_LA_COPA_MESSI.LogEstadia(FechaInicio,ReservaId)
-	VALUES (GETDATE(),@idReserva)
+	VALUES (CONVERT(datetime,@fecha,121),@idReserva)
 
 UPDATE TRAEME_LA_COPA_MESSI.LogEstadia SET Autor_check_in = @usuario WHERE ReservaId = @idReserva
 
@@ -2127,7 +2154,9 @@ create procedure TRAEME_LA_COPA_MESSI.newReservaReturnId
 @idHotel int,
 @idRegimen int,
 @mailCliente nvarchar(255),
-@idCliente int
+@idCliente int,
+@fecha nvarchar(255)
+
 as
 begin --transaction
 	declare @cantNoches numeric(18,0)
@@ -2138,7 +2167,7 @@ begin --transaction
 	if exists(select 1 from TRAEME_LA_COPA_MESSI.Cliente where IdCliente=@idCliente and Email=@mailCliente)
 		begin
 			insert into TRAEME_LA_COPA_MESSI.Reserva(IdCliente, IdHotel, FechaReserva, FechaGeneracionReserva, CantidadNochesReservadas, EstadoReserva, RegimenEstadiaId)
-				values(@idCliente, @idHotel, @desde, getdate(), @cantNoches, 5, @idRegimen)
+				values(@idCliente, @idHotel, @desde, CONVERT(datetime,@fecha,121), @cantNoches, 5, @idRegimen)
 			
 			set @idReserva = (select IdReserva from TRAEME_LA_COPA_MESSI.Reserva where IdHotel=@idHotel and IdCliente=@idCliente and FechaReserva=@desde and CantidadNochesReservadas=@cantNoches and EstadoReserva=5 and RegimenEstadiaId=@idRegimen)
 			return @idReserva
@@ -2146,7 +2175,7 @@ begin --transaction
 	else
 		begin
 			insert into TRAEME_LA_COPA_MESSI.Reserva(IdClienteInconsistente, IdHotel, FechaReserva, FechaGeneracionReserva, CantidadNochesReservadas, EstadoReserva, RegimenEstadiaId)
-				values(@idCliente, @idHotel, @desde, getdate(), @cantNoches, 5, @idRegimen)
+				values(@idCliente, @idHotel, @desde, CONVERT(datetime,@fecha,121), @cantNoches, 5, @idRegimen)
 			
 			set @idReserva = (select IdReserva from TRAEME_LA_COPA_MESSI.Reserva where IdHotel=@idHotel and IdClienteInconsistente=@idCliente and FechaReserva=@desde and CantidadNochesReservadas=@cantNoches and EstadoReserva=5 and RegimenEstadiaId=@idRegimen)
 			return @idReserva
@@ -2161,14 +2190,15 @@ create procedure TRAEME_LA_COPA_MESSI.modificarReserva
 @idHotel int,
 @desde dateTime,
 @hasta dateTime,
-@idRegimen int
+@idRegimen int,
+@fecha nvarchar(255)
 as
 begin
 	declare @cantNoches numeric(18,0)
 	set @cantNoches =  CAST((datediff(day,@desde,@hasta)) AS numeric(18,0))
 
 		update TRAEME_LA_COPA_MESSI.Reserva
-			set IdHotel=@idHotel, FechaReserva=@desde, FechaGeneracionReserva=getdate(), CantidadNochesReservadas=@cantNoches, EstadoReserva=7, RegimenEstadiaId=@idRegimen
+			set IdHotel=@idHotel, FechaReserva=@desde, FechaGeneracionReserva= CONVERT(datetime,@fecha,121), CantidadNochesReservadas=@cantNoches, EstadoReserva=7, RegimenEstadiaId=@idRegimen
 		where IdReserva=@id
 end
 
@@ -2197,6 +2227,7 @@ begin
 end
 
 
+
 GO
 create procedure TRAEME_LA_COPA_MESSI.getReserva
 @idReserva numeric(18,0)
@@ -2208,12 +2239,14 @@ end
 
 GO
 create procedure TRAEME_LA_COPA_MESSI.comprobarReservaNoPasoFecha
-@idReserva decimal(18, 0)
+@idReserva decimal(18, 0),
+@fecha nvarchar(255)
+
 as
 begin
-	if exists (select 1 from TRAEME_LA_COPA_MESSI.Reserva where IdReserva=@idReserva and day(FechaReserva) < day(GETDATE()) and EstadoReserva != 2 and EstadoReserva != 3 and EstadoReserva != 4 and EstadoReserva != 6)
+	if exists (select 1 from TRAEME_LA_COPA_MESSI.Reserva where IdReserva=@idReserva and day(FechaReserva) < day(CONVERT(datetime,@fecha,121)) and EstadoReserva != 2 and EstadoReserva != 3 and EstadoReserva != 4 and EstadoReserva != 6)
 		return 1
-	else if exists (select 1 from TRAEME_LA_COPA_MESSI.Reserva where IdReserva=@idReserva and day(FechaReserva) >= day(GETDATE()) and EstadoReserva != 2 and EstadoReserva != 3 and EstadoReserva != 4 and EstadoReserva != 6)
+	else if exists (select 1 from TRAEME_LA_COPA_MESSI.Reserva where IdReserva=@idReserva and day(FechaReserva) >= day(CONVERT(datetime,@fecha,121)) and EstadoReserva != 2 and EstadoReserva != 3 and EstadoReserva != 4 and EstadoReserva != 6)
 		return 2
 	else if exists (select 1 from TRAEME_LA_COPA_MESSI.Reserva where IdReserva=@idReserva and EstadoReserva != 2 and EstadoReserva != 3 and EstadoReserva != 4 and EstadoReserva != 6)
 		return 0
@@ -2222,43 +2255,51 @@ end
 
 GO
 create procedure TRAEME_LA_COPA_MESSI.registrarCreacionReservaConGuest
-@idReserva decimal(18, 0)
+@idReserva decimal(18, 0),
+@fecha nvarchar(255)
+ 
 as
 begin
 	insert into TRAEME_LA_COPA_MESSI.Log_Reserva (Log_Tipo, Log_UsuarioId, Log_Motivo, Log_Fecha, Log_idReserva)
-		select 'creacion', Username, '', GETDATE(), @idReserva from TRAEME_LA_COPA_MESSI.Usuario where Username='guest'
+		select 'creacion', Username, '', CONVERT(datetime,@fecha,121), @idReserva from TRAEME_LA_COPA_MESSI.Usuario where Username='guest'
 end
 
 
 GO
 create procedure TRAEME_LA_COPA_MESSI.registrarCreacionReserva
 @idReserva decimal(18, 0),
-@user nvarchar(255)
+@user nvarchar(255),
+@fecha nvarchar(255)
+
 as
 begin
 	insert into TRAEME_LA_COPA_MESSI.Log_Reserva (Log_Tipo, Log_UsuarioId, Log_Motivo, Log_Fecha, Log_idReserva)
-		values ('creacion', @user, '', GETDATE(), @idReserva)
+		values ('creacion', @user, '', CONVERT(datetime,@fecha,121), @idReserva)
 end
 
 
 GO
 create procedure TRAEME_LA_COPA_MESSI.registrarModificacionReservaConGuest
-@idReserva decimal(18, 0)
+@idReserva decimal(18, 0),
+@fecha nvarchar(255)
+
 as
 begin
 	insert into TRAEME_LA_COPA_MESSI.Log_Reserva (Log_Tipo, Log_UsuarioId, Log_Motivo, Log_Fecha, Log_idReserva)
-		select 'modificacion', Username, '', GETDATE(), @idReserva from TRAEME_LA_COPA_MESSI.Usuario where Username='guest'
+		select 'modificacion', Username, '', CONVERT(datetime,@fecha,121), @idReserva from TRAEME_LA_COPA_MESSI.Usuario where Username='guest'
 end
 
 
 GO
 create procedure TRAEME_LA_COPA_MESSI.registrarModificacionReserva
 @idReserva decimal(18, 0),
-@user nvarchar(255)
+@user nvarchar(255),
+@fecha nvarchar(255)
+
 as
 begin
 	insert into TRAEME_LA_COPA_MESSI.Log_Reserva (Log_Tipo, Log_UsuarioId, Log_Motivo, Log_Fecha, Log_idReserva)
-		values ('modificacion', @user, '', GETDATE(), @idReserva)
+		values ('modificacion', @user, '', CONVERT(datetime,@fecha,121), @idReserva)
 end
 
 
@@ -2465,7 +2506,8 @@ END
 GO
 CREATE PROCEDURE TRAEME_LA_COPA_MESSI.crearFactura
 @numReserva int,
-@idHotel int
+@idHotel int,
+@fecha nvarchar(255)
 
 AS
 BEGIN
@@ -2477,7 +2519,7 @@ BEGIN
 	SET @idClienteInc = (SELECT IdClienteInconsistente FROM TRAEME_LA_COPA_MESSI.Reserva WHERE IdReserva = @numReserva)
 
 	INSERT INTO TRAEME_LA_COPA_MESSI.Factura(Fact_Fecha,Fact_idCliente,Fact_idClienteInc,Fact_idHotel)
-	VALUES(GETDATE(), @idCliente, @idClienteInc, @idHotel)
+	VALUES(CONVERT(datetime,@fecha,121), @idCliente, @idClienteInc, @idHotel)
 
 	RETURN (SELECT MAX(Fact_Nro) FROM TRAEME_LA_COPA_MESSI.Factura)
 

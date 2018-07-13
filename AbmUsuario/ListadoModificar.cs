@@ -37,7 +37,9 @@ namespace FrbaHotel.AbmUsuario
             }
             else
             {
+                this.Hide();
                 new AbmUsuario.ModificarUsuario(username).ShowDialog();
+                this.Close();
             }
         }
 

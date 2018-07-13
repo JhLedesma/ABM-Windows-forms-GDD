@@ -71,6 +71,8 @@
             this.btnAgregarHotel = new System.Windows.Forms.Button();
             this.listadoHoteles = new System.Windows.Forms.ComboBox();
             this.lblHoteles = new System.Windows.Forms.Label();
+            this.boton_borrarRoles = new System.Windows.Forms.Button();
+            this.boton_agregarRol = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericTelefono)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericNumeroIdentificacion)).BeginInit();
@@ -82,6 +84,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.boton_borrarRoles);
+            this.groupBox1.Controls.Add(this.boton_agregarRol);
             this.groupBox1.Controls.Add(this.ListadoRol);
             this.groupBox1.Controls.Add(this.lblRol);
             this.groupBox1.Controls.Add(this.lblPass);
@@ -495,6 +499,26 @@
             this.lblHoteles.TabIndex = 59;
             this.lblHoteles.Text = "Hoteles:";
             // 
+            // boton_borrarRoles
+            // 
+            this.boton_borrarRoles.Location = new System.Drawing.Point(338, 109);
+            this.boton_borrarRoles.Name = "boton_borrarRoles";
+            this.boton_borrarRoles.Size = new System.Drawing.Size(32, 23);
+            this.boton_borrarRoles.TabIndex = 64;
+            this.boton_borrarRoles.Text = "AC";
+            this.boton_borrarRoles.UseVisualStyleBackColor = true;
+            this.boton_borrarRoles.Click += new System.EventHandler(this.boton_borrarRoles_Click);
+            // 
+            // boton_agregarRol
+            // 
+            this.boton_agregarRol.Location = new System.Drawing.Point(295, 109);
+            this.boton_agregarRol.Name = "boton_agregarRol";
+            this.boton_agregarRol.Size = new System.Drawing.Size(32, 23);
+            this.boton_agregarRol.TabIndex = 63;
+            this.boton_agregarRol.Text = "+";
+            this.boton_agregarRol.UseVisualStyleBackColor = true;
+            this.boton_agregarRol.Click += new System.EventHandler(this.boton_agregarRol_Click);
+            // 
             // Crear_Usuario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -567,5 +591,7 @@
         private System.Windows.Forms.Button btnAgregarHotel;
         private System.Windows.Forms.ComboBox listadoHoteles;
         private System.Windows.Forms.Label lblHoteles;
+        private System.Windows.Forms.Button boton_borrarRoles;
+        private System.Windows.Forms.Button boton_agregarRol;
     }
 }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Configuration;
 
 namespace FrbaHotel.GenerarModificacionReserva
 {
@@ -286,13 +287,12 @@ namespace FrbaHotel.GenerarModificacionReserva
             reservaCreada.cliente = cliente;
             reservaCreada.habitaciones = listaHabitacionesAgregadas;
 
+                int idReserva = Repositorios.Repo_Reserva.getInstancia().crearReservaReturnId(reservaCreada, ConfigurationManager.AppSettings["fecha"]);
 
-                int idReserva = Repositorios.Repo_Reserva.getInstancia().crearReservaReturnId(reservaCreada);
 
-                Repositorios.Repo_Reserva.getInstancia().registrarCreacion(usuarioLogueado, idReserva);
+                Repositorios.Repo_Reserva.getInstancia().registrarCreacion(usuarioLogueado, idReserva, ConfigurationManager.AppSettings["fecha"]);
 
                 new MostrarCodigoReserva(idReserva).ShowDialog();
-     
 
             this.Hide();
             this.Close();

@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Configuration;
+
 
 namespace FrbaHotel.RegistrarConsumible
 {
@@ -87,7 +89,7 @@ namespace FrbaHotel.RegistrarConsumible
             Console.WriteLine(Repositorios.Repo_usuario.getInstancia().getUsuarioIngresado().hotelActivo.idHotel);
             Console.WriteLine("TERMINA");
 
-            Int32 numFactura = Repositorios.Repo_Consumible.getInstancia().crearFactura(numReserva, Repositorios.Repo_usuario.getInstancia().getUsuarioIngresado().hotelActivo.idHotel);
+            Int32 numFactura = Repositorios.Repo_Consumible.getInstancia().crearFactura(numReserva, Repositorios.Repo_usuario.getInstancia().getUsuarioIngresado().hotelActivo.idHotel, ConfigurationManager.AppSettings["fecha"]);
 
             if(consumibleSeleccionado.Count != 0)
             {

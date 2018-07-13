@@ -15,18 +15,34 @@ namespace FrbaHotel.AbmUsuario
         private Model.Usuario usuarioSeleccionado;
         private List<Model.Hotel> listaHotelesDisponibles = Repositorios.Repo_hotel.getInstancia().getHoteles();
         private List<Model.Hotel> listaHotelesAgregados = new List<Model.Hotel>();
+        private List<Model.Rol> listaRolesAgregados = new List<Model.Rol>();
+        private List<Model.Rol> listaRolesDisponibles = Repositorios.Repo_Rol.getInstancia().getRoles();
         private Model.Hotel hotelSeleccionado;
+        private Model.Rol rolSeleccionado;
 
         public ModificarUsuario(String username)
         {
-            InitializeComponent();
+            InitializeComponent();   
+
             usuarioSeleccionado = Repositorios.Repo_usuario.getInstancia().getUsuario(username);
-            listaHotelesAgregados = usuarioSeleccionado.listaHoteles;
+
             configuarComboBoxTipoDoc();
-            configuarComboBoxRol();
-            configuarListadoHotelesAgregados();
-            configuarListadoHotelesDisponibles();
+
+            
             mostrarDatos();
+
+            listaHotelesAgregados = usuarioSeleccionado.listaHoteles;
+
+            listaHotelesDisponibles = listaHotelesDisponibles.Where(h => !listaHotelesAgregados.Select(h2 => h2.idHotel).ToList().Contains(h.idHotel)).ToList();
+
+            listaRolesAgregados = Repositorios.Repo_usuario.getInstancia().getRolesUsuario(tbUsername.Text);
+
+            listaRolesDisponibles = listaRolesDisponibles.Where(r => !listaRolesAgregados.Select(r2 => r2.idRol).ToList().Contains(r.idRol)).ToList();
+
+            configuarComboBoxRol();
+
+            configuarListadoHoteles();
+
         }
 
 
@@ -38,27 +54,23 @@ namespace FrbaHotel.AbmUsuario
             this.listadoTipoIdentificacion.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
-        public void configuarListadoHotelesAgregados()
+        public void configuarListadoHoteles()
         {
-            this.listadoHotelesAgregados.ValueMember = "Objeto";
-            this.listadoHotelesAgregados.DisplayMember = "IdHotel";
-            this.listadoHotelesAgregados.DataSource = listaHotelesAgregados;
-            this.listadoHotelesAgregados.DropDownStyle = ComboBoxStyle.DropDownList;
-        }
+            listaHotelesDisponibles = listaHotelesDisponibles.Where(h => !listaHotelesAgregados.Select(h2 => h2.idHotel).ToList().Contains(h.idHotel)).ToList();
 
-        public void configuarListadoHotelesDisponibles()
-        {
-            this.listadoHotelesDisponibles.ValueMember = "Objeto";
-            this.listadoHotelesDisponibles.DisplayMember = "IdHotel";
-            this.listadoHotelesDisponibles.DataSource = listaHotelesDisponibles;
-            this.listadoHotelesDisponibles.DropDownStyle = ComboBoxStyle.DropDownList;
+            this.listadoHoteles.ValueMember = "Objeto";
+            this.listadoHoteles.DisplayMember = "IdHotel";
+            this.listadoHoteles.DataSource = listaHotelesDisponibles;
+            this.listadoHoteles.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         public void configuarComboBoxRol()
         {
+            listaRolesDisponibles = listaRolesDisponibles.Where(r => !listaRolesAgregados.Select(r2 => r2.idRol).ToList().Contains(r.idRol)).ToList();
+
             this.ListadoRol.ValueMember = "Objeto";
             this.ListadoRol.DisplayMember = "Nombre";
-            this.ListadoRol.DataSource = Repositorios.Repo_Rol.getInstancia().getRoles();
+            this.ListadoRol.DataSource = listaRolesDisponibles;
             this.ListadoRol.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
@@ -96,40 +108,10 @@ namespace FrbaHotel.AbmUsuario
             this.mostrarDatos();
         }
 
-        private void btnAgregarHotel_Click(object sender, EventArgs e)
-        {
-            hotelSeleccionado = (Model.Hotel)listadoHotelesDisponibles.SelectedValue;
-
-            listadoHotelesDisponibles.DataSource = null;
-            listadoHotelesAgregados.DataSource = null;
-
-            listaHotelesAgregados.Add(hotelSeleccionado);
-            listaHotelesDisponibles.Remove(hotelSeleccionado);
-
-            configuarListadoHotelesAgregados(); 
-            configuarListadoHotelesDisponibles();
-           
-
-            MessageBox.Show("Agregado");
-        }
-
-        private void btnQuitar_Click(object sender, EventArgs e)
-        {
-            hotelSeleccionado = (Model.Hotel)listadoHotelesAgregados.SelectedValue;
-
-            listadoHotelesDisponibles.DataSource = null;
-            listadoHotelesAgregados.DataSource = null;
-
-            listaHotelesDisponibles.Add(hotelSeleccionado);
-            listaHotelesAgregados.Remove(hotelSeleccionado);
-
-            configuarListadoHotelesAgregados();
-            configuarListadoHotelesDisponibles();
-        }
-
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            /*
+
+            
              if (
                 string.IsNullOrEmpty(tbUsername.Text) ||
                 string.IsNullOrEmpty(tbPass.Text) ||
@@ -149,13 +131,19 @@ namespace FrbaHotel.AbmUsuario
              {
                  MessageBox.Show("Por favor complete todos los campos", "Campos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error);
              }
-             else */ if (listaHotelesAgregados.Count == 0)
+             else 
+
+             if (listaHotelesAgregados.Count == 0)
              {
                  MessageBox.Show("Por favor Agregue uno o mas hoteles donde se desempeña el Usuario", "Campos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error);
              }
              else if (Repositorios.Repo_usuario.getInstancia().validarMail(tbMail.Text) == 1 && !tbUsername.Text.Equals(usuarioSeleccionado.username))
              {
                  MessageBox.Show("Por favor ingrese un mail que no registrado", "Mail ya existente", MessageBoxButtons.OK, MessageBoxIcon.Error);
+             }
+             else if (listaRolesAgregados.Count == 0)
+             {
+                 MessageBox.Show("Por favor agregue uno o mas roles para el usuario", "Campos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error);
              }
              else
              {
@@ -176,7 +164,7 @@ namespace FrbaHotel.AbmUsuario
                  if (cbEstado.Checked)
                  {usuario.estado = 0;}
                  else
-                 { usuario.estado = 1; }
+                 { usuario.estado = 1;}
 
                  direccion.id = usuarioSeleccionado.direccion.id;
                  direccion.calle = tbCalle.Text;
@@ -187,7 +175,7 @@ namespace FrbaHotel.AbmUsuario
                  direccion.numDomicilio = numericNumero.Value;
                  direccion.piso = numericPiso.Value;
 
-                 Repositorios.Repo_usuario.getInstancia().modificarUsuario(usuario, (Model.Rol)ListadoRol.SelectedValue, listaHotelesAgregados);
+                 Repositorios.Repo_usuario.getInstancia().modificarUsuario(usuario, listaRolesAgregados, listaHotelesAgregados);
 
                  MessageBox.Show("Usuario modificado");
 
@@ -197,21 +185,51 @@ namespace FrbaHotel.AbmUsuario
              }
         }
 
+        private void boton_agregarRol_Click(object sender, EventArgs e)
+        {
+            if (listaRolesDisponibles.Count == 0) 
+            {
 
-        /*
-         * Username nvarchar(255) PRIMARY KEY,
-            Pass nvarchar(255)  NOT NULL,
-            Direccion int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Direccion(IdDir) not null,
-            Nombre nvarchar(255) not null,
-            Apellido nvarchar(255) not null,
-            TipoDoc int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.TipoDoc(IdTipo) not null,
-            NroDocumento numeric(18,0) not null,
-            Email nvarchar(255) UNIQUE not null,
-            Telefono numeric(18,0) not null,
-            FechaNacimiento datetime not null,
-            LogsFallidos int DEFAULT 0,
-            Estado bit DEFAULT 0
-         * */
+                MessageBox.Show("No hay mas roles para agregar", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            
+            }
+            else
+            {
+                rolSeleccionado = (Model.Rol)ListadoRol.SelectedValue;
+                listaRolesAgregados.Add(rolSeleccionado);
+                configuarComboBoxRol();
+            }
+        }
+
+        private void boton_borrarRoles_Click(object sender, EventArgs e)
+        {
+            listaRolesAgregados = new List<Model.Rol>();
+            listaRolesDisponibles = Repositorios.Repo_Rol.getInstancia().getRoles();
+            configuarComboBoxRol();
+        }
+
+        private void boton_borrar_hoteles_Click(object sender, EventArgs e)
+        {
+            listaHotelesAgregados = new List<Model.Hotel>();
+            listaHotelesDisponibles = Repositorios.Repo_hotel.getInstancia().getHoteles();
+            configuarListadoHoteles();
+        }
+
+        private void boton_agregar_hotel_Click(object sender, EventArgs e)
+        {
+            if (listaHotelesDisponibles.Count == 0)
+            {
+
+                MessageBox.Show("No hay mas hoteles para agregar", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+            else
+            {
+                hotelSeleccionado = (Model.Hotel)listadoHoteles.SelectedValue;
+                listaHotelesAgregados.Add(hotelSeleccionado);
+                configuarListadoHoteles();
+            }
+        }
 
     }
 }

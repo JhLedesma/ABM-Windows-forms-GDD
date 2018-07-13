@@ -31,7 +31,7 @@ namespace FrbaHotel.Repositorios
         }
 
 
-        public void crearHotel(String nombre, String mail, Int32 telefono, Int32 estrellas, Int32 porcEstrellas, String calle, Int32 nroCalle, String ciudad, String pais)
+        public void crearHotel(String nombre, String mail, Int32 telefono, Int32 estrellas, Int32 porcEstrellas, String calle, Int32 nroCalle, String ciudad, String pais, String fecha)
         {
 
             DBhelper.crearConexion();
@@ -45,6 +45,7 @@ namespace FrbaHotel.Repositorios
             cmd.Parameters.Add("@nroCalle", SqlDbType.Int).Value = nroCalle;
             cmd.Parameters.Add("@ciudad", SqlDbType.NVarChar).Value = ciudad;
             cmd.Parameters.Add("@pais", SqlDbType.NVarChar).Value = pais;
+            cmd.Parameters.Add("@fecha", SqlDbType.NVarChar).Value = fecha;
 
             DBhelper.abrirConexion();
 
@@ -210,13 +211,14 @@ namespace FrbaHotel.Repositorios
             DBhelper.cerrarConexion();
         }
 
-        public Int32 comprobarRegimen(Int32 idHotel, Int32 idRegimen) 
+        public Int32 comprobarRegimen(Int32 idHotel, Int32 idRegimen, String fecha) 
         {
             DBhelper.crearConexion();
 
             SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.comprobarRegimen");
             cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = idHotel;
             cmd.Parameters.Add("@regimenEstadiaId", SqlDbType.Int).Value = idRegimen;
+            cmd.Parameters.Add("@fecha", SqlDbType.NVarChar).Value = fecha;
 
             var valorDeRetorno = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
             valorDeRetorno.Direction = ParameterDirection.ReturnValue;
