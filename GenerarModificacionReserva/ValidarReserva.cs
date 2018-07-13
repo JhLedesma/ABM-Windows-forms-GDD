@@ -40,19 +40,22 @@ namespace FrbaHotel.GenerarModificacionReserva
                 {
                     new ModificarReserva(usuarioIngresado, numReserva.Value).ShowDialog();
                 }
-           
+
+                this.Hide();
+                this.Close();
             }
             else if (retorno == 2)
             {
                 MessageBox.Show("Ya no se puede modificar la reserva, el tiempo maximo es hasta un dia antes de la fecha elegida", "Fecha de modificacion de Reserva superada", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Hide();
+                this.Close();
             }
             else
             {
                 MessageBox.Show("La reserva ingresada no existe Reserva", "No existe Reserva", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            this.Hide();
-            this.Close();
+
         }
     }
 }

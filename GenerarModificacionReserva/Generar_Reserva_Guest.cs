@@ -66,7 +66,6 @@ namespace FrbaHotel.GenerarModificacionReserva
             this.listadoTipoHabitacion.DisplayMember = "Descripcion";
             this.listadoTipoHabitacion.DataSource = listaTipoHabitacionesAgregadas;
             this.listadoTipoHabitacion.DropDownStyle = ComboBoxStyle.DropDownList;
-            //if (listaHabitacionesAgregadas.Count > 0) { listadoTipoHabitacion.SelectedItem = listaHabitacionesAgregadas.First(); };
         }
 
         private void configurarVistaConUsuario()
@@ -146,7 +145,6 @@ namespace FrbaHotel.GenerarModificacionReserva
                 {
                     this.avanzarPaso2();
                 }
-                //MessageBox.Show("Por favor seleccione un regimen", "Campos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }  
 
@@ -313,7 +311,12 @@ namespace FrbaHotel.GenerarModificacionReserva
 
             Model.Hotel hotelSeleccionado = (Model.Hotel)listadoHoteles.SelectedValue;
 
-            if (listaHabitacionesDisponibles.Count == 0)
+            if (Convert.ToDateTime(ConfigurationManager.AppSettings["fecha"]) > dtDesde.Value)
+            {
+                MessageBox.Show("Por favor seleccione una fecha de reserva mayor a la del dia de hoy", "Fecha incorrecta", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                var = 1;
+            }
+            else if (listaHabitacionesDisponibles.Count == 0)
             {
                 listaHabitacionesDisponibles = Repositorios.Repo_Reserva.getInstancia().getHabitacionesEnFecha(dtDesde.Value, dtHasta.Value, hotelSeleccionado.idHotel);
                 if (listaHabitacionesDisponibles.Count == 0)

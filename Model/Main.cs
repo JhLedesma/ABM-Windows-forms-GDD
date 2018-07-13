@@ -31,7 +31,7 @@ namespace FrbaHotel.Model
             Application.Run(new GenerarModificacionReserva.ValidarReserva());
             //Application.Run(new ListadoEstadistico.Listado());
             //Console.WriteLine(ConfigurationManager.AppSettings["fecha"]);
-            Application.Run(new AbmUsuario.ABM_Usuario());
+            //Application.Run(new AbmUsuario.ABM_Usuario());
 
             
             
