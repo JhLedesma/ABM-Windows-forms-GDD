@@ -290,6 +290,8 @@ namespace FrbaHotel.GenerarModificacionReserva
 
                 Repositorios.Repo_Reserva.getInstancia().registrarCreacion(usuarioLogueado, idReserva, ConfigurationManager.AppSettings["fecha"]);
 
+                Repositorios.Repo_Reserva.getInstancia().EliminarReservasNoEfectivizadasDeCliente(ConfigurationManager.AppSettings["fecha"], reservaCreada.cliente.id);   
+
                 new MostrarCodigoReserva(idReserva).ShowDialog();
 
             this.Hide();

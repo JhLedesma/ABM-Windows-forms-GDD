@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.boton_borrar_hoteles = new System.Windows.Forms.Button();
+            this.boton_agregar_hotel = new System.Windows.Forms.Button();
             this.listadoHoteles = new System.Windows.Forms.ComboBox();
             this.lblHotelesAgregados = new System.Windows.Forms.Label();
             this.btnVolver = new System.Windows.Forms.Button();
@@ -50,6 +52,8 @@
             this.btnModificar = new System.Windows.Forms.Button();
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.boton_borrarRoles = new System.Windows.Forms.Button();
+            this.boton_agregarRol = new System.Windows.Forms.Button();
             this.cbEstado = new System.Windows.Forms.CheckBox();
             this.lblEstado = new System.Windows.Forms.Label();
             this.ListadoRol = new System.Windows.Forms.ComboBox();
@@ -72,10 +76,6 @@
             this.lblApellido = new System.Windows.Forms.Label();
             this.tbNombre = new System.Windows.Forms.TextBox();
             this.lblNombre = new System.Windows.Forms.Label();
-            this.boton_borrarRoles = new System.Windows.Forms.Button();
-            this.boton_agregarRol = new System.Windows.Forms.Button();
-            this.boton_borrar_hoteles = new System.Windows.Forms.Button();
-            this.boton_agregar_hotel = new System.Windows.Forms.Button();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericPiso)).BeginInit();
@@ -97,6 +97,26 @@
             this.groupBox3.TabIndex = 54;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Hoteles donde se desempeña";
+            // 
+            // boton_borrar_hoteles
+            // 
+            this.boton_borrar_hoteles.Location = new System.Drawing.Point(312, 41);
+            this.boton_borrar_hoteles.Name = "boton_borrar_hoteles";
+            this.boton_borrar_hoteles.Size = new System.Drawing.Size(32, 23);
+            this.boton_borrar_hoteles.TabIndex = 68;
+            this.boton_borrar_hoteles.Text = "AC";
+            this.boton_borrar_hoteles.UseVisualStyleBackColor = true;
+            this.boton_borrar_hoteles.Click += new System.EventHandler(this.boton_borrar_hoteles_Click);
+            // 
+            // boton_agregar_hotel
+            // 
+            this.boton_agregar_hotel.Location = new System.Drawing.Point(269, 41);
+            this.boton_agregar_hotel.Name = "boton_agregar_hotel";
+            this.boton_agregar_hotel.Size = new System.Drawing.Size(32, 23);
+            this.boton_agregar_hotel.TabIndex = 67;
+            this.boton_agregar_hotel.Text = "+";
+            this.boton_agregar_hotel.UseVisualStyleBackColor = true;
+            this.boton_agregar_hotel.Click += new System.EventHandler(this.boton_agregar_hotel_Click);
             // 
             // listadoHoteles
             // 
@@ -332,6 +352,26 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Ingrese los datos del usuario a modificar (todos los datos son obligatorios):";
             // 
+            // boton_borrarRoles
+            // 
+            this.boton_borrarRoles.Location = new System.Drawing.Point(338, 108);
+            this.boton_borrarRoles.Name = "boton_borrarRoles";
+            this.boton_borrarRoles.Size = new System.Drawing.Size(32, 23);
+            this.boton_borrarRoles.TabIndex = 66;
+            this.boton_borrarRoles.Text = "AC";
+            this.boton_borrarRoles.UseVisualStyleBackColor = true;
+            this.boton_borrarRoles.Click += new System.EventHandler(this.boton_borrarRoles_Click);
+            // 
+            // boton_agregarRol
+            // 
+            this.boton_agregarRol.Location = new System.Drawing.Point(295, 108);
+            this.boton_agregarRol.Name = "boton_agregarRol";
+            this.boton_agregarRol.Size = new System.Drawing.Size(32, 23);
+            this.boton_agregarRol.TabIndex = 65;
+            this.boton_agregarRol.Text = "+";
+            this.boton_agregarRol.UseVisualStyleBackColor = true;
+            this.boton_agregarRol.Click += new System.EventHandler(this.boton_agregarRol_Click);
+            // 
             // cbEstado
             // 
             this.cbEstado.AutoSize = true;
@@ -533,51 +573,12 @@
             this.lblNombre.TabIndex = 2;
             this.lblNombre.Text = "Nombre:";
             // 
-            // boton_borrarRoles
-            // 
-            this.boton_borrarRoles.Location = new System.Drawing.Point(338, 108);
-            this.boton_borrarRoles.Name = "boton_borrarRoles";
-            this.boton_borrarRoles.Size = new System.Drawing.Size(32, 23);
-            this.boton_borrarRoles.TabIndex = 66;
-            this.boton_borrarRoles.Text = "AC";
-            this.boton_borrarRoles.UseVisualStyleBackColor = true;
-            this.boton_borrarRoles.Click += new System.EventHandler(this.boton_borrarRoles_Click);
-            // 
-            // boton_agregarRol
-            // 
-            this.boton_agregarRol.Location = new System.Drawing.Point(295, 108);
-            this.boton_agregarRol.Name = "boton_agregarRol";
-            this.boton_agregarRol.Size = new System.Drawing.Size(32, 23);
-            this.boton_agregarRol.TabIndex = 65;
-            this.boton_agregarRol.Text = "+";
-            this.boton_agregarRol.UseVisualStyleBackColor = true;
-            this.boton_agregarRol.Click += new System.EventHandler(this.boton_agregarRol_Click);
-            // 
-            // boton_borrar_hoteles
-            // 
-            this.boton_borrar_hoteles.Location = new System.Drawing.Point(312, 41);
-            this.boton_borrar_hoteles.Name = "boton_borrar_hoteles";
-            this.boton_borrar_hoteles.Size = new System.Drawing.Size(32, 23);
-            this.boton_borrar_hoteles.TabIndex = 68;
-            this.boton_borrar_hoteles.Text = "AC";
-            this.boton_borrar_hoteles.UseVisualStyleBackColor = true;
-            this.boton_borrar_hoteles.Click += new System.EventHandler(this.boton_borrar_hoteles_Click);
-            // 
-            // boton_agregar_hotel
-            // 
-            this.boton_agregar_hotel.Location = new System.Drawing.Point(269, 41);
-            this.boton_agregar_hotel.Name = "boton_agregar_hotel";
-            this.boton_agregar_hotel.Size = new System.Drawing.Size(32, 23);
-            this.boton_agregar_hotel.TabIndex = 67;
-            this.boton_agregar_hotel.Text = "+";
-            this.boton_agregar_hotel.UseVisualStyleBackColor = true;
-            this.boton_agregar_hotel.Click += new System.EventHandler(this.boton_agregar_hotel_Click);
-            // 
             // ModificarUsuario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(409, 771);
+            this.AutoScroll = true;
+            this.ClientSize = new System.Drawing.Size(417, 611);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.groupBox2);

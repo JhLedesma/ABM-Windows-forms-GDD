@@ -67,7 +67,7 @@
             // lblFechaDesde
             // 
             this.lblFechaDesde.AutoSize = true;
-            this.lblFechaDesde.Location = new System.Drawing.Point(6, 40);
+            this.lblFechaDesde.Location = new System.Drawing.Point(6, 32);
             this.lblFechaDesde.Name = "lblFechaDesde";
             this.lblFechaDesde.Size = new System.Drawing.Size(41, 13);
             this.lblFechaDesde.TabIndex = 0;
@@ -76,7 +76,7 @@
             // lblHasta
             // 
             this.lblHasta.AutoSize = true;
-            this.lblHasta.Location = new System.Drawing.Point(6, 78);
+            this.lblHasta.Location = new System.Drawing.Point(6, 68);
             this.lblHasta.Name = "lblHasta";
             this.lblHasta.Size = new System.Drawing.Size(38, 13);
             this.lblHasta.TabIndex = 1;
@@ -84,7 +84,7 @@
             // 
             // dtDesde
             // 
-            this.dtDesde.Location = new System.Drawing.Point(135, 34);
+            this.dtDesde.Location = new System.Drawing.Point(135, 26);
             this.dtDesde.Name = "dtDesde";
             this.dtDesde.Size = new System.Drawing.Size(200, 20);
             this.dtDesde.TabIndex = 2;
@@ -93,7 +93,7 @@
             // 
             // dtHasta
             // 
-            this.dtHasta.Location = new System.Drawing.Point(135, 72);
+            this.dtHasta.Location = new System.Drawing.Point(135, 62);
             this.dtHasta.Name = "dtHasta";
             this.dtHasta.Size = new System.Drawing.Size(200, 20);
             this.dtHasta.TabIndex = 3;
@@ -103,7 +103,7 @@
             // lblRegimen
             // 
             this.lblRegimen.AutoSize = true;
-            this.lblRegimen.Location = new System.Drawing.Point(6, 193);
+            this.lblRegimen.Location = new System.Drawing.Point(6, 183);
             this.lblRegimen.Name = "lblRegimen";
             this.lblRegimen.Size = new System.Drawing.Size(52, 13);
             this.lblRegimen.TabIndex = 4;
@@ -128,16 +128,16 @@
             this.groupBox1.Controls.Add(this.lblHasta);
             this.groupBox1.Controls.Add(this.dtHasta);
             this.groupBox1.Controls.Add(this.dtDesde);
-            this.groupBox1.Location = new System.Drawing.Point(19, 12);
+            this.groupBox1.Location = new System.Drawing.Point(19, 9);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(352, 311);
+            this.groupBox1.Size = new System.Drawing.Size(352, 295);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "PASO 1: Ingrese los siguientes datos para generar Reserva";
             // 
             // btnQuitarHabitacion
             // 
-            this.btnQuitarHabitacion.Location = new System.Drawing.Point(309, 147);
+            this.btnQuitarHabitacion.Location = new System.Drawing.Point(309, 137);
             this.btnQuitarHabitacion.Name = "btnQuitarHabitacion";
             this.btnQuitarHabitacion.Size = new System.Drawing.Size(32, 23);
             this.btnQuitarHabitacion.TabIndex = 51;
@@ -147,7 +147,7 @@
             // 
             // btnAgregarHabitacion
             // 
-            this.btnAgregarHabitacion.Location = new System.Drawing.Point(266, 147);
+            this.btnAgregarHabitacion.Location = new System.Drawing.Point(266, 137);
             this.btnAgregarHabitacion.Name = "btnAgregarHabitacion";
             this.btnAgregarHabitacion.Size = new System.Drawing.Size(32, 23);
             this.btnAgregarHabitacion.TabIndex = 50;
@@ -158,7 +158,7 @@
             // listadoTipoHabitacion
             // 
             this.listadoTipoHabitacion.FormattingEnabled = true;
-            this.listadoTipoHabitacion.Location = new System.Drawing.Point(135, 148);
+            this.listadoTipoHabitacion.Location = new System.Drawing.Point(135, 138);
             this.listadoTipoHabitacion.Name = "listadoTipoHabitacion";
             this.listadoTipoHabitacion.Size = new System.Drawing.Size(125, 21);
             this.listadoTipoHabitacion.TabIndex = 14;
@@ -167,7 +167,7 @@
             // lblTipoDeHabitacion
             // 
             this.lblTipoDeHabitacion.AutoSize = true;
-            this.lblTipoDeHabitacion.Location = new System.Drawing.Point(6, 151);
+            this.lblTipoDeHabitacion.Location = new System.Drawing.Point(6, 141);
             this.lblTipoDeHabitacion.Name = "lblTipoDeHabitacion";
             this.lblTipoDeHabitacion.Size = new System.Drawing.Size(115, 13);
             this.lblTipoDeHabitacion.TabIndex = 13;
@@ -177,7 +177,7 @@
             // 
             this.lblCostoHabitacion.AutoSize = true;
             this.lblCostoHabitacion.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCostoHabitacion.Location = new System.Drawing.Point(233, 229);
+            this.lblCostoHabitacion.Location = new System.Drawing.Point(233, 219);
             this.lblCostoHabitacion.Name = "lblCostoHabitacion";
             this.lblCostoHabitacion.Size = new System.Drawing.Size(45, 24);
             this.lblCostoHabitacion.TabIndex = 12;
@@ -185,7 +185,7 @@
             // 
             // btnGuardar
             // 
-            this.btnGuardar.Location = new System.Drawing.Point(266, 277);
+            this.btnGuardar.Location = new System.Drawing.Point(266, 267);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(75, 23);
             this.btnGuardar.TabIndex = 11;
@@ -196,7 +196,7 @@
             // btnModificar
             // 
             this.btnModificar.Enabled = false;
-            this.btnModificar.Location = new System.Drawing.Point(171, 277);
+            this.btnModificar.Location = new System.Drawing.Point(171, 267);
             this.btnModificar.Name = "btnModificar";
             this.btnModificar.Size = new System.Drawing.Size(75, 23);
             this.btnModificar.TabIndex = 10;
@@ -207,7 +207,7 @@
             // lblHabitacionPorDia
             // 
             this.lblHabitacionPorDia.AutoSize = true;
-            this.lblHabitacionPorDia.Location = new System.Drawing.Point(6, 235);
+            this.lblHabitacionPorDia.Location = new System.Drawing.Point(6, 225);
             this.lblHabitacionPorDia.Name = "lblHabitacionPorDia";
             this.lblHabitacionPorDia.Size = new System.Drawing.Size(152, 13);
             this.lblHabitacionPorDia.TabIndex = 9;
@@ -216,7 +216,7 @@
             // listadoHoteles
             // 
             this.listadoHoteles.FormattingEnabled = true;
-            this.listadoHoteles.Location = new System.Drawing.Point(135, 109);
+            this.listadoHoteles.Location = new System.Drawing.Point(135, 99);
             this.listadoHoteles.Name = "listadoHoteles";
             this.listadoHoteles.Size = new System.Drawing.Size(125, 21);
             this.listadoHoteles.TabIndex = 8;
@@ -225,7 +225,7 @@
             // lblHotel
             // 
             this.lblHotel.AutoSize = true;
-            this.lblHotel.Location = new System.Drawing.Point(6, 114);
+            this.lblHotel.Location = new System.Drawing.Point(6, 104);
             this.lblHotel.Name = "lblHotel";
             this.lblHotel.Size = new System.Drawing.Size(35, 13);
             this.lblHotel.TabIndex = 7;
@@ -233,7 +233,7 @@
             // 
             // btnRegimen
             // 
-            this.btnRegimen.Location = new System.Drawing.Point(266, 188);
+            this.btnRegimen.Location = new System.Drawing.Point(266, 178);
             this.btnRegimen.Name = "btnRegimen";
             this.btnRegimen.Size = new System.Drawing.Size(75, 23);
             this.btnRegimen.TabIndex = 6;
@@ -244,7 +244,7 @@
             // tbRegimen
             // 
             this.tbRegimen.Enabled = false;
-            this.tbRegimen.Location = new System.Drawing.Point(135, 190);
+            this.tbRegimen.Location = new System.Drawing.Point(135, 180);
             this.tbRegimen.Name = "tbRegimen";
             this.tbRegimen.Size = new System.Drawing.Size(125, 20);
             this.tbRegimen.TabIndex = 5;
@@ -256,9 +256,9 @@
             this.groupBox2.Controls.Add(this.lblCostoTotal);
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Enabled = false;
-            this.groupBox2.Location = new System.Drawing.Point(19, 329);
+            this.groupBox2.Location = new System.Drawing.Point(19, 310);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(352, 127);
+            this.groupBox2.Size = new System.Drawing.Size(352, 117);
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "PASO 2: Confirme la Reserva";
@@ -266,7 +266,7 @@
             // btnCancelar
             // 
             this.btnCancelar.Enabled = false;
-            this.btnCancelar.Location = new System.Drawing.Point(171, 91);
+            this.btnCancelar.Location = new System.Drawing.Point(171, 84);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(75, 23);
             this.btnCancelar.TabIndex = 14;
@@ -276,7 +276,7 @@
             // 
             // btnConfirmar
             // 
-            this.btnConfirmar.Location = new System.Drawing.Point(266, 91);
+            this.btnConfirmar.Location = new System.Drawing.Point(266, 84);
             this.btnConfirmar.Name = "btnConfirmar";
             this.btnConfirmar.Size = new System.Drawing.Size(75, 23);
             this.btnConfirmar.TabIndex = 13;
@@ -288,7 +288,7 @@
             // 
             this.lblCostoTotal.AutoSize = true;
             this.lblCostoTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCostoTotal.Location = new System.Drawing.Point(236, 44);
+            this.lblCostoTotal.Location = new System.Drawing.Point(236, 37);
             this.lblCostoTotal.Name = "lblCostoTotal";
             this.lblCostoTotal.Size = new System.Drawing.Size(45, 24);
             this.lblCostoTotal.TabIndex = 13;
@@ -297,7 +297,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 50);
+            this.label1.Location = new System.Drawing.Point(6, 43);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(113, 13);
             this.label1.TabIndex = 10;
@@ -311,7 +311,7 @@
             this.groupBox3.Controls.Add(this.rbNo);
             this.groupBox3.Controls.Add(this.rbSi);
             this.groupBox3.Enabled = false;
-            this.groupBox3.Location = new System.Drawing.Point(19, 462);
+            this.groupBox3.Location = new System.Drawing.Point(19, 433);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(352, 139);
             this.groupBox3.TabIndex = 7;
@@ -372,7 +372,7 @@
             // btnTerminar
             // 
             this.btnTerminar.Enabled = false;
-            this.btnTerminar.Location = new System.Drawing.Point(285, 617);
+            this.btnTerminar.Location = new System.Drawing.Point(285, 578);
             this.btnTerminar.Name = "btnTerminar";
             this.btnTerminar.Size = new System.Drawing.Size(75, 23);
             this.btnTerminar.TabIndex = 17;
@@ -382,7 +382,7 @@
             // 
             // btnVolver
             // 
-            this.btnVolver.Location = new System.Drawing.Point(28, 617);
+            this.btnVolver.Location = new System.Drawing.Point(28, 578);
             this.btnVolver.Name = "btnVolver";
             this.btnVolver.Size = new System.Drawing.Size(75, 23);
             this.btnVolver.TabIndex = 18;
@@ -394,13 +394,15 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.ClientSize = new System.Drawing.Size(390, 650);
+            this.ClientSize = new System.Drawing.Size(390, 611);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.btnTerminar);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.HelpButton = true;
             this.Name = "Generar_Reserva_Guest";
             this.Text = "Generar Reserva";
             this.groupBox1.ResumeLayout(false);

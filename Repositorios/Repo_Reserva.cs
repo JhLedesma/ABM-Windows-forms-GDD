@@ -479,6 +479,42 @@ namespace FrbaHotel.Repositorios
             DBhelper.cerrarConexion();
         }
 
+        public int getIdClienteDeReserva(decimal idReserva)
+        {
+            DBhelper.crearConexion();
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getIdClienteDeReserva");
+            cmd.Parameters.Add("@idReserva", SqlDbType.Decimal).Value = idReserva;
+
+            var valorDeRetorno = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
+            valorDeRetorno.Direction = ParameterDirection.ReturnValue;
+
+            DBhelper.abrirConexion();
+
+            DBhelper.ejecutarProcedure(cmd);
+
+            DBhelper.cerrarConexion();
+
+            return (int)valorDeRetorno.Value;
+        }
+
+        public void EliminarReservasNoEfectivizadasDeCliente(String fecha, int idCliente)
+        {
+            DBhelper.crearConexion();
+            DBhelper.abrirConexion();
+
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.EliminarReservasNoEfectivizadasDeCliente");
+            cmd.Parameters.Add("@fecha", SqlDbType.NVarChar).Value = fecha;
+            cmd.Parameters.Add("@idCliente", SqlDbType.Int).Value = idCliente;
+
+            DBhelper.ejecutarProcedure(cmd);
+
+            DBhelper.cerrarConexion();
+
+
+        }
+
+
     }
 }
     

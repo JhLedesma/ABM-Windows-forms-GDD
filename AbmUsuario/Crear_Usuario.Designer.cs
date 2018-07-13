@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.boton_borrarRoles = new System.Windows.Forms.Button();
+            this.boton_agregarRol = new System.Windows.Forms.Button();
             this.ListadoRol = new System.Windows.Forms.ComboBox();
             this.lblRol = new System.Windows.Forms.Label();
             this.lblPass = new System.Windows.Forms.Label();
@@ -71,8 +73,6 @@
             this.btnAgregarHotel = new System.Windows.Forms.Button();
             this.listadoHoteles = new System.Windows.Forms.ComboBox();
             this.lblHoteles = new System.Windows.Forms.Label();
-            this.boton_borrarRoles = new System.Windows.Forms.Button();
-            this.boton_agregarRol = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericTelefono)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericNumeroIdentificacion)).BeginInit();
@@ -112,6 +112,26 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Ingrese los datos del nuevo usuario (todos los datos son obligatorios):";
+            // 
+            // boton_borrarRoles
+            // 
+            this.boton_borrarRoles.Location = new System.Drawing.Point(338, 109);
+            this.boton_borrarRoles.Name = "boton_borrarRoles";
+            this.boton_borrarRoles.Size = new System.Drawing.Size(32, 23);
+            this.boton_borrarRoles.TabIndex = 64;
+            this.boton_borrarRoles.Text = "AC";
+            this.boton_borrarRoles.UseVisualStyleBackColor = true;
+            this.boton_borrarRoles.Click += new System.EventHandler(this.boton_borrarRoles_Click);
+            // 
+            // boton_agregarRol
+            // 
+            this.boton_agregarRol.Location = new System.Drawing.Point(295, 109);
+            this.boton_agregarRol.Name = "boton_agregarRol";
+            this.boton_agregarRol.Size = new System.Drawing.Size(32, 23);
+            this.boton_agregarRol.TabIndex = 63;
+            this.boton_agregarRol.Text = "+";
+            this.boton_agregarRol.UseVisualStyleBackColor = true;
+            this.boton_agregarRol.Click += new System.EventHandler(this.boton_agregarRol_Click);
             // 
             // ListadoRol
             // 
@@ -499,31 +519,12 @@
             this.lblHoteles.TabIndex = 59;
             this.lblHoteles.Text = "Hoteles:";
             // 
-            // boton_borrarRoles
-            // 
-            this.boton_borrarRoles.Location = new System.Drawing.Point(338, 109);
-            this.boton_borrarRoles.Name = "boton_borrarRoles";
-            this.boton_borrarRoles.Size = new System.Drawing.Size(32, 23);
-            this.boton_borrarRoles.TabIndex = 64;
-            this.boton_borrarRoles.Text = "AC";
-            this.boton_borrarRoles.UseVisualStyleBackColor = true;
-            this.boton_borrarRoles.Click += new System.EventHandler(this.boton_borrarRoles_Click);
-            // 
-            // boton_agregarRol
-            // 
-            this.boton_agregarRol.Location = new System.Drawing.Point(295, 109);
-            this.boton_agregarRol.Name = "boton_agregarRol";
-            this.boton_agregarRol.Size = new System.Drawing.Size(32, 23);
-            this.boton_agregarRol.TabIndex = 63;
-            this.boton_agregarRol.Text = "+";
-            this.boton_agregarRol.UseVisualStyleBackColor = true;
-            this.boton_agregarRol.Click += new System.EventHandler(this.boton_agregarRol_Click);
-            // 
             // Crear_Usuario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(407, 693);
+            this.AutoScroll = true;
+            this.ClientSize = new System.Drawing.Size(416, 611);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.groupBox2);

@@ -404,6 +404,11 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getReserva','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getHabitacionesEnFechaModificacion','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getHabitacionesEnFechaModificacion;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.EliminarReservasNoEfectivizadasDeCliente','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.EliminarReservasNoEfectivizadasDeCliente;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getIdClienteDeReserva','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getIdClienteDeReserva;
 
 	
 /* Dropeo las views si ya existen */
@@ -2236,6 +2241,37 @@ begin
 	select * from Reserva where IdReserva = @idReserva
 end
 
+/*
+GO
+create procedure TRAEME_LA_COPA_MESSI.reservaTieneClienteConsistente
+@idReserva numeric(18,0)
+as
+begin
+	if exists(select 1 from Reserva where IdReserva=@idReserva and IdCliente is not null)
+		return 1
+end
+*/
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.getIdClienteDeReserva
+@idReserva numeric(18,0)
+as
+begin
+	declare @clie int
+
+	if exists(select 1 from Reserva where IdReserva=@idReserva and IdCliente is not null)
+		begin
+			set @clie = (select IdCliente from Reserva where IdReserva=@idReserva)
+			return @clie
+		end
+	else
+		begin
+			set @clie = (select IdClienteInconsistente from Reserva where IdReserva=@idReserva)
+			return @clie
+		end
+end
+
+
 
 GO
 create procedure TRAEME_LA_COPA_MESSI.comprobarReservaNoPasoFecha
@@ -2250,6 +2286,19 @@ begin
 		return 2
 	else if not exists (select 0 from TRAEME_LA_COPA_MESSI.Reserva where IdReserva=@idReserva and EstadoReserva != 2 and EstadoReserva != 3 and EstadoReserva != 4 and EstadoReserva != 6)
 		return 0
+end
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.EliminarReservasNoEfectivizadasDeCliente
+@fecha nvarchar(255),
+@idCliente int
+as
+begin
+	if exists(select 1 from Reserva where IdCliente=@idCliente)
+		delete from Reserva where FechaReserva < CONVERT(datetime,@fecha,121) and EstadoReserva != 6 and EstadoReserva != 1 and IdCliente=@idCliente
+	else if exists(select 1 from Reserva where IdClienteInconsistente=@idCliente)
+		delete from Reserva where FechaReserva < CONVERT(datetime,@fecha,121) and EstadoReserva != 6 and EstadoReserva != 1 and IdClienteInconsistente=@idCliente
 end
 
 
