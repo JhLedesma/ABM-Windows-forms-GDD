@@ -268,7 +268,7 @@ namespace FrbaHotel.GenerarModificacionReserva
 
             if (listaHabitacionesDisponibles.Count == 0)
             {
-                listaHabitacionesDisponibles = Repositorios.Repo_Reserva.getInstancia().getHabitacionesEnFecha(dtDesde.Value, dtHasta.Value, hotelSeleccionado.idHotel);
+                listaHabitacionesDisponibles = Repositorios.Repo_Reserva.getInstancia().getHabitacionesEnFechaModificacion(dtDesde.Value, dtHasta.Value, hotelSeleccionado.idHotel, idReservaModidicacion);
                 if (listaHabitacionesDisponibles.Count == 0)
                 {
                     var = 1;

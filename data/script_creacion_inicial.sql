@@ -401,6 +401,10 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.topHabitacionesOcupadas','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getReserva','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getReserva;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getHabitacionesEnFechaModificacion','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getHabitacionesEnFechaModificacion;
+
+
 	
 /* Dropeo las views si ya existen */
 
@@ -2085,6 +2089,34 @@ begin
 	where r.FechaReserva >= @desde and r.CantidadNochesReservadas <= @hasta
 	)
 	
+end
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.getHabitacionesEnFechaModificacion
+@desde DateTime,
+@hasta DateTime,
+@idHotel int,
+@idReserva numeric(18,0)
+as
+begin
+	declare @cantNoches numeric(18,0)
+	set @cantNoches =  CAST((datediff(day,@desde,@hasta)) AS numeric(18,0))
+
+	select * 
+	from TRAEME_LA_COPA_MESSI.Habitacion hab
+	where hab.IdHotel = @idHotel
+	and hab.Numero not in
+	(
+	select distinct h.Numero
+	from TRAEME_LA_COPA_MESSI.Habitacion h
+	join TRAEME_LA_COPA_MESSI.HabitacionPorReserva hr
+		on h.Numero = hr.NumeroHabitacion
+		and h.IdHotel = hr.IdHotel
+	join TRAEME_LA_COPA_MESSI.Reserva r
+		on hr.IdReserva = r.IdReserva
+	where r.FechaReserva >= @desde and r.CantidadNochesReservadas <= @hasta and r.IdReserva != @idReserva
+	)
 end
 
 
