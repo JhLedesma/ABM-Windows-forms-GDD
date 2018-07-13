@@ -16,7 +16,7 @@ namespace FrbaHotel.Model
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new AbmHotel.Abm_hotel());
-            Application.Run(new Login.Login());
+            //Application.Run(new Login.Login());
             //Application.Run(new AbmRol.AbmRol());
             //Application.Run(new AbmCliente.Abm_Cliente());
             //Application.Run(new RegistrarEstadia.Input_reserva());
@@ -32,6 +32,7 @@ namespace FrbaHotel.Model
             //Application.Run(new GenerarModificacionReserva.ValidarReserva());
             //Application.Run(new ListadoEstadistico.Listado());
             //Console.WriteLine(ConfigurationManager.AppSettings["fecha"]);
+            Application.Run(new AbmUsuario.ABM_Usuario());
 
             
             

@@ -546,10 +546,10 @@ EstadoRegimenEstadia BIT DEFAULT 0,
 );
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.UsuariosPorHotel(
+Id_usPorHotel int IDENTITY(1,1) PRIMARY KEY,
 IdHotel int FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Hotel(IdHotel),
 Username nvarchar(255) FOREIGN KEY REFERENCES TRAEME_LA_COPA_MESSI.Usuario(Username),
 User_desempenio nvarchar(255) NOT NULL
-CONSTRAINT IdUsuariosPorHotel PRIMARY KEY(IdHotel,Username)
 );
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.RegimenPorHotel(
@@ -1575,8 +1575,6 @@ BEGIN
 	SELECT IdHotel,Nombre,Mail,Telefono,CantEstrellas,PorcentajeEstrellas,FechaCreacion FROM TRAEME_LA_COPA_MESSI.Hotel
 
 END
-
-
 
 /* Repositorio Clientes */
 

@@ -14,7 +14,10 @@ namespace FrbaHotel.AbmUsuario
     {
         private List<Model.Hotel> listaHotelesDisponibles = Repositorios.Repo_hotel.getInstancia().getHoteles();
         private List<Model.Hotel> listaHotelesAgregados = new List<Model.Hotel>();
+        private List<Model.Rol> listaRolesDisponibles = Repositorios.Repo_Rol.getInstancia().getRoles();
+        private List<Model.Rol> listaRolesAgregados = new List<Model.Rol>();
         private Model.Hotel hotelSeleccionado;
+        private Model.Rol rolSeleccionado;
 
         public Crear_Usuario()
         {
@@ -29,7 +32,7 @@ namespace FrbaHotel.AbmUsuario
         {
             this.ListadoRol.ValueMember = "Objeto";
             this.ListadoRol.DisplayMember = "Nombre";
-            this.ListadoRol.DataSource = Repositorios.Repo_Rol.getInstancia().getRoles();
+            this.ListadoRol.DataSource = listaRolesDisponibles;
             this.ListadoRol.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
@@ -87,6 +90,10 @@ namespace FrbaHotel.AbmUsuario
              {
                  MessageBox.Show("Por favor Agregue uno o mas hoteles donde se desempeña el Usuario", "Campos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error);
              }
+             else if (listaRolesAgregados.Count == 0)
+             {
+                 MessageBox.Show("Por favor Agregue uno o mas roles para el Usuario", "Campos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+             }
              else if (Repositorios.Repo_usuario.getInstancia().validarMail(tbMail.Text) == 1)
              {
                  MessageBox.Show("Por favor ingrese un mail que no registrado", "Mail ya existente", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -116,7 +123,7 @@ namespace FrbaHotel.AbmUsuario
                  direccion.numDomicilio = numericNumero.Value;
                  direccion.piso = numericPiso.Value;
 
-                 Repositorios.Repo_usuario.getInstancia().newUsuario(usuario, (Model.Rol)ListadoRol.SelectedValue, listaHotelesAgregados);
+                 Repositorios.Repo_usuario.getInstancia().newUsuario(usuario, listaRolesAgregados, listaHotelesAgregados);
 
                  MessageBox.Show("Usuario creado");
 
@@ -154,6 +161,40 @@ namespace FrbaHotel.AbmUsuario
             this.Hide();
             new Login.SeleccionarFuncionalidad_admin().ShowDialog();
             this.Close();
+        }
+
+        private void boton_agregarRol_Click(object sender, EventArgs e)
+        {
+            if (listaRolesDisponibles.Count() == 0)
+            {
+
+                MessageBox.Show("No hay mas roles para agregar", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            
+            }
+
+            else 
+            {
+
+                rolSeleccionado = (Model.Rol)ListadoRol.SelectedValue;
+                listaRolesAgregados.Add(rolSeleccionado);
+
+                ListadoRol.DataSource = null;
+                listaRolesDisponibles.Remove(rolSeleccionado);
+
+                configuarComboBoxRol();
+
+                MessageBox.Show("Agregado");
+            
+            }
+            
+        }
+
+        private void boton_borrarRoles_Click(object sender, EventArgs e)
+        {
+            listaRolesAgregados.Clear();
+            listaRolesDisponibles = Repositorios.Repo_Rol.getInstancia().getRoles();
+
+            configuarComboBoxRol();
         }
 
 

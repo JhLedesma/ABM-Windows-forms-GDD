@@ -320,10 +320,9 @@ namespace FrbaHotel.Repositorios
         }
 
 
-        ///ABM Usuario////////////////////////////
-        ///
+        ///ABM Usuario///
 
-        public void newUsuario(Model.Usuario usuario, Model.Rol rol, List<Model.Hotel> hoteles)
+        public void newUsuario(Model.Usuario usuario, List<Model.Rol> roles, List<Model.Hotel> hoteles)
         {
             DBhelper.crearConexion();
             DBhelper.abrirConexion();
@@ -332,9 +331,6 @@ namespace FrbaHotel.Repositorios
 
             SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.newUsuario");
             //cmd.Transaction = transaction;
-
-            try
-            {
 
                 cmd.Parameters.Add("@user", SqlDbType.NVarChar).Value = usuario.username;
                 cmd.Parameters.Add("@pass", SqlDbType.NVarChar).Value = usuario.password;
@@ -355,21 +351,22 @@ namespace FrbaHotel.Repositorios
 
                 DBhelper.ejecutarProcedure(cmd);
 
-                this.newRolPorUsuario(rol.idRol, usuario.username);
-
+                foreach (Model.Rol rol in roles)
+                {
+                    this.newRolPorUsuario(rol.idRol, usuario.username);
+                }
+                
                 foreach (Model.Hotel hotel in hoteles)
                 {
+                    foreach (Model.Rol rol in roles)
+                    {
                     this.newUsuariosPorHotel(hotel.idHotel, usuario.username, rol.Nombre);
+                    }
                 }
 
                 //transaction.Commit();
                 DBhelper.cerrarConexion();
-            }
-            catch (Exception e)
-            {
-                //transaction.Rollback();
-                DBhelper.cerrarConexion();
-            }
+           
         }
 
         private void newRolPorUsuario(int idRol, String username)
@@ -407,8 +404,7 @@ namespace FrbaHotel.Repositorios
             SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.newUsuariosPorHotel");
             //cmd.Transaction = transaction;
 
-            try
-            {
+           
                 cmd.Parameters.Add("@username", SqlDbType.NVarChar).Value = username;
                 cmd.Parameters.Add("@User_desempenio", SqlDbType.NVarChar).Value = userDesempeño;
                 cmd.Parameters.Add("@hotelId", SqlDbType.Int).Value = idHotel;
@@ -416,17 +412,12 @@ namespace FrbaHotel.Repositorios
                 DBhelper.ejecutarProcedure(cmd);
                 //transaction.Commit();
                 DBhelper.cerrarConexion();
-            }
-            catch (Exception e)
-            {
-                //transaction.Rollback();
-                DBhelper.cerrarConexion();
-            }
+ 
                 
         }
 
 
-        public void modificarUsuario(Model.Usuario usuario, Model.Rol rol, List<Model.Hotel> hoteles)
+        public void modificarUsuario(Model.Usuario usuario, List<Model.Rol> roles, List<Model.Hotel> hoteles)
         {
             DBhelper.crearConexion();
             DBhelper.abrirConexion();
@@ -456,12 +447,20 @@ namespace FrbaHotel.Repositorios
             DBhelper.ejecutarProcedure(cmd);
 
             this.eliminarRolesDeUsuario(usuario.username);
+
+            foreach(Model.Rol rol in roles)
+            {
             this.newRolPorUsuario(rol.idRol, usuario.username);
+            }
 
             this.eliminarHotelesDeUsuario(usuario.username);
+
             foreach (Model.Hotel hotel in hoteles)
             {
-               this.newUsuariosPorHotel(hotel.idHotel, usuario.username, rol.Nombre);
+                foreach(Model.Rol rol in roles)
+                {
+                    this.newUsuariosPorHotel(hotel.idHotel, usuario.username, rol.Nombre);
+                }
             }
             
             DBhelper.cerrarConexion();
