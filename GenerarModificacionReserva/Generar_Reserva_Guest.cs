@@ -12,7 +12,6 @@ namespace FrbaHotel.GenerarModificacionReserva
 {
     public partial class Generar_Reserva_Guest : Form, GenerarReserva
     {
-        decimal idReservaModidicacion = 0;
         Model.Hotel hotelSeleccionado;
         Model.Regimen regimenSeleccionado;
         Model.Cliente cliente;
@@ -43,32 +42,6 @@ namespace FrbaHotel.GenerarModificacionReserva
             listaHabitacionesAgregadas = new List<Model.Habitacion>();
             this.usuarioLogueado = usuario;
             this.configurarVistaConUsuario();
-        }
-
-        public Generar_Reserva_Guest(decimal idReserva)
-        {
-            InitializeComponent();
-            configuarComboBoxHotel();
-            configuarComboBoxTipoHabitacion();
-            hotelSeleccionado = (Model.Hotel)listadoHoteles.SelectedValue;
-            listaTipoHabitacionesAgregadas = new List<Model.TipoHabitacion>();
-            listaHabitacionesDisponibles = new List<Model.Habitacion>();
-            listaHabitacionesAgregadas = new List<Model.Habitacion>();
-            this.idReservaModidicacion = idReserva;
-        }
-
-        public Generar_Reserva_Guest(Model.Usuario usuario, decimal idReserva)
-        {
-            InitializeComponent();
-            configuarComboBoxHotel();
-            configuarComboBoxTipoHabitacion();
-            hotelSeleccionado = (Model.Hotel)listadoHoteles.SelectedValue;
-            listaTipoHabitacionesAgregadas = new List<Model.TipoHabitacion>();
-            listaHabitacionesDisponibles = new List<Model.Habitacion>();
-            listaHabitacionesAgregadas = new List<Model.Habitacion>();
-            this.usuarioLogueado = usuario;
-            this.configurarVistaConUsuario();
-            this.idReservaModidicacion = idReserva;
         }
 
         private void btnRegimen_Click(object sender, EventArgs e)
@@ -313,22 +286,13 @@ namespace FrbaHotel.GenerarModificacionReserva
             reservaCreada.cliente = cliente;
             reservaCreada.habitaciones = listaHabitacionesAgregadas;
 
-            if (idReservaModidicacion == 0)//Creacion
-            {
+
                 int idReserva = Repositorios.Repo_Reserva.getInstancia().crearReservaReturnId(reservaCreada);
 
                 Repositorios.Repo_Reserva.getInstancia().registrarCreacion(usuarioLogueado, idReserva);
 
                 new MostrarCodigoReserva(idReserva).ShowDialog();
-            }
-            else//Modificacion
-            {
-                reservaCreada.id = Convert.ToInt32(idReservaModidicacion);
-
-                Repositorios.Repo_Reserva.getInstancia().registrarModificacion(usuarioLogueado, reservaCreada.id);
-
-                MessageBox.Show("Reserva " + reservaCreada.id.ToString() + " Modificada Correctamente");
-            }
+     
 
             this.Hide();
             this.Close();

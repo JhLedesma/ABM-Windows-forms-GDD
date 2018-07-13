@@ -195,8 +195,6 @@ namespace FrbaHotel.Repositorios
             cmd.Parameters.Add("@id", SqlDbType.Decimal).Value = Convert.ToDecimal(reserva.id);
             cmd.Parameters.Add("@desde", SqlDbType.DateTime).Value = reserva.fechaDesde;
             cmd.Parameters.Add("@hasta", SqlDbType.DateTime).Value = reserva.fechaHasta;
-            cmd.Parameters.Add("@mailCliente", SqlDbType.NVarChar).Value = reserva.cliente.mail;
-            cmd.Parameters.Add("@idCliente", SqlDbType.Int).Value = reserva.cliente.id;
             cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = reserva.hotel.idHotel;
             cmd.Parameters.Add("@idRegimen", SqlDbType.Int).Value = reserva.regimen.idRegimen;
 
@@ -232,11 +230,6 @@ namespace FrbaHotel.Repositorios
 
         }
 
-
-        public Model.Reserva getReserva(Int32 idReserva)
-        {
-            return null;
-        }
 
         public void hacerCheckIn(Model.Cliente cliente, Int32 numReserva) {
               

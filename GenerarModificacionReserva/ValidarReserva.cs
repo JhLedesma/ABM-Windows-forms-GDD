@@ -33,11 +33,11 @@ namespace FrbaHotel.GenerarModificacionReserva
             {
                 if (usuarioIngresado == null)
                 {
-                    new Generar_Reserva_Guest(numReserva.Value).ShowDialog();
+                    new ModificarReserva(numReserva.Value).ShowDialog();
                 }
                 else
                 {
-                    new Generar_Reserva_Guest(usuarioIngresado,numReserva.Value).ShowDialog();
+                    new ModificarReserva(usuarioIngresado, numReserva.Value).ShowDialog();
                 }
            
             }
@@ -49,6 +49,9 @@ namespace FrbaHotel.GenerarModificacionReserva
             {
                 MessageBox.Show("La reserva ingresada no existe Reserva", "No existe Reserva", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            this.Hide();
+            this.Close();
         }
     }
 }

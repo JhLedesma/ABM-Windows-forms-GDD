@@ -13,10 +13,10 @@ namespace FrbaHotel.GenerarModificacionReserva
     public partial class AgregarHabitacion : Form
     {
         Model.TipoHabitacion tipoHabitacion;
-        Generar_Reserva_Guest vista;
+        GenerarReserva vista;
 
 
-        public AgregarHabitacion(Generar_Reserva_Guest vista)
+        public AgregarHabitacion(GenerarReserva vista)
         {
             InitializeComponent();
             this.vista = vista;

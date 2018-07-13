@@ -80,6 +80,7 @@
             this.btnCancelar.TabIndex = 14;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
             // btnConfirmar
             // 
@@ -89,6 +90,7 @@
             this.btnConfirmar.TabIndex = 13;
             this.btnConfirmar.Text = "Confirmar";
             this.btnConfirmar.UseVisualStyleBackColor = true;
+            this.btnConfirmar.Click += new System.EventHandler(this.btnConfirmar_Click);
             // 
             // lblCostoTotal
             // 
@@ -143,6 +145,7 @@
             this.btnQuitarHabitacion.TabIndex = 51;
             this.btnQuitarHabitacion.Text = "AC";
             this.btnQuitarHabitacion.UseVisualStyleBackColor = true;
+            this.btnQuitarHabitacion.Click += new System.EventHandler(this.btnQuitarHabitacion_Click);
             // 
             // btnAgregarHabitacion
             // 
@@ -152,6 +155,7 @@
             this.btnAgregarHabitacion.TabIndex = 50;
             this.btnAgregarHabitacion.Text = "+";
             this.btnAgregarHabitacion.UseVisualStyleBackColor = true;
+            this.btnAgregarHabitacion.Click += new System.EventHandler(this.btnAgregarHabitacion_Click);
             // 
             // listadoTipoHabitacion
             // 
@@ -188,6 +192,7 @@
             this.btnGuardar.TabIndex = 11;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = true;
+            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
             // btnModificar
             // 
@@ -198,6 +203,7 @@
             this.btnModificar.TabIndex = 10;
             this.btnModificar.Text = "Modificar";
             this.btnModificar.UseVisualStyleBackColor = true;
+            this.btnModificar.Click += new System.EventHandler(this.btnModificar_Click);
             // 
             // lblHabitacionPorDia
             // 
@@ -233,6 +239,7 @@
             this.btnRegimen.TabIndex = 6;
             this.btnRegimen.Text = "Seleccionar";
             this.btnRegimen.UseVisualStyleBackColor = true;
+            this.btnRegimen.Click += new System.EventHandler(this.btnRegimen_Click);
             // 
             // tbRegimen
             // 
@@ -276,6 +283,7 @@
             this.dtHasta.Size = new System.Drawing.Size(200, 20);
             this.dtHasta.TabIndex = 3;
             this.dtHasta.Value = new System.DateTime(2021, 1, 2, 0, 0, 0, 0);
+            this.dtHasta.MouseCaptureChanged += new System.EventHandler(this.resetearPorCambioDeHotel);
             // 
             // dtDesde
             // 
@@ -284,6 +292,7 @@
             this.dtDesde.Size = new System.Drawing.Size(200, 20);
             this.dtDesde.TabIndex = 2;
             this.dtDesde.Value = new System.DateTime(2021, 1, 1, 0, 0, 0, 0);
+            this.dtDesde.ValueChanged += new System.EventHandler(this.resetearPorCambioDeHotel);
             // 
             // btnVolver
             // 
@@ -293,6 +302,7 @@
             this.btnVolver.TabIndex = 20;
             this.btnVolver.Text = "Volver";
             this.btnVolver.UseVisualStyleBackColor = true;
+            this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
             // 
             // btnTerminar
             // 
@@ -303,6 +313,7 @@
             this.btnTerminar.TabIndex = 19;
             this.btnTerminar.Text = "Terminar";
             this.btnTerminar.UseVisualStyleBackColor = true;
+            this.btnTerminar.Click += new System.EventHandler(this.btnTerminar_Click);
             // 
             // ModificarReserva
             // 
