@@ -37,7 +37,7 @@ namespace FrbaHotel.AbmRol
         private void BotonCrearRol_Click(object sender, EventArgs e)
         {
 
-            if (string.IsNullOrWhiteSpace(textBoxNombre.Text) || funcionalidadesSeleccionadas.Count==0)
+            if (string.IsNullOrWhiteSpace(textBoxNombre.Text) || funcionalidadesSeleccionadas.Count==0 || (radioInactivo.Checked == false && RadioActivo.Checked == false))
             {
                 MessageBox.Show("Por favor complete todos los campos", "Campos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -46,7 +46,7 @@ namespace FrbaHotel.AbmRol
                 
                 int validacion = Repositorios.Repo_Rol.getInstancia().validarRol(textBoxNombre.Text);
                 if(validacion==0){
-                     int id =Repositorios.Repo_Rol.getInstancia().agregarRol(textBoxNombre.Text,funcionalidadesSeleccionadas,RadioActivo.Checked);
+                     int id =Repositorios.Repo_Rol.getInstancia().agregarRol(textBoxNombre.Text,funcionalidadesSeleccionadas,radioInactivo.Checked);
                      Repositorios.Repo_Rol.getInstancia().actualizarFuncPorRol(funcionalidadesSeleccionadas, id);
                      MessageBox.Show("Rol aniadido correctamente", "Rol creado", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     
@@ -63,12 +63,23 @@ namespace FrbaHotel.AbmRol
         private void button1_Click(object sender, EventArgs e)
         {
 
-            Model.Funcionalidad funcionalidadSeleccionada = (Model.Funcionalidad)comboFuncionalidades.SelectedItem;
-            funcionalidadesSeleccionadas.Add(funcionalidadSeleccionada);
-            comboFuncionalidades.DataSource = null;
-            funcionalidades.Remove(funcionalidadSeleccionada);
-            configuarComboBox();
+            if (funcionalidades.Count() == 0)
+            {
+
+                MessageBox.Show("No hay más funcionalidades para agregar", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             
+            }
+            else
+            {
+
+                Model.Funcionalidad funcionalidadSeleccionada = (Model.Funcionalidad)comboFuncionalidades.SelectedItem;
+                funcionalidadesSeleccionadas.Add(funcionalidadSeleccionada);
+                comboFuncionalidades.DataSource = null;
+                funcionalidades.Remove(funcionalidadSeleccionada);
+                configuarComboBox();
+            
+            }
+
 
         }
 

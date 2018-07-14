@@ -409,6 +409,8 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.EliminarReservasNoEfectivizadasDeCliente','P'
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getIdClienteDeReserva','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getIdClienteDeReserva;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarUsername','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.validarUsername;
 	
 /* Dropeo las views si ya existen */
 
@@ -802,6 +804,7 @@ INSERT INTO TRAEME_LA_COPA_MESSI.Funcionalidad(Descripcion)
 	VALUES ('ABM Hotel'),('ABM Cliente'),('ABM Rol'),('ABM Usuario'),('ABM Habitacion'),('Listado Estadistico'),('Reservas'),('Cancelar Reservas'),('Registrar Estadia')
 
 -- Funcionalidad por rol --
+
 
 INSERT INTO TRAEME_LA_COPA_MESSI.FuncionalidadPorRol
 	select f.IdFunc, rpu.IdRol from TRAEME_LA_COPA_MESSI.Funcionalidad f,
@@ -1217,6 +1220,17 @@ create procedure TRAEME_LA_COPA_MESSI.validarMailUsuario
 as
 begin
 	if exists (select 1 from TRAEME_LA_COPA_MESSI.Usuario where Email=@mail)
+		return 1
+	else
+		return 0
+end
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.validarUsername
+@username nvarchar(255)
+as
+begin
+	if exists (select 1 from TRAEME_LA_COPA_MESSI.Usuario where Username = @username)
 		return 1
 	else
 		return 0
@@ -1805,6 +1819,7 @@ commit
 /* Repositorio Rol*/
 
 
+
 GO
 create procedure TRAEME_LA_COPA_MESSI.validarNombreDeRol
 @nombreRol nvarchar(255)
@@ -1865,8 +1880,8 @@ create procedure TRAEME_LA_COPA_MESSI.eliminarRol
 @idRol int
 as
 begin
-delete from TRAEME_LA_COPA_MESSI.RolPorUsuario where @idRol=IdRol
-delete from TRAEME_LA_COPA_MESSI.Rol where @idRol=IdRol
+
+	UPDATE TRAEME_LA_COPA_MESSI.Rol SET Estado = 1 WHERE IdRol = @idRol
 
 end 
 

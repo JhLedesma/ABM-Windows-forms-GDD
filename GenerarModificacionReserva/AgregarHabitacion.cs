@@ -54,15 +54,26 @@ namespace FrbaHotel.GenerarModificacionReserva
 
             foreach (Model.Habitacion h in vista.listaHabitacionesDisponibles)
             {
-                if (h.tipoHab.codigo == tipoHabitacionSeleccionada.codigo)
+                if (tipoHabitacionSeleccionada == null)
                 {
-                    vista.listaTipoHabitacionesAgregadas.Add(tipoHabitacionSeleccionada);
-                    vista.configuarComboBoxTipoHabitacion();
+                    this.Hide();
+                    this.Close();
+                    MessageBox.Show("No hay mas habitaciones disponibles para agregar", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    
+                }
 
-                    vista.listaHabitacionesAgregadas.Add(h);
-                    habEliminar = h;
+                else
+                {
+                    if (h.tipoHab.codigo == tipoHabitacionSeleccionada.codigo)
+                    {
+                        vista.listaTipoHabitacionesAgregadas.Add(tipoHabitacionSeleccionada);
+                        vista.configuarComboBoxTipoHabitacion();
 
-                    break;
+                        vista.listaHabitacionesAgregadas.Add(h);
+                        habEliminar = h;
+
+                        break;
+                   }
                 }
             }
 

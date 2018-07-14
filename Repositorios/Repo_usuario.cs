@@ -579,6 +579,25 @@ namespace FrbaHotel.Repositorios
             return (int)valorDeRetorno.Value;
         }
 
+        public int validarUsername(string username)
+        {
+            DBhelper.crearConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.validarUsername");
+            cmd.Parameters.Add("@username", SqlDbType.NVarChar).Value = username;
+
+            var valorDeRetorno = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
+            valorDeRetorno.Direction = ParameterDirection.ReturnValue;
+
+            DBhelper.abrirConexion();
+
+            DBhelper.ejecutarProcedure(cmd);
+
+            DBhelper.cerrarConexion();
+
+            return (int)valorDeRetorno.Value;
+        }
+
 
         public void darBajaUsuario(String username)
         {
