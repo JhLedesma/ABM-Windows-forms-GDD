@@ -325,7 +325,17 @@ namespace FrbaHotel.GenerarModificacionReserva
             MessageBox.Show("Reserva " + reservaCreada.id.ToString() + " Modificada Correctamente");
 
             this.Hide();
-            this.Close();
+
+
+            if (usuarioLogueado == null)
+            {
+
+                new Login.SeleccionarFuncionalidad_invitado().ShowDialog();
+            }
+            else
+            {
+                new GenerarModificacionReserva.PanelResservas().ShowDialog();
+            }
         }
 
         public void desabilitarBotongregar()
