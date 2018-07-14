@@ -102,5 +102,15 @@ namespace FrbaHotel.AbmHabitacion
             this.Close();
             new Login.SeleccionarFuncionalidad().ShowDialog();
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            textBox_descripcion.Text = null;
+            numericTextBox_idHotel.Text = null;
+            numericTextBox_numeroHab.Text = null;
+            lblNumeroIdentificacion.Text = null;
+            numericTextBox_piso.Text = null;
+
+        }
     }
 }

@@ -139,6 +139,13 @@ namespace FrbaHotel.GenerarModificacionReserva
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
+            if(Repositorios.Repo_Reserva.getInstancia().comprobarEstadoHotel(dtDesde.Value, dtHasta.Value, hotelSeleccionado.idHotel) == 0){
+            
+                MessageBox.Show("El hotel se encuentra inhabilitado en esas fechas", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+
+            else{
             if (regimenSeleccionado != null)
             {
                 this.avanzarPaso2();
@@ -153,7 +160,9 @@ namespace FrbaHotel.GenerarModificacionReserva
                     this.avanzarPaso2();
                 }
             }
-        }  
+        }
+  
+        }
 
         private void btnModificar_Click(object sender, EventArgs e)
         {

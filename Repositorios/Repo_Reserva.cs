@@ -515,6 +515,29 @@ namespace FrbaHotel.Repositorios
         }
 
 
+        public Int32 comprobarEstadoHotel(DateTime desde, DateTime hasta, Int32 hotel)
+        {
+
+            DBhelper.crearConexion();
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.comprobarEstadoHotel");
+            cmd.Parameters.Add("@idHotel", SqlDbType.Decimal).Value = hotel;
+            cmd.Parameters.Add("@fechaDesde", SqlDbType.DateTime).Value = desde;
+            cmd.Parameters.Add("@fechaHasta", SqlDbType.DateTime).Value = hasta;
+
+            var valorDeRetorno = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
+            valorDeRetorno.Direction = ParameterDirection.ReturnValue;
+
+            DBhelper.abrirConexion();
+
+            DBhelper.ejecutarProcedure(cmd);
+
+            DBhelper.cerrarConexion();
+
+            return (int)valorDeRetorno.Value;
+
+        }
+
+
     }
 }
     

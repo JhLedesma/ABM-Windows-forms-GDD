@@ -421,6 +421,8 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getUsuariosFiltradosConInactivosDelMismoHotel
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getUsuariosFiltradosSinInactivosDelMismoHotel','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getUsuariosFiltradosSinInactivosDelMismoHotel;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.comprobarEstadoHotel','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.comprobarEstadoHotel;
 	
 /* Dropeo las views si ya existen */
 
@@ -3284,5 +3286,39 @@ BEGIN
 	GROUP BY NumeroHabitacion, hr.IdHotel
 	ORDER BY COUNT(*) + SUM(le.CantidadNocheUsadas) DESC
 
+
+END
+
+
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.comprobarEstadoHotel
+@idHotel int,
+@fechaDesde datetime,
+@fechaHasta datetime
+
+AS
+BEGIN
+
+	IF (EXISTS(SELECT 1 FROM
+	TRAEME_LA_COPA_MESSI.InhabilitacionesHotel WHERE
+	IdHotel = @idHotel AND
+	(
+	(FechaInicio <= @fechaDesde AND @fechaDesde <= FechaFin) OR
+	(FechaInicio <= @fechaHasta AND @fechaHasta <= FechaFin) OR
+	(@fechaDesde <= FechaInicio AND @fechaHasta >= FechaFin)
+	)
+	))
+	BEGIN
+		
+		RETURN 0
+
+	END
+
+	ELSE
+	BEGIN
+
+		RETURN 1
+
+	END
 
 END
