@@ -61,11 +61,11 @@ namespace FrbaHotel.AbmRol
         {
             if (rolElegido.estado == 1)
             {
-                radioHabilitado.Checked = true;
+                radioInhabilitado.Checked = true;
             }
             else
             {
-                radioInhabilitado.Checked = true;
+                radioHabilitado.Checked = true;
             }
 
         }
@@ -118,9 +118,9 @@ namespace FrbaHotel.AbmRol
 
 
             if(radioHabilitado.Checked==true){
-                rolElegido.estado=1;}
-            else {
                 rolElegido.estado=0;}
+            else {
+                rolElegido.estado=1;}
 
             Repositorios.Repo_Rol.getInstancia().actualizarRol(rolElegido);
             MessageBox.Show("Rol modificado", "Rol modificado", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);

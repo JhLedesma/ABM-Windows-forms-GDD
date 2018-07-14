@@ -1040,20 +1040,21 @@ ORDER BY Reserva_Codigo ASC
 
 
 /* Repositorio Usuarios */
-
+--SELECT s.Username, s.Pass, s.Estado FROM TRAEME_LA_COPA_MESSI.Usuario s WHERE s.Username = @usuarioNombre AND s.Pass = @pass AND s.Estado = 0
 GO
 CREATE PROCEDURE TRAEME_LA_COPA_MESSI.validarUsuario
 @usuarioNombre nvarchar(255),
 @pass nvarchar(255)
 AS
 BEGIN
-IF EXISTS (SELECT s.Username, s.Pass, s.Estado FROM TRAEME_LA_COPA_MESSI.Usuario s WHERE s.Username = @usuarioNombre AND s.Pass = @pass AND s.Estado = 0)
+
+IF EXISTS (select u.username,u.Pass, ro.Estado from TRAEME_LA_COPA_MESSI.Usuario u join TRAEME_LA_COPA_MESSI.RolPorUsuario r on r.Username=u.Username join TRAEME_LA_COPA_MESSI.Rol ro on ro.IdRol= r.IdRol where u.Username=@usuarioNombre and u.Pass=@pass and ro.Estado =0)
 	BEGIN
 		UPDATE TRAEME_LA_COPA_MESSI.Usuario SET LogsFallidos = 0 WHERE Username = @usuarioNombre
 		RETURN 1
 	END
 ELSE
-	IF EXISTS (SELECT s.Username, s.Estado FROM TRAEME_LA_COPA_MESSI.Usuario s WHERE s.Username = @usuarioNombre AND s.Estado = 0)
+	IF EXISTS (select u.username,u.Pass, ro.Estado from TRAEME_LA_COPA_MESSI.Usuario u join TRAEME_LA_COPA_MESSI.RolPorUsuario r on r.Username=u.Username join TRAEME_LA_COPA_MESSI.Rol ro on ro.IdRol= r.IdRol where u.Username=@usuarioNombre and ro.Estado =0)
 		BEGIN
 			UPDATE TRAEME_LA_COPA_MESSI.Usuario SET LogsFallidos = LogsFallidos + 1 WHERE Username = @usuarioNombre 
 			RETURN 0
