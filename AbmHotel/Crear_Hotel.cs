@@ -99,7 +99,7 @@ namespace FrbaHotel.AbmHotel
                 MessageBox.Show("No hay mas regimenes existentes", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
-            {
+{
             regimenSeleccionado = (Model.Regimen)comboBox_regimen.SelectedValue;
             regimenesAgregados.Add(regimenSeleccionado);
             

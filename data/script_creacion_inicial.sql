@@ -2065,9 +2065,22 @@ CREATE PROCEDURE TRAEME_LA_COPA_MESSI.getClienteReserva
 AS
 BEGIN
 
-	SELECT c.IdCliente, c.nombre, c.Apellido, c.NumDoc, c.Email, t.Descripcion FROM TRAEME_LA_COPA_MESSI.Cliente c JOIN TRAEME_LA_COPA_MESSI.TipoDoc t ON t.IdTipo = c.TipoDoc
+	IF ((SELECT Idcliente FROM TRAEME_LA_COPA_MESSI.Reserva WHERE IdHotel = @idHotel AND IdReserva = @numReserva) IS NOT NULL)
+	BEGIN
+
+		SELECT c.IdCliente, c.nombre, c.Apellido, c.NumDoc, c.Email, t.Descripcion FROM TRAEME_LA_COPA_MESSI.Cliente c JOIN TRAEME_LA_COPA_MESSI.TipoDoc t ON t.IdTipo = c.TipoDoc
 	WHERE c.IdCliente = (SELECT IdCliente FROM TRAEME_LA_COPA_MESSI.Reserva WHERE IdHotel = @idHotel AND IdReserva = @numReserva)
 
+	END
+
+	ELSE
+	BEGIN
+
+		SELECT c.IdCliente, c.nombre, c.Apellido, c.NumDoc, c.Email, t.Descripcion FROM TRAEME_LA_COPA_MESSI.Cliente_Inconsistente c JOIN TRAEME_LA_COPA_MESSI.TipoDoc t ON t.IdTipo = c.TipoDoc
+	WHERE c.IdCliente = (SELECT IdClienteInconsistente FROM TRAEME_LA_COPA_MESSI.Reserva WHERE IdHotel = @idHotel AND IdReserva = @numReserva)
+
+
+	END
 END
 
 
