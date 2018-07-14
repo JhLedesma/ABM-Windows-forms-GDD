@@ -69,6 +69,13 @@ namespace FrbaHotel.AbmHabitacion
             }
         }
 
+        private void boton_volver_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            this.Close();
+            new Crear_Habitacion().ShowDialog();
+        }
+
 
 
     }

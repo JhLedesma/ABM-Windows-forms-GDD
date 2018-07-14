@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.numericTextBox_idHotel = new FrbaHotel.Model.NumericTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox_descripcion = new System.Windows.Forms.RichTextBox();
             this.numericTextBox_piso = new FrbaHotel.Model.NumericTextBox();
@@ -41,7 +42,6 @@
             this.boton_guardar = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.numericTextBox_idHotel = new FrbaHotel.Model.NumericTextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -63,6 +63,14 @@
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Modifique los datos que desee";
+            // 
+            // numericTextBox_idHotel
+            // 
+            this.numericTextBox_idHotel.AllowSpace = false;
+            this.numericTextBox_idHotel.Location = new System.Drawing.Point(146, 30);
+            this.numericTextBox_idHotel.Name = "numericTextBox_idHotel";
+            this.numericTextBox_idHotel.Size = new System.Drawing.Size(117, 20);
+            this.numericTextBox_idHotel.TabIndex = 62;
             // 
             // label1
             // 
@@ -168,14 +176,7 @@
             this.button3.TabIndex = 5;
             this.button3.Text = "Volver";
             this.button3.UseVisualStyleBackColor = true;
-            // 
-            // numericTextBox_idHotel
-            // 
-            this.numericTextBox_idHotel.AllowSpace = false;
-            this.numericTextBox_idHotel.Location = new System.Drawing.Point(146, 30);
-            this.numericTextBox_idHotel.Name = "numericTextBox_idHotel";
-            this.numericTextBox_idHotel.Size = new System.Drawing.Size(117, 20);
-            this.numericTextBox_idHotel.TabIndex = 62;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // Modificar_Habitacion
             // 
