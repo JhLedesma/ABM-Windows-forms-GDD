@@ -74,5 +74,21 @@ namespace FrbaHotel.AbmHabitacion
         
         }
 
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            this.Close();
+            new Login.SeleccionarFuncionalidad().ShowDialog();
+        }
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            
+            ubicaciones.Clear();
+            numericTextBox_numeroHab.Text = null;
+            numericTextBox_piso.Text = null;
+            textBox_descripcion.Text = null;
+        }
+
     }
 }

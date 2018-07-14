@@ -116,5 +116,14 @@ namespace FrbaHotel.AbmHabitacion
             Console.WriteLine(idHotelSeleccionado);
         }
 
+        private void boton_volver_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            this.Close();
+            new Abm_Habitacion().ShowDialog();
+            
+            
+        }
+
     }
 }
