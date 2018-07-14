@@ -70,7 +70,7 @@ namespace FrbaHotel.AbmUsuario
              if (
                 string.IsNullOrEmpty(tbUsername.Text) ||
                 string.IsNullOrEmpty(tbPass.Text) ||
-               string.IsNullOrWhiteSpace(tbMail.Text) ||
+                string.IsNullOrWhiteSpace(tbMail.Text) ||
                 string.IsNullOrEmpty(tbNombre.Text) ||
                 string.IsNullOrEmpty(tbApellido.Text) ||
                 numericNumeroIdentificacion.Value == decimal.Zero ||
@@ -97,6 +97,10 @@ namespace FrbaHotel.AbmUsuario
              else if (Repositorios.Repo_usuario.getInstancia().validarMail(tbMail.Text) == 1)
              {
                  MessageBox.Show("Por favor ingrese un mail que no registrado", "Mail ya existente", MessageBoxButtons.OK, MessageBoxIcon.Error);
+             }
+             else if (Repositorios.Repo_usuario.getInstancia().validarUsername(tbUsername.Text) == 1) 
+             {
+                 MessageBox.Show("Por favor ingrese un nombre de usuario no registrado", "Nombre de usuario ya existente", MessageBoxButtons.OK, MessageBoxIcon.Error);
              }
              else
              {

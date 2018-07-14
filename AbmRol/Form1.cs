@@ -82,6 +82,7 @@ namespace FrbaHotel.AbmRol
 
         private void button2_Click(object sender, EventArgs e)
         {
+            
             if (LFuncionalidadesActuales.SelectedItem != null)
             {
                 LFuncionalidadesActuales.DataSource = null;
@@ -89,7 +90,7 @@ namespace FrbaHotel.AbmRol
                 LfuncionalidadesPosibles.Items.Add(LFuncionalidadesActuales.SelectedItem);
                 LFuncionalidadesActuales.Items.Remove(LFuncionalidadesActuales.SelectedItem);
             }
-            else { Console.WriteLine("hola"); }
+            else { }
         }
 
         private void BotonLimpiar_Click(object sender, EventArgs e)
@@ -118,9 +119,9 @@ namespace FrbaHotel.AbmRol
 
 
             if(radioHabilitado.Checked==true){
-                rolElegido.estado=1;}
-            else {
                 rolElegido.estado=0;}
+            else {
+                rolElegido.estado=1;}
 
             Repositorios.Repo_Rol.getInstancia().actualizarRol(rolElegido);
             MessageBox.Show("Rol modificado", "Rol modificado", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);

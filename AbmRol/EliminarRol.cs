@@ -38,7 +38,7 @@ namespace FrbaHotel.AbmRol
 
         private void configurarRadioButons()
         {
-            if (rolElegido.estado == 1)
+            if (rolElegido.estado == 0)
             {
                habilitado.Checked = true;
             }

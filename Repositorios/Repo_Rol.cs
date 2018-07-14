@@ -174,13 +174,6 @@ namespace FrbaHotel.Repositorios
         {
             DBhelper.crearConexion();
             DBhelper.abrirConexion();
-            SqlCommand eliminar = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.eliminarFuncionalidadesDelRol");
-            eliminar.Parameters.Add("@idRol", SqlDbType.Int).Value = rolElegido.idRol;
-            DBhelper.ejecutarProcedure(eliminar);
-            DBhelper.crearConexion();
-
-            DBhelper.crearConexion();
-            DBhelper.abrirConexion();
             SqlCommand eliminar2 = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.eliminarRol");
             eliminar2.Parameters.Add("@idRol", SqlDbType.Int).Value = rolElegido.idRol;
             DBhelper.ejecutarProcedure(eliminar2);
