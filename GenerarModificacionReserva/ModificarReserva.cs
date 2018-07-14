@@ -292,6 +292,8 @@ namespace FrbaHotel.GenerarModificacionReserva
             configuarComboBoxTipoHabitacion();
 
             lblCostoHabitacion.Text = "0.00";
+
+            btnAgregarHabitacion.Enabled = true;
         }
 
 
@@ -319,6 +321,10 @@ namespace FrbaHotel.GenerarModificacionReserva
             this.Close();
         }
 
+        public void desabilitarBotongregar()
+        {
+            btnAgregarHabitacion.Enabled = false;
+        }
 
 
 

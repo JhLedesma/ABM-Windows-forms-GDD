@@ -30,7 +30,7 @@ namespace FrbaHotel.GenerarModificacionReserva
             List<Model.TipoHabitacion> listaSinRepetidos = 
                 (from t in listaTipoHab
                  group t by new { t.Codigo, t.Descripcion, t.porcentual } into grupo
-                 where grupo.Count() > 1
+                 where grupo.Count() >= 1
                  select new Model.TipoHabitacion()
                  {
                     codigo = grupo.Key.Codigo,
@@ -38,7 +38,6 @@ namespace FrbaHotel.GenerarModificacionReserva
                     porcentual = grupo.Key.porcentual
                  }
                 ).OrderBy(x=>x.codigo).ToList();
-
 
             this.listadoTipoHabitacion.ValueMember = "Objeto";
             this.listadoTipoHabitacion.DisplayMember = "Descripcion";
@@ -71,6 +70,11 @@ namespace FrbaHotel.GenerarModificacionReserva
             vista.actualizarCostoHabitacion();
 
             vista.ponerPrimerElementoEnSelector();
+
+            if (vista.listaHabitacionesDisponibles.Count == 0)
+            {
+                vista.desabilitarBotongregar();
+            }
 
             MessageBox.Show("Agregado");
 
