@@ -33,9 +33,10 @@ namespace FrbaHotel.Login
 
         private void boton_modificar_Click(object sender, EventArgs e)
         {
-           
-            MessageBox.Show("Funcionalidad aun no implementada", "-", MessageBoxButtons.OK);
-            
+            this.Hide();
+            new GenerarModificacionReserva.ValidarReserva().ShowDialog();
+            this.Close();
         }
+
     }
 }

@@ -38,7 +38,7 @@ namespace FrbaHotel.AbmHotel
         private void boton_crearHotel_Click(object sender, EventArgs e)
         {
 
-            if (string.IsNullOrWhiteSpace(textBox_nombre.Text) || string.IsNullOrWhiteSpace(textBox_mail.Text) || string.IsNullOrWhiteSpace(numericTextBox_telefono.Text) || string.IsNullOrWhiteSpace(numericTextBox_estrellas.Text) || string.IsNullOrWhiteSpace(comboBox_regimen.Text) || string.IsNullOrWhiteSpace(textBox_calle.Text) || string.IsNullOrWhiteSpace(textBox_ciudad.Text) || string.IsNullOrWhiteSpace(textBox_pais.Text) || string.IsNullOrWhiteSpace(numericTextBox_nroCalle.Text))
+            if (string.IsNullOrWhiteSpace(textBox_nombre.Text) || string.IsNullOrWhiteSpace(textBox_mail.Text) || string.IsNullOrWhiteSpace(numericTextBox_telefono.Text) || string.IsNullOrWhiteSpace(numericTextBox_estrellas.Text) || regimenesAgregados.Count == 0 || string.IsNullOrWhiteSpace(textBox_calle.Text) || string.IsNullOrWhiteSpace(textBox_ciudad.Text) || string.IsNullOrWhiteSpace(textBox_pais.Text) || string.IsNullOrWhiteSpace(numericTextBox_nroCalle.Text))
             {
 
                 MessageBox.Show("Por favor complete todos los campos", "Campos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -94,6 +94,12 @@ namespace FrbaHotel.AbmHotel
         //Falta agregar un chequeo para comboBox vacio
         private void boton_agregar_Click(object sender, EventArgs e)
         {
+            if (listaDeRegimenesDisponibles.Count == 0)
+            {
+                MessageBox.Show("No hay mas regimenes existentes", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
             regimenSeleccionado = (Model.Regimen)comboBox_regimen.SelectedValue;
             regimenesAgregados.Add(regimenSeleccionado);
             
@@ -103,6 +109,7 @@ namespace FrbaHotel.AbmHotel
             configuarComboBox();
 
             MessageBox.Show("Agregado");
+            }
         }
 
         private void boton_volver_Click(object sender, EventArgs e)

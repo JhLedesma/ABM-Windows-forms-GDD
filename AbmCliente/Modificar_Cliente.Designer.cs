@@ -64,6 +64,8 @@
             this.lblCalle = new System.Windows.Forms.Label();
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.btnGuardar = new System.Windows.Forms.Button();
+            this.cbEstado = new System.Windows.Forms.CheckBox();
+            this.lblEstado = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericTelefono)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericNumeroIdentificacion)).BeginInit();
@@ -74,7 +76,9 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cbEstado);
             this.groupBox1.Controls.Add(this.numericTelefono);
+            this.groupBox1.Controls.Add(this.lblEstado);
             this.groupBox1.Controls.Add(this.tbPaisOrigen);
             this.groupBox1.Controls.Add(this.lblPaisOrigen);
             this.groupBox1.Controls.Add(this.dtFechaNacimiento);
@@ -94,7 +98,7 @@
             this.groupBox1.Controls.Add(this.lblNombre);
             this.groupBox1.Location = new System.Drawing.Point(10, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(386, 338);
+            this.groupBox1.Size = new System.Drawing.Size(386, 368);
             this.groupBox1.TabIndex = 19;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Ingrese los datos que desea modificar del cliente:";
@@ -280,7 +284,7 @@
             this.groupBox2.Controls.Add(this.lblNumero);
             this.groupBox2.Controls.Add(this.tbCalle);
             this.groupBox2.Controls.Add(this.lblCalle);
-            this.groupBox2.Location = new System.Drawing.Point(10, 356);
+            this.groupBox2.Location = new System.Drawing.Point(10, 386);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(386, 165);
             this.groupBox2.TabIndex = 45;
@@ -421,7 +425,7 @@
             // 
             // btnLimpiar
             // 
-            this.btnLimpiar.Location = new System.Drawing.Point(52, 535);
+            this.btnLimpiar.Location = new System.Drawing.Point(52, 566);
             this.btnLimpiar.Name = "btnLimpiar";
             this.btnLimpiar.Size = new System.Drawing.Size(75, 23);
             this.btnLimpiar.TabIndex = 43;
@@ -431,7 +435,7 @@
             // 
             // btnGuardar
             // 
-            this.btnGuardar.Location = new System.Drawing.Point(298, 535);
+            this.btnGuardar.Location = new System.Drawing.Point(298, 566);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(75, 23);
             this.btnGuardar.TabIndex = 46;
@@ -439,11 +443,30 @@
             this.btnGuardar.UseVisualStyleBackColor = true;
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
+            // cbEstado
+            // 
+            this.cbEstado.AutoSize = true;
+            this.cbEstado.Location = new System.Drawing.Point(146, 339);
+            this.cbEstado.Name = "cbEstado";
+            this.cbEstado.Size = new System.Drawing.Size(56, 17);
+            this.cbEstado.TabIndex = 66;
+            this.cbEstado.Text = "Activo";
+            this.cbEstado.UseVisualStyleBackColor = true;
+            // 
+            // lblEstado
+            // 
+            this.lblEstado.AutoSize = true;
+            this.lblEstado.Location = new System.Drawing.Point(6, 340);
+            this.lblEstado.Name = "lblEstado";
+            this.lblEstado.Size = new System.Drawing.Size(43, 13);
+            this.lblEstado.TabIndex = 65;
+            this.lblEstado.Text = "Estado:";
+            // 
             // Modificar_Cliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(406, 567);
+            this.ClientSize = new System.Drawing.Size(406, 601);
             this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnLimpiar);
@@ -500,5 +523,7 @@
         private System.Windows.Forms.Button btnLimpiar;
         private System.Windows.Forms.NumericUpDown numericTelefono;
         private System.Windows.Forms.Button btnGuardar;
+        private System.Windows.Forms.CheckBox cbEstado;
+        private System.Windows.Forms.Label lblEstado;
     }
 }

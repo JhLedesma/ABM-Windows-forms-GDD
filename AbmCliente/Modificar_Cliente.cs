@@ -48,6 +48,14 @@ namespace FrbaHotel.AbmCliente
             numericNumero.Value = clienteSeleccionado.direccion.numDomicilio;
             tbDpto.Text = clienteSeleccionado.direccion.dpto;
             numericPiso.Value = clienteSeleccionado.direccion.piso;
+            if (clienteSeleccionado.estado == 0)
+            {
+                cbEstado.Checked = true;
+            }
+            else
+            {
+                cbEstado.Checked = false;
+            }
         }
 
         private void btnLimpiar_Click(object sender, EventArgs e)
@@ -58,6 +66,14 @@ namespace FrbaHotel.AbmCliente
         private void btnGuardar_Click(object sender, EventArgs e) //Agregar Validacion de que los datos esten llenos y tambien estado
         {
             Model.TipoDocumento tipoDoc = (Model.TipoDocumento)listadoTipoIdentificacion.SelectedValue;
+
+            Int16 estado = 0;
+
+            if (cbEstado.Checked)
+              {estado = 0;}
+            else
+              { estado = 1;}
+
 
             Repositorios.Repo_Cliente.getInstancia().modificarCliente(
                 clienteSeleccionado.id,
@@ -77,7 +93,8 @@ namespace FrbaHotel.AbmCliente
                 numericPiso.Value,
                 tbDpto.Text,
                 tbLocalidad.Text,
-                tbPais.Text
+                tbPais.Text,
+                estado
                 );
 
             MessageBox.Show("Cliente modificado correctamente");

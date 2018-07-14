@@ -151,6 +151,7 @@
             // 
             // boton_listado_estadistico
             // 
+            this.boton_listado_estadistico.Enabled = false;
             this.boton_listado_estadistico.Location = new System.Drawing.Point(73, 409);
             this.boton_listado_estadistico.Margin = new System.Windows.Forms.Padding(2);
             this.boton_listado_estadistico.Name = "boton_listado_estadistico";

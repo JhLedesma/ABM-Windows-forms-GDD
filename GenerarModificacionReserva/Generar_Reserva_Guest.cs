@@ -70,7 +70,14 @@ namespace FrbaHotel.GenerarModificacionReserva
 
         private void configurarVistaConUsuario()
         {
-            listadoHoteles.SelectedItem = usuarioLogueado.hotelActivo;
+            List<Model.Hotel> hotelUsuario = new List<Model.Hotel>();
+            hotelUsuario.Add(usuarioLogueado.hotelActivo);
+
+            this.listadoHoteles.ValueMember = "Objeto";
+            this.listadoHoteles.DisplayMember = "IdHotel";
+            this.listadoHoteles.DataSource = hotelUsuario;
+            this.listadoHoteles.DropDownStyle = ComboBoxStyle.DropDownList;
+
             listadoHoteles.Enabled = false;
         }
 
@@ -296,8 +303,6 @@ namespace FrbaHotel.GenerarModificacionReserva
 
             this.Hide();
             this.Close();
-
-            //Eliminar reservas de dias anteriores de este cliente, que no fueron efectivizadas
         }
 
         private void btnVolver_Click(object sender, EventArgs e)
@@ -313,7 +318,7 @@ namespace FrbaHotel.GenerarModificacionReserva
 
             Model.Hotel hotelSeleccionado = (Model.Hotel)listadoHoteles.SelectedValue;
 
-            if (Convert.ToDateTime(ConfigurationManager.AppSettings["fecha"]) > dtDesde.Value)
+           if (Convert.ToDateTime(ConfigurationManager.AppSettings["fecha"]) > dtDesde.Value)
             {
                 MessageBox.Show("Por favor seleccione una fecha de reserva mayor a la del dia de hoy", "Fecha incorrecta", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 var = 1;
@@ -321,12 +326,14 @@ namespace FrbaHotel.GenerarModificacionReserva
             else if (listaHabitacionesDisponibles.Count == 0)
             {
                 listaHabitacionesDisponibles = Repositorios.Repo_Reserva.getInstancia().getHabitacionesEnFecha(dtDesde.Value, dtHasta.Value, hotelSeleccionado.idHotel);
+
                 if (listaHabitacionesDisponibles.Count == 0)
                 {
                     var = 1;
-                    MessageBox.Show("Por favor seleccione otra fecha de reserva", "No hay Habitaciones Disponibles", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("No hay Habitaciones Disponibles", "No hay Habitaciones Disponibles", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+
             if (var != 1)
             {
                 new AgregarHabitacion(this).ShowDialog();   
@@ -342,7 +349,15 @@ namespace FrbaHotel.GenerarModificacionReserva
             configuarComboBoxTipoHabitacion();
 
             lblCostoHabitacion.Text = "0.00";
+
+            btnAgregarHabitacion.Enabled = true;
         }
+
+        public void desabilitarBotongregar()
+        {
+            btnAgregarHabitacion.Enabled = false;
+        }
+
 
 
 

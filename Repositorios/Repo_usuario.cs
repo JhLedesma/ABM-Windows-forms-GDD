@@ -511,7 +511,28 @@ namespace FrbaHotel.Repositorios
         Estado bit DEFAULT 0
         */
 
+        public DataTable getTablaUsuariosFiltradosConInactivosDelMismoHotel(String nombre, String apellido, String username, decimal NumeroIdentificacion)
+        {
 
+            DataTable tablaClientesFiltrados;
+
+            DBhelper.crearConexion();
+
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getUsuariosFiltradosConInactivosDelMismoHotel");
+            cmd.Parameters.Add("@Nombre", SqlDbType.NVarChar).Value = nombre;
+            cmd.Parameters.Add("@Apellido", SqlDbType.NVarChar).Value = apellido;
+            cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
+            cmd.Parameters.Add("@Numero_Identificacion", SqlDbType.Decimal).Value = NumeroIdentificacion;
+            cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = Repo_usuario.getInstancia().getUsuarioIngresado().hotelActivo.idHotel;
+
+            tablaClientesFiltrados = DBhelper.obtenerTabla(cmd);
+
+            DBhelper.cerrarConexion();
+
+            return tablaClientesFiltrados;
+        }
 
 
         public DataTable getTablaUsuariosFiltradosConInactivos(String nombre, String apellido, String username, decimal NumeroIdentificacion)
@@ -536,6 +557,29 @@ namespace FrbaHotel.Repositorios
             return tablaClientesFiltrados;
         }
 
+
+        public DataTable getTablaUsuariosFiltradosSinInactivosDelMismoHotel(String nombre, String apellido, String username, decimal NumeroIdentificacion)
+        {
+
+            DataTable tablaClientesFiltrados;
+
+            DBhelper.crearConexion();
+
+            DBhelper.abrirConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.getUsuariosFiltradosSinInactivosDelMismoHotel");
+            cmd.Parameters.Add("@Nombre", SqlDbType.NVarChar).Value = nombre;
+            cmd.Parameters.Add("@Apellido", SqlDbType.NVarChar).Value = apellido;
+            cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
+            cmd.Parameters.Add("@Numero_Identificacion", SqlDbType.Decimal).Value = NumeroIdentificacion;
+            cmd.Parameters.Add("@idHotel", SqlDbType.Int).Value = Repo_usuario.getInstancia().getUsuarioIngresado().hotelActivo.idHotel;
+
+            tablaClientesFiltrados = DBhelper.obtenerTabla(cmd);
+
+            DBhelper.cerrarConexion();
+
+            return tablaClientesFiltrados;
+        }
 
         public DataTable getTablaUsuariosFiltradosSinInactivos(String nombre, String apellido, String username, decimal NumeroIdentificacion)
         {
@@ -579,6 +623,25 @@ namespace FrbaHotel.Repositorios
             return (int)valorDeRetorno.Value;
         }
 
+        public int validarUsername(string username)
+        {
+            DBhelper.crearConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.validarUsername");
+            cmd.Parameters.Add("@username", SqlDbType.NVarChar).Value = username;
+
+            var valorDeRetorno = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
+            valorDeRetorno.Direction = ParameterDirection.ReturnValue;
+
+            DBhelper.abrirConexion();
+
+            DBhelper.ejecutarProcedure(cmd);
+
+            DBhelper.cerrarConexion();
+
+            return (int)valorDeRetorno.Value;
+        }
+
 
         public void darBajaUsuario(String username)
         {
@@ -592,6 +655,23 @@ namespace FrbaHotel.Repositorios
             cmd.ExecuteNonQuery();
 
             DBhelper.cerrarConexion();
+        }
+
+        public void cambiarContrasenia(String nuevaContrasenia)
+        {
+
+            DBhelper.crearConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.cambiarContrasenia");
+            cmd.Parameters.Add("@contrasenia", SqlDbType.NVarChar).Value = Model.Encriptador.getInstancia().encriptar(nuevaContrasenia);
+            cmd.Parameters.Add("@username", SqlDbType.NVarChar).Value = Repo_usuario.getInstancia().getUsuarioIngresado().username;
+
+            DBhelper.abrirConexion();
+
+            DBhelper.ejecutarProcedure(cmd);
+
+            DBhelper.cerrarConexion();
+
         }
 
     }

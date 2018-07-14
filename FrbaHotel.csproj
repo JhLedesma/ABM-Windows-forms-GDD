@@ -285,6 +285,12 @@
     <Compile Include="GenerarModificacionReserva\MostrarCodigoReserva.Designer.cs">
       <DependentUpon>MostrarCodigoReserva.cs</DependentUpon>
     </Compile>
+    <Compile Include="GenerarModificacionReserva\PanelResservas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GenerarModificacionReserva\PanelResservas.Designer.cs">
+      <DependentUpon>PanelResservas.cs</DependentUpon>
+    </Compile>
     <Compile Include="GenerarModificacionReserva\ValidarReserva.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -296,6 +302,12 @@
     </Compile>
     <Compile Include="ListadoEstadistico\Listado.Designer.cs">
       <DependentUpon>Listado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Login\CambiarContrasenia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login\CambiarContrasenia.Designer.cs">
+      <DependentUpon>CambiarContrasenia.cs</DependentUpon>
     </Compile>
     <Compile Include="Login\SeleccionarFuncionalidad.cs">
       <SubType>Form</SubType>
@@ -507,11 +519,17 @@
     <EmbeddedResource Include="GenerarModificacionReserva\MostrarCodigoReserva.resx">
       <DependentUpon>MostrarCodigoReserva.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GenerarModificacionReserva\PanelResservas.resx">
+      <DependentUpon>PanelResservas.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ListadoEstadistico\Listado.resx">
       <DependentUpon>Listado.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GenerarModificacionReserva\ValidarReserva.resx">
       <DependentUpon>ValidarReserva.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login\CambiarContrasenia.resx">
+      <DependentUpon>CambiarContrasenia.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login\SeleccionarFuncionalidad.resx">
       <DependentUpon>SeleccionarFuncionalidad.cs</DependentUpon>

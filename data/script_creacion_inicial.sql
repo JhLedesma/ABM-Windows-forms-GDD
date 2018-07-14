@@ -115,8 +115,8 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Direccion','U') IS NOT NULL
 	DROP TABLE TRAEME_LA_COPA_MESSI.Direccion;
 
 
-
 /* Dropeo de procedures si ya existen */
+
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarUsuario','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.validarUsuario;
@@ -409,6 +409,18 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.EliminarReservasNoEfectivizadasDeCliente','P'
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getIdClienteDeReserva','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getIdClienteDeReserva;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarUsername','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.validarUsername;
+	
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.cambiarContrasenia','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.cambiarContrasenia;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getUsuariosFiltradosConInactivosDelMismoHotel','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getUsuariosFiltradosConInactivosDelMismoHotel;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getUsuariosFiltradosSinInactivosDelMismoHotel','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getUsuariosFiltradosSinInactivosDelMismoHotel;
+
 	
 /* Dropeo las views si ya existen */
 
@@ -490,6 +502,7 @@ PaisOrigen nvarchar(255) DEFAULT '',
 Nacionalidad nvarchar(255) NOT NULL,
 FechaNacimiento Datetime NOT NULL,
 Estado BIT DEFAULT 0,
+CONSTRAINT uq_doc UNIQUE(TipoDoc, NumDoc)
 );
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.Cliente_Inconsistente( --Agrego id porque en esta tabla el email se repite
@@ -803,6 +816,7 @@ INSERT INTO TRAEME_LA_COPA_MESSI.Funcionalidad(Descripcion)
 
 -- Funcionalidad por rol --
 
+
 INSERT INTO TRAEME_LA_COPA_MESSI.FuncionalidadPorRol
 	select f.IdFunc, rpu.IdRol from TRAEME_LA_COPA_MESSI.Funcionalidad f,
 	TRAEME_LA_COPA_MESSI.RolPorUsuario rpu join TRAEME_LA_COPA_MESSI.Usuario u on (rpu.Username = u.Username) where u.Username = 'admin'
@@ -1042,6 +1056,19 @@ ORDER BY Reserva_Codigo ASC
 /* Repositorio Usuarios */
 --SELECT s.Username, s.Pass, s.Estado FROM TRAEME_LA_COPA_MESSI.Usuario s WHERE s.Username = @usuarioNombre AND s.Pass = @pass AND s.Estado = 0
 GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.cambiarContrasenia
+@contrasenia nvarchar(255),
+@username nvarchar(255)
+
+AS
+BEGIN
+
+	UPDATE TRAEME_LA_COPA_MESSI.Usuario SET Pass = @contrasenia WHERE username = @username
+
+END
+
+
+GO
 CREATE PROCEDURE TRAEME_LA_COPA_MESSI.validarUsuario
 @usuarioNombre nvarchar(255),
 @pass nvarchar(255)
@@ -1163,6 +1190,27 @@ commit
 
 
 GO
+create procedure TRAEME_LA_COPA_MESSI.getUsuariosFiltradosConInactivosDelMismoHotel
+@Nombre nvarchar(255),
+@Apellido nvarchar(255),
+@Username nvarchar(255),
+@Numero_Identificacion numeric(18,0),
+@idHotel int
+as
+begin
+	
+	SELECT u.Username, u.Nombre, u.Apellido,
+	  u.NroDocumento, u.Telefono, u.FechaNacimiento,
+	(case Estado when 0 then 'Activo' else 'Inactivo' end) as Estado
+	FROM TRAEME_LA_COPA_MESSI.Usuario u
+		join UsuariosPorHotel uh
+			on u.Username = uh.Username
+	WHERE 
+		(u.Nombre LIKE '%' + @Nombre + '%' or u.Apellido LIKE '%' + @Apellido + '%' or u.Username LIKE '%' + @Username + '%' or CAST(u.NroDocumento AS NVARCHAR) LIKE '%' + CAST(@Numero_Identificacion AS NVARCHAR) + '%') and uh.IdHotel = @idHotel
+end
+
+
+GO
 create procedure TRAEME_LA_COPA_MESSI.getUsuariosFiltradosConInactivos
 @Nombre nvarchar(255),
 @Apellido nvarchar(255),
@@ -1177,6 +1225,28 @@ begin
 	FROM TRAEME_LA_COPA_MESSI.Usuario
 	WHERE 
 		Nombre LIKE '%' + @Nombre + '%' or Apellido LIKE '%' + @Apellido + '%' or Username LIKE '%' + @Username + '%' or CAST(NroDocumento AS NVARCHAR) LIKE '%' + CAST(@Numero_Identificacion AS NVARCHAR) + '%'
+end
+
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.getUsuariosFiltradosSinInactivosDelMismoHotel
+@Nombre nvarchar(255),
+@Apellido nvarchar(255),
+@Username nvarchar(255),
+@Numero_Identificacion numeric(18,0),
+@idHotel int
+as
+begin
+	
+	SELECT u.Username, u.Nombre, u.Apellido,
+	  u.NroDocumento, u.Telefono, u.FechaNacimiento,
+	(case Estado when 0 then 'Activo' else 'Inactivo' end) as Estado
+	FROM TRAEME_LA_COPA_MESSI.Usuario u
+		join UsuariosPorHotel uh
+			on u.Username = uh.Username
+	WHERE 
+		(u.Nombre LIKE '%' + @Nombre + '%' or u.Apellido LIKE '%' + @Apellido + '%' or u.Username LIKE '%' + @Username + '%' or CAST(u.NroDocumento AS NVARCHAR) LIKE '%' + CAST(@Numero_Identificacion AS NVARCHAR) + '%') and uh.IdHotel = @idHotel and Estado = CAST(0 as bit)
 end
 
 
@@ -1218,6 +1288,17 @@ create procedure TRAEME_LA_COPA_MESSI.validarMailUsuario
 as
 begin
 	if exists (select 1 from TRAEME_LA_COPA_MESSI.Usuario where Email=@mail)
+		return 1
+	else
+		return 0
+end
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.validarUsername
+@username nvarchar(255)
+as
+begin
+	if exists (select 1 from TRAEME_LA_COPA_MESSI.Usuario where Username = @username)
 		return 1
 	else
 		return 0
@@ -1768,18 +1849,19 @@ create procedure TRAEME_LA_COPA_MESSI.modificarCliente
 @localidad nvarchar(255),
 @pais nvarchar(255),
 @idCliente int,
-@idDireccion int
+@idDireccion int,
+@estado bit
 as
 begin transaction
 	begin
 		if exists (select IdCliente from TRAEME_LA_COPA_MESSI.Cliente c where c.IdCliente = @idCliente and c.Email=@email)
 			begin
-				update TRAEME_LA_COPA_MESSI.Cliente set Email=@email, Direccion=@idDireccion, Nombre=@nombre, Apellido=@apellido, TipoDoc=@tipoDoc, NumDoc=@numDoc, Telefono=@telefono, PaisOrigen=@PaisOrigen, Nacionalidad=@Nacionalidad, FechaNacimiento=@FechaNacimiento where IdCliente = @idCliente
+				update TRAEME_LA_COPA_MESSI.Cliente set Email=@email, Direccion=@idDireccion, Nombre=@nombre, Apellido=@apellido, TipoDoc=@tipoDoc, NumDoc=@numDoc, Telefono=@telefono, PaisOrigen=@PaisOrigen, Nacionalidad=@Nacionalidad, FechaNacimiento=@FechaNacimiento, Estado=@estado where IdCliente = @idCliente
 				update TRAEME_LA_COPA_MESSI.Direccion set Ciudad=@ciudad, Calle=@calle, NroCalle=@nroCalle, Piso=@piso, Departamento=@dpto, Localidad=@localidad, Pais=@pais where IdDir=@idDireccion
 			end
 		else
 			begin
-				update TRAEME_LA_COPA_MESSI.Cliente_Inconsistente set Email=@email, Direccion=@idDireccion, Nombre=@nombre, Apellido=@apellido, TipoDoc=@tipoDoc, NumDoc=@numDoc, Telefono=@telefono, PaisOrigen=@PaisOrigen, Nacionalidad=@Nacionalidad, FechaNacimiento=@FechaNacimiento where IdCliente = @idCliente
+				update TRAEME_LA_COPA_MESSI.Cliente_Inconsistente set Email=@email, Direccion=@idDireccion, Nombre=@nombre, Apellido=@apellido, TipoDoc=@tipoDoc, NumDoc=@numDoc, Telefono=@telefono, PaisOrigen=@PaisOrigen, Nacionalidad=@Nacionalidad, FechaNacimiento=@FechaNacimiento, Estado=@estado where IdCliente = @idCliente
 				update TRAEME_LA_COPA_MESSI.Direccion set Ciudad=@ciudad, Calle=@calle, NroCalle=@nroCalle, Piso=@piso, Departamento=@dpto, Localidad=@localidad, Pais=@pais where IdDir=@idDireccion
 			end
 	end
@@ -1804,6 +1886,7 @@ commit
 
 
 /* Repositorio Rol*/
+
 
 
 GO
@@ -1866,8 +1949,8 @@ create procedure TRAEME_LA_COPA_MESSI.eliminarRol
 @idRol int
 as
 begin
-delete from TRAEME_LA_COPA_MESSI.RolPorUsuario where @idRol=IdRol
-delete from TRAEME_LA_COPA_MESSI.Rol where @idRol=IdRol
+
+	UPDATE TRAEME_LA_COPA_MESSI.Rol SET Estado = 1 WHERE IdRol = @idRol
 
 end 
 
@@ -2590,7 +2673,7 @@ BEGIN
 
 END
 
-/*
+
 GO
 CREATE PROCEDURE TRAEME_LA_COPA_MESSI.facturarEstadia
 @factNum decimal(18,0),
@@ -2599,8 +2682,13 @@ CREATE PROCEDURE TRAEME_LA_COPA_MESSI.facturarEstadia
 AS
 BEGIN
 	
-	DECLARE @diasUsados int
-	DECLARE @costoPorDia int
+	DECLARE @diasUsados int, @costoPorDia int, @porcentual int
+
+	SET @porcentual = (SELECT SUM(t.Porcentual) FROM
+					  TRAEME_LA_COPA_MESSI.HabitacionPorReserva hr JOIN
+					  TRAEME_LA_COPA_MESSI.Habitacion h ON hr.NumeroHabitacion = h.Numero AND hr.IdHotel = h.IdHotel JOIN
+					  TRAEME_LA_COPA_MESSI.TipoHabitacion t ON h.CodigoTipo = t.Codigo
+					  WHERE hr.IdReserva = @porcentual)
 
 	SET @diasUsados = (SELECT CantidadNocheUsadas FROM TRAEME_LA_COPA_MESSI.LogEstadia WHERE ReservaId = @idReserva)
 
@@ -2608,20 +2696,18 @@ BEGIN
 	
 	((SELECT PrecioBase FROM TRAEME_LA_COPA_MESSI.RegimenEstadia re JOIN TRAEME_LA_COPA_MESSI.Reserva r ON
 	r.RegimenEstadiaId = re.IdRegimenEstadia  WHERE IdReserva = @idReserva) * 
-	(SELECT Porcentual FROM TRAEME_LA_COPA_MESSI.TipoHabitacion JOIN TRAEME_LA_COPA_MESSI.Reserva r ON
-			r.tipoHabitacion = Codigo WHERE r.IdReserva = @idReserva)) +
+	(@porcentual) +
 	(SELECT PorcentajeEstrellas FROM TRAEME_LA_COPA_MESSI.Hotel h JOIN TRAEME_LA_COPA_MESSI.Reserva r ON
 			r.IdHotel = h.IdHotel WHERE r.IdReserva = @idReserva)
 
-			)
+			))
 
 
 	INSERT INTO TRAEME_LA_COPA_MESSI.Item_Factura(Fac_Numero, Reserva_descrip, Reserva_diasUsados, Reserva_diasSinUso, Monto)
 	VALUES (@factNum,
-			(SELECT Descripcion FROM TRAEME_LA_COPA_MESSI.TipoHabitacion JOIN TRAEME_LA_COPA_MESSI.Reserva r ON
-			r.tipoHabitacion = Codigo WHERE r.IdReserva = @idReserva) + ' + ' +
+			('Estadía, + ' +
 			(SELECT Descripcion FROM TRAEME_LA_COPA_MESSI.RegimenEstadia JOIN TRAEME_LA_COPA_MESSI.Reserva r ON
-			r.RegimenEstadiaId = IdRegimenEstadia WHERE r.IdReserva = @idReserva),
+			r.RegimenEstadiaId = IdRegimenEstadia WHERE r.IdReserva = @idReserva)),
 			@diasUsados,
 			((SELECT CantidadNochesReservadas FROM TRAEME_LA_COPA_MESSI.Reserva WHERE IdReserva = @idReserva) - @diasUsados),
 			@costoPorDia * @diasUsados)
@@ -2629,7 +2715,7 @@ BEGIN
 
 
 END
-*/
+
 
 GO
 CREATE PROCEDURE TRAEME_LA_COPA_MESSI.calcularTotalFactura

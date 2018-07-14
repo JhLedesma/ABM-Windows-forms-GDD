@@ -13,6 +13,7 @@ namespace FrbaHotel.GenerarModificacionReserva
         void configuarComboBoxTipoHabitacion();
         void actualizarCostoHabitacion();
         void ponerPrimerElementoEnSelector();
+        void desabilitarBotongregar();
 
         List<Model.Habitacion> listaHabitacionesDisponibles { get; set; }
         List<Model.Habitacion> listaHabitacionesAgregadas { get; set; }
