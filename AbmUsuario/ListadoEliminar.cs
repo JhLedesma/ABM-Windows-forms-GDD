@@ -21,7 +21,7 @@ namespace FrbaHotel.AbmUsuario
 
         private void lblFiltrar_Click(object sender, EventArgs e)
         {
-            dataGridModificar.DataSource = Repositorios.Repo_usuario.getInstancia().getTablaUsuariosFiltradosSinInactivos(filtroNombre.Text, filtroApellido.Text, filtroUsername.Text, numericUpDown1.Value);
+            dataGridModificar.DataSource = Repositorios.Repo_usuario.getInstancia().getTablaUsuariosFiltradosSinInactivosDelMismoHotel(filtroNombre.Text, filtroApellido.Text, filtroUsername.Text, numericUpDown1.Value);
         }
 
         private void dataGridModificar_CellClick(object sender, DataGridViewCellEventArgs e)
