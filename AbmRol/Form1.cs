@@ -61,11 +61,11 @@ namespace FrbaHotel.AbmRol
         {
             if (rolElegido.estado == 1)
             {
-                radioHabilitado.Checked = true;
+                radioInhabilitado.Checked = true;
             }
             else
             {
-                radioInhabilitado.Checked = true;
+                radioHabilitado.Checked = true;
             }
 
         }

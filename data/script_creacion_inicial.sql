@@ -1054,7 +1054,7 @@ ORDER BY Reserva_Codigo ASC
 
 
 /* Repositorio Usuarios */
-
+--SELECT s.Username, s.Pass, s.Estado FROM TRAEME_LA_COPA_MESSI.Usuario s WHERE s.Username = @usuarioNombre AND s.Pass = @pass AND s.Estado = 0
 GO
 CREATE PROCEDURE TRAEME_LA_COPA_MESSI.cambiarContrasenia
 @contrasenia nvarchar(255),
@@ -1074,13 +1074,14 @@ CREATE PROCEDURE TRAEME_LA_COPA_MESSI.validarUsuario
 @pass nvarchar(255)
 AS
 BEGIN
-IF EXISTS (SELECT s.Username, s.Pass, s.Estado FROM TRAEME_LA_COPA_MESSI.Usuario s WHERE s.Username = @usuarioNombre AND s.Pass = @pass AND s.Estado = 0)
+
+IF EXISTS (select u.username,u.Pass, ro.Estado from TRAEME_LA_COPA_MESSI.Usuario u join TRAEME_LA_COPA_MESSI.RolPorUsuario r on r.Username=u.Username join TRAEME_LA_COPA_MESSI.Rol ro on ro.IdRol= r.IdRol where u.Username=@usuarioNombre and u.Pass=@pass and ro.Estado =0)
 	BEGIN
 		UPDATE TRAEME_LA_COPA_MESSI.Usuario SET LogsFallidos = 0 WHERE Username = @usuarioNombre
 		RETURN 1
 	END
 ELSE
-	IF EXISTS (SELECT s.Username, s.Estado FROM TRAEME_LA_COPA_MESSI.Usuario s WHERE s.Username = @usuarioNombre AND s.Estado = 0)
+	IF EXISTS (select u.username,u.Pass, ro.Estado from TRAEME_LA_COPA_MESSI.Usuario u join TRAEME_LA_COPA_MESSI.RolPorUsuario r on r.Username=u.Username join TRAEME_LA_COPA_MESSI.Rol ro on ro.IdRol= r.IdRol where u.Username=@usuarioNombre and ro.Estado =0)
 		BEGIN
 			UPDATE TRAEME_LA_COPA_MESSI.Usuario SET LogsFallidos = LogsFallidos + 1 WHERE Username = @usuarioNombre 
 			RETURN 0
@@ -2115,9 +2116,22 @@ CREATE PROCEDURE TRAEME_LA_COPA_MESSI.getClienteReserva
 AS
 BEGIN
 
-	SELECT c.IdCliente, c.nombre, c.Apellido, c.NumDoc, c.Email, t.Descripcion FROM TRAEME_LA_COPA_MESSI.Cliente c JOIN TRAEME_LA_COPA_MESSI.TipoDoc t ON t.IdTipo = c.TipoDoc
+	IF ((SELECT Idcliente FROM TRAEME_LA_COPA_MESSI.Reserva WHERE IdHotel = @idHotel AND IdReserva = @numReserva) IS NOT NULL)
+	BEGIN
+
+		SELECT c.IdCliente, c.nombre, c.Apellido, c.NumDoc, c.Email, t.Descripcion FROM TRAEME_LA_COPA_MESSI.Cliente c JOIN TRAEME_LA_COPA_MESSI.TipoDoc t ON t.IdTipo = c.TipoDoc
 	WHERE c.IdCliente = (SELECT IdCliente FROM TRAEME_LA_COPA_MESSI.Reserva WHERE IdHotel = @idHotel AND IdReserva = @numReserva)
 
+	END
+
+	ELSE
+	BEGIN
+
+		SELECT c.IdCliente, c.nombre, c.Apellido, c.NumDoc, c.Email, t.Descripcion FROM TRAEME_LA_COPA_MESSI.Cliente_Inconsistente c JOIN TRAEME_LA_COPA_MESSI.TipoDoc t ON t.IdTipo = c.TipoDoc
+	WHERE c.IdCliente = (SELECT IdClienteInconsistente FROM TRAEME_LA_COPA_MESSI.Reserva WHERE IdHotel = @idHotel AND IdReserva = @numReserva)
+
+
+	END
 END
 
 

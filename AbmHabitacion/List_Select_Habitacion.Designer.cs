@@ -151,6 +151,7 @@
             this.boton_volver.TabIndex = 35;
             this.boton_volver.Text = "Volver";
             this.boton_volver.UseVisualStyleBackColor = true;
+            this.boton_volver.Click += new System.EventHandler(this.boton_volver_Click);
             // 
             // dataGridHabitaciones
             // 

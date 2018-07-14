@@ -33,8 +33,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBox_descripcion = new System.Windows.Forms.RichTextBox();
             this.comboBox_tipoHabitacion = new System.Windows.Forms.ComboBox();
-            this.numericTextBox_piso = new FrbaHotel.Model.NumericTextBox();
-            this.numericTextBox_numeroHab = new FrbaHotel.Model.NumericTextBox();
             this.comboBox_ubicacion = new System.Windows.Forms.ComboBox();
             this.lblNumeroIdentificacion = new System.Windows.Forms.Label();
             this.lblTelefono = new System.Windows.Forms.Label();
@@ -44,6 +42,8 @@
             this.btnVolver = new System.Windows.Forms.Button();
             this.btnCrear = new System.Windows.Forms.Button();
             this.btnLimpiar = new System.Windows.Forms.Button();
+            this.numericTextBox_piso = new FrbaHotel.Model.NumericTextBox();
+            this.numericTextBox_numeroHab = new FrbaHotel.Model.NumericTextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -102,22 +102,6 @@
             this.comboBox_tipoHabitacion.Name = "comboBox_tipoHabitacion";
             this.comboBox_tipoHabitacion.Size = new System.Drawing.Size(117, 21);
             this.comboBox_tipoHabitacion.TabIndex = 59;
-            // 
-            // numericTextBox_piso
-            // 
-            this.numericTextBox_piso.AllowSpace = false;
-            this.numericTextBox_piso.Location = new System.Drawing.Point(146, 95);
-            this.numericTextBox_piso.Name = "numericTextBox_piso";
-            this.numericTextBox_piso.Size = new System.Drawing.Size(117, 20);
-            this.numericTextBox_piso.TabIndex = 58;
-            // 
-            // numericTextBox_numeroHab
-            // 
-            this.numericTextBox_numeroHab.AllowSpace = false;
-            this.numericTextBox_numeroHab.Location = new System.Drawing.Point(146, 64);
-            this.numericTextBox_numeroHab.Name = "numericTextBox_numeroHab";
-            this.numericTextBox_numeroHab.Size = new System.Drawing.Size(117, 20);
-            this.numericTextBox_numeroHab.TabIndex = 57;
             // 
             // comboBox_ubicacion
             // 
@@ -180,6 +164,7 @@
             this.btnVolver.TabIndex = 46;
             this.btnVolver.Text = "Volver";
             this.btnVolver.UseVisualStyleBackColor = true;
+            this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
             // 
             // btnCrear
             // 
@@ -199,6 +184,22 @@
             this.btnLimpiar.TabIndex = 44;
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.UseVisualStyleBackColor = true;
+            // 
+            // numericTextBox_piso
+            // 
+            this.numericTextBox_piso.AllowSpace = false;
+            this.numericTextBox_piso.Location = new System.Drawing.Point(146, 95);
+            this.numericTextBox_piso.Name = "numericTextBox_piso";
+            this.numericTextBox_piso.Size = new System.Drawing.Size(117, 20);
+            this.numericTextBox_piso.TabIndex = 58;
+            // 
+            // numericTextBox_numeroHab
+            // 
+            this.numericTextBox_numeroHab.AllowSpace = false;
+            this.numericTextBox_numeroHab.Location = new System.Drawing.Point(146, 64);
+            this.numericTextBox_numeroHab.Name = "numericTextBox_numeroHab";
+            this.numericTextBox_numeroHab.Size = new System.Drawing.Size(117, 20);
+            this.numericTextBox_numeroHab.TabIndex = 57;
             // 
             // Crear_Habitacion
             // 
