@@ -415,6 +415,12 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarUsername','P') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.cambiarContrasenia','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.cambiarContrasenia;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getUsuariosFiltradosConInactivosDelMismoHotel','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getUsuariosFiltradosConInactivosDelMismoHotel;
+
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getUsuariosFiltradosSinInactivosDelMismoHotel','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.getUsuariosFiltradosSinInactivosDelMismoHotel;
+
 	
 /* Dropeo las views si ya existen */
 
@@ -1183,6 +1189,27 @@ commit
 
 
 GO
+create procedure TRAEME_LA_COPA_MESSI.getUsuariosFiltradosConInactivosDelMismoHotel
+@Nombre nvarchar(255),
+@Apellido nvarchar(255),
+@Username nvarchar(255),
+@Numero_Identificacion numeric(18,0),
+@idHotel int
+as
+begin
+	
+	SELECT u.Username, u.Nombre, u.Apellido,
+	  u.NroDocumento, u.Telefono, u.FechaNacimiento,
+	(case Estado when 0 then 'Activo' else 'Inactivo' end) as Estado
+	FROM TRAEME_LA_COPA_MESSI.Usuario u
+		join UsuariosPorHotel uh
+			on u.Username = uh.Username
+	WHERE 
+		(u.Nombre LIKE '%' + @Nombre + '%' or u.Apellido LIKE '%' + @Apellido + '%' or u.Username LIKE '%' + @Username + '%' or CAST(u.NroDocumento AS NVARCHAR) LIKE '%' + CAST(@Numero_Identificacion AS NVARCHAR) + '%') and uh.IdHotel = @idHotel
+end
+
+
+GO
 create procedure TRAEME_LA_COPA_MESSI.getUsuariosFiltradosConInactivos
 @Nombre nvarchar(255),
 @Apellido nvarchar(255),
@@ -1197,6 +1224,28 @@ begin
 	FROM TRAEME_LA_COPA_MESSI.Usuario
 	WHERE 
 		Nombre LIKE '%' + @Nombre + '%' or Apellido LIKE '%' + @Apellido + '%' or Username LIKE '%' + @Username + '%' or CAST(NroDocumento AS NVARCHAR) LIKE '%' + CAST(@Numero_Identificacion AS NVARCHAR) + '%'
+end
+
+
+
+GO
+create procedure TRAEME_LA_COPA_MESSI.getUsuariosFiltradosSinInactivosDelMismoHotel
+@Nombre nvarchar(255),
+@Apellido nvarchar(255),
+@Username nvarchar(255),
+@Numero_Identificacion numeric(18,0),
+@idHotel int
+as
+begin
+	
+	SELECT u.Username, u.Nombre, u.Apellido,
+	  u.NroDocumento, u.Telefono, u.FechaNacimiento,
+	(case Estado when 0 then 'Activo' else 'Inactivo' end) as Estado
+	FROM TRAEME_LA_COPA_MESSI.Usuario u
+		join UsuariosPorHotel uh
+			on u.Username = uh.Username
+	WHERE 
+		(u.Nombre LIKE '%' + @Nombre + '%' or u.Apellido LIKE '%' + @Apellido + '%' or u.Username LIKE '%' + @Username + '%' or CAST(u.NroDocumento AS NVARCHAR) LIKE '%' + CAST(@Numero_Identificacion AS NVARCHAR) + '%') and uh.IdHotel = @idHotel and Estado = CAST(0 as bit)
 end
 
 
@@ -1799,18 +1848,19 @@ create procedure TRAEME_LA_COPA_MESSI.modificarCliente
 @localidad nvarchar(255),
 @pais nvarchar(255),
 @idCliente int,
-@idDireccion int
+@idDireccion int,
+@estado bit
 as
 begin transaction
 	begin
 		if exists (select IdCliente from TRAEME_LA_COPA_MESSI.Cliente c where c.IdCliente = @idCliente and c.Email=@email)
 			begin
-				update TRAEME_LA_COPA_MESSI.Cliente set Email=@email, Direccion=@idDireccion, Nombre=@nombre, Apellido=@apellido, TipoDoc=@tipoDoc, NumDoc=@numDoc, Telefono=@telefono, PaisOrigen=@PaisOrigen, Nacionalidad=@Nacionalidad, FechaNacimiento=@FechaNacimiento where IdCliente = @idCliente
+				update TRAEME_LA_COPA_MESSI.Cliente set Email=@email, Direccion=@idDireccion, Nombre=@nombre, Apellido=@apellido, TipoDoc=@tipoDoc, NumDoc=@numDoc, Telefono=@telefono, PaisOrigen=@PaisOrigen, Nacionalidad=@Nacionalidad, FechaNacimiento=@FechaNacimiento, Estado=@estado where IdCliente = @idCliente
 				update TRAEME_LA_COPA_MESSI.Direccion set Ciudad=@ciudad, Calle=@calle, NroCalle=@nroCalle, Piso=@piso, Departamento=@dpto, Localidad=@localidad, Pais=@pais where IdDir=@idDireccion
 			end
 		else
 			begin
-				update TRAEME_LA_COPA_MESSI.Cliente_Inconsistente set Email=@email, Direccion=@idDireccion, Nombre=@nombre, Apellido=@apellido, TipoDoc=@tipoDoc, NumDoc=@numDoc, Telefono=@telefono, PaisOrigen=@PaisOrigen, Nacionalidad=@Nacionalidad, FechaNacimiento=@FechaNacimiento where IdCliente = @idCliente
+				update TRAEME_LA_COPA_MESSI.Cliente_Inconsistente set Email=@email, Direccion=@idDireccion, Nombre=@nombre, Apellido=@apellido, TipoDoc=@tipoDoc, NumDoc=@numDoc, Telefono=@telefono, PaisOrigen=@PaisOrigen, Nacionalidad=@Nacionalidad, FechaNacimiento=@FechaNacimiento, Estado=@estado where IdCliente = @idCliente
 				update TRAEME_LA_COPA_MESSI.Direccion set Ciudad=@ciudad, Calle=@calle, NroCalle=@nroCalle, Piso=@piso, Departamento=@dpto, Localidad=@localidad, Pais=@pais where IdDir=@idDireccion
 			end
 	end

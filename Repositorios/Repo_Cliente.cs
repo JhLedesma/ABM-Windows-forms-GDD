@@ -229,7 +229,7 @@ namespace FrbaHotel.Repositorios
         }
 
 
-        public void modificarCliente(int idCliente, int idDireccion, String email, String nombre, String apellido, int tipoDoc, decimal numDoc, decimal telefono, String paisOrigen, String nacionalidad, DateTime fechaNac, String ciudad, String calle, decimal numCalle, decimal piso, String dpto, String localidad, String pais)
+        public void modificarCliente(int idCliente, int idDireccion, String email, String nombre, String apellido, int tipoDoc, decimal numDoc, decimal telefono, String paisOrigen, String nacionalidad, DateTime fechaNac, String ciudad, String calle, decimal numCalle, decimal piso, String dpto, String localidad, String pais, Int16 estado)
         {
             DBhelper.crearConexion();
 
@@ -254,6 +254,8 @@ namespace FrbaHotel.Repositorios
             cmd.Parameters.Add("@pais", SqlDbType.NVarChar).Value = pais;
             cmd.Parameters.Add("@idCliente", SqlDbType.Int).Value = idCliente;
             cmd.Parameters.Add("@idDireccion", SqlDbType.Int).Value = idDireccion;
+            cmd.Parameters.Add("@estado", SqlDbType.Bit).Value = estado;
+            
 
             cmd.ExecuteNonQuery();
 
