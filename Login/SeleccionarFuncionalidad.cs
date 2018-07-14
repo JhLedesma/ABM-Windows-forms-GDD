@@ -112,7 +112,7 @@ namespace FrbaHotel.Login
         private void boton_reservas_Click(object sender, EventArgs e)
         {
             this.Hide();
-
+            new GenerarModificacionReserva.PanelResservas().ShowDialog();
             this.Close();
         }
     }
