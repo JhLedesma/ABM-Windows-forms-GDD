@@ -55,14 +55,14 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(623, 122);
+            this.groupBox1.Size = new System.Drawing.Size(457, 122);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Seleccion";
             // 
             // boton_buscar
             // 
-            this.boton_buscar.Location = new System.Drawing.Point(41, 80);
+            this.boton_buscar.Location = new System.Drawing.Point(358, 79);
             this.boton_buscar.Name = "boton_buscar";
             this.boton_buscar.Size = new System.Drawing.Size(87, 23);
             this.boton_buscar.TabIndex = 6;
@@ -73,7 +73,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(324, 33);
+            this.label3.Location = new System.Drawing.Point(15, 25);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(79, 13);
             this.label3.TabIndex = 5;
@@ -82,14 +82,14 @@
             // comboBox_tipo
             // 
             this.comboBox_tipo.FormattingEnabled = true;
-            this.comboBox_tipo.Location = new System.Drawing.Point(409, 30);
+            this.comboBox_tipo.Location = new System.Drawing.Point(100, 20);
             this.comboBox_tipo.Name = "comboBox_tipo";
-            this.comboBox_tipo.Size = new System.Drawing.Size(199, 21);
+            this.comboBox_tipo.Size = new System.Drawing.Size(345, 21);
             this.comboBox_tipo.TabIndex = 4;
             // 
             // numeric_trimestre
             // 
-            this.numeric_trimestre.Location = new System.Drawing.Point(212, 31);
+            this.numeric_trimestre.Location = new System.Drawing.Point(80, 80);
             this.numeric_trimestre.Name = "numeric_trimestre";
             this.numeric_trimestre.Size = new System.Drawing.Size(87, 20);
             this.numeric_trimestre.TabIndex = 3;
@@ -97,7 +97,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(153, 33);
+            this.label2.Location = new System.Drawing.Point(21, 82);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(53, 13);
             this.label2.TabIndex = 2;
@@ -105,7 +105,7 @@
             // 
             // numeric_anio
             // 
-            this.numeric_anio.Location = new System.Drawing.Point(41, 31);
+            this.numeric_anio.Location = new System.Drawing.Point(235, 80);
             this.numeric_anio.Name = "numeric_anio";
             this.numeric_anio.Size = new System.Drawing.Size(87, 20);
             this.numeric_anio.TabIndex = 1;
@@ -113,7 +113,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 33);
+            this.label1.Location = new System.Drawing.Point(200, 82);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(29, 13);
             this.label1.TabIndex = 0;
@@ -124,12 +124,12 @@
             this.dataGrid_estadisticas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGrid_estadisticas.Location = new System.Drawing.Point(12, 149);
             this.dataGrid_estadisticas.Name = "dataGrid_estadisticas";
-            this.dataGrid_estadisticas.Size = new System.Drawing.Size(617, 248);
+            this.dataGrid_estadisticas.Size = new System.Drawing.Size(457, 248);
             this.dataGrid_estadisticas.TabIndex = 1;
             // 
             // boton_volver
             // 
-            this.boton_volver.Location = new System.Drawing.Point(21, 425);
+            this.boton_volver.Location = new System.Drawing.Point(12, 416);
             this.boton_volver.Name = "boton_volver";
             this.boton_volver.Size = new System.Drawing.Size(75, 23);
             this.boton_volver.TabIndex = 2;
@@ -141,7 +141,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(647, 469);
+            this.ClientSize = new System.Drawing.Size(481, 447);
             this.Controls.Add(this.boton_volver);
             this.Controls.Add(this.dataGrid_estadisticas);
             this.Controls.Add(this.groupBox1);
