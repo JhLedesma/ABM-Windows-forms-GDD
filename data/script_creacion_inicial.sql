@@ -51,6 +51,9 @@ IF OBJECT_ID ('traeme_la_copa_messi.Consumible','U') IS NOT NULL
 IF OBJECT_ID ('traeme_la_copa_messi.LogEstadia','U') IS NOT NULL
     DROP TABLE traeme_la_copa_messi.LogEstadia;
 
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Log_Reserva','U') IS NOT NULL 
+	DROP TABLE TRAEME_LA_COPA_MESSI.Log_Reserva;
+
 IF OBJECT_ID ('traeme_la_copa_messi.Reserva','U') IS NOT NULL
     DROP TABLE traeme_la_copa_messi.Reserva;
 
@@ -71,9 +74,6 @@ IF OBJECT_ID ('TRAEME_LA_COPA_MESSI.RegimenPorHotel','U') IS NOT NULL
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.UsuariosPorHotel','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.UsuariosPorHotel;
-
-IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Log_Reserva','U') IS NOT NULL 
-	DROP TABLE TRAEME_LA_COPA_MESSI.Log_Reserva;
 
 IF OBJECT_ID ('TRAEME_LA_COPA_MESSI.RegimenEstadia','U') IS NOT NULL
     DROP TABLE TRAEME_LA_COPA_MESSI.RegimenEstadia;
@@ -114,8 +114,7 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.TipoDoc','U') IS NOT NULL
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Direccion','U') IS NOT NULL    
 	DROP TABLE TRAEME_LA_COPA_MESSI.Direccion;
 
-IF OBJECT_ID('TRAEME_LA_COPA_MESSI.puntosClientes','U') IS NOT NULL 
-	DROP TABLE TRAEME_LA_COPA_MESSI.puntosClientes;
+
 
 /* Dropeo de procedures si ya existen */
 
