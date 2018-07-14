@@ -301,8 +301,21 @@ namespace FrbaHotel.GenerarModificacionReserva
 
                 new MostrarCodigoReserva(idReserva).ShowDialog();
 
-            this.Hide();
-            this.Close();
+                this.Hide();
+               
+
+            if ( usuarioLogueado== null)
+            {
+
+                new Login.SeleccionarFuncionalidad_invitado().ShowDialog();
+            }
+            else
+            {
+                new GenerarModificacionReserva.PanelResservas().ShowDialog();
+            }
+
+
+
         }
 
         private void btnVolver_Click(object sender, EventArgs e)

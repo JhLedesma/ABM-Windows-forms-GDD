@@ -20,6 +20,19 @@ namespace FrbaHotel.GenerarModificacionReserva
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
+            /*
+            if ( == null)
+            {
+
+                this.Close();
+                new Login.SeleccionarFuncionalidad_invitado().ShowDialog();
+            }
+            else
+            {
+
+                this.Close();
+                new GenerarModificacionReserva.PanelResservas().ShowDialog();
+            }*/
             this.Hide();
             this.Close();
         }
