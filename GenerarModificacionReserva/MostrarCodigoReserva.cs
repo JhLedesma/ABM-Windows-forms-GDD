@@ -12,28 +12,32 @@ namespace FrbaHotel.GenerarModificacionReserva
 {
     public partial class MostrarCodigoReserva : Form
     {
+        Model.Usuario usuario;
+
         public MostrarCodigoReserva(int idReserva)
         {
             InitializeComponent();
             tbReserva.Text = idReserva.ToString();
         }
 
+        public MostrarCodigoReserva(int idReserva, Model.Usuario usuario)
+        {
+            InitializeComponent();
+            tbReserva.Text = idReserva.ToString();
+            this.usuario = usuario;
+        }
+
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            /*
-            if ( == null)
+            this.Hide();
+            if (usuario == null)
             {
-
-                this.Close();
                 new Login.SeleccionarFuncionalidad_invitado().ShowDialog();
             }
             else
             {
-
-                this.Close();
                 new GenerarModificacionReserva.PanelResservas().ShowDialog();
-            }*/
-            this.Hide();
+            }
             this.Close();
         }
     }

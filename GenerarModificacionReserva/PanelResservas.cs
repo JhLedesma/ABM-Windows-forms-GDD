@@ -38,6 +38,7 @@ namespace FrbaHotel.GenerarModificacionReserva
 
         private void boton_volver_Click(object sender, EventArgs e)
         {
+            this.Hide();
             new Login.SeleccionarFuncionalidad().ShowDialog();
             this.Close();
         }

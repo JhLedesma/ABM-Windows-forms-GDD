@@ -299,21 +299,18 @@ namespace FrbaHotel.GenerarModificacionReserva
 
                 Repositorios.Repo_Reserva.getInstancia().EliminarReservasNoEfectivizadasDeCliente(ConfigurationManager.AppSettings["fecha"], reservaCreada.cliente.id);   
 
-                new MostrarCodigoReserva(idReserva).ShowDialog();
+                
 
                 this.Hide();
                
-
             if ( usuarioLogueado== null)
             {
-
-                new Login.SeleccionarFuncionalidad_invitado().ShowDialog();
+                new MostrarCodigoReserva(idReserva).ShowDialog();
             }
             else
             {
-                new GenerarModificacionReserva.PanelResservas().ShowDialog();
+                new MostrarCodigoReserva(idReserva, usuarioLogueado).ShowDialog();
             }
-
 
 
         }

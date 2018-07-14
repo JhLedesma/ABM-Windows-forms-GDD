@@ -2270,7 +2270,7 @@ begin --transaction
 			insert into TRAEME_LA_COPA_MESSI.Reserva(IdCliente, IdHotel, FechaReserva, FechaGeneracionReserva, CantidadNochesReservadas, EstadoReserva, RegimenEstadiaId)
 				values(@idCliente, @idHotel, @desde, CONVERT(datetime,@fecha,121), @cantNoches, 5, @idRegimen)
 			
-			set @idReserva = (select IdReserva from TRAEME_LA_COPA_MESSI.Reserva where IdHotel=@idHotel and IdCliente=@idCliente and FechaReserva=@desde and CantidadNochesReservadas=@cantNoches and EstadoReserva=5 and RegimenEstadiaId=@idRegimen)
+			set @idReserva = (select top 1 IdReserva from TRAEME_LA_COPA_MESSI.Reserva where IdHotel=@idHotel and IdCliente=@idCliente and FechaReserva=@desde and CantidadNochesReservadas=@cantNoches and EstadoReserva=5 and RegimenEstadiaId=@idRegimen order by IdReserva desc)
 			return @idReserva
 		end
 	else
@@ -2278,7 +2278,7 @@ begin --transaction
 			insert into TRAEME_LA_COPA_MESSI.Reserva(IdClienteInconsistente, IdHotel, FechaReserva, FechaGeneracionReserva, CantidadNochesReservadas, EstadoReserva, RegimenEstadiaId)
 				values(@idCliente, @idHotel, @desde, CONVERT(datetime,@fecha,121), @cantNoches, 5, @idRegimen)
 			
-			set @idReserva = (select IdReserva from TRAEME_LA_COPA_MESSI.Reserva where IdHotel=@idHotel and IdClienteInconsistente=@idCliente and FechaReserva=@desde and CantidadNochesReservadas=@cantNoches and EstadoReserva=5 and RegimenEstadiaId=@idRegimen)
+			set @idReserva = (select top 1 IdReserva from TRAEME_LA_COPA_MESSI.Reserva where IdHotel=@idHotel and IdClienteInconsistente=@idCliente and FechaReserva=@desde and CantidadNochesReservadas=@cantNoches and EstadoReserva=5 and RegimenEstadiaId=@idRegimen order by IdReserva desc)
 			return @idReserva
 		end
 end
