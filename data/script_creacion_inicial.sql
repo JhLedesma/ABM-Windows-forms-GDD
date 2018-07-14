@@ -2621,7 +2621,7 @@ BEGIN
 
 END
 
-/*
+
 GO
 CREATE PROCEDURE TRAEME_LA_COPA_MESSI.facturarEstadia
 @factNum decimal(18,0),
@@ -2630,8 +2630,13 @@ CREATE PROCEDURE TRAEME_LA_COPA_MESSI.facturarEstadia
 AS
 BEGIN
 	
-	DECLARE @diasUsados int
-	DECLARE @costoPorDia int
+	DECLARE @diasUsados int, @costoPorDia int, @porcentual int
+
+	SET @porcentual = (SELECT SUM(t.Porcentual) FROM
+					  TRAEME_LA_COPA_MESSI.HabitacionPorReserva hr JOIN
+					  TRAEME_LA_COPA_MESSI.Habitacion h ON hr.NumeroHabitacion = h.Numero AND hr.IdHotel = h.IdHotel JOIN
+					  TRAEME_LA_COPA_MESSI.TipoHabitacion t ON h.CodigoTipo = t.Codigo
+					  WHERE hr.IdReserva = @porcentual)
 
 	SET @diasUsados = (SELECT CantidadNocheUsadas FROM TRAEME_LA_COPA_MESSI.LogEstadia WHERE ReservaId = @idReserva)
 
@@ -2639,20 +2644,18 @@ BEGIN
 	
 	((SELECT PrecioBase FROM TRAEME_LA_COPA_MESSI.RegimenEstadia re JOIN TRAEME_LA_COPA_MESSI.Reserva r ON
 	r.RegimenEstadiaId = re.IdRegimenEstadia  WHERE IdReserva = @idReserva) * 
-	(SELECT Porcentual FROM TRAEME_LA_COPA_MESSI.TipoHabitacion JOIN TRAEME_LA_COPA_MESSI.Reserva r ON
-			r.tipoHabitacion = Codigo WHERE r.IdReserva = @idReserva)) +
+	(@porcentual) +
 	(SELECT PorcentajeEstrellas FROM TRAEME_LA_COPA_MESSI.Hotel h JOIN TRAEME_LA_COPA_MESSI.Reserva r ON
 			r.IdHotel = h.IdHotel WHERE r.IdReserva = @idReserva)
 
-			)
+			))
 
 
 	INSERT INTO TRAEME_LA_COPA_MESSI.Item_Factura(Fac_Numero, Reserva_descrip, Reserva_diasUsados, Reserva_diasSinUso, Monto)
 	VALUES (@factNum,
-			(SELECT Descripcion FROM TRAEME_LA_COPA_MESSI.TipoHabitacion JOIN TRAEME_LA_COPA_MESSI.Reserva r ON
-			r.tipoHabitacion = Codigo WHERE r.IdReserva = @idReserva) + ' + ' +
+			('Estadía, + ' +
 			(SELECT Descripcion FROM TRAEME_LA_COPA_MESSI.RegimenEstadia JOIN TRAEME_LA_COPA_MESSI.Reserva r ON
-			r.RegimenEstadiaId = IdRegimenEstadia WHERE r.IdReserva = @idReserva),
+			r.RegimenEstadiaId = IdRegimenEstadia WHERE r.IdReserva = @idReserva)),
 			@diasUsados,
 			((SELECT CantidadNochesReservadas FROM TRAEME_LA_COPA_MESSI.Reserva WHERE IdReserva = @idReserva) - @diasUsados),
 			@costoPorDia * @diasUsados)
@@ -2660,7 +2663,7 @@ BEGIN
 
 
 END
-*/
+
 
 GO
 CREATE PROCEDURE TRAEME_LA_COPA_MESSI.calcularTotalFactura
