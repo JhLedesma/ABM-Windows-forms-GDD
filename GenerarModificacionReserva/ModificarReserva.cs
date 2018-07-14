@@ -147,18 +147,28 @@ namespace FrbaHotel.GenerarModificacionReserva
             {
                 MessageBox.Show("Por favor seleccione un tipo de habitacion a reservar", "Campos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            else if (regimenSeleccionado != null)
+            else if (Repositorios.Repo_Reserva.getInstancia().comprobarEstadoHotel(dtDesde.Value, dtHasta.Value, hotelSeleccionado.idHotel) == 0)
             {
-                this.avanzarPaso2();
+
+                MessageBox.Show("El hotel se encuentra inhabilitado en esas fechas", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
             }
+
             else
             {
-                hotelSeleccionado = (Model.Hotel)listadoHoteles.SelectedValue;
-
-                new GenerarModificacionReserva.ListadoRegimenes(this, hotelSeleccionado.idHotel).ShowDialog();
                 if (regimenSeleccionado != null)
                 {
                     this.avanzarPaso2();
+                }
+                else
+                {
+                    hotelSeleccionado = (Model.Hotel)listadoHoteles.SelectedValue;
+
+                    new GenerarModificacionReserva.ListadoRegimenes(this, hotelSeleccionado.idHotel).ShowDialog();
+                    if (regimenSeleccionado != null)
+                    {
+                        this.avanzarPaso2();
+                    }
                 }
             }
         }
@@ -274,6 +284,12 @@ namespace FrbaHotel.GenerarModificacionReserva
 
             Model.Hotel hotelSeleccionado = (Model.Hotel)listadoHoteles.SelectedValue;
 
+            if (dtDesde.Value > dtHasta.Value)
+            {
+                MessageBox.Show("La fecha desde debe ser menor a la fecha hasta", "Error de Fechas", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                var = 1;
+            }
+            else 
             if (listaHabitacionesDisponibles.Count == 0)
             {
                 listaHabitacionesDisponibles = Repositorios.Repo_Reserva.getInstancia().getHabitacionesEnFechaModificacion(dtDesde.Value, dtHasta.Value, hotelSeleccionado.idHotel, idReservaModidicacion);
