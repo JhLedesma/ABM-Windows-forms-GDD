@@ -38,6 +38,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.boton_abm_cliente = new System.Windows.Forms.Button();
             this.linkLabelFuncAdmin = new System.Windows.Forms.LinkLabel();
+            this.boton_cambiarCont = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // boton_registrar_estadia
@@ -62,7 +63,7 @@
             // 
             // boton_volver
             // 
-            this.boton_volver.Location = new System.Drawing.Point(19, 368);
+            this.boton_volver.Location = new System.Drawing.Point(19, 412);
             this.boton_volver.Name = "boton_volver";
             this.boton_volver.Size = new System.Drawing.Size(75, 23);
             this.boton_volver.TabIndex = 18;
@@ -145,11 +146,27 @@
             this.linkLabelFuncAdmin.VisitedLinkColor = System.Drawing.Color.Gray;
             this.linkLabelFuncAdmin.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelFuncAdmin_LinkClicked);
             // 
+            // boton_cambiarCont
+            // 
+            this.boton_cambiarCont.AutoSize = true;
+            this.boton_cambiarCont.DisabledLinkColor = System.Drawing.Color.Blue;
+            this.boton_cambiarCont.LinkColor = System.Drawing.Color.MediumBlue;
+            this.boton_cambiarCont.Location = new System.Drawing.Point(319, 391);
+            this.boton_cambiarCont.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.boton_cambiarCont.Name = "boton_cambiarCont";
+            this.boton_cambiarCont.Size = new System.Drawing.Size(101, 13);
+            this.boton_cambiarCont.TabIndex = 21;
+            this.boton_cambiarCont.TabStop = true;
+            this.boton_cambiarCont.Text = "Cambiar contraseña";
+            this.boton_cambiarCont.VisitedLinkColor = System.Drawing.Color.Gray;
+            this.boton_cambiarCont.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.boton_cambiarCont_LinkClicked);
+            // 
             // SeleccionarFuncionalidad
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(503, 420);
+            this.ClientSize = new System.Drawing.Size(503, 447);
+            this.Controls.Add(this.boton_cambiarCont);
             this.Controls.Add(this.boton_registrar_estadia);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.boton_volver);
@@ -179,5 +196,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button boton_abm_cliente;
         private System.Windows.Forms.LinkLabel linkLabelFuncAdmin;
+        private System.Windows.Forms.LinkLabel boton_cambiarCont;
     }
 }

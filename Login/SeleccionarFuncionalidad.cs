@@ -115,5 +115,12 @@ namespace FrbaHotel.Login
 
             this.Close();
         }
+
+        private void boton_cambiarCont_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            this.Hide();
+            new CambiarContrasenia().ShowDialog();
+            this.Close();
+        }
     }
 }

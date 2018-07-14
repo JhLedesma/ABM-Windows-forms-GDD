@@ -115,8 +115,8 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.Direccion','U') IS NOT NULL
 	DROP TABLE TRAEME_LA_COPA_MESSI.Direccion;
 
 
-
 /* Dropeo de procedures si ya existen */
+
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarUsuario','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.validarUsuario;
@@ -411,6 +411,10 @@ IF OBJECT_ID('TRAEME_LA_COPA_MESSI.getIdClienteDeReserva','P') IS NOT NULL
 
 IF OBJECT_ID('TRAEME_LA_COPA_MESSI.validarUsername','P') IS NOT NULL  
 	DROP PROCEDURE TRAEME_LA_COPA_MESSI.validarUsername;
+	
+IF OBJECT_ID('TRAEME_LA_COPA_MESSI.cambiarContrasenia','P') IS NOT NULL  
+	DROP PROCEDURE TRAEME_LA_COPA_MESSI.cambiarContrasenia;
+
 	
 /* Dropeo las views si ya existen */
 
@@ -1043,6 +1047,19 @@ ORDER BY Reserva_Codigo ASC
 
 
 /* Repositorio Usuarios */
+
+GO
+CREATE PROCEDURE TRAEME_LA_COPA_MESSI.cambiarContrasenia
+@contrasenia nvarchar(255),
+@username nvarchar(255)
+
+AS
+BEGIN
+
+	UPDATE TRAEME_LA_COPA_MESSI.Usuario SET Pass = @contrasenia WHERE username = @username
+
+END
+
 
 GO
 CREATE PROCEDURE TRAEME_LA_COPA_MESSI.validarUsuario

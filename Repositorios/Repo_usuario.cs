@@ -613,6 +613,23 @@ namespace FrbaHotel.Repositorios
             DBhelper.cerrarConexion();
         }
 
+        public void cambiarContrasenia(String nuevaContrasenia)
+        {
+
+            DBhelper.crearConexion();
+
+            SqlCommand cmd = DBhelper.crearCommand("TRAEME_LA_COPA_MESSI.cambiarContrasenia");
+            cmd.Parameters.Add("@contrasenia", SqlDbType.NVarChar).Value = Model.Encriptador.getInstancia().encriptar(nuevaContrasenia);
+            cmd.Parameters.Add("@username", SqlDbType.NVarChar).Value = Repo_usuario.getInstancia().getUsuarioIngresado().username;
+
+            DBhelper.abrirConexion();
+
+            DBhelper.ejecutarProcedure(cmd);
+
+            DBhelper.cerrarConexion();
+
+        }
+
     }
 
 }
