@@ -96,7 +96,7 @@ namespace FrbaHotel.AbmCliente
                 }
                 catch (Exception exec)
                 {
-                    MessageBox.Show("Por favor ingrese un mail que no registrado", "Mail ya existente", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Hay datos unicos que corresponden a otro usuario", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
 

@@ -496,6 +496,7 @@ PaisOrigen nvarchar(255) DEFAULT '',
 Nacionalidad nvarchar(255) NOT NULL,
 FechaNacimiento Datetime NOT NULL,
 Estado BIT DEFAULT 0,
+CONSTRAINT uq_doc UNIQUE(TipoDoc, NumDoc)
 );
 
 CREATE TABLE TRAEME_LA_COPA_MESSI.Cliente_Inconsistente( --Agrego id porque en esta tabla el email se repite
