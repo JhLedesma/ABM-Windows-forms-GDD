@@ -150,7 +150,7 @@ namespace FrbaHotel.AbmUsuario
                  Model.Usuario usuario = new Model.Usuario();
                  Model.Direccion direccion = new Model.Direccion();
                  Model.TipoDocumento tipoDoc = (Model.TipoDocumento)listadoTipoIdentificacion.SelectedValue;
-
+                 //
                  usuario.username = tbUsername.Text;
                  usuario.password = Model.Encriptador.getInstancia().encriptar(tbPass.Text);
                  usuario.nombre = tbNombre.Text;

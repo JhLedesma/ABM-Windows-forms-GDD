@@ -70,7 +70,14 @@ namespace FrbaHotel.GenerarModificacionReserva
 
         private void configurarVistaConUsuario()
         {
-            listadoHoteles.SelectedItem = usuarioLogueado.hotelActivo;
+            List<Model.Hotel> hotelUsuario = new List<Model.Hotel>();
+            hotelUsuario.Add(usuarioLogueado.hotelActivo);
+
+            this.listadoHoteles.ValueMember = "Objeto";
+            this.listadoHoteles.DisplayMember = "IdHotel";
+            this.listadoHoteles.DataSource = hotelUsuario;
+            this.listadoHoteles.DropDownStyle = ComboBoxStyle.DropDownList;
+
             listadoHoteles.Enabled = false;
         }
 
