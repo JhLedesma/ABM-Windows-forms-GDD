@@ -31,11 +31,6 @@ namespace FrbaHotel.GenerarModificacionReserva
             this.Close();
         }
 
-        private void btnCancelar_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void boton_volver_Click(object sender, EventArgs e)
         {
             this.Hide();

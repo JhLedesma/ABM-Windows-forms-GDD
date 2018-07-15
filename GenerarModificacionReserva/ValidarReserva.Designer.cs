@@ -29,8 +29,9 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnValidar = new System.Windows.Forms.Button();
             this.numReserva = new System.Windows.Forms.NumericUpDown();
+            this.btnValidar = new System.Windows.Forms.Button();
+            this.btnVolver = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numReserva)).BeginInit();
             this.SuspendLayout();
@@ -45,16 +46,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Ingrese el Codigo de Reserva";
             // 
-            // btnValidar
-            // 
-            this.btnValidar.Location = new System.Drawing.Point(162, 107);
-            this.btnValidar.Name = "btnValidar";
-            this.btnValidar.Size = new System.Drawing.Size(75, 23);
-            this.btnValidar.TabIndex = 11;
-            this.btnValidar.Text = "Validar";
-            this.btnValidar.UseVisualStyleBackColor = true;
-            this.btnValidar.Click += new System.EventHandler(this.btnValidar_Click);
-            // 
             // numReserva
             // 
             this.numReserva.Location = new System.Drawing.Point(124, 39);
@@ -68,11 +59,32 @@
             this.numReserva.TabIndex = 0;
             this.numReserva.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // btnValidar
+            // 
+            this.btnValidar.Location = new System.Drawing.Point(306, 107);
+            this.btnValidar.Name = "btnValidar";
+            this.btnValidar.Size = new System.Drawing.Size(75, 23);
+            this.btnValidar.TabIndex = 11;
+            this.btnValidar.Text = "Validar";
+            this.btnValidar.UseVisualStyleBackColor = true;
+            this.btnValidar.Click += new System.EventHandler(this.btnValidar_Click);
+            // 
+            // btnVolver
+            // 
+            this.btnVolver.Location = new System.Drawing.Point(13, 107);
+            this.btnVolver.Name = "btnVolver";
+            this.btnVolver.Size = new System.Drawing.Size(75, 23);
+            this.btnVolver.TabIndex = 13;
+            this.btnVolver.Text = "Volver";
+            this.btnVolver.UseVisualStyleBackColor = true;
+            this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
+            // 
             // ValidarReserva
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(394, 138);
+            this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnValidar);
             this.Name = "ValidarReserva";
@@ -88,5 +100,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btnValidar;
         private System.Windows.Forms.NumericUpDown numReserva;
+        private System.Windows.Forms.Button btnVolver;
     }
 }

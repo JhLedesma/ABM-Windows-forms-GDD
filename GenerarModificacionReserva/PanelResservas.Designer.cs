@@ -34,14 +34,12 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.btnCancelar = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // boton_volver
             // 
-            this.boton_volver.Location = new System.Drawing.Point(12, 317);
+            this.boton_volver.Location = new System.Drawing.Point(12, 243);
             this.boton_volver.Name = "boton_volver";
             this.boton_volver.Size = new System.Drawing.Size(68, 23);
             this.boton_volver.TabIndex = 9;
@@ -89,43 +87,22 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.btnCancelar);
-            this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.boton_modificar);
             this.groupBox1.Controls.Add(this.boton_reservar);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(337, 299);
+            this.groupBox1.Size = new System.Drawing.Size(326, 225);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Elija Opcion";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(83, 219);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(156, 13);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "Cancelar una reserva realizada:";
-            // 
-            // btnCancelar
-            // 
-            this.btnCancelar.Location = new System.Drawing.Point(108, 258);
-            this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(108, 23);
-            this.btnCancelar.TabIndex = 10;
-            this.btnCancelar.Text = "Cancelar Reserva";
-            this.btnCancelar.UseVisualStyleBackColor = true;
-            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
             // PanelResservas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(350, 346);
+            this.ClientSize = new System.Drawing.Size(350, 273);
             this.Controls.Add(this.boton_volver);
             this.Controls.Add(this.groupBox1);
             this.Name = "PanelResservas";
@@ -144,7 +121,5 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button btnCancelar;
-        private System.Windows.Forms.Label label3;
     }
 }

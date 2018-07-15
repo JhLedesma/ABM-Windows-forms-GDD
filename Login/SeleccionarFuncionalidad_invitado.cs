@@ -38,5 +38,12 @@ namespace FrbaHotel.Login
             this.Close();
         }
 
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            new CancelarReserva.Form1().ShowDialog();
+            this.Close();
+        }
+
     }
 }

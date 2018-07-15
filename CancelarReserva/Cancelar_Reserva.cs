@@ -12,10 +12,18 @@ namespace FrbaHotel.CancelarReserva
 {
     public partial class Form1 : Form
     {
+        Model.Usuario usuario;
+
         Model.ReservaCancelada reserva = new Model.ReservaCancelada();
         public Form1()
         {
             InitializeComponent();
+        }
+
+        public Form1(Model.Usuario usuario)
+        {
+            InitializeComponent();
+            this.usuario = usuario;
         }
 
 
@@ -63,9 +71,19 @@ namespace FrbaHotel.CancelarReserva
 
         private void volver_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            new Login.SeleccionarFuncionalidad().ShowDialog();
-            this.Close();
+            if (usuario == null)
+            {
+                this.Hide();
+                new Login.SeleccionarFuncionalidad_invitado().ShowDialog();
+                this.Close();
+            }
+            else 
+            {
+                this.Hide();
+                new Login.SeleccionarFuncionalidad().ShowDialog();
+                this.Close();
+            }
+
         }
     }
 }

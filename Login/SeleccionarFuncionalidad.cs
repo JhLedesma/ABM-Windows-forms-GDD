@@ -98,7 +98,7 @@ namespace FrbaHotel.Login
         private void boton_cancelar_reservas_Click(object sender, EventArgs e)
         {
             this.Hide();
-            new CancelarReserva.Form1().ShowDialog();
+            new CancelarReserva.Form1(Repositorios.Repo_usuario.getInstancia().getUsuarioIngresado()).ShowDialog();
             this.Close();
         }
 

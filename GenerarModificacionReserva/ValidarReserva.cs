@@ -57,5 +57,21 @@ namespace FrbaHotel.GenerarModificacionReserva
 
 
         }
+
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            if (usuarioIngresado == null)
+            {
+                this.Hide();
+                new Login.SeleccionarFuncionalidad_invitado().ShowDialog();
+                this.Close();
+            }
+            else
+            {
+                this.Hide();
+                new Login.SeleccionarFuncionalidad().ShowDialog();
+                this.Close();
+            }
+        }
     }
 }
