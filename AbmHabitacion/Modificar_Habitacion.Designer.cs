@@ -42,11 +42,13 @@
             this.boton_guardar = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.checkBox1);
             this.groupBox1.Controls.Add(this.numericTextBox_idHotel);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.textBox_descripcion);
@@ -67,6 +69,7 @@
             // numericTextBox_idHotel
             // 
             this.numericTextBox_idHotel.AllowSpace = false;
+            this.numericTextBox_idHotel.Enabled = false;
             this.numericTextBox_idHotel.Location = new System.Drawing.Point(146, 30);
             this.numericTextBox_idHotel.Name = "numericTextBox_idHotel";
             this.numericTextBox_idHotel.Size = new System.Drawing.Size(117, 20);
@@ -75,6 +78,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.Enabled = false;
             this.label1.Location = new System.Drawing.Point(6, 33);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(35, 13);
@@ -179,6 +183,16 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(282, 176);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(90, 17);
+            this.checkBox1.TabIndex = 63;
+            this.checkBox1.Text = "Dada de baja";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
             // Modificar_Habitacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -212,5 +226,6 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private Model.NumericTextBox numericTextBox_idHotel;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }

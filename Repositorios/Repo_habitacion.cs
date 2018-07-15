@@ -127,7 +127,8 @@ namespace FrbaHotel.Repositorios
                 habitacion.numero = (Int32)row["Numero"];
                 habitacion.piso= (Int32)row["Piso"];
                 habitacion.descripcion = (String)row["Descripcion"];
-                habitacion.ubicacion = (String)row["Ubicacion"]; //Esto deberia mostrarlo por combo box, no devolverlo asi
+                habitacion.ubicacion = (String)row["Ubicacion"];
+                habitacion.estado = Convert.ToInt16(row["Estado"]);
 
             }
 
@@ -136,7 +137,7 @@ namespace FrbaHotel.Repositorios
             return habitacion;
         }
 
-        public Int32 modificarHabitacion(Int32 idHotelModificado, Int32 numeroHabModif, Int32 idHotelNuevo, Int32 numeroHabNuevo, Int32 piso, String ubicacion, String descripcion)
+        public Int32 modificarHabitacion(Int32 idHotelModificado, Int32 numeroHabModif, Int32 idHotelNuevo, Int32 numeroHabNuevo, Int32 piso, String ubicacion, String descripcion, bool deBaja)
         {
             DBhelper.crearConexion();
 
@@ -148,6 +149,16 @@ namespace FrbaHotel.Repositorios
             cmd.Parameters.Add("@piso", SqlDbType.Int).Value = piso;
             cmd.Parameters.Add("@ubicacion", SqlDbType.NVarChar).Value = ubicacion;
             cmd.Parameters.Add("@descripcion", SqlDbType.NVarChar).Value = descripcion;
+            if (deBaja == true)
+            {
+                cmd.Parameters.Add("@estado", SqlDbType.Bit).Value = 1;
+            }
+            else
+            {
+
+                cmd.Parameters.Add("@estado", SqlDbType.Bit).Value = 0;
+            }
+
 
             var valorDeRetorno = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
             valorDeRetorno.Direction = ParameterDirection.ReturnValue;
@@ -202,6 +213,8 @@ namespace FrbaHotel.Repositorios
 
             return tipoHabitacion;
         }
+
+        
 
 
 

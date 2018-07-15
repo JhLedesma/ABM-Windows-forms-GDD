@@ -30,9 +30,9 @@ namespace FrbaHotel.AbmHabitacion
 
             ubicaciones.Add("S");
             ubicaciones.Add("N");
-
+            configurarCheckbox();
             configuarComboBox();
-
+            
             mostrarDatos();
         }
 
@@ -61,6 +61,14 @@ namespace FrbaHotel.AbmHabitacion
 
         }
 
+        public void configurarCheckbox()
+        {
+            if (habitacionSeleccionada.estado == 1)
+            {
+                checkBox1.Checked = true;
+            }
+        }
+
         private void boton_guardar_Click(object sender, EventArgs e) /*A modo de simplificacion, se elimina de las tablas consumiblePorHabitacion y habitacionPorReserva toda referencia a la habitacion modif*/
         {
 
@@ -71,7 +79,7 @@ namespace FrbaHotel.AbmHabitacion
            Console.WriteLine(numericTextBox_idHotel.IntValue);
            Console.WriteLine(numericTextBox_numeroHab.IntValue);
 
-           codigoRta = Repositorios.Repo_habitacion.getInstancia().modificarHabitacion(hotelId, numeroHab,numericTextBox_idHotel.IntValue, numericTextBox_numeroHab.IntValue, numericTextBox_piso.IntValue, comboBox_ubicacion.SelectedValue.ToString(), textBox_descripcion.Text);
+           codigoRta = Repositorios.Repo_habitacion.getInstancia().modificarHabitacion(hotelId, numeroHab,numericTextBox_idHotel.IntValue, numericTextBox_numeroHab.IntValue, numericTextBox_piso.IntValue, comboBox_ubicacion.SelectedValue.ToString(), textBox_descripcion.Text,checkBox1.Checked);
 
            Console.WriteLine(codigoRta);
 
