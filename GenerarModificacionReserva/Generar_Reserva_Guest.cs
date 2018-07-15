@@ -139,28 +139,34 @@ namespace FrbaHotel.GenerarModificacionReserva
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            if(Repositorios.Repo_Reserva.getInstancia().comprobarEstadoHotel(dtDesde.Value, dtHasta.Value, hotelSeleccionado.idHotel) == 0){
+
+            if (listaTipoHabitacionesAgregadas.Count == 0)
+            {
+                MessageBox.Show("Por favor seleccione un tipo de habitacion a reservar", "Campos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if(Repositorios.Repo_Reserva.getInstancia().comprobarEstadoHotel(dtDesde.Value, dtHasta.Value, hotelSeleccionado.idHotel) == 0){
             
                 MessageBox.Show("El hotel se encuentra inhabilitado en esas fechas", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }
 
-            else{
-            if (regimenSeleccionado != null)
-            {
-                this.avanzarPaso2();
-            }
             else
             {
-                hotelSeleccionado = (Model.Hotel)listadoHoteles.SelectedValue;
-
-                new GenerarModificacionReserva.ListadoRegimenes(this, hotelSeleccionado.idHotel).ShowDialog();
                 if (regimenSeleccionado != null)
                 {
                     this.avanzarPaso2();
                 }
+                else
+                {
+                    hotelSeleccionado = (Model.Hotel)listadoHoteles.SelectedValue;
+
+                    new GenerarModificacionReserva.ListadoRegimenes(this, hotelSeleccionado.idHotel).ShowDialog();
+                    if (regimenSeleccionado != null)
+                    {
+                        this.avanzarPaso2();
+                    }
+                }
             }
-        }
   
         }
 
@@ -337,7 +343,12 @@ namespace FrbaHotel.GenerarModificacionReserva
 
             Model.Hotel hotelSeleccionado = (Model.Hotel)listadoHoteles.SelectedValue;
 
-           if (Convert.ToDateTime(ConfigurationManager.AppSettings["fecha"]) > dtDesde.Value)
+            if (dtDesde.Value > dtHasta.Value)
+            {
+                MessageBox.Show("La fecha desde debe ser menor a la fecha hasta", "Error de Fechas", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                var = 1;
+            }
+           else if (Convert.ToDateTime(ConfigurationManager.AppSettings["fecha"]) > dtDesde.Value)
             {
                 MessageBox.Show("Por favor seleccione una fecha de reserva mayor a la del dia de hoy", "Fecha incorrecta", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 var = 1;
