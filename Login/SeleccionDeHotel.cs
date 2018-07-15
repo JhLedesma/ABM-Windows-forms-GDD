@@ -39,7 +39,9 @@ namespace FrbaHotel.Login
 
         private void btnVolver_Click(object sender, EventArgs e)
         {
-
+            this.Hide();
+            new Login().ShowDialog();
+            this.Close();
         }
 
 

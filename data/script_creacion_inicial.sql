@@ -2450,8 +2450,6 @@ begin
 end
 
 
-
-
 /* Repositorio Tipo Habitacion*/
 
 GO
@@ -2582,11 +2580,17 @@ BEGIN
 	@numeroHabNuevo int,
 	@piso int,
 	@ubicacion nvarchar(255),
-	@descripcion nvarchar(255)
+	@descripcion nvarchar(255),
+	@estado bit
 
 	AS
 	BEGIN
 
+	if exists (SELECT IdHotel,Numero FROM TRAEME_LA_COPA_MESSI.Habitacion WHERE IdHotel = @hotelIdNuevo AND Numero = @numeroHabNuevo)
+	begin
+	update TRAEME_LA_COPA_MESSI.Habitacion set Piso=@piso,Ubicacion=@ubicacion,Descripcion=@descripcion,Estado=@estado where IdHotel=@hotelIdNuevo and @numeroHabNuevo=Numero
+	return 1
+	end
 	IF NOT EXISTS (SELECT IdHotel,Numero FROM TRAEME_LA_COPA_MESSI.Habitacion WHERE IdHotel = @hotelIdNuevo AND Numero = @numeroHabNuevo)
 
 	BEGIN
@@ -2596,12 +2600,17 @@ BEGIN
 		SET @tipoHab = (SELECT CodigoTipo FROM TRAEME_LA_COPA_MESSI.Habitacion WHERE IdHotel = @hotelIdModif AND Numero = @numeroHabModif)
 
 		DELETE FROM TRAEME_LA_COPA_MESSI.ConsumiblePorHabitacion WHERE idHotel = @hotelIdModif AND NumeroHabitacion = @numeroHabModif
+		
+		INSERT INTO TRAEME_LA_COPA_MESSI.Habitacion
+		VALUES (@hotelIdNuevo, @numeroHabNuevo, @piso, @ubicacion, @tipoHab, @estado, @descripcion)
+		
+		update TRAEME_LA_COPA_MESSI.HabitacionPorReserva set IdHotel=@hotelIdNuevo, NumeroHabitacion = @numeroHabNuevo where NumeroHabitacion=@numeroHabModif and IdHotel= @hotelIdModif
 
 		DELETE FROM TRAEME_LA_COPA_MESSI.Habitacion WHERE IdHotel = @hotelIdModif AND Numero = @numeroHabModif
+		
 
-		INSERT INTO TRAEME_LA_COPA_MESSI.Habitacion
-		VALUES (@hotelIdNuevo, @numeroHabNuevo, @piso, @ubicacion, @tipoHab, 0, @descripcion)
-
+		
+		
 		RETURN 1
 
 	END
